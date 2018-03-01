@@ -1,0 +1,354 @@
+<!--
+============LICENSE_START==========================================
+===================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+===================================================================
+
+Unless otherwise specified, all software contained herein is licensed
+under the Apache License, Version 2.0 (the License);
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
+============LICENSE_END============================================
+-->
+
+<simple-notifications [options]="options"></simple-notifications>
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'"
+    [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
+<form class="" novalidate #userForm="ngForm" (ngSubmit)="save(userForm.value,userForm.valid)">
+    <div class="card">
+
+        <div class="card-block" style="    border-top: 5px solid #6ab344; border-top-right-radius: 7px;border-top-left-radius: 7px;">
+            <div class="row" style="padding: 15px 25px">
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>Action*</label>
+                    <select class="form-control" required id="cmbAction" [(ngModel)]="referenceDataObject.action" (ngModelChange)="updateSessionValues($event,'action');actionChange($event,content,userForm);"
+                        #action="ngModel" name="action">
+                        <option [value]="actionType"
+                                [ngClass]="{'selectedAction':selectedActions.indexOf(actionType)>-1}"
+                                [selected]="referenceDataObject.action===actionType"
+                                *ngFor="let actionType of actions ">{{actionType}}
+                        </option>
+                    </select>
+
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>VNF Type* </label>
+                    <input type="text" [readonly]="updateParams !='undefined' || vnfParams?.vnfType " class="form-control" id="txtVnfType" required [(ngModel)]="referenceDataObject['scope']['vnf-type']"
+                        (ngModelChange)="updateSessionValues($event,'vnfType')" #vnftype="ngModel" name="vnftype">
+                    <span class="error-message" [hidden]="vnfParams?.vnfType || vnftype.valid || (vnftype.pristine && !userForm.submitted)">Required Field</span>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>VNFC Type</label>
+                    <input type="text" class="form-control" [disabled]="nonConfigureAction || updateParams !='undefined' || vnfParams?.vnfType" id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']"
+                        (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')" #vnfcType="ngModel" name="vnfcType"
+                        disabled="disabled">
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>Device Protocol*</label>
+                    <select class="form-control" required id="txtDeviceProtocol" [(ngModel)]="referenceDataObject['device-protocol']" #deviceProtocol="ngModel" name="deviceProtocol">
+                        <option [value]="device" [selected]="referenceDataObject.deviceProtocol===device"
+                                *ngFor="let device of deviceProtocols">{{device}}
+                        </option>
+                    </select>
+
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="referenceDataObject['action']== 'ConfigScaleOut'">
+                    <label>Template Identifier</label>
+                    <select class="form-control" required id="tempIdentifier" (ngModelChange)="dataModified()" [(ngModel)]="templateIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
+                        <option [value]="val" *ngFor="let val of referenceDataObject['template-id-list']">{{val}}
+                        </option>
+                    </select>
+                    <span class="error-message" [hidden]="deviceProtocol.valid || (deviceProtocol.pristine && !userForm.submitted)">Required Field</span>
+                </div>
+
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="referenceDataObject['action']== 'ConfigScaleOut'" style="margin-top: 30px">
+                    <span *ngIf="referenceDataObject.action === 'ConfigScaleOut'">   <a style="    color: blue;"
+                    href="javascript:void(0)"
+                    (click)="showIdentifier()">Assign New Template Identifier</a></span>
+
+                </div>
+            </div>
+            <div class="col-12" *ngIf="!(referenceDataObject.action === 'OpenStack Actions')">
+                <div class="input-group">
+                    <input id="inputFile" class="file" #myInput type='file' (change)="fileChange($event)">
+                    <input [(ngModel)]="fileName" type="text" class="input-lg" disabled placeholder="Upload Reference File from PC" name="browse" style="width:80%">
+                    <button (click)="browseOption($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg" type="button">Upload Reference File
+                    </button>
+                </div>
+            </div>
+            <div class="col-12" *ngIf="referenceDataObject.action === 'OpenStack Actions'">
+                <div class="input-group">
+                    <input id="excelInputFile" #myInput1 class="file" type="file" (change)="upload($event)">
+                    <input [(ngModel)]="uploadFileName" type="text" class="input-lg" disabled placeholder="Upload VM Capabilities File" name="uploadFileName" style="width:80%">
+                    <button (click)="excelBrowseOption($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg"
+                        type="button">Upload VM Capabilities File
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-block" style="padding: 10px">
+            <div>
+                <div class="create-wrapper" style="padding: 0px 25px">
+                    <div class="row" style="margin-bottom: 30px">
+                        <div class=" col-6">
+
+                        </div>
+                        <div class="text-right col-6">
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="submit">Download All To PC
+                            </button>&emsp;&emsp;
+                            <button id="saveToAppc" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="button" (click)="saveToAppc(userForm.valid, userForm)">Save All to APPC
+                            </button>&emsp;&emsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row" *ngIf="!(referenceDataObject.action === 'OpenStack Actions')">
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label>Template</label>
+                                    <select class="form-control" id="txtDeviceProtocol" [(ngModel)]="referenceDataObject['template']" #template="ngModel" name="template">
+                                        <option [value]="template" *ngFor="let template of deviceTemplates">
+                                            {{template}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label>User Name</label>
+                                    <input type="text" class="form-control" id="txtIpaddress" [(ngModel)]="referenceDataObject['user-name']" name="loginUserName">
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label>Port Number</label>
+                                    <input type="text" class="form-control" id="txtIpaddress" [(ngModel)]="referenceDataObject['port-number']" name="portNumber">
+                                </div>
+                                <div *ngIf="actionHealthCheck && referenceDataObject['device-protocol'] =='REST' " class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                                    <label>Context Url</label>
+                                    <input type="text" class="form-control" id="txtIpaddress" [(ngModel)]="referenceDataObject['context-url']" name="portNumber">
+                                </div>
+                            </div>
+                            <div class="card-block" *ngIf="(referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action ==''  || referenceDataObject.action ==undefined)"
+                                style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
+                                <div class="col-12">
+                                    <h5 style="margin-top: 0.5rem;font-family: Roboto"> VNFC Information
+                                        <span class="pull-right">
+                                            <i (click)="isCollapsedContent = !isCollapsedContent"
+                                               [ngClass]="{'fa-minus-circle':isCollapsedContent,'fa-plus-circle':!isCollapsedContent}"
+                                               class="fa" aria-hidden="true"></i>
+                                        </span>
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="(( referenceDataObject.action =='ConfigScaleOut' ||referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ) && isCollapsedContent) ">
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label style="font-size:12px;">VNFC Type*</label>
+                                    <input type="text" class="form-control" id="txtVnfcTypeInColl" [(ngModel)]="Sample['vnfc-type']" #vnfcType="ngModel" name="samplevnfcType">
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label style="font-size:12px">VNFC Function Code*</label>
+                                    <input type="text" class="form-control" id="txtVnfcFunctionCode" [(ngModel)]="Sample['vnfc-function-code']" #vnfcFunctionCode="ngModel" name="samplevnfcFunctionCode">
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label style="font-size:12px;">IPAddress V4 OAM VIP</label>
+                                    <select class="form-control" id="cmbIpAddedBoo" [(ngModel)]="Sample['ipaddress-v4-oam-vip']" name="sampleIpaddress">
+                                        <option [value]="hasIp" *ngFor="let hasIp of ipAddressBoolean">{{hasIp}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label style="font-size:12px;">Group Notation Type</label>
+                                    <select class="form-control" id="cmbGroupType" [(ngModel)]="Sample['group-notation-type']" name="sampleGroupNotation">
+                                        <option [value]="type" *ngFor="let type of groupAnotationType">{{type}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label style="font-size:12px;">Group Notation Value</label>
+                                    <input type="text" class="form-control" id="txtGroupValue" [(ngModel)]="Sample['group-notation-value']" name="sampleGroupValue">
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent clear-btn" (click)="clearVnfcData()">Clear VNFC Info
+                                    </button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div *ngIf="(referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' )" class="row">
+                                <div class="col-lg-2 col-md-2 hdden-sm-down">
+                                    <label style="margin-top: 17px;" class="headlinesInBold"> Number Of VM(s): </label>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+                                    <div class="form-group">
+                                        <input type="text" placeholder="Number of VM(s)" class="form-control" id="txtVmnumber22" [(ngModel)]="refernceScopeObj.from" (ngModelChange)="numberValidation($event)"
+                                            name="txtNumber23">
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 text-right">
+                                    <div class="form-group">
+                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="button" [disabled]="!refernceScopeObj.from || !numberOfVmTest"
+                                            (click)="addVms()">Add VM Information
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="referenceDataObject.vm?.length>0">
+                                <div class="row" *ngFor="let noOfvm of referenceDataObject.vm | vmFiltering:referenceDataObject?.action:templateIdentifier; let j=index">
+                                    <div *ngIf="((referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ))"
+                                        class="col-12">
+                                        <div class="row" *ngFor="let item of noOfvm.vnfc; let i=index">
+                                            <div class="col-md-12" *ngIf="i==0">
+                                                <h5 class="headlinesInBold">VM Number: {{j+1}}</h5>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                                <label style="font-size:12px;">VNFC Instance No.</label>
+                                                <input type="text" class="form-control" id="txtVmnumber" disabled='true' [(ngModel)]="item['vnfc-instance']" name="vmNumber{{j}}">
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                                <label style="font-size:12px;">VNFC Type*</label>
+                                                <input type="text" class="form-control" id="txtVnfcTypeInColl" required [(ngModel)]="item['vnfc-type']" #vnfcType="ngModel" name="vnfcType{{j}}">
+                                                <span class="error-message" [hidden]="vnfcType.valid || (vnfcType.pristine && !userForm.submitted)">Required Field</span>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                                <label style="font-size:12px;">VNFC Function Code*</label>
+                                                <input type="text" class="form-control" id="txtVnfcFunctionCode" required [(ngModel)]="item['vnfc-function-code']" #vnfcFunctionCode="ngModel" name="vnfcFunctionCode{{j}}">
+                                                <span class="error-message" [hidden]="vnfcFunctionCode.valid || (vnfcFunctionCode.pristine && !userForm.submitted)">Required Field</span>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                                <label style="font-size:12px;">IPAddress V4 OAM VIP</label>
+                                                <select class="form-control" id="cmbIpAddress" [(ngModel)]="item['ipaddress-v4-oam-vip']" name="ipaddress{{j}}">
+                                                    <option [value]="hasIP" [selected]="item.ipAddressBoolean===hasIP"
+                                                            *ngFor="let hasIP of ipAddressBoolean">{{hasIP}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                                <label style="font-size:12px;">Group Notation Type</label>
+                                                <select class="form-control" id="cmbGroupType" [(ngModel)]="item['group-notation-type']" name="selectedGroupType{{j}}">
+                                                    <option [value]="type" [selected]="item.groupNotationType===type"
+                                                            *ngFor="let type of groupAnotationType">{{type}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                                <label style="font-size:12px;">Group Notation Value</label>
+                                                <input type="text" class="form-control" id="txtGroupValue" [(ngModel)]="item['group-notation-value']" name="selectedGroupValue{{j}}">
+                                            </div>
+                                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                                <div class="removevnfcClass" *ngIf="refernceScopeObj.sourceType !='vnfcType'">
+                                                    <a role="button" style="color: white" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="removeFeature(j,i)">Remove Vm</a>
+                                                </div>
+                                                <div>
+                                                    <a *ngIf="(referenceDataObject.vm[j].vnfc.length-1) == i " [hidden]="true" role="button" (click)="addVnfcData(j)">Add VNFC
+                                                        Information</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="(referenceDataObject.action === 'OpenStack Actions')">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="table-responsive" style="height:auto; overflow: auto;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td *ngFor="let item of firstArrayElement">
+                                                <div>
+                                                    <h1 style="font-size: 110%"> {{item}} </h1>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of remUploadedDataArray; let i=index">
+                                            <td *ngFor="let subItem of item; let j=index">
+                                                {{subItem}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- Modal -->
+<div id="messageModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="android-more-button mdl-button mdl-js-button mdl-button--accent" data-dismiss="modal">&times;
+                </button>
+                <h4 class="modal-title">Warning</h4>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="allowAction==false" class="alert  alert-danger">
+                    <b> Configure </b> action not yet saved
+                </div>
+                <div *ngIf="actionExist" class="alert  alert-danger">
+                    <b> {{referenceDataObject.action}}</b> already exists. Please continue...
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="close" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="identifierModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="android-more-button mdl-button mdl-js-button mdl-button--accent" data-dismiss="modal">&times;
+                </button>
+                <h4 class="modal-title">Enter New Template Identifier</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div>
+                        <input name="test" type="text" class="" [(ngModel)]="templateId" placeholder="identifier">
+                    </div>
+                    <div>
+                        <button style="padding: 10px" class="btn btn-primary" data-dismiss="modal" (click)="addToIdentDrp()">submit
+                        </button>
+                        <button style="padding: 10px" class="btn btn-primary" (click)="templateId=''" data-dismiss="modal">cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h6 class="modal-title">Save all changes for current action to APPC database.</h6>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Do you want to save the changes?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="c('no')">No
+        </button>
+        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="c('yes')">Yes
+        </button>
+    </div>
+</ng-template>

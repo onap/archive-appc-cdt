@@ -1,0 +1,219 @@
+<!--
+============LICENSE_START==========================================
+===================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+===================================================================
+
+Unless otherwise specified, all software contained herein is licensed
+under the Apache License, Version 2.0 (the License);
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
+============LICENSE_END============================================
+*/
+-->
+
+<simple-notifications [options]="options"></simple-notifications>
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'"
+    [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
+<div class="card" style="    margin-bottom: 23px;">
+    <img class="card-img-top" data-src="holder.js/100%x180/" alt="">
+    <div class="card-block" style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
+        <div class="row" style="padding: 15px 25px">
+            <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                <label>Action</label>
+                <input class="form-control" type="text" disabled value="{{action}}" />
+            </div>
+            <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                <label>Vnf Type</label><input class="form-control" type="text" disabled value="{{vnfType}}" />
+            </div>
+            <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                <label>Vnfc Type</label><input class="form-control" type="text" disabled value="{{vnfcType}}" />
+            </div>
+            <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                <label>Protocol</label><input class="form-control" type="text" disabled value="{{protocol}}" />
+            </div>
+            <div *ngIf="(action === 'ConfigScaleOut')" class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                <label>templateIdentifier</label><input class="form-control" type="text" disabled value="{{identifier}}" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row create-wrapper">
+    <div class="col-md-12">
+        <div class="row" style="padding: 5px 5px">
+            <div class="col-12 mb-3">
+                <div class="input-group">
+                    <input id="inputFile1" class="file" hidden #myInput1 type='file' (change)="fileChange(myInput1, 'pdfile')">
+                    <input [(ngModel)]="myPdFileName" type="text" class="input-lg" disabled placeholder="Upload parameters from PC" style="width:85%;">
+                    <button [disabled]="(undefined == mappingEditorService.latestAction)" (click)="browsePdFile($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg"
+                        type="button"> UPLOAD PD FILE
+                    </button>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="input-group">
+                    <input id="inputFile2" class="file" hidden #myInput2 type='file' (change)="fileChange(myInput2, 'keyfile')">
+                    <input [(ngModel)]="myKeyFileName" type="text" class="input-lg" disabled placeholder="Upload key file from PC. You can upload a key file only if you have some parameters."
+                        style="width:85%;">
+                    <button [disabled]="(!(undefined !== displayParamObjects && displayParamObjects.length>0))" (click)="browseKeyFile($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg"
+                        type="button">UPLOAD KEY FILE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <!--h4>testing{{initialData}}</h4-->
+    <div *ngIf="((undefined !== displayParamObjects && displayParamObjects.length>0)   ) " class="col-md-12 ">
+        <form *ngIf="undefined !== displayParamObjects" class="form-inline" novalidate #paramForm="ngForm" (ngSubmit)="saveChanges('download', paramForm.valid)">
+
+            <div style="height: 210px; overflow: auto;">
+                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">NAME</th>
+                            <th class="mdl-data-table__cell--non-numeric">DESCRIPTION</th>
+                            <th class="mdl-data-table__cell--non-numeric">TYPE</th>
+                            <th class="mdl-data-table__cell--non-numeric">REQUIRED</th>
+                            <th class="mdl-data-table__cell--non-numeric">DEFAULT</th>
+                            <th class="mdl-data-table__cell--non-numeric">SOURCE</th>
+                            <th class="mdl-data-table__cell--non-numeric">RULETYPE</th>
+                            <th class="mdl-data-table__cell--non-numeric">FILTER BY FIELD</th>
+                            <th class="mdl-data-table__cell--non-numeric">FILTER BY VALUE</th>
+                            <th class="mdl-data-table__cell--non-numeric">RESPKEY NAME</th>
+                            <th class="mdl-data-table__cell--non-numeric">RESPKEY VALUE</th>
+                            <th class="mdl-data-table__cell--non-numeric">RESPKEY NAME</th>
+                            <th class="mdl-data-table__cell--non-numeric">RESPKEY VALUE</th>
+                            <th class="mdl-data-table__cell--non-numeric">RESPKEY NAME</th>
+                            <th class="mdl-data-table__cell--non-numeric">RESPKEY VALUE</th>
+                            <th class="mdl-data-table__cell--non-numeric">REQKEY NAME</th>
+                            <th class="mdl-data-table__cell--non-numeric">REQKEY VALUE</th>
+                            <th class="mdl-data-table__cell--non-numeric">REQKEY NAME</th>
+                            <th class="mdl-data-table__cell--non-numeric">REQKEY VALUE</th>
+                            <th class="mdl-data-table__cell--non-numeric">REQKEY NAME</th>
+                            <th class="mdl-data-table__cell--non-numeric">REQKEY VALUE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let obj of displayParamObjects; let i = index">
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <input required id="id1" [(ngModel)]="obj.name" #objName="ngModel" name="objName{{i}}" style="width:300px">
+                                <span class="error-message" [hidden]="objName.valid || (objName.pristine && !paramForm.submitted)">Required Field</span>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric"><input [(ngModel)]="obj.description" #objDesc="ngModel" name="objDesc{{i}}">
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <select id="id3" [(ngModel)]="obj.type" name="{{'objType'+i}}">
+                                <option *ngFor="let typ of typeValues"
+                                        [value]="typ"
+                                        [selected]="obj.type === typ"
+                                >
+                                    {{typ}}
+                                </option>
+                            </select>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <select [(ngModel)]="obj.required" #objRequired="ngModel" name="{{'objRequired'+i}}">
+                                <option *ngFor="let req of requiredValues"
+                                        [value]="req"
+                                        [selected]="req === obj.required"
+                                >
+                                    {{req}}
+                                </option>
+                            </select>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric"><input id="id1" [(ngModel)]="obj.default" #objDefault="ngModel" name="objDefault{{i}}"></td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <select class="form-control" required id="id3" [(ngModel)]="obj.source" #objSource="ngModel" (ngModelChange)="sourceChanged($event,obj)" name="{{'objSource'+i}}">
+                                <option *ngFor="let src of sourceValues"
+                                        [value]="src"
+                                        [selected]="src === obj.source"
+                                        [disabled]="src === 'INSTAR'">
+                                    {{src}}
+                                </option>
+
+                            </select>
+                                <span class="error-message" [hidden]="objSource.valid || (objSource.pristine && !paramForm.submitted)">Required Field</span>
+                            </td>
+
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <select (ngModelChange)="ruleTypeChanged($event,obj)" class="form-control" id="id4" [(ngModel)]="obj['rule-type']" #objRuleType="ngModel" name="objRuleType{{i}}"
+                                    list="ruleTypes">
+                                <option *ngFor="let rTyp of obj.ruleTypeValues;" [value]="rTyp"
+                                        [selected]="rTyp === obj.rule-type">
+                                    {{rTyp}}
+                                </option>
+                            </select>
+                            </td>
+
+                            <td>
+                                <select *ngIf="obj.showFilterFields" (ngModelChange)="filetrByFieldChanged($event,obj)" class="form-control" id="id4" [(ngModel)]="obj['response-keys'][3]['key-value']"
+                                    #objfilterByField="ngModel" name="filterByField{{i}}" list="ruleTypes">
+                                <option *ngFor="let fTyp of filterByFieldvalues;" [value]="fTyp"
+                                        [selected]="fTyp === obj['response-keys'][3]['key-value']">
+                                    {{fTyp}}
+                                </option>
+                            </select>
+                            </td>
+                            <td>
+                                <input *ngIf="obj.showFilterFields" [disabled]="!(obj.enableFilterByValue)" type="text" [value]="obj['response-keys'][4]['key-value']" class="form-control"
+                                    id="id4" [(ngModel)]="obj['response-keys'][4]['key-value']" #objfilterByValue="ngModel" name="objfilterByValue{{i}}" list="ruleTypes">
+                            </td>
+
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['response-keys'][0]['key-name']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['response-keys'][0]['key-value']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['response-keys'][1]['key-name']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['response-keys'][1]['key-value']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['response-keys'][2]['key-name']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['response-keys'][2]['key-value']}}
+
+                            </td>
+
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['request-keys'][0]['key-name']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['request-keys'][0]['key-value']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['request-keys'][1]['key-name']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['request-keys'][1]['key-value']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['request-keys'][2]['key-name']}}
+
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">{{obj['request-keys'][2]['key-value']}}
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                `
+            </div>
+
+        </form>
+    </div>
+</div>

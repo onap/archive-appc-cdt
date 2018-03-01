@@ -1,0 +1,205 @@
+<!--
+============LICENSE_START==========================================
+===================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+===================================================================
+
+Unless otherwise specified, all software contained herein is licensed
+under the Apache License, Version 2.0 (the License);
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
+============LICENSE_END============================================
+-->
+<simple-notifications [options]="options"></simple-notifications>
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'"
+    [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
+
+<div class="card" style=" margin-bottom: 23px;">
+    <div class="card-block" style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6 col-md-4 col-xs-12">
+                <label>Action:</label>
+                <input class="form-control" type="text" disabled value="{{action}}" />
+            </div>
+
+            <!--  <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                <label>Vnf Type:</label>
+                <input class="form-control" type="text" disabled value="{{vnfType}}" />
+
+            </div>
+            <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                <label>Vnfc Type:</label>
+                <input class="form-control" type="text" disabled value="{{vnfcType}}" />
+
+            </div>-->
+            <div class="col-lg-3 col-sm-6 col-md-4 col-xs-12">
+                <label>Vnf Id:</label>
+                <input class="form-control" type="text" [(ngModel)]="this.actionIdentifiers['vnf-id']" />
+
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-md-4 col-xs-12" *ngIf="this.actionIdentifiers['vserver-id']">
+                <label>Vserver-Id(optional):</label>
+                <input class="form-control" disabled type="text" [(ngModel)]="this.actionIdentifiers['vserver-id']" />
+
+            </div>
+
+            <!--  <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                <label>VF-Module-Id(optional):</label>
+                <input class="form-control" disabled type="text" value="{{this.actionIdentifiers['vmodule-id']}}" />
+
+            </div>-->
+
+            <div class="col-12">
+                <div class="input-group">
+                    <input id="excelInputFile" #myInput1 hidden class="file" type="file" (change)="upload($event)">
+                    <input [(ngModel)]="uploadFileName" type="text" class="input-lg" disabled placeholder="Upload SpreadSheet" name="uploadFileName" style="width:80%">
+                    <button (click)="excelBrowseOption($event)" [disabled]="!enableBrowse" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg"
+                        type="button">Upload SpreadSheet
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="card">
+
+    <div class="card-block">
+
+        <div class="row">
+            <div class="col-md-6">
+                <span style="margin-left: 5%"><b>REQUEST:</b></span>
+            </div>
+            <div class="col-md-6">
+                <span style="margin-left: 5%"><b>RESPONSE:</b></span>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+                    <div style="height:200px;width:100%;border:solid 2px grey;overflow:scroll;overflow-x:hidden;overflow-y:scroll;">
+                        <p style="height:450px;" disabled class="text-center">
+                            {{apiRequest}}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+                    <div style="height:200px;width:100%;border:solid 2px grey;overflow:scroll;overflow-x:hidden;overflow-y:scroll;">
+                        <p style="height:450px;" disabled class="text-center">
+                            {{apiResponse}}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+                <div class="row justify-content-center" style="padding-top:0.3cm">
+
+                    <!-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" (click)="clearLog()">Abort Test</button>&nbsp;&nbsp;&nbsp; -->
+
+                    <button style="margin-left:6%;" [disabled]="!enableTestButton" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="submit" (click)="testVnf()">Execute Test
+                    </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!-- <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" (click)="abortTest()">Abort Test</button> -->
+                    <!--button   class="btn btn-primary" type="submit"> Save Revised Name/Value Pair to APPC</button-->
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="padding-left:60%;padding-bottom:0.5cm">
+       <!-- <a href="javascript:void(0)" style="color:darkblue; text-decoration: double; font-size: 15px;" (click)="download()">Download Raw Request/Response.</a>-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="button" (click)="download()">Download Raw Request/Response
+        </button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" [disabled]="!enableAbort" (click)="abortTest()">Abort Test
+        </button>
+
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-block">
+
+        <div class="mdl-dialog__content" style="border:solid 1px grey;overflow:scroll;overflow-x:hidden;overflow-y:hidden;">
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin-left: 25%">
+                <input placeholder="Request Id" [(ngModel)]="requestId" class="mdl-textfield__input" id="requestId" required name="requestId">
+            </div>
+            <button type="submit" [disabled]="!enablePollButton" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)=pollTestStatus()>Poll Test Status
+            </button>
+
+            <div class="col-md-12">
+                <span style="margin-left: 18.5%"><b>POLL TEST STATUS RESPONSE</b></span>
+            </div>
+
+            <div style="margin-left: 18.5%;height:100px;width:60%;border:solid 2px grey;overflow:scroll;overflow-x:hidden;overflow-y:hidden;">
+
+            <div *ngIf="showStatusResponseDiv">
+                <div *ngIf="enableCounterDiv"><b>Poll test no {{pollCounter}}</b></div>
+                    <table>
+                        <thead></thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="android-title mdl-layout-title">TimeStamp :</div>
+                                </td>
+                                <td>
+                                    <div class="android-title mdl-layout-title">{{outputTimeStamp}}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="android-title mdl-layout-title">Status :</div>
+                                </td>
+                                <td>
+                                    <div class="android-title mdl-layout-title">{{status}}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="android-title mdl-layout-title">Status Reason:</div>
+                                </td>
+                                <td>
+                                    <div class="android-title mdl-layout-title">{{statusReason}}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="!showStatusResponseDiv">
+                     <div *ngIf="enableCounterDiv"><b>Poll test no {{pollCounter}}</b></div>
+                    <span>{{statusResponse}}</span>
+                </div> 
+
+                <div *ngIf="errorResponse">
+                    <p style="height:450px;" disabled class="text-center">
+                        {{errorResponse}}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

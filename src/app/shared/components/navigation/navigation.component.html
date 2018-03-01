@@ -1,0 +1,72 @@
+<!--
+============LICENSE_START==========================================
+===================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+===================================================================
+
+Unless otherwise specified, all software contained herein is licensed
+under the Apache License, Version 2.0 (the License);
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
+============LICENSE_END============================================
+-->
+
+
+<!-- <div class="android-section-title mdl-typography--display-1-color-contrast">APPC Self Service Design Tool</div>  -->
+<div class="mdl-layout__header-row" font-family='Roboto'>
+    <span class="android-title mdl-layout-title">
+                  
+             </span>
+    <!-- Add spacer, to align navigation to the right in desktop -->
+    <div class="android-header-spacer mdl-layout-spacer"></div>
+    <div class="android-navigation-container">
+        <nav class="android-navigation mdl-navigation">
+
+            <a [ngClass]="{'':((router.url.startsWith('/'+item.url)) || router.url.startsWith(item.url) )}"
+               *ngFor="let item of navigationTabs">
+                <a class="mdl-navigation__link mdl-typography--text-uppercase"
+                   [routerLink]="[item.url]">{{item.name}}</a>
+            </a>
+
+            <!-- <a *ngIf="userLoggedIn"><b> {{userId}}</b></a> -->
+
+
+        </nav>
+    </div>
+    <button class="android-more-button mdl-button mdl-js-button mdl-button--primary" id="more-button">
+        <a *ngIf="userLoggedIn">{{userId}}</a>
+    </button>
+    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+        <!-- <li *ngIf="userLoggedIn"  class="mdl-menu__item">My Profile</li> -->
+        <li *ngIf="userLoggedIn" class="mdl-menu__item" (click)="logout()">Logout</li>
+    </ul>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button type="button" class="android-more-button mdl-button mdl-js-button mdl-button--accent" aria-label="Close"
+                (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>One fine body&hellip;</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="android-more-button mdl-button mdl-js-button mdl-button--accent"
+                (click)="c('Close click')">Close
+        </button>
+    </div>
+</ng-template>

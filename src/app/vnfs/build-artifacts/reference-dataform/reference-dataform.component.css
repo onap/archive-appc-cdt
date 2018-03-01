@@ -1,0 +1,137 @@
+/*
+============LICENSE_START==========================================
+===================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+===================================================================
+
+Unless otherwise specified, all software contained herein is licensed
+under the Apache License, Version 2.0 (the License);
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
+============LICENSE_END============================================
+*/
+
+.form-group {
+    padding: 5px
+}
+
+.panel {
+    margin-top: 20px;
+}
+
+.form-control {
+    width: 100%;
+}
+
+.panel-header {
+    padding: 20px 0px;
+}
+
+.container {
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+    padding: 40px;
+}
+
+.container2 {
+    box-shadow: -4px 14px 20px 0px rgba(46, 61, 73, 0.15);
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+    padding: 10px;
+    margin-top: 57px;
+}
+
+.error-message {
+    color: red;
+}
+
+.create-wrapper {
+    text-align: left;
+}
+
+.removevnfcClass {
+    text-align: right;
+}
+
+.form-custom-group {
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.side-by-side {
+    position: relative;
+}
+
+.sidebtn {
+    position: absolute;
+    left: 26.5em;
+    top: 0em;
+}
+
+.clear-control {
+    margin: 40px 20px;
+    display: inherit;
+}
+
+.short-column {
+    width: 100px;
+}
+
+.long-column {
+    width: 200px;
+}
+
+th,
+td {
+    min-width: 150px;
+}
+
+.headlinesInBold {
+    font-weight: bold;
+}
+
+.titleCustom {
+    padding-left: 25px;
+    overflow: visible;
+}
+
+.anchorHover {
+    cursor: pointer;
+}
+
+.custom-btn {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.clear-btn {
+    margin-top: 23px;
+}
+
+.col-md-button {
+    margin: auto;
+    margin-right: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.selectedAction {
+    /* change here */
+    font-weight: bold;
+    color: #1A86E4
+}
+
+.file {
+    visibility: hidden;
+    position: absolute;
+}

@@ -1,0 +1,100 @@
+<!--
+============LICENSE_START==========================================
+===================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+===================================================================
+
+Unless otherwise specified, all software contained herein is licensed
+under the Apache License, Version 2.0 (the License);
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
+============LICENSE_END============================================
+-->
+<simple-notifications [options]="options"></simple-notifications>
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'"
+    [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
+<div>
+    <div>
+        <div class="card" style="margin-bottom: 23px;">
+            <img class="card-img-top" data-src="holder.js/100%x180/" alt="">
+            <div class="card-block" style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
+                <div class="row" style="padding: 15px 25px">
+                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                        <label>Action</label>
+                        <input class="form-control" type="text" disabled value="{{action}}" />
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                        <label>Vnf Type</label><input class="form-control" type="text" disabled value="{{vnfType}}" />
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                        <label>Vnfc Type</label><input class="form-control" type="text" disabled value="{{vnfcType}}" />
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                        <label>Protocol</label><input class="form-control" type="text" disabled value="{{protocol}}" />
+                    </div>
+                    <div *ngIf="(action === 'ConfigScaleOut')" class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                        <label>templateIdentifier</label><input class="form-control" type="text" disabled value="{{identifier}}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="input-group">
+                <input id="inputFile" class="file" #myInput type='file' (change)='fileChange(myInput)'>
+                <input [(ngModel)]="fileName" type="text" class="input-lg" disabled placeholder="Upload template from PC" style="width:80%">
+                <button (click)="browseOption($event)" [disabled]="!enableBrowse" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg"
+                    type="button">Upload Template File
+                </button>
+            </div>
+        </div>
+
+        <br>
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-12 text-right">
+                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="syncTemplate()">Synchronize Template Parameters
+                </button>
+                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="mergeParams()"> Merge from Param
+                </button>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div><label for="textAreaGeneratedTemplate">
+        <div class="mdl-card__title-text">File Editor</div>
+    </label>
+        <!-- <ace-editor [(text)]="configMappingEditorContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" [options]="{maxLines: 'Infinity', fontSize: '13pt'}"
+            style="min-height: 500px; width: fit-content;scroll-snap-coordinate: 3%"></ace-editor> -->
+        <ace-editor [(text)]="configMappingEditorContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" [options]="{maxLines: 'Infinity', fontSize: '13pt' }"
+            style="min-height: 500px; width: 100%"></ace-editor>
+    </div>
+    <app-modal [title]="'Confirmation'" [isShow]="false" [message]="'Template is saved and ready for creating parameter definition'" #modalComponent>
+    </app-modal>
+    <modal #myModal>
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">Enter Name for {{selectedWord}}</h4>
+        </modal-header>
+        <modal-body>
+            <div class="form-group row">
+                <label for="example-text-input" class="col-12 col-form-label">Name</label>
+                <div class="col-12">
+                    <input class="form-control" [(ngModel)]="tempName" name="templateName" type="text" id="tempName">
+                    <span class="error-message" [hidden]="checkNameEntered" style="color: red;">Required Field</span>
+                </div>
+            </div>
+        </modal-body>
+        <modal-footer [show-default-buttons]="false">
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="submitNameValues()">Submit
+            </button>
+        </modal-footer>
+    </modal>

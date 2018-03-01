@@ -1,0 +1,132 @@
+<!--
+============LICENSE_START==========================================
+===================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+===================================================================
+
+Unless otherwise specified, all software contained herein is licensed
+under the Apache License, Version 2.0 (the License);
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
+============LICENSE_END============================================
+-->
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'" [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
+<div class="container">
+    <div *ngIf="noData != true">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <input placeholder="filter table" class="form-control" type="text" [(ngModel)]="filterQuery" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="table-responsive" style="height:auto; overflow: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>VNF TYPE <i class="fa fa-sort" (click)="sortOrder= !sortOrder; sortBy='vnf-type'" aria-hidden="true"></i></th>
+                                <th>VNFC TYPE<i class="fa fa-sort" (click)="sortOrder= !sortOrder; sortBy='vnfc-type'" aria-hidden="true"></i></th>
+                                <!-- <th>INCART<i class="fa fa-sort" (click)="sortOrder= !sortOrder; sortBy='subscriber'" aria-hidden="true"></i></th> -->
+                                <!-- <th>PROTOCOL<i class="fa fa-sort" (click)="sortOrder= !sortOrder; sortBy='protocol'" aria-hidden="true"></i></th>
+                            <th>ACTION<i class="fa fa-sort" (click)="sortOrder= !sortOrder; sortBy='action'" aria-hidden="true"></i></th> -->
+                                <th>ARTIFACT NAME<i class="fa fa-sort" (click)="sortOrder= !sortOrder; sortBy='artifact-name'" aria-hidden="true"></i></th>
+                                <!-- <th>ARTIFACT TYPE<i class="fa fa-sort" (click)="sortOrder= !sortOrder; sortBy='artifact-type'"
+                                    aria-hidden="true"></i></th> -->
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody style="padding: 15px 25px">
+                            <tr *ngFor="let item of vnfData | orderBy:sortBy:sortOrder | tableFilter:filterQuery:filter">
+                                <td>{{item['vnf-type']}}</td>
+                                <td>{{item['vnfc-type']}}</td>
+                                <!-- <td>{{item.incart}}</td> -->
+                                <!-- <td>{{item.protocol}}</td>
+                            <td>{{item.action}}</td> -->
+                                <td>{{item['artifact-name']}}</td>
+                                <!-- <td>{{item['artifact-type']}}</td> -->
+                                <td>
+                                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="navigateToReference(item)"><i class="fa fa-edit"
+                                                                               aria-hidden="true"></i> View/Edit
+                                </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="noData == true" class="text-center">
+        <div class="card">
+            <div class="mdl-dialog__content">
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text">You don't have any Artifacts</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    {{noDataMsg}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12-ln2">
+        <button type="button" (click)="buildNewDesign(content)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Create New
+            VNF Type or VNFC Type
+        </button>
+    </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <form ngNativeValidate (ngSubmit)="c('yes')">
+        <div class="modal-header">
+            <h4 class="modal-title">Enter VNF type and VNFC to proceed</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="form-group row">
+                <label for="example-text-input" class="col-12 col-form-label">Enter Vnf Type</label>
+                <div class="col-12">
+                    <input required name="vnfType" class="form-control" [(ngModel)]="vnfType" type="text" id="vnfType">
+                </div>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input name="vnfcRequired" class="form-check-input" [(ngModel)]="vnfcRequired" type="checkbox"
+                           id="vnfcRequired">
+                    Enter vnfc info
+                </label>
+            </div>
+            <div class="form-group row" *ngIf="vnfcRequired">
+                <label for="example-search-input" class="col-12 col-form-label">Enter Vnfc Type</label>
+                <div class="col-12">
+                    <input required name="vnfcType" class="form-control" [(ngModel)]="vnfcType" type="text" id="vnfcType">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent
+        
+        " (click)="c('yes')">Proceed anyway
+            </button>
+            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Next
+            </button>
+
+        </div>
+    </form>
+</ng-template>
