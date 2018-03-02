@@ -100,15 +100,35 @@ describe('ParameterDefinitionService', () => {
 
     }));
 
-    // it('processKeyFile...', inject([ParameterDefinitionService, ParamShareService], (service: ParameterDefinitionService, paramShareService: ParamShareService)=> {
-    //     let keyFile = "PARAMVALUE|SOURCE|RULETYPE|KEY1|VALUE1|KEY2|VALUE2|KEY3|VALUE3\nvalue1|INSTAR|interface_ip_address|UniqueKeyName1|addressfqdn123|UniqueKeyValue|m001ssc001p1n001v001|FieldKeyName|ipaddress_v4\nvalue2|INSTAR|interface_ip_address|UniqueKeyName2|addressfqdnAsgar1|UniqueKeyValue|m001ssc001p1n001v002|FieldKeyName|ipaddress_v4";
-    //     let expectedPD = [{"name":"name1","type":null,"description":null,"required":null,"default":null,"source":"Manual","rule-type":null,
-    //     "request-keys":[{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null}],"response-keys":[{"key-name":null
-    //     ,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null}],"ruleTypeValues":[null]}];
-    //     localStorage['paramsContent'] = "{ \"name1\":\"value1\",\"name2\":\"value2\"}";
-    //     paramShareService.setSessionParamData(expectedPD)
-    //     expect(service.processKeyFile("testfile.txt", keyFile)).toEqual(expectedPD);
+  it('processKeyFile...', inject([ParameterDefinitionService, ParamShareService], (service: ParameterDefinitionService, paramShareService: ParamShareService)=> {
+        let keyFile = "PARAMVALUE|SOURCE|RULETYPE|KEY1|VALUE1|KEY2|VALUE2|KEY3|VALUE3\nvalue1|INSTAR|interface_ip_address|UniqueKeyName1|addressfqdn123|UniqueKeyValue|m001ssc001p1n001v001|FieldKeyName|ipaddress_v4\nvalue2|INSTAR|interface_ip_address|UniqueKeyName2|addressfqdnAsgar1|UniqueKeyValue|m001ssc001p1n001v002|FieldKeyName|ipaddress_v4";
+        let expectedPD = [{"name":"name1","type":null,"description":null,"required":null,"default":null,"source":"Manual","rule-type":null,
+        "request-keys":[{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null}],"response-keys":[{"key-name":null
+        ,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null}],"ruleTypeValues":[null]}];
+        localStorage['paramsContent'] = "{ \"name1\":\"value1\",\"name2\":\"value2\"}";
+        paramShareService.setSessionParamData(expectedPD)
+        expect(service.processKeyFile("testfile.txt", keyFile)).toEqual(expectedPD);
 
-    // }));
+    }));
+
+    it('destroy...', inject([ParameterDefinitionService, ParamShareService, MappingEditorService], (service: ParameterDefinitionService, paramShareService: ParamShareService, mappingEditorService: MappingEditorService)=> {
+        mappingEditorService.referenceNameObjects =  {"action":"Configure","action-level":"vnf","scope":{"vnf-type":"ticktack","vnfc-type":""},"template":"Y","vm":[],"device-protocol":"CHEF","user-name":"","port-number":"","artifact-list":[{"artifact-name":"template_Configure_ticktack_0.0.1V.json","artifact-type":"config_template"},{"artifact-name":"pd_Configure_ticktack_0.0.1V.yaml","artifact-type":"parameter_definitions"}],"scopeType":"vnf-type"};
+    
+        let displayParamObjects = [{"name":"name1","type":null,"description":null,"required":null,"default":null,"source":"Manual","rule-type":null,
+        "request-keys":[{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null}],"response-keys":[{"key-name":null
+        ,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null}],"ruleTypeValues":[null]}];
+        localStorage['paramsContent'] = "{ \"name1\":\"value1\",\"name2\":\"value2\"}";
+
+        let expectedPDdata = "---\nkind: \"Property Definition\"\nversion: V1\nvnf-parameter-list:\n- name: name1\n  type: null\n  description: null\n  required: null\n  default: null\n  source: Manual\n  rule-type: null\n  request-keys: null\n  response-keys: null\n";
+        let expectedAppData = {"input":{"design-request":{"request-id":"115599612197","action":"uploadArtifact","payload":{"userID": "test Usr","vnf-type" : "undefined","action" : "undefined","artifact-name" : "undefined","artifact-type" : "APPC-CONFIG","artifact-version" : "0.0.1","artifact-contents" : "---\nkind: \"Property Definition\"\nversion: V1\nvnf-parameter-list:\n- name: name1\n  type: null\n  description: null\n  required: null\n  default: null\n  source: Manual\n  rule-type: null\n  request-keys: null\n  response-keys: null\n"}}}};
+        service.appDataObject = {pd:""};
+        service.downloadDataObject = {pd:{pdData:"", pdFileName:""}};
+        service.destroy(displayParamObjects);
+        expect(mappingEditorService.downloadDataObject.pd.pdData).toEqual(expectedPDdata);
+        //expect(mappingEditorService.appDataObject.pd).toEqual(expectedAppData);
+        
+
+    }));
+
 
 });
