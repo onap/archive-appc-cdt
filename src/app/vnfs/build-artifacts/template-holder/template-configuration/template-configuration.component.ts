@@ -96,6 +96,7 @@ export class GoldenConfigurationComponent implements OnInit {
     clickToClose: true,
     maxLength: 200
   }
+  public replaceWord;
   public enableDownloadButtons: boolean = false;
   constructor(private buildDesignComponent: BuildDesignComponent, private paramShareService: ParamShareService, private dialogService: DialogService, private notificationService: NotificationService, private httpUtil: HttpUtilService, private mappingEditorService: MappingEditorService, private activeRoutes: ActivatedRoute, private router: Router, private nService: NotificationsService, private ngProgress: NgProgress) {
     this.artifactRequest.action = '';
@@ -131,6 +132,8 @@ export class GoldenConfigurationComponent implements OnInit {
   enableValidateTemplate: boolean = false;;
   public selectedUploadType: string = this.uploadTypes[0].value;
   identifier: any;
+  public tempRetrievalResponse:any;
+  public mergeStatus:boolean=false;
   //this.mappingeditorservice.referenceNameObjects = object;PLEASE USE THIS OBJECT TO GET TEMPALLDATA
   //====================================================
   ngOnInit() {
@@ -350,6 +353,7 @@ export class GoldenConfigurationComponent implements OnInit {
       }).subscribe(resp => {
         if (resp.output.status.code === '400' && resp.output.status.message === "success") {
           this.nService.success("Success", "Template retrieved successfully from APPC");
+          this.tempRetrievalResponse=resp;
           let result = JSON.parse(resp.output.data.block).artifactInfo[0];
           result = result['artifact-content'];
           if ('Generated Template' === this.selectedUploadType) {
@@ -432,6 +436,7 @@ export class GoldenConfigurationComponent implements OnInit {
               }
             }
           }
+         // console.log("param data"+JSON.stringify(data))
         this.appDataObject.template.nameValueData = data;
       }
       if (this.configMappingEditorContent) {
@@ -479,6 +484,7 @@ export class GoldenConfigurationComponent implements OnInit {
               }
             }
           }
+        //  console.log("data=="+ JSON.stringify(data))
         this.appDataObject.template.templateData = data;
         this.mappingEditorService.initialise(this.templateeditor.getEditor(), actualContent, this.modal);
       }
@@ -543,10 +549,10 @@ export class GoldenConfigurationComponent implements OnInit {
     if (refObj) {
       // refObj = refObj[refObj.length - 1];
       let paramsKeyValueFromEditor: JSON;
-      if (this.fileExtension.toUpperCase() === "XML")
+     /* if (this.fileExtension.toUpperCase() === "XML")
         paramsKeyValueFromEditor = this.mappingEditorService.generateParams(this.templateeditor.getEditor(), this.artifactRequest.templateContent);
       else
-        paramsKeyValueFromEditor = this.mappingEditorService.generateParams(this.templateeditor.getEditor(), this.artifactRequest.templateContent);
+        paramsKeyValueFromEditor = this.mappingEditorService.generateParams(this.templateeditor.getEditor(), this.artifactRequest.templateContent);*/
 
       try {
         paramsKeyValueFromEditor = JSON.parse(localStorage["paramsContent"]);
@@ -614,7 +620,7 @@ export class GoldenConfigurationComponent implements OnInit {
     var config_template_fileName: any
     let refObj = this.refObj;
     let versionandFileType: string;
-    this.mappingEditorService.generateTemplate(this.templateEditor);
+   // this.mappingEditorService.generateTemplate(this.templateEditor);
     if (artifact == 'Template' && this.artifactRequest && this.configMappingEditorContent && refObj) {
       //  refObj = refObj[refObj.length - 1];
       this.showTemplateVersionDiv = true;
@@ -657,7 +663,7 @@ export class GoldenConfigurationComponent implements OnInit {
 
   }
   //========================== End of onDownloadTemplate() Method============================================
-  updateDownloadTemplateFileName(action: any, scopeName: any, versionandFileType: any) {
+  /*updateDownloadTemplateFileName(action: any, scopeName: any, versionandFileType: any) {
     let fileName = 'template_' + action + '_' + scopeName + '_' + versionandFileType;
     this.downloadedTemplateFileName = fileName;
     return fileName;
@@ -925,8 +931,8 @@ export class GoldenConfigurationComponent implements OnInit {
 
   //========================== End of syncTemplate() Method============================================
   mergeParams() {
-    var mergeStatus: boolean = this.mappingEditorService.autoAnnotateDataForParams(this.fileType);
-    if (mergeStatus) {
+    this.mergeStatus = this.mappingEditorService.autoAnnotateDataForParams();
+    if (this.mergeStatus) {
       this.nService.success("Success", "Merge Successful");
     }
     else {
@@ -937,8 +943,7 @@ export class GoldenConfigurationComponent implements OnInit {
   //========================== End of mergeParams() Method============================================  
   public handleAnnotation(modal) {
 
-    let selectedWord: string = this.templateeditor.getEditor().session.getTextRange(this.templateeditor.getEditor().selectionRange);
-    this.selectedWord = selectedWord;
+    this.selectedWord = this.templateeditor.getEditor().session.getTextRange(this.templateeditor.getEditor().selectionRange);
     modal.open();
   }
   //========================== End of handleAnnotations() Method============================================ 
@@ -955,12 +960,14 @@ export class GoldenConfigurationComponent implements OnInit {
 
       if (this.selectedWord) {
         if (this.selectedWord.startsWith('${(')) {
-          var replaceWord: any = this.selectedWord.substring(3, this.selectedWord.indexOf(')=(')) + this.tempName;
+          var replaceWord: any =this.replaceWord = this.selectedWord.substring(3, this.selectedWord.indexOf(')=(')) + this.tempName;
           this.templateeditor.getEditor().session.replace(this.templateeditor.getEditor().session.selection.getRange(), replaceWord);
+          
         } else {
           let mappingKey = this.mappingEditorService.getKeysForValues(this.selectedWord);
-          var replaceWord: any = '${(' + this.selectedWord + ')=(' + this.tempName + ')}';
+          var replaceWord: any = this.replaceWord='${(' + this.selectedWord + ')=(' + this.tempName + ')}';
           this.templateeditor.getEditor().session.replace(this.templateeditor.getEditor().session.selection.getRange(), replaceWord);
+          
         }
       }
       this.mappingEditorService.refreshEditor();

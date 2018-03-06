@@ -165,7 +165,7 @@ export class MappingEditorService {
             name: 'autoAnnotateCommand',
             bindKey: {win: 'Ctrl-2', mac: 'Command-2'},
             exec: (editor: any) => {
-                this.autoAnnotateDataForParams(this.fileType);
+                this.autoAnnotateDataForParams();
             }
         });
 
@@ -200,7 +200,7 @@ export class MappingEditorService {
         return toAdd;
     }
 
-    public autoAnnotateDataForParams(fileType: any): boolean {
+    public autoAnnotateDataForParams(): boolean {
         this.paramContent = localStorage['paramsContent'];
         //console.log("Param content=="+ this.paramContent)
         var mergeStatus: boolean = false;
