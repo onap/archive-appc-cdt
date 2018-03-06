@@ -1,6 +1,6 @@
 {
     "name": "appc_self_service_tool",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "scripts": {
         "ng": "ng",
@@ -12,7 +12,7 @@
         "devBuild": "ng build",
         "dev3Build": "ng b --env=dev3 --aot=false",
         "dev4Build": "ng build --env=dev4  --aot=false"
-      },
+    },
     "private": true,
     "dependencies": {
         "@angular/animations": "^4.0.0",
