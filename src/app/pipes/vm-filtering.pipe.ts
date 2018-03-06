@@ -32,7 +32,7 @@ export class VmFilteringPipe implements PipeTransform {
                 return obj['template-id'] == templateId;
             });
 
-            console.log(x);
+            
             return x;
         } else {
             return value;

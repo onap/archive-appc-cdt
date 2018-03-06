@@ -102,7 +102,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
             <div class="form-group row">
                 <label for="example-text-input" class="col-12 col-form-label">Enter Vnf Type</label>
                 <div class="col-12">
-                    <input required name="vnfType" class="form-control" [(ngModel)]="vnfType" type="text" id="vnfType">
+                    <input pattern=".*[^ ].*" required name="vnfType" class="form-control" [(ngModel)]="vnfType" type="text" id="vnfType">
                 </div>
             </div>
             <div class="form-check">
@@ -115,7 +115,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
             <div class="form-group row" *ngIf="vnfcRequired">
                 <label for="example-search-input" class="col-12 col-form-label">Enter Vnfc Type</label>
                 <div class="col-12">
-                    <input required name="vnfcType" class="form-control" [(ngModel)]="vnfcType" type="text" id="vnfcType">
+                    <input pattern=".*[^ ].*" required name="vnfcType" class="form-control" [(ngModel)]="vnfcType" type="text" id="vnfcType">
                 </div>
             </div>
         </div>

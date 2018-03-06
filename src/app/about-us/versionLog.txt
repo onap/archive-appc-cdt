@@ -1,3 +1,8 @@
+Version 2.0.7
+===========================================================
+1. Fixed issues in configscaleout story. (ug0221)
+2. Added test cases to spec file (ug0221)
+
 Version 2.0.6
 ===========================================================
 1. Fixed issues raised by ST in test screen. (sj108s)
