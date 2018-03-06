@@ -82,6 +82,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     mapppingDownloadType: any;
     action: any;
     artifactName: any;
+    identifier: any;
     enableMerge: boolean = false;
     apiToken = localStorage['apiToken'];
     userId = localStorage['userId'];
@@ -182,7 +183,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
             this.mappingEditorService.fromScreen = 'MappingScreen';
         }
         this.mappingEditorService.paramData = [];
-
+        this.identifier = this.mappingEditorService.identifier;
 
     }
 
