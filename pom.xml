@@ -33,7 +33,24 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <npm.executable>npm</npm.executable>
+        <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
     </properties>
+
+    <!-- ================================================================================== -->
+    <!-- Distribution Management Sites -->
+    <!-- ================================================================================== -->
+    <distributionManagement>        
+        <repository>
+            <id>ecomp-releases</id>
+            <name>openecomp-repository-releases</name>
+            <url>${onap.nexus.url}/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>ecomp-snapshots</id>
+            <name>openecomp-repository-snapshots</name>
+            <url>${onap.nexus.url}/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -46,6 +63,18 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
     <build>
         <plugins>
+            <!--maven staging plugin --> 
+            <plugin> 
+                <groupId>org.sonatype.plugins</groupId> 
+                <artifactId>nexus-staging-maven-plugin</artifactId> 
+                <version>1.6.7</version> 
+                <extensions>true</extensions> 
+                <configuration> 
+                    <nexusUrl>${onap.nexus.url}</nexusUrl> 
+                    <stagingProfileId>176c31dfe190a</stagingProfileId> 
+                    <serverId>ecomp-staging</serverId> 
+                </configuration> 
+            </plugin>
             <!--  <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
