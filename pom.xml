@@ -35,41 +35,6 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
         <npm.executable>npm</npm.executable>
     </properties>
 
-
-    <!-- ================================================================================== -->
-    <!-- The SCM repository we are using -->
-    <!-- ================================================================================== -->
-    <scm>
-        <connection>scm:git:ssh://codecloud.web.att.com:7999/st_ac/app-c.git</connection>
-        <developerConnection>scm:git:ssh://codecloud.web.att.com:7999/st_ac/app-c.git</developerConnection>
-        <url>ssh://codecloud.web.att.com:7999/st_ac/app-c.git</url>
-        <tag>appc-1.4.17</tag>
-    </scm>
-
-    <!-- ================================================================================== -->
-    <!-- Maven Central Repository Information -->
-    <!-- ================================================================================== -->
-    <distributionManagement>
-        <repository>
-            <id>nexus</id>
-            <name>att-repository-releases</name>
-            <url>http://mavencentral.it.att.com:8084/nexus/content/repositories/att-repository-releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>att-repository-snapshots</name>
-            <url>http://mavencentral.it.att.com:8084/nexus/content/repositories/att-repository-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <!-- ================================================================================== -->
-    <!-- Define additional repositories -->
-    <!-- ================================================================================== -->
-    <repositories>
-
-    </repositories>
-
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -188,21 +153,5 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>platform-windows</id>
-            <activation>
-                <os>
-                    <family>windows</family>
-                </os>
-            </activation>
-            <properties>
-                <!-- Override the executable names for Windows -->
-                <npm.executable>npm.cmd</npm.executable>
-                <grunt.executable>grunt.cmd</grunt.executable>
-                <bower.executable>bower.cmd</bower.executable>
-            </properties>
-        </profile>
-    </profiles>
 
 </project>
