@@ -1,3 +1,8 @@
+Version 2.0.7
+===========================================================
+1. Added validation to test screen to check the content of the test file uploaded.(sj108s)
+2. Added more test cases to template spect ts.(sj108s)
+
 Version 2.0.6
 ===========================================================
 1. Fixed issues raised by ST in test screen. (sj108s)

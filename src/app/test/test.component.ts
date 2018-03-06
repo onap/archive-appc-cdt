@@ -112,11 +112,7 @@ export class TestComponent implements OnInit {
 
     }
 
-    prepareFileName(): any {
-        let fileNameObject: any = this.mappingEditorService.latestAction;
-        return fileNameObject;
-    }
-
+  
     /*public download() {
       let stringData: any;
       stringData = JSON.stringify(this.paramShareService.getSessionParamData());
@@ -243,7 +239,7 @@ export class TestComponent implements OnInit {
                 this.statusResponse = '';
 
                 let arrData = (<AOA>(XLSX.utils.sheet_to_json(ws, { blankrows: false })));
-                this.nService.success('Success', 'SpreadSheet uploaded successfully');
+
 
 
                 console.log('Array data ==' + arrData[0]);
@@ -268,7 +264,7 @@ export class TestComponent implements OnInit {
 
                         }
                     }
-
+                  
                     if (element['List Name'] === 'payload') {
                         var listName1 = element['List Name_1'];
                         var listName2 = element['List Name_2'];
@@ -292,12 +288,34 @@ export class TestComponent implements OnInit {
                         }
                     }
                 }
+                  if (this.action && this.actionIdentifiers['vnf-id']) {
+                     this.nService.success('Success', 'SpreadSheet uploaded successfully');
 
+                    }
+                    else {
+                        this.flag = 1;
+                        this.oldListName1 = '';
+                        this.vmJson = {};
+                        this.vnfcJson = {};
+                        this.subPayload = {};
+                        this.vmPayload = [];
+                        this.payload = {};
+                        this.action = '';
+                        this.actionIdentifiers = {};
+                        this.apiRequest = '';
+                        this.apiResponse = '';
+                        this.enableCounterDiv = false;
+                        this.enableAbort = false;
+                        this.enableTestButton = false;
+                        this.nService.error("Error", "Please check the contents of the file uploaded")
+                    }
                 //console.log("VM JSON===" + JSON.stringify(this.vmPayload))
                 //    console.log('VM payload===' + JSON.stringify(this.payload));
             };
 
             reader.readAsBinaryString(target.files[0]);
+            
+
         }
         else {
             this.nService.error('Error', 'Incorrect spreadsheet uploaded');
@@ -313,6 +331,8 @@ export class TestComponent implements OnInit {
             this.apiRequest = '';
             this.apiResponse = '';
             this.enableCounterDiv = false;
+            this.enableAbort = false;
+            this.enableTestButton = false;
         }
     }
 
