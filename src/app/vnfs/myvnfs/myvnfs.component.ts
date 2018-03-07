@@ -118,6 +118,8 @@ export class MyvnfsComponent implements OnInit {
 
     navigateToReference(item) {
         sessionStorage.setItem('updateParams', JSON.stringify(item));
+        sessionStorage.setItem('vnfParams', JSON.stringify({ vnfType: item['vnf-type'], vnfcType: item['vnfc-type'] }));
+
         this.mappingEditorService.referenceNameObjects = undefined;
 
         this

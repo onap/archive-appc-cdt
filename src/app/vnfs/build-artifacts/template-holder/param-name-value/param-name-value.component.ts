@@ -76,6 +76,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     initialAction: any;
     title: any;
     message: any;
+    identifier: any;
     enableMappingBrowse: boolean = true;
     enableDownload: boolean = false;
     showMappingDownloadDiv: boolean = false;
@@ -182,7 +183,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
             this.mappingEditorService.fromScreen = 'MappingScreen';
         }
         this.mappingEditorService.paramData = [];
-
+        this.identifier = this.mappingEditorService.identifier;
 
     }
 
