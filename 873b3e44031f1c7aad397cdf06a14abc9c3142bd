@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_fcf4f75b",
+        "filename": "src/app/test/test.component.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-07T14:37:52Z",
+      "side": 1,
+      "message": "did you really merge that?",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "873b3e44031f1c7aad397cdf06a14abc9c3142bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
