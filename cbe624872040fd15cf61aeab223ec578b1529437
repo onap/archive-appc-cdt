@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e70a2089",
+        "filename": "src/app/about-us/versionLog.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-07T21:26:25Z",
+      "side": 1,
+      "message": "Uday, you should remove any company specific information from this file (replace your UID with your name or LF ID)",
+      "revId": "cbe624872040fd15cf61aeab223ec578b1529437",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
