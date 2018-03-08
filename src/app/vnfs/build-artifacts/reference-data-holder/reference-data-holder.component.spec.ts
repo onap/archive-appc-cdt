@@ -22,6 +22,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 
 import {ReferenceDataHolderComponent} from './reference-data-holder.component';
 
@@ -31,7 +32,8 @@ describe('ReferenceDataHolderComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ReferenceDataHolderComponent]
+            declarations: [ReferenceDataHolderComponent],
+            schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents();
     }));

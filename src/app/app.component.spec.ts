@@ -27,6 +27,10 @@ import {async, TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {RouterTestingModule} from '@angular/router/testing';
+import {NotificationService} from './shared/services/notification.service';
+import {ParamShareService} from './shared/services/paramShare.service';
+import {MappingEditorService} from './shared/services/mapping-editor.service';
+
 
 describe('AppComponent', () => {
     beforeEach(() => {
@@ -34,8 +38,10 @@ describe('AppComponent', () => {
             declarations: [
                 AppComponent
             ],
-            schemas: [NO_ERRORS_SCHEMA]
-            , imports: [RouterTestingModule]
+            schemas: [NO_ERRORS_SCHEMA],
+            imports: [RouterTestingModule],
+            providers: [ ParamShareService, NotificationService, MappingEditorService]
+     
         });
         TestBed.compileComponents();
     });
@@ -52,10 +58,4 @@ describe('AppComponent', () => {
         expect(app.title).toEqual('app works!');
     }));
 
-    it('should render title in a h1 tag', async(() => {
-        const fixture = TestBed.createComponent(AppComponent);
-        fixture.detectChanges();
-        const compiled = fixture.debugElement.nativeElement;
-        expect(compiled.querySelector('h1').textContent).toContain('app works!');
-    }));
 });

@@ -21,31 +21,18 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
+
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
 
-import {VnfsComponent} from './vnfs.component';
+import {Dropdown} from './dropdown';
+import {ElementRef} from '@angular/core';
 
-describe('VnfsComponent', () => {
-    let component: VnfsComponent;
-    let fixture: ComponentFixture<VnfsComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [VnfsComponent],
-            schemas: [NO_ERRORS_SCHEMA]
-        })
-            .compileComponents();
-    }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(VnfsComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+describe('DropDown', () => {
+    it('should create an instance', () => {
+        const directive = new Dropdown(new ElementRef('<dropdown></dropdown>'));
+        expect(directive).toBeTruthy();
     });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
+ 
 });

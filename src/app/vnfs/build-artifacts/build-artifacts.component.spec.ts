@@ -23,16 +23,64 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {NotificationService} from '../../shared/services/notification.service';
+import {ParamShareService} from '../../shared/services/paramShare.service';
+import {MappingEditorService} from '../../shared/services/mapping-editor.service';
+import {ModalComponent} from '../../shared/modal/modal.component';
+import {DialogService} from 'ng2-bootstrap-modal';
+import {ConfirmComponent} from '../../shared/confirmModal/confirm.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {HttpUtilService} from '../../shared/services/httpUtil/http-util.service';
+import {UtilityService} from '../../shared/services/utilityService/utility.service';
+
+import {NotificationsService} from 'angular2-notifications';
+import {HomeComponent} from '../../home/home/home.component';
+import {LogoutComponent} from '../../shared/components/logout/logout.component';
+import {HelpComponent} from '../../shared/components/help/help/help.component';
+import {AboutUsComponent} from '../../about-us/aboutus.component';
+import {TestComponent} from '../../test/test.component';
+import {HttpModule} from '@angular/http';
+import { NgProgress } from 'ngx-progressbar';
 
 import {BuildDesignComponent} from './build-artifacts.component';
 
 describe('BuildDesignComponent', () => {
     let component: BuildDesignComponent;
     let fixture: ComponentFixture<BuildDesignComponent>;
-
+ const routes = [
+        {
+            path: 'home',
+            component: HomeComponent
+        }, {
+            path: 'vnfs',
+            loadChildren: './vnfs/vnfs.module#VnfsModule'
+        }, {
+            path: 'test',
+            component: TestComponent
+        },
+        {
+            path: 'help',
+            component: HelpComponent
+        }, {
+            path: 'aboutUs',
+            component: AboutUsComponent
+        }, {
+            path: 'logout',
+            component: LogoutComponent
+        }, {
+            path: '',
+            redirectTo: '/home',
+            pathMatch: 'full'
+        }
+    ];
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [BuildDesignComponent]
+            declarations: [BuildDesignComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent],
+            schemas: [NO_ERRORS_SCHEMA],
+            imports: [HttpModule, FormsModule, RouterTestingModule.withRoutes(routes)],
+            
         })
             .compileComponents();
     }));

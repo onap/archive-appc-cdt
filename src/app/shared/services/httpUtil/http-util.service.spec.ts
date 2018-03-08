@@ -25,11 +25,19 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 import {inject, TestBed} from '@angular/core/testing';
 import {HttpUtilService} from './http-util.service';
+import {Http} from '@angular/http';
 
+
+class MockService {
+    doStuff() {
+        return this;
+    }
+}
 describe('HttpUtilService', () => {
+    let http = new MockService();
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [HttpUtilService]
+            providers: [HttpUtilService, {provide: Http, useValue: http}]
         });
     });
 
