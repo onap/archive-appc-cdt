@@ -24,29 +24,22 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 /* tslint:disable:no-unused-variable */
 
-import { TestBed } from '@angular/core/testing';
-import { DropDownToggleDirective } from './drop-down-toggle.directive';
+import { Dropdown } from './dropdown';
 import { ElementRef } from '@angular/core';
 
 
-describe('DropDownToggleDirective', () => {
+describe('DropDown', () => {
 	let directive;
-	beforeEach(() => {
-	    TestBed.configureTestingModule({
-	      declarations: [DropDownToggleDirective]
-	    });
-	});
 
 	beforeEach(() => {
-		directive = new DropDownToggleDirective(new ElementRef(''));
+		directive = new Dropdown(new ElementRef('<dropdown></dropdown>'));
 	});
-
     it('should create an instance', () => {
-    	let el: HTMLElement;
-    	directive.type = 'dropdown';
-
-    	//directive.ngOnInit();
-
         expect(directive).toBeTruthy();
     });
+
+ 	it('should test open method', () => {
+ 		let elementRef: ElementRef;
+ 		console.log(directive);
+ 	});
 });

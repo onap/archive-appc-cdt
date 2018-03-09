@@ -39,6 +39,11 @@ describe('UtilityService', () => {
         expect(service).toBeTruthy();
     }));
 
+    it('should generate random id', inject([UtilityService],(service: UtilityService) => {
+        let ret = service.randomId();
+
+        expect(ret).not.toBeNull();
+    }));
 
     it('should apply slashes for a string...', inject([UtilityService], (service: UtilityService) => {
         let text = {'vnf-host-ip-address': '135.21.166.36'};

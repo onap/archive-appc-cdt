@@ -40,7 +40,7 @@ import { environment } from '../../../../../environments/environment';
 import { NgProgress } from 'ngx-progressbar';
 import * as XLSX from 'xlsx';
 
-type AOA = Array<Array<any>>;
+/*type AOA = Array<Array<any>>;
 
 function s2ab(s: string): ArrayBuffer {
     const buf = new ArrayBuffer(s.length);
@@ -50,7 +50,7 @@ function s2ab(s: string): ArrayBuffer {
     }
     return buf;
 }
-
+*/
 declare var $: any;
 
 @Component({
@@ -62,7 +62,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     enableMappingSave: boolean = false;
     aceText: string = '';
     fileName: string = '';
-    actionType: any;
+    actionType: any='';
     modal: any;
     configMappingEditorContent: any;
     fileType: any = '';
@@ -80,11 +80,13 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     enableDownload: boolean = false;
     showMappingDownloadDiv: boolean = false;
     mapppingDownloadType: any;
-    action: any;
-    artifactName: any;
+    action: any='';
+    artifactName: any='';
     enableMerge: boolean = false;
     apiToken = localStorage['apiToken'];
     userId = localStorage['userId'];
+    identifier: any;
+
     public uploadTypes = [
         {
             value: 'Mapping Data',
@@ -107,20 +109,9 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     @ContentChildren(Tab) tabs: QueryList<Tab>;
     public subscription: any;
     public item: any = {};
-
-    public Actions = [
-        { action: 'ConfigBackup', value: 'ConfigBackup' },
-        { action: 'ConfigModify', value: 'ConfigModify' },
-        { action: 'ConfigRestore', value: 'ConfigRestore' },
-        { action: 'Configure', value: 'Configure' },
-        { action: 'GetRunningConfig', value: 'GetRunningConfig' },
-        { action: 'HealthCheck', value: 'HealthCheck' },
-        { action: 'StartApplication', value: 'StartApplication' },
-        { action: 'StopApplication', value: 'StopApplication' }
-    ];
-    vnfType: any;
-    vnfcType: any;
-    protocol: any;
+    vnfType: any='';
+    vnfcType: any='';
+    protocol: any='';
     refObj: any;
     public paramsContent = localStorage['paramsContent'];
 
@@ -175,13 +166,14 @@ export class GoldenConfigurationMappingComponent implements OnInit {
         this.activeRoutes.url.subscribe(UrlSegment => {
             this.actionType = UrlSegment[0].path;
         });
-        if (this.actionType === 'configureTemplate') {
+       /*  if (this.actionType === 'configureTemplate') {
             this.mappingEditorService.fromScreen = 'TemplateScreen';
-        }
+        }*/
         if (this.actionType === 'myTemplates') {
             this.mappingEditorService.fromScreen = 'MappingScreen';
         }
         this.mappingEditorService.paramData = [];
+
 
 
     }
@@ -192,11 +184,11 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of browseOption() Method============================================
-    selectedNavItem(item: any) {
+   /* selectedNavItem(item: any) {
         this.item = item;
     }
 
-    //========================== End of selectedNavItem() Method============================================
+    //========================== End of selectedNavItem() Method============================================*/
     ngOnDestroy() {
         this.prepareFileName();
     }
@@ -221,14 +213,13 @@ export class GoldenConfigurationMappingComponent implements OnInit {
             }
         }
         else {
-            this.Actions = [];
             this.enableMappingBrowse = false;
         }
     }
 
     //========================== End of ngAfterViewInit() Method============================================
-    upload(evt: any) {
-        /* wire up file reader */
+    /*upload(evt: any) {
+        
         if (evt.target.files[0]) {
             const target: DataTransfer = <DataTransfer>(evt.target);
             this.myfileName = evt.target.files[0].name;
@@ -239,13 +230,13 @@ export class GoldenConfigurationMappingComponent implements OnInit {
                 }
                 const reader = new FileReader();
                 reader.onload = (e: any) => {
-                    /* read workbook */
+                    
                     const bstr = e.target.result;
                     const wb = XLSX.read(bstr, { type: 'binary' });
-                    /* grab first sheet */
+                    
                     const wsname = wb.SheetNames[0];
                     const ws = wb.Sheets[wsname];
-                    /* save data */
+                    
                     let arrData = (<AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 })));
                     var jsonStr = arrData.toString();
                     var JsonArr = jsonStr.split(',');
@@ -286,8 +277,8 @@ export class GoldenConfigurationMappingComponent implements OnInit {
         this.myInputParam.nativeElement.value = '';
     }
 
-    //========================== End of upload() Method============================================
-    //uncommenting for 1710
+    //========================== End of upload() Method============================================*/
+  
     public fileParamChange(input) {
         if (input.files && input.files[0]) {
             this.enableMappingSave = true;
@@ -349,7 +340,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of onParamChanges() Method============================================
-    onDownloadParameter() {
+   /* onDownloadParameter() {
         let refObj = this.refObj;
         if (refObj) {
             // refObj = refObj[refObj.length - 1];
@@ -372,7 +363,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of onDownloadParameter() Method============================================
-    JSONToCSVConvertor(JSONData, fileName, ShowLabel) {
+   /* JSONToCSVConvertor(JSONData, fileName, ShowLabel) {
         //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
         var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
         var CSV = '';
@@ -397,14 +388,14 @@ export class GoldenConfigurationMappingComponent implements OnInit {
         document.body.removeChild(link);
     }
 
-    //========================== End of JSONToCSVConvertor() Method============================================
-    updateFileNameForXls(action: any, scopeName: any, versionNo: any) {
+    //========================== End of JSONToCSVConvertor() Method============================================*/
+   /* updateFileNameForXls(action: any, scopeName: any, versionNo: any) {
         let fileName = 'param_' + action + '_' + scopeName + '_' + versionNo + 'V';
         return fileName;
     }
 
-    //========================== End of updateFileNameForXls() Method============================================
-    appendSlashes(artifactData) {
+    //========================== End of updateFileNameForXls() Method============================================*/
+    /*appendSlashes(artifactData) {
         let x = artifactData.replace(new RegExp(',"', 'g'), ',\"');
         let y = x.replace(new RegExp('":', 'g'), '\":');
         let z = y.replace(new RegExp('{"', 'g'), '{\"');
@@ -417,7 +408,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
         return nw2;
     }
 
-    //========================== End of appendSlashes() Method============================================
+    //========================== End of appendSlashes() Method============================================*/
     updateFileName(action: any, scopeName: any, versionNo: any) {
         let fileName = 'param_' + action + '_' + scopeName + '_' + versionNo + 'V.json';
         this.downloadedFileName = fileName;
@@ -431,14 +422,14 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of prepareFileName() Method============================================
-    openModel(toShow: any, message: any, title: any) {
+   /* openModel(toShow: any, message: any, title: any) {
         this.message = message;
         this.title = title;
         $('#modalButton').trigger('click');
     }
 
-    //========================== End of openModel() Method============================================
-    checkSave(selectedAction): void {
+    //========================== End of openModel() Method============================================*/
+  /*  checkSave(selectedAction): void {
         if (this.actionType === 'updateTemplate') {
             if (!this.buildDesignComponent.isReferenceFound(selectedAction, this.mappingEditorService.getReferenceList())) {
                 this.nService.error('Error', 'Reference Data not found. Please add Reference Data for Action:' + selectedAction);
@@ -470,7 +461,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
             });
     }
 
-    //========================== End of showConfirm() Method============================================
+    //========================== End of showConfirm() Method============================================*/
     retrieveNameValueFromAppc() {
         let refObj = this.refObj;
         if (refObj && refObj != undefined) {
@@ -531,7 +522,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of retrieveNameValueFromAppc() Method============================================
-    saveNameValueToAppc() {
+   /* saveNameValueToAppc() {
         let refObj = this.refObj;
         if (refObj && refObj != undefined) {
             // refObj = refObj[refObj.length - 1];
@@ -580,7 +571,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
         }, 3500);
     }
 
-    //========================== End of saveNameValueToAppc() Method============================================
+    //========================== End of saveNameValueToAppc() Method============================================*/
     formatNameValuePairs(namevaluePairs: string) {
         //var string = namevaluePairs.substring(2, namevaluePairs.length - 2);
         /*  var stringArr = string.split(",");

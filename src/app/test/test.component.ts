@@ -101,6 +101,7 @@ export class TestComponent implements OnInit {
     public enablePollButton: boolean = true;
     public pollCounter = 0;
     public enableCounterDiv: boolean = false;
+    public enableDownload: boolean = false;
 
     constructor(private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService, private nService: NotificationsService, private router: Router, private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private httpUtil: HttpUtilService,
         private utiltiy: UtilityService, private ngProgress: NgProgress) {
@@ -112,11 +113,7 @@ export class TestComponent implements OnInit {
 
     }
 
-    prepareFileName(): any {
-        let fileNameObject: any = this.mappingEditorService.latestAction;
-        return fileNameObject;
-    }
-
+  
     /*public download() {
       let stringData: any;
       stringData = JSON.stringify(this.paramShareService.getSessionParamData());
@@ -209,7 +206,7 @@ export class TestComponent implements OnInit {
         /* wire up file reader */
         $('#filesparam').trigger('click');
         const target: DataTransfer = <DataTransfer>(evt.target);
-
+        this.pollCounter = 0;
         this.uploadFileName = evt.target.files[0].name;
         var fileExtension = this.uploadFileName.substr(this.uploadFileName.lastIndexOf('.') + 1);
 
@@ -243,7 +240,7 @@ export class TestComponent implements OnInit {
                 this.statusResponse = '';
 
                 let arrData = (<AOA>(XLSX.utils.sheet_to_json(ws, { blankrows: false })));
-                this.nService.success('Success', 'SpreadSheet uploaded successfully');
+
 
 
                 console.log('Array data ==' + arrData[0]);
@@ -254,50 +251,16 @@ export class TestComponent implements OnInit {
                 this.payload = {};
                 this.oldListName1 = '';
                 this.actionIdentifiers = {};
-                for (var i = 0; i < arrData.length; i++) {
-                    var element = arrData[i];
-                    if (element['TagName'] === 'action') {
-                        this.action = element['Value'];
-                    }
-                    if (element['List Name'] === 'action-identifiers') {
-                        this.vnfId = element['Value'];
-                        var key = element['TagName'];
-                        var value = element['Value'];
-                        if (key && value) {
-                            this.actionIdentifiers[key] = value;
-
-                        }
-                    }
-
-                    if (element['List Name'] === 'payload') {
-                        var listName1 = element['List Name_1'];
-                        var listName2 = element['List Name_2'];
-                        var listName3 = element['List Name_3'];
-                        var key = element['TagName'];
-                        var value = element['Value'];
-                        if (listName1) {
-                            if (this.oldListName1 == '' || (listName1 === this.oldListName1)) {
-                                this.constructTestPayload(listName2, listName3, key, value);
-                                this.payload[listName1] = this.subPayload;
-                            }
-                            else {
-                                this.subPayload = {};
-                                this.constructTestPayload(listName2, listName3, key, value);
-                                this.payload[listName1] = this.subPayload;
-                            }
-                            this.oldListName1 = listName1;
-                        }
-                        else {
-                            this.payload[key] = value;
-                        }
-                    }
-                }
-
+                // Refactor
+                this.payload = this.processUploadedFile(arrData);
+                this.uploadedFileResult();
                 //console.log("VM JSON===" + JSON.stringify(this.vmPayload))
                 //    console.log('VM payload===' + JSON.stringify(this.payload));
             };
 
             reader.readAsBinaryString(target.files[0]);
+            
+
         }
         else {
             this.nService.error('Error', 'Incorrect spreadsheet uploaded');
@@ -313,8 +276,82 @@ export class TestComponent implements OnInit {
             this.apiRequest = '';
             this.apiResponse = '';
             this.enableCounterDiv = false;
+            this.enableAbort = false;
+            this.enableTestButton = false;
+            this.enableDownload = true;
         }
     }
+
+processUploadedFile(arrData) {
+        let tempPayload = {};
+        for (var i = 0; i < arrData.length; i++) {
+            var element = arrData[i];
+            if (element['TagName'] === 'action') {
+                this.action = element['Value'];
+            }
+            if (element['List Name'] === 'action-identifiers') {
+                this.vnfId = element['Value'];
+                var key = element['TagName'];
+                var value = element['Value'];
+                if (key && value) {
+                    this.actionIdentifiers[key] = value;
+
+                }
+            }
+          
+            if (element['List Name'] === 'payload') {
+                var listName1 = element['List Name_1'];
+                var listName2 = element['List Name_2'];
+                var listName3 = element['List Name_3'];
+                var key = element['TagName'];
+                var value = element['Value'];
+                if (listName1) {
+                    if (this.oldListName1 == '' || (listName1 === this.oldListName1)) {
+                        this.constructTestPayload(listName2, listName3, key, value);
+                        tempPayload[listName1] = this.subPayload;
+                    }
+                    else {
+                        this.subPayload = {};
+                        this.constructTestPayload(listName2, listName3, key, value);
+                        tempPayload[listName1] = this.subPayload;
+                    }
+                    this.oldListName1 = listName1;
+                }
+                else {
+                    tempPayload[key] = value;
+                }
+            }
+        }
+
+        return tempPayload;
+    }
+
+      uploadedFileResult() {
+        if (this.action && this.actionIdentifiers['vnf-id']) {
+            this.nService.success('Success', 'SpreadSheet uploaded successfully');
+        }
+        else {
+            this.nService.error('Error', 'Incorrect spreadsheet uploaded');
+            this.flag = 1;
+            this.oldListName1 = '';
+            this.vmJson = {};
+            this.vnfcJson = {};
+            this.subPayload = {};
+            this.vmPayload = [];
+            this.payload = {};
+            this.action = '';
+            this.actionIdentifiers = {};
+            this.apiRequest = '';
+            this.apiResponse = '';
+            this.enableCounterDiv = false;
+            this.enableAbort = false;
+            this.enableTestButton = false;
+            this.enableDownload = false;
+            this.nService.error("Error", "Please check the contents of the file uploaded")
+        }
+    }
+
+
 
     constructTestPayload(listName2, listName3, key, value) {
         if (listName2 == undefined && listName3 == undefined) {

@@ -49,10 +49,8 @@ export class AboutUsComponent implements OnInit {
     }
 
     versionLogFile() {
-        this.http.get('app/shared/components/about-us/versionLog.txt')
+        this.http.get('app/about-us/versionLog.txt')
             .subscribe(res => this.data = res.text());
-        console.log('json data ', this.data);
-
     }
 
     open(content) {

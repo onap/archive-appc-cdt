@@ -23,9 +23,14 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick, inject } from '@angular/core/testing';
+import { RouterTestingModule } from "@angular/router/testing";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/empty';
 
-import {NavigationComponent} from './navigation.component';
+import { NavigationComponent } from './navigation.component';
+import { EmitterService } from '../../services/emitter.service';
 
 describe('NavigationComponent', () => {
     let component: NavigationComponent;
@@ -33,7 +38,9 @@ describe('NavigationComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [NavigationComponent]
+            declarations: [NavigationComponent],
+            imports: [RouterTestingModule.withRoutes([])],
+            providers: []
         })
             .compileComponents();
     }));
@@ -47,4 +54,50 @@ describe('NavigationComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should set userLoggedIn on ngOnInit', () => {
+        component.userId = 'testingId';
+
+        component.ngOnInit();
+    });
+
+    it('should validate on ngOnChanges', () => {
+        let spy = spyOn(EmitterService, 'get').and.callFake( ({}) => {
+            return Observable.empty();
+        });
+        component.id = 'userLogin';
+
+        component.ngOnChanges();
+
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it('should go to /vnfs/list if url = vnfs and userId is not null or undefined', inject([Router],(router: Router) => {
+        let navigateSpy = spyOn(router, 'navigate');
+        localStorage['userId'] = 'testingId';
+        let testUrl = 'vnfs';
+
+        component.gotoDetail(testUrl);
+    }));
+
+    it('should go to /vnfs if url = vnfs and userId is null or undefined', inject([Router],(router: Router) => {
+        let navigateSpy = spyOn(router, 'navigate');
+        localStorage['userId'] = '';
+        let testUrl = 'vnfs';
+
+        component.gotoDetail(testUrl);
+    }));
+
+    it('should go to passed url if url != vnfs', inject([Router],(router: Router) => {
+        let navigateSpy = spyOn(router, 'navigate');
+        let testUrl = 'test';
+
+        component.gotoDetail(testUrl);
+    }));
+
+    it('should logout', inject([Router],(router: Router) => {
+        let navigateSpy = spyOn(router, 'navigate');
+
+        component.logout();
+    }));
 });
