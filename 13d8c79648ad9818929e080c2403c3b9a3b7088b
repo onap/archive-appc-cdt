@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_06c385ed",
+        "filename": "src/app/test/test.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-09T15:18:41Z",
+      "side": 1,
+      "message": "tabs introduced",
+      "revId": "13d8c79648ad9818929e080c2403c3b9a3b7088b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
