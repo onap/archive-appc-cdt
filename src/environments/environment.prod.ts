@@ -28,10 +28,6 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 export const environment = {
     production: true,
     getDesigns: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:dbservice',
-    //getDesigns: "http://localhost:9090/" + "https://mtanjv9apbc51.aic.cip.att.com:8443/restconf/operations/design-services:dbservice",
-
-    //getDesigns:"http://localhost:8443/restconf/operations/design-services:dbservice",
-    // validateTemplate:"https://"+window.location.hostname+":8443/restconf/operations/design-services:validator"
     validateTemplate: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:validator',
     testConfigure: 'https://' + window.location.hostname + ':8443/restconf/operations/appc-provider-lcm:configure'
 };

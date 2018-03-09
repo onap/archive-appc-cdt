@@ -484,52 +484,7 @@ export class GoldenConfigurationComponent implements OnInit {
       }
     }
   }
-  //========================== End of prepareAppData() Method============================================
-  /*retrieveNameValueFromAppc() {
-    let refObj: any = this.prepareFileName();
-    if (refObj && refObj != undefined) {
-      let fileName = this.updateParamFileName(this.item.action, this.scopeName, this.templateVersionNo);
-      let payload = '{"userID": "' + this.userId + '","action": "' + this.item.action + '", "vnf-type" : "' + this.vnfType + '", "artifact-type":"APPC-CONFIG", "artifact-name":"' + fileName + '"}';
-      let input = {
-        "input": {
-          "design-request": {
-            "request-id": this.apiToken,
-            "action": "getArtifact",
-            "payload": payload
-          }
-        }
-      };
-      
-      let artifactContent: any;
-      this.httpUtil.post({
-        //    url:"https://mtanjv9apdb51.aic.cip.att.com:8443/restconf/operations/design-services:dbservice",
-        url: environment.getDesigns,
-        data: input
-      }).subscribe(resp => {
-        if (resp.output.status.code === '400' && resp.output.status.message === "success") {
-          this.openModel(true, 'Name/value pairs retrieved successfully from APPC', 'Success');
-          let result = JSON.parse(resp.output.data.block).artifactInfo[0];
-          result = JSON.parse(result['artifact-content']);
-          var jsonString = JSON.stringify(result[0]);
-          var string = jsonString.substring(1, jsonString.length - 1);
-          var stringArr = string.split(",");
-          var newStringArr = [];
-          var resultStr = "{\r\n"
-          for (var index in stringArr) {
-            newStringArr[index] = stringArr[index] + ",\r\n";
-          }
-          for (var index in newStringArr) {
-            resultStr = resultStr + newStringArr[index];
-          }
-          resultStr = resultStr.substring(0, resultStr.length - 3) + "\r\n}"
-          this.configMappingEditorContent = resultStr;
-
-        }
-      },
-        error => this.openModel(true, "Could not retrieve the name value pairs. Error in connecting to APPC Server", "ERROR"));
-    }
-  }*/
-  //========================== End of retrieveNameValueFromAppc() Method============================================
+  
   prepareFileName(): any {
     let fileNameObject: any = this.mappingEditorService.latestAction;
     this.appDataObject = this.mappingEditorService.appDataObject;

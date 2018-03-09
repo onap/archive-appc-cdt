@@ -41,9 +41,9 @@ describe('UtilityService', () => {
 
 
     it('should apply slashes for a string...', inject([UtilityService], (service: UtilityService) => {
-        let text = {'vnf-host-ip-address': '135.21.166.36'};
+        let text = {'vnf-host-ip-address': 'testidaddress'};
 
-        expect(service.appendSlashes(JSON.stringify(text))).toEqual('{\\"vnf-host-ip-address\\":\\"135.21.166.36\\"}');
+        expect(service.appendSlashes(JSON.stringify(text))).toEqual('{\\"vnf-host-ip-address\\":\\"testidaddress\\"}');
     }));
 
 

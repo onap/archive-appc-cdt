@@ -81,7 +81,7 @@ describe('MyvnfsComponent', () => {
         const mockResponse = {
             "output": {
                 "data": {
-                    "block": "{\"userID\":\"ug0221\",\"designInfo\":[{\"vnf-type\":\"demo123\",\"vnfc-type\":\"null\",\"protocol\":\"\",\"incart\":\"N\",\"action\":\"AllAction\",\"artifact-name\":\"reference_AllAction_demo123_0.0.1V.json\",\"artifact-type\":\"APPC-CONFIG\"}],\"statusInfo\":null,\"artifactInfo\":null}",
+                    "block": "{\"userID\":\"testid\",\"designInfo\":[{\"vnf-type\":\"demo123\",\"vnfc-type\":\"null\",\"protocol\":\"\",\"incart\":\"N\",\"action\":\"AllAction\",\"artifact-name\":\"reference_AllAction_demo123_0.0.1V.json\",\"artifact-type\":\"APPC-CONFIG\"}],\"statusInfo\":null,\"artifactInfo\":null}",
                     "status":{
                         "code": "400",
                         "message": "success"
@@ -90,7 +90,7 @@ describe('MyvnfsComponent', () => {
             }
         }
 
-        //"{'userID':'ug0221','designInfo':[{'vnf-type':'demo123','vnfc-type':'null','protocol':'','incart':'N','action':'AllAction','artifact-name':'reference_AllAction_demo123_0.0.1V.json','artifact-type':'APPC-CONFIG'}]}"
+        //"{'userID':'testid','designInfo':[{'vnf-type':'demo123','vnfc-type':'null','protocol':'','incart':'N','action':'AllAction','artifact-name':'reference_AllAction_demo123_0.0.1V.json','artifact-type':'APPC-CONFIG'}]}"
         const data = {
             'input': {
                 'design-request': {
@@ -115,7 +115,7 @@ describe('MyvnfsComponent', () => {
             console.log("resp")
             console.log(resp)
             let  block = JSON.parse(resp.output.data.block)
-            expect(block.userID).toBe("ug0221");
+            expect(block.userID).toBe("testid");
             
 
 
@@ -129,7 +129,7 @@ describe('MyvnfsComponent', () => {
         const mockResponse = {
             "output": {
                 "data": {
-                    "block": "{\"userID\":\"ug0221\",\"designInfo\":[{\"vnf-type\":\"demo123\",\"vnfc-type\":\"null\",\"protocol\":\"\",\"incart\":\"N\",\"action\":\"AllAction\",\"artifact-name\":\"reference_AllAction_demo123_0.0.1V.json\",\"artifact-type\":\"APPC-CONFIG\"}],\"statusInfo\":null,\"artifactInfo\":null}",
+                    "block": "{\"userID\":\"testid\",\"designInfo\":[{\"vnf-type\":\"demo123\",\"vnfc-type\":\"null\",\"protocol\":\"\",\"incart\":\"N\",\"action\":\"AllAction\",\"artifact-name\":\"reference_AllAction_demo123_0.0.1V.json\",\"artifact-type\":\"APPC-CONFIG\"}],\"statusInfo\":null,\"artifactInfo\":null}",
                     "status":{
                         "code": "400",
                         "message": "success"
