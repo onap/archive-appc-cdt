@@ -20,15 +20,43 @@ limitations under the License.
 ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
-
-
-/* tslint:disable:no-unused-variable */
-
 import {OrderBy} from './order-by.pipe';
 
 describe('OrderByPipe', () => {
     it('create an instance', () => {
         const pipe = new OrderBy();
         expect(pipe).toBeTruthy();
+    });
+
+     it('ascending sorting', () => {
+        const pipe = new OrderBy();
+
+        let data =[
+            {'vnf-type':'vnf1','vnfc-type':'vnfc1','artifact-name':'artf1'},
+            {'vnf-type':'vnf2','vnfc-type':'vnfc2','artifact-name':'artf2'}
+          
+        ]
+        expect(pipe.transform(data,"vnf-type",true)[0]['vnf-type']).toBe('vnf1');
+        
+    });
+     it('descending sorting', () => {
+        const pipe = new OrderBy();
+
+        let data =[
+            {'vnf-type':'vnf1','vnfc-type':'vnfc1','artifact-name':'artf1'},
+            {'vnf-type':'vnf2','vnfc-type':'vnfc2','artifact-name':'artf2'}
+          
+        ]
+        expect(pipe.transform(data,"vnf-type",false)[0]['vnf-type']).toBe('vnf2');
+    });
+     it('descending sorting', () => {
+        const pipe = new OrderBy();
+
+        let data =[
+            {'vnf-type':undefined,'vnfc-type':'vnfc1','artifact-name':'artf1'},
+            {'vnf-type':'vnf2','vnfc-type':'vnfc2','artifact-name':'artf2'}
+          
+        ]
+        expect(pipe.transform(data,"vnf-type",false)[0]['vnf-type']).toBe('vnf2');
     });
 });

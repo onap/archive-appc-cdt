@@ -20,19 +20,42 @@ limitations under the License.
 ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
+import { async, ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
+import { Http, HttpModule, ConnectionBackend, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/from';
+import 'rxjs/add/observable/empty';
+import 'rxjs/add/observable/of';
 
-/* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { AboutUsComponent } from './aboutus.component';
 
-import {AboutUsComponent} from './aboutus.component';
+class MockService {
+    doStuff() {
+        return this;
+    }
+}
 
 describe('ContacUsComponent', () => {
     let component: AboutUsComponent;
     let fixture: ComponentFixture<AboutUsComponent>;
-
+   
     beforeEach(async(() => {
+        let http = new MockService();
+
         TestBed.configureTestingModule({
-            declarations: [AboutUsComponent]
+            declarations: [AboutUsComponent],
+            imports: [HttpModule, NgbModule.forRoot()],
+            providers: [NgbModule, {
+                provide: Http, useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
+                return new Http(backend, defaultOptions);
+                }, deps: [MockBackend, BaseRequestOptions]
+            },
+            { provide: MockBackend, useClass: MockBackend },
+            { provide: BaseRequestOptions, useClass: BaseRequestOptions },
+            {provide: Http, useValue: http}]
+            
         })
             .compileComponents();
     }));
@@ -45,5 +68,28 @@ describe('ContacUsComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('test', inject([Http], (http: Http) => {
+        let spy = spyOn(http, 'get').and.returnValue(Observable.of('some value'))
+
+        component.versionLogFile();
+
+        expect(http).toBeTruthy();
+        expect(spy).toHaveBeenCalled()
+
+    }));
+    
+    it('should open modal', inject([NgbModule],(ngbModule: NgbModule) => {
+       let content = 'test';
+       component.open(content);
+    }));
+
+    it('should download log file', () => {
+        var blob = new Blob(['test'], {
+            type: 'text/plain;charset=utf-8'
+        });
+
+        component.downloadLogFile();
     });
 });

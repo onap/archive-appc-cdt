@@ -23,8 +23,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 -->
 
 <simple-notifications [options]="options"></simple-notifications>
-<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'"
-    [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'" [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
 <div class="card" style="    margin-bottom: 23px;">
     <img class="card-img-top" data-src="holder.js/100%x180/" alt="">
     <div class="card-block" style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
@@ -43,7 +42,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <label>Protocol</label><input class="form-control" type="text" disabled value="{{protocol}}" />
             </div>
             <div *ngIf="(action === 'ConfigScaleOut')" class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
-                <label>templateIdentifier</label><input class="form-control" type="text" disabled value="{{identifier}}" />
+                <label>Template Identifier</label><input class="form-control" type="text" disabled value="{{identifier}}" />
             </div>
         </div>
     </div>
@@ -55,18 +54,15 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <div class="input-group">
                     <input id="inputFile1" class="file" hidden #myInput1 type='file' (change)="fileChange(myInput1, 'pdfile')">
                     <input [(ngModel)]="myPdFileName" type="text" class="input-lg" disabled placeholder="Upload parameters from PC" style="width:85%;">
-                    <button [disabled]="(undefined == mappingEditorService.latestAction)" (click)="browsePdFile($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg"
-                        type="button"> UPLOAD PD FILE
+                    <button [disabled]="(undefined == mappingEditorService.latestAction)" (click)="browsePdFile($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg" type="button"> UPLOAD PD FILE
                     </button>
                 </div>
             </div>
             <div class="col-12">
                 <div class="input-group">
                     <input id="inputFile2" class="file" hidden #myInput2 type='file' (change)="fileChange(myInput2, 'keyfile')">
-                    <input [(ngModel)]="myKeyFileName" type="text" class="input-lg" disabled placeholder="Upload key file from PC. You can upload a key file only if you have some parameters."
-                        style="width:85%;">
-                    <button [disabled]="(!(undefined !== displayParamObjects && displayParamObjects.length>0))" (click)="browseKeyFile($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg"
-                        type="button">UPLOAD KEY FILE
+                    <input [(ngModel)]="myKeyFileName" type="text" class="input-lg" disabled placeholder="Upload key file from PC. You can upload a key file only if you have some parameters." style="width:85%;">
+                    <button [disabled]="(!(undefined !== displayParamObjects && displayParamObjects.length>0))" (click)="browseKeyFile($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg" type="button">UPLOAD KEY FILE
                     </button>
                 </div>
             </div>
@@ -148,8 +144,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                             </td>
 
                             <td class="mdl-data-table__cell--non-numeric">
-                                <select (ngModelChange)="ruleTypeChanged($event,obj)" class="form-control" id="id4" [(ngModel)]="obj['rule-type']" #objRuleType="ngModel" name="objRuleType{{i}}"
-                                    list="ruleTypes">
+                                <select (ngModelChange)="ruleTypeChanged($event,obj)" class="form-control" id="id4" [(ngModel)]="obj['rule-type']" #objRuleType="ngModel" name="objRuleType{{i}}" list="ruleTypes">
                                 <option *ngFor="let rTyp of obj.ruleTypeValues;" [value]="rTyp"
                                         [selected]="rTyp === obj.rule-type">
                                     {{rTyp}}
@@ -158,8 +153,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                             </td>
 
                             <td>
-                                <select *ngIf="obj.showFilterFields" (ngModelChange)="filetrByFieldChanged($event,obj)" class="form-control" id="id4" [(ngModel)]="obj['response-keys'][3]['key-value']"
-                                    #objfilterByField="ngModel" name="filterByField{{i}}" list="ruleTypes">
+                                <select *ngIf="obj.showFilterFields" (ngModelChange)="filetrByFieldChanged($event,obj)" class="form-control" id="id4" [(ngModel)]="obj['response-keys'][3]['key-value']" #objfilterByField="ngModel" name="filterByField{{i}}" list="ruleTypes">
                                 <option *ngFor="let fTyp of filterByFieldvalues;" [value]="fTyp"
                                         [selected]="fTyp === obj['response-keys'][3]['key-value']">
                                     {{fTyp}}
@@ -167,8 +161,8 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                             </select>
                             </td>
                             <td>
-                                <input *ngIf="obj.showFilterFields" [disabled]="!(obj.enableFilterByValue)" type="text" [value]="obj['response-keys'][4]['key-value']" class="form-control"
-                                    id="id4" [(ngModel)]="obj['response-keys'][4]['key-value']" #objfilterByValue="ngModel" name="objfilterByValue{{i}}" list="ruleTypes">
+                                <input *ngIf="obj.showFilterFields" [disabled]="!(obj.enableFilterByValue)" type="text" [value]="obj['response-keys'][4]['key-value']" class="form-control" id="id4" [(ngModel)]="obj['response-keys'][4]['key-value']" #objfilterByValue="ngModel" name="objfilterByValue{{i}}"
+                                    list="ruleTypes">
                             </td>
 
                             <td class="mdl-data-table__cell--non-numeric">{{obj['response-keys'][0]['key-name']}}

@@ -21,9 +21,6 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-
-/* tslint:disable:no-unused-variable */
-
 import {inject, TestBed} from '@angular/core/testing';
 import {UtilityService} from './utility.service';
 import {NotificationsService} from 'angular2-notifications';
@@ -39,11 +36,16 @@ describe('UtilityService', () => {
         expect(service).toBeTruthy();
     }));
 
+    it('should generate random id', inject([UtilityService],(service: UtilityService) => {
+        let ret = service.randomId();
+
+        expect(ret).not.toBeNull();
+    }));
 
     it('should apply slashes for a string...', inject([UtilityService], (service: UtilityService) => {
-        let text = {'vnf-host-ip-address': '135.21.166.36'};
+        let text = {'vnf-host-ip-address': 'testidaddress'};
 
-        expect(service.appendSlashes(JSON.stringify(text))).toEqual('{\\"vnf-host-ip-address\\":\\"135.21.166.36\\"}');
+        expect(service.appendSlashes(JSON.stringify(text))).toEqual('{\\"vnf-host-ip-address\\":\\"testidaddress\\"}');
     }));
 
 

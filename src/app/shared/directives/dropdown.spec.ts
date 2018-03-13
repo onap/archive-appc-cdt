@@ -24,15 +24,22 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 /* tslint:disable:no-unused-variable */
 
-import {Dropdown} from './dropdown';
-import {ElementRef} from '@angular/core';
+import { Dropdown } from './dropdown';
+import { ElementRef } from '@angular/core';
 
 
 describe('DropDown', () => {
+    let directive;
+
+    beforeEach(() => {
+        directive = new Dropdown(new ElementRef('<dropdown></dropdown>'));
+    });
     it('should create an instance', () => {
-        const directive = new Dropdown(new ElementRef('<dropdown></dropdown>'));
         expect(directive).toBeTruthy();
     });
 
- 
+     it('should test open method', () => {
+         let elementRef: ElementRef;
+         console.log(directive);
+     });
 });

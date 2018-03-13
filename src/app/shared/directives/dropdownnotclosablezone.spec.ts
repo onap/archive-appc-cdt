@@ -21,19 +21,32 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-export const environment = {
-    production: false,
-    //Environment for PROD
-
-    getDesigns: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:dbservice',
-    validateTemplate: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:validator',
-    testVnf: 'https://' + window.location.hostname + ':8443/restconf/operations/appc-provider-lcm:',
-    checkTestStatus: 'https://' + window.location.hostname + ':8443/restconf/operations/appc-provider-lcm:action-status'
+import { TestBed } from '@angular/core/testing';
+import { DropdownNotClosableZone } from './dropdownnotclosablezone';
+import { ElementRef } from '@angular/core';
 
 
-};
+describe('DropdownNotClosableZone', () => {
+    let directive;
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+          declarations: [DropdownNotClosableZone]
+        });
+    });
+
+    beforeEach(() => {
+        directive = new DropdownNotClosableZone(new ElementRef('<dropdown-not-closable-zone></dropdown-not-closable-zone>'));
+    });
+
+    it('should create an instance', () => {
+ 
+        expect(directive).toBeTruthy();
+    });
+
+     it('should test contain method', () => {
+         let el: HTMLElement;
+         let dropdownNotClosabledZone = false;
+
+         
+     });
+});

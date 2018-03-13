@@ -101,6 +101,7 @@ export class TestComponent implements OnInit {
     public enablePollButton: boolean = true;
     public pollCounter = 0;
     public enableCounterDiv: boolean = false;
+    public enableDownload: boolean = false;
 
     constructor(private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService, private nService: NotificationsService, private router: Router, private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private httpUtil: HttpUtilService,
         private utiltiy: UtilityService, private ngProgress: NgProgress) {
@@ -112,20 +113,6 @@ export class TestComponent implements OnInit {
 
     }
 
-    prepareFileName(): any {
-        let fileNameObject: any = this.mappingEditorService.latestAction;
-        return fileNameObject;
-    }
-
-    /*public download() {
-      let stringData: any;
-      stringData = JSON.stringify(this.paramShareService.getSessionParamData());
-      let paramsKeyValueFromEditor: JSON;
-      paramsKeyValueFromEditor = JSON.parse(stringData);
-      let fileName = 'param_' + this.action + '_' + this.type + '_' + "0.0.1" + 'V';
-      this.JSONToCSVConvertor([paramsKeyValueFromEditor], fileName, true);
-
-    }*/
 
     public download() {
         if (this.apiRequest) {
@@ -166,40 +153,6 @@ export class TestComponent implements OnInit {
     }
 
 
-    /*JSONToCSVConvertor(JSONData, fileName, ShowLabel) {
-      //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
-      var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
-
-      var CSV = '';
-
-      //This condition will generate the Label/Header
-      if (ShowLabel) {
-        var testRow = "";
-        for (var index in arrData[0]) {
-
-          CSV += arrData[0][index].name + '\t' + arrData[0][index].value + '\t' + arrData[0][index].source + '\r\n';
-        }
-      }
-
-      if (CSV == '') {
-        alert("Invalid data");
-        return;
-      }
-
-      //Initialize file format you want csv or xls
-      var uri = 'data:application/vnd.ms-excel,' + encodeURI(CSV);
-
-      var link = document.createElement("a");
-      link.href = uri;
-
-      link.download = fileName + ".xls";
-
-      //this part will append the anchor tag and remove it after automatic click
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }*/
-
     excelBrowseOption() {
         $('#excelInputFile').trigger('click');
     }
@@ -209,7 +162,7 @@ export class TestComponent implements OnInit {
         /* wire up file reader */
         $('#filesparam').trigger('click');
         const target: DataTransfer = <DataTransfer>(evt.target);
-
+        this.pollCounter = 0;
         this.uploadFileName = evt.target.files[0].name;
         var fileExtension = this.uploadFileName.substr(this.uploadFileName.lastIndexOf('.') + 1);
 
@@ -241,9 +194,9 @@ export class TestComponent implements OnInit {
                 this.showStatusResponseDiv = false;
                 this.errorResponse = '';
                 this.statusResponse = '';
-
+                this.enableDownload=true;
                 let arrData = (<AOA>(XLSX.utils.sheet_to_json(ws, { blankrows: false })));
-                this.nService.success('Success', 'SpreadSheet uploaded successfully');
+
 
 
                 console.log('Array data ==' + arrData[0]);
@@ -254,50 +207,14 @@ export class TestComponent implements OnInit {
                 this.payload = {};
                 this.oldListName1 = '';
                 this.actionIdentifiers = {};
-                for (var i = 0; i < arrData.length; i++) {
-                    var element = arrData[i];
-                    if (element['TagName'] === 'action') {
-                        this.action = element['Value'];
-                    }
-                    if (element['List Name'] === 'action-identifiers') {
-                        this.vnfId = element['Value'];
-                        var key = element['TagName'];
-                        var value = element['Value'];
-                        if (key && value) {
-                            this.actionIdentifiers[key] = value;
-
-                        }
-                    }
-
-                    if (element['List Name'] === 'payload') {
-                        var listName1 = element['List Name_1'];
-                        var listName2 = element['List Name_2'];
-                        var listName3 = element['List Name_3'];
-                        var key = element['TagName'];
-                        var value = element['Value'];
-                        if (listName1) {
-                            if (this.oldListName1 == '' || (listName1 === this.oldListName1)) {
-                                this.constructTestPayload(listName2, listName3, key, value);
-                                this.payload[listName1] = this.subPayload;
-                            }
-                            else {
-                                this.subPayload = {};
-                                this.constructTestPayload(listName2, listName3, key, value);
-                                this.payload[listName1] = this.subPayload;
-                            }
-                            this.oldListName1 = listName1;
-                        }
-                        else {
-                            this.payload[key] = value;
-                        }
-                    }
-                }
-
-                //console.log("VM JSON===" + JSON.stringify(this.vmPayload))
-                //    console.log('VM payload===' + JSON.stringify(this.payload));
-            };
+                // Refactor
+                this.payload = this.processUploadedFile(arrData);
+                this.uploadedFileResult();
+              };
 
             reader.readAsBinaryString(target.files[0]);
+            
+
         }
         else {
             this.nService.error('Error', 'Incorrect spreadsheet uploaded');
@@ -313,8 +230,81 @@ export class TestComponent implements OnInit {
             this.apiRequest = '';
             this.apiResponse = '';
             this.enableCounterDiv = false;
+            this.enableAbort = false;
+            this.enableTestButton = false;
+            this.enableDownload = false;
         }
     }
+
+processUploadedFile(arrData) {
+        let tempPayload = {};
+        for (var i = 0; i < arrData.length; i++) {
+            var element = arrData[i];
+            if (element['TagName'] === 'action') {
+                this.action = element['Value'];
+            }
+            if (element['List Name'] === 'action-identifiers') {
+                this.vnfId = element['Value'];
+                var key = element['TagName'];
+                var value = element['Value'];
+                if (key && value) {
+                    this.actionIdentifiers[key] = value;
+
+                }
+            }
+          
+            if (element['List Name'] === 'payload') {
+                var listName1 = element['List Name_1'];
+                var listName2 = element['List Name_2'];
+                var listName3 = element['List Name_3'];
+                var key = element['TagName'];
+                var value = element['Value'];
+                if (listName1) {
+                    if (this.oldListName1 == '' || (listName1 === this.oldListName1)) {
+                        this.constructTestPayload(listName2, listName3, key, value);
+                        tempPayload[listName1] = this.subPayload;
+                    }
+                    else {
+                        this.subPayload = {};
+                        this.constructTestPayload(listName2, listName3, key, value);
+                        tempPayload[listName1] = this.subPayload;
+                    }
+                    this.oldListName1 = listName1;
+                }
+                else {
+                    tempPayload[key] = value;
+                }
+            }
+        }
+
+        return tempPayload;
+    }
+
+      uploadedFileResult() {
+        if (this.action && this.actionIdentifiers['vnf-id']) {
+            this.nService.success('Success', 'SpreadSheet uploaded successfully');
+        }
+        else {
+            this.flag = 1;
+            this.oldListName1 = '';
+            this.vmJson = {};
+            this.vnfcJson = {};
+            this.subPayload = {};
+            this.vmPayload = [];
+            this.payload = {};
+            this.action = '';
+            this.actionIdentifiers = {};
+            this.apiRequest = '';
+            this.apiResponse = '';
+            this.enableCounterDiv = false;
+            this.enableAbort = false;
+            this.enableTestButton = false;
+            this.enableDownload = false;
+            this.nService.error("Error", "Please check the contents of the file uploaded")
+        }
+    }
+
+
 
     constructTestPayload(listName2, listName3, key, value) {
         if (listName2 == undefined && listName3 == undefined) {
@@ -373,9 +363,6 @@ export class TestComponent implements OnInit {
     }
 
     testVnf() {
-        //let payload = '{"request-parameters":{"vnf-host-ip-address":"' + this.host + '"},"configuration-parameters":"' + JSON.stringify(this.formattedNameValuePairs) + '"}"';
-        //let payload = '{"request-parameters":{"host-ip-address:"' + this.host + '",port-number:"'+port+'"}}';
-
         this.enableBrowse = false;
         this.enableTestButton = false;
         this.enablePollButton = false;
@@ -412,9 +399,7 @@ export class TestComponent implements OnInit {
 
     pollTestStatus() {
         if (this.requestId && this.actionIdentifiers['vnf-id']) {
-            // console.log("payload==" + JSON.stringify(this.payload))
             let timeStamp = new Date().toISOString();
-            // console.log("timestamp==" + timeStamp)
             let reqId = new Date().getTime().toString();
             let data = {
                 'input': {
@@ -435,20 +420,17 @@ export class TestComponent implements OnInit {
                     'payload': '{"request-id":' + this.requestId + '}'
                 }
             };
-            //this.ngProgress.start();
             this.httpUtil.post(
                 {
                     url: environment.checkTestStatus, data: data
 
                 })
                 .subscribe(resp => {
-                    //  console.log('Response==' + JSON.stringify(resp));
                     this.statusResponse = JSON.stringify(resp);
                     var status = ''
                     var statusReason = ''
                     this.enableCounterDiv = true;
                     this.pollCounter++;
-                    //this.statusResponse=JSON.parse(this.statusResponse)
                     if (resp.output) var timeStamp = resp.output['common-header'].timestamp;
                     if (resp.output.payload) {
                         var payload = resp.output.payload.replace(/\\/g, "")
@@ -466,7 +448,7 @@ export class TestComponent implements OnInit {
                         this.outputTimeStamp = timeStamp;
                         this.status = status;
                         this.statusReason = statusReason;
-                        if (status.toUpperCase() === 'SUCCESS') {
+                        if (status.toUpperCase() === 'SUCCESS' || status.toUpperCase() === 'SUCCESSFUL') {
                             this.subscribe.unsubscribe();
                             this.enablePollButton = true;
                         }
@@ -479,7 +461,7 @@ export class TestComponent implements OnInit {
                         this.showStatusResponseDiv = false;
                     }
 
-                    // this.ngProgress.done();
+                    
                 },
                 error => {
                     this.statusResponse = null;
@@ -493,9 +475,7 @@ export class TestComponent implements OnInit {
         else {
             this.nService.error("Error", "Please enter vnf Id & request Id");
         }
-        // setTimeout(() => {
-        //     this.ngProgress.done();
-        // }, 3500);
+        
     }
 
     getUrlEndPoint(action) {

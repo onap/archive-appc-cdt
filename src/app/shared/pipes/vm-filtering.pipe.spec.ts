@@ -1,4 +1,4 @@
-/*
+/* 
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
@@ -18,28 +18,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 ECOMP is a trademark and service mark of AT&T Intellectual Property.
-============LICENSE_END============================================
-*/
+============LICENSE_END============================================ */
+import {VmFilteringPipe} from './vm-filtering.pipe';
 
-
-/* tslint:disable:no-unused-variable */
-
-import {TableFilterPipe} from './table-filter.pipe';
-
-describe('TableFilterPipe', () => {
+describe('VmFilteringPipe', () => {
     it('create an instance', () => {
-        const pipe = new TableFilterPipe();
+        const pipe = new VmFilteringPipe();
         expect(pipe).toBeTruthy();
     });
-    it('filter table based on input ', () => {
-        const pipe = new TableFilterPipe();
+    it('should return configscaleout values if template id matches',()=>{
+        const pipe = new VmFilteringPipe();
 
-        let data =[
-            {'vnf-type':'vnf1','vnfc-type':'vnfc1','artifact-name':'artf1'},
-            {'vnf-type':'vnf2','vnfc-type':'vnfc2','artifact-name':'artf2'}
-          
+        let objArray = [
+            {action:"Configure","template-id":2,"type":"con"},
+            {action:"ConfigScaleout","template-id":1,"type":"conScale"}
         ]
-        let filter = ['vnf-type', 'vnfc-type', 'artifact-name'];
-        expect(pipe.transform(data,'vnf1',filter).length).toBe(1);
+        expect(pipe.transform(objArray,"ConfigScaleOut",1)[0].type).toBe("conScale")
+
+    });
+    it('should return configure calues',()=>{
+        const pipe = new VmFilteringPipe();
+
+        let objArray = [
+            {action:"Configure","template-id":2,"type":"con"},
+            {action:"ConfigScaleout","template-id":1,"type":"conScale"}
+        ]
+        expect(pipe.transform(objArray,"ConfigScaleOut",2)[0].type).toBe("con")
+
     });
 });

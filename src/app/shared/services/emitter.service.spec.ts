@@ -21,9 +21,6 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-
-/* tslint:disable:no-unused-variable */
-
 import {inject, TestBed} from '@angular/core/testing';
 import {EmitterService} from './emitter.service';
 
@@ -37,4 +34,10 @@ describe('EmitterService', () => {
     it('should ...', inject([EmitterService], (service: EmitterService) => {
         expect(service).toBeTruthy();
     }));
+
+    it('should test static get method', () => {
+        let id = 'login';
+        
+        EmitterService.get(id);
+    })
 });

@@ -39,7 +39,6 @@ export class MappingEditorService {
     paramContent: string = '{}';
 
     KEY_EXPRESSION: string = '\\${\\(.+?\\)}';//new RegExp('${.+?}'); // \${.+?}
-    //SYNC_KEY_EXPRESSION: string = '\\${\\)}';
     KEY_START: string = '${(';
     KEY_MID: string = ')=(';
     KEY_END: string = ')}';
@@ -89,19 +88,16 @@ export class MappingEditorService {
 
     changeNav(object) {
         this._navItem = object;
-        // this._observer.next(object);
         this.referenceNameObjects = object;
     }
 
     changeNavAppData(object) {
         this._navItem = object;
-        // this._observer.next(object);
         this.appDataObject = object;
     }
 
     changeNavDownloadData(object) {
         this._navItem = object;
-        // this._observer.next(object);
         this.downloadDataObject = object;
     }
 
@@ -127,7 +123,7 @@ export class MappingEditorService {
 
     public setParamContent(paramContent: string): void {
         this.paramContent = paramContent;
-        // localStorage["paramContent"]=paramContent;
+        
     }
 
     public initialise(editor: any, editorContent: string, modal: any): void {
@@ -144,15 +140,6 @@ export class MappingEditorService {
 
 
     public initialiseCommands(modal): void {
-        /*  this.editor.commands.addCommand({
-              name: 'annotateCommand',
-              bindKey: { win: 'ENTER', mac: 'ENTER' },
-              exec: (editor: any) => {
-                  this.handleAnnotation(modal);
-              }
-          });*/
-
-
         this.editor.commands.addCommand({
             name: 'keyCompletionCommand',
             bindKey: {win: 'Ctrl-s', mac: 'Command-s'},
@@ -165,7 +152,7 @@ export class MappingEditorService {
             name: 'autoAnnotateCommand',
             bindKey: {win: 'Ctrl-2', mac: 'Command-2'},
             exec: (editor: any) => {
-                this.autoAnnotateDataForParams(this.fileType);
+                this.autoAnnotateDataForParams();
             }
         });
 
@@ -200,9 +187,8 @@ export class MappingEditorService {
         return toAdd;
     }
 
-    public autoAnnotateDataForParams(fileType: any): boolean {
+    public autoAnnotateDataForParams(): boolean {
         this.paramContent = localStorage['paramsContent'];
-        //console.log("Param content=="+ this.paramContent)
         var mergeStatus: boolean = false;
         if (this.paramContent) {
             var paramJson: JSON = JSON.parse(this.paramContent);
@@ -229,51 +215,6 @@ export class MappingEditorService {
         }
         return mergeStatus;
     }
-
-    /*   syncTemplateNames() {
-           if (this.paramContent != '{}') {
-               var paramJson: JSON = JSON.parse(this.paramContent);
-               for (var prop in paramJson) {
-                   let value: string = paramJson[prop]
-                   if (value) {
-                       var occurances = this.editor.findAll(value, { regExp: false });
-                       var ranges = this.editor.getSelection().getAllRanges();
-                       if (ranges) {
-                           for (var r = 0; r < ranges.length; r++) {
-                               let selectedRange: any = ranges[r];
-                               let selectedWord: string = this.editor.session.getTextRange(selectedRange);
-                               let prefixSuffixselectedWord: string = this.editor.session.getTextRange(this.getStartBeforeAfterSelection(selectedRange, 1, 1));
-                               if (selectedWord && this.checkApplied(selectedRange)) {
-                                   let replaceWord: any = this.KEY_START + selectedWord + this.KEY_MID + prop + this.KEY_END;
-                                   this.editor.session.replace(selectedRange, replaceWord);
-                               }
-                           }
-                       }
-                   }
-               }
-               for (var prop in paramJson) {
-                   var occurances = this.editor.findAll(prop, { regExp: false });
-                   var ranges = this.editor.getSelection().getAllRanges();
-                   if (ranges) {
-                       for (var r = 0; r < ranges.length; r++) {
-                           let selectedRange: any = ranges[r];
-                           let selectedWord: string = this.editor.session.getTextRange(selectedRange);
-                           if (selectedWord && this.checkApplied(selectedRange)) {
-                               let replaceWord: any = '(' + paramJson[prop] + this.KEY_MID + selectedWord + ')';
-                               this.editor.session.replace(selectedRange, replaceWord);
-                           }
-                       }
-                   }
-                   else {
-                       this.replaceNamesWithBlankValues();
-                   }
-               }
-           }
-           else {
-               this.replaceNamesWithBlankValues()
-           }
-       }*/
-
 
     checkComments(selectedRange: any) {
         var tempStartColumn = selectedRange.start.column;
@@ -394,35 +335,14 @@ export class MappingEditorService {
         this.refreshEditor();
     }
 
-    /* public handleAnnotation(modal): void {
-         let selectedWord: string = this.editor.session.getTextRange(this.editor.selectionRange);
-         this.setSelectedWord(selectedWord);
-         modal.open();
-
-        /* let selectedWord: string = this.editor.session.getTextRange(this.editor.selectionRange);
-         if (selectedWord) {
-             if (selectedWord.startsWith('${(')) {
-                 var replaceWord = selectedWord.substring(3, selectedWord.indexOf(')=('));
-                 this.editor.session.replace(this.editor.session.selection.getRange(), replaceWord);
-             } else {
-                 let mappingKey = this.getKeysForValues(selectedWord);
-                 var replaceWord = '${(' + selectedWord + ')=()}';
-                 this.editor.session.replace(this.editor.session.selection.getRange(), replaceWord);
-             }
-         }
-         this.refreshEditor();
- }*/
-
     public checkMethodCall(modal): void {
-//this.handleAnnotation(modal)
+    //this.handleAnnotation(modal)
     }
 
     public refreshEditor(): void {
         if (this.editor) {
 
-            // this.replaceNamesWithBlankValues();
             var occurances = this.editor.findAll(this.KEY_EXPRESSION, {regExp: true});
-            //console.log("Occurances from save" + occurances)
             var ranges = this.editor.getSelection().getAllRanges();
             if (ranges) {
                 this.refreshParams(ranges);
@@ -435,8 +355,7 @@ export class MappingEditorService {
             }
             this.refreshMarker();
         }
-        // console.log("Param data from refresh editor=="+this.paramData)
-
+        
     }
 
     replaceNamesWithBlankValues() {
@@ -446,23 +365,19 @@ export class MappingEditorService {
             if (ranges) {
                 for (var r = 0; r < ranges.length; r++) {
                     let selectedRange: any = ranges[r];
-                    // console.log("Selected range == " + selectedRange)
                     let selectedWord: string = this.editor.session.getTextRange(selectedRange);
                     let specialKeys = (selectedWord.substring(2, selectedWord.length - 1)).match(this.checkSpecialCharsReg);
-                    // console.log("Selected word == " + selectedWord.length)
-                    //if (!selectedWord.startsWith('<') || !selectedWord.startsWith('{')) {
                     if (selectedWord && this.checkAppliedForNamesOnly(selectedRange) && !specialKeys) {
                         let replaceWord: any = this.KEY_START + '' + this.KEY_MID + selectedWord.substring(2, selectedWord.length - 1) + this.KEY_END;
                         this.editor.session.replace(selectedRange, replaceWord);
                     }
-                    // }
+                   
                 }
             }
         }
     }
 
     public refreshParams(ranges: any): void {
-        // console.log("This param content==="+ this.paramContent);
         var paramData = [];
         if (this.paramContent === undefined) this.paramContent = '{}';
         if (this.editor && ranges) {
@@ -470,17 +385,12 @@ export class MappingEditorService {
             this.hasErrorCode = false;
             for (var r = 0; r < ranges.length; r++) {
                 let keyValue: string = this.editor.session.getTextRange(ranges[r]);
-                //console.log("keyValues==="+keyValue)
                 if (keyValue && keyValue.startsWith(this.KEY_START) && keyValue.endsWith(this.KEY_END) && keyValue.includes(this.KEY_MID)) {
                     let key: string = keyValue.substring(keyValue.indexOf(this.KEY_MID) + this.KEY_MID_LENGTH, keyValue.indexOf(this.KEY_END));
                     let value: string = keyValue.substring(this.KEY_START_LENGTH, keyValue.indexOf(this.KEY_MID));
                     let specialKeys = key.match(this.checkSpecialCharsReg);
-                    //console.log("Special keys=="+specialKeys)
-                    //console.log("Keys=="+key+",values=="+value);
                     if (specialKeys && specialKeys.length) {
-                        // this.paramData = [];
-                        //  this.hasErrorCode = true;
-                        //  break;
+                      
                     } else {
                         if (this.fromScreen === 'TemplateScreen') {
                             if (key) {
@@ -506,7 +416,6 @@ export class MappingEditorService {
                     }
                 }
             }
-            // console.log("Param data=="+ JSON.stringify(paramData))
             this.paramData = paramData;
             this.paramContent = JSON.stringify(paramJson);
 

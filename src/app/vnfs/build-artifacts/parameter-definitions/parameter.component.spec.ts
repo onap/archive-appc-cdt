@@ -119,21 +119,6 @@ describe('ParameterComponent', () => {
     expect(component.ngAfterViewInit()).toEqual("TEST PD INFORMATION");
   }));
 
-/*
-   it('should read file key file content...', () => {
-    let input = {"__zone_symbol__changefalse":[{"type":"eventTask","state":"running","source":"HTMLInputElement.addEventListener:change","zone":"angular","runCount":2}]};
-    expect(component.fileChange(input, 'keyfile'));
-  });
-
-let content = new Blob(["PARAMVALUE|SOURCE|RULETYPE|KEY1|VALUE1|KEY2|VALUE2|KEY3|VALUE3\nvalue1|INSTAR|interface_ip_address|UniqueKeyName1|addressfqdn123|UniqueKeyValue|m001ssc001p1n001v001|FieldKeyName|ipaddress_v4\nvalue2|INSTAR|interface_ip_address|UniqueKeyName2|addressfqdnAsgar1|UniqueKeyValue|m001ssc001p1n001v002|FieldKeyName|ipaddress_v4"]
-{includes:()});
-let file = new File(content, "test.txt");
-  it('should read file PD file content...', () => {
-   let input = {"__zone_symbol__changefalse":[{"type":"eventTask","state":"running","source":"HTMLInputElement.addEventListener:change","zone":"angular","runCount":2}]};
-    
-    expect(component.fileChange(input, 'pdfile'));
-  });
-  */
 
   it('should set the ruletypes for source A&AI...', inject([MappingEditorService, ParamShareService], (mappingEditorService: MappingEditorService, paramShareService:ParamShareService) => {
     let obj = {"name":"name1","type":"ipv4-address","description":"xxx","required":"true","default":null,"source":"A&AI","rule-type":null,"request-keys":[{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null}],"response-keys":[{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null},{"key-name":null,"key-value":null}],"ruleTypeValues":[null]}

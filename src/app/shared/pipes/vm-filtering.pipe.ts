@@ -18,22 +18,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 ECOMP is a trademark and service mark of AT&T Intellectual Property.
-============LICENSE_END============================================
-*/
+============LICENSE_END============================================ */
+import {Pipe, PipeTransform} from '@angular/core';
 
+@Pipe({name: 'vmFiltering', pure: false})
+export class VmFilteringPipe implements PipeTransform {
 
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-export const environment = {
-    production: false,
-    //Environment for PROD
+    transform(value: any, action: any, templateId): any {
 
-    getDesigns: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:dbservice',
-    validateTemplate: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:validator',
-    testVnf: 'https://' + window.location.hostname + ':8443/restconf/operations/appc-provider-lcm:',
-    checkTestStatus: 'https://' + window.location.hostname + ':8443/restconf/operations/appc-provider-lcm:action-status'
+        if (action == 'ConfigScaleOut') {
+            let x = value.filter(obj => {
+                //return value
+                return obj['template-id'] == templateId;
+            });
 
+            return x;
+        } else {
+            return value;
 
-};
+        }
+    }
+
+}

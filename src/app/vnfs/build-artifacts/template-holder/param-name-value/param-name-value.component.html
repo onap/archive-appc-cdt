@@ -22,8 +22,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 -->
 
 <simple-notifications [options]="options"></simple-notifications>
-<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'"
-    [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'" [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
 
 <tabs>
     <tab [tabTitle]="'Template Configuration'">
@@ -69,6 +68,9 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                         <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                             <label>Protocol</label><input class="form-control" type="text" disabled value="{{protocol}}" />
                         </div>
+                        <div *ngIf="(action === 'ConfigScaleOut')" class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                            <label>Template Identifier</label><input class="form-control" type="text" disabled value="{{identifier}}" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,8 +85,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 </div>
             </div>
 
-            <input type="file" id="filesparam" style="visibility:hidden;" class="form-control-file" (change)="fileParamChange(myInputParam)" #myInputParam placeholder="Upload file..."
-            />
+            <input type="file" id="filesparam" style="visibility:hidden;" class="form-control-file" (change)="fileParamChange(myInputParam)" #myInputParam placeholder="Upload file..." />
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col-md-12 text-right">
                     <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="retrieveNameValueFromAppc()">Retrieve Name/Value from APPC
@@ -95,24 +96,13 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
             </div>
         </div>
         <hr>
-        <!--Commenting out 1712 changes here-->
-        <!--<div class="col-md-12" [hidden]="!showMappingDownloadDiv"><label>Download Name/Value pair as : </label>
- <select class="form-control col-md-3" [(ngModel)]="mapppingDownloadType" (ngModelChange)="onDownloadParameter()"> 
-                <option value="">Select</option> 
-                <option value="Json">JSON</option> 
-                <option value="Xls">XLS</option> 
-            </select>
-</div>-->
-
+      
         <div class="col-md-12"></div>
         <div><label for="textAreaGeneratedTemplate">
             <div class="mdl-card__title-text">Param Name Value List</div>
             <div><font size="1">(Please click anywhere on the editor to see the synced name value pairs)</font></div>
         </label>
-            <!-- <ace-editor [(text)]="this.artifactRequest.paramsContent" [theme]="'chrome'" [mode]="'velocity'" (textChanged)="onParamChanges($event)" [options]="{maxLines: 'Infinity', fontSize: '13pt'}"
-                style="min-height: 500px; width: fit-content;"></ace-editor> -->
-            <ace-editor [(text)]="this.artifactRequest.paramsContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" (textChanged)="onParamChanges($event)"
-                [options]="{maxLines: 'Infinity', fontSize: '13pt' }" style="min-height: 500px; width: 100%"></ace-editor>
+            <ace-editor [(text)]="this.artifactRequest.paramsContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" (textChanged)="onParamChanges($event)" [options]="{maxLines: 'Infinity', fontSize: '13pt' }" style="min-height: 500px; width: 100%"></ace-editor>
         </div>
 
     </tab>
