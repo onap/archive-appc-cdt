@@ -22,36 +22,31 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 -->
 
 <simple-notifications [options]="options"></simple-notifications>
-<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'"
-    [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'" [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
 <form class="" novalidate #userForm="ngForm" (ngSubmit)="save(userForm.value,userForm.valid)">
     <div class="card">
-
         <div class="card-block" style="    border-top: 5px solid #6ab344; border-top-right-radius: 7px;border-top-left-radius: 7px;">
             <div class="row" style="padding: 15px 25px">
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>Action*</label>
-                    <select class="form-control" required id="cmbAction" [(ngModel)]="referenceDataObject.action" (ngModelChange)="updateSessionValues($event,'action');actionChange($event,content,userForm);"
-                        #action="ngModel" name="action">
+                    <select class="form-control" required id="cmbAction" [(ngModel)]="referenceDataObject.action" (ngModelChange)="updateSessionValues($event,'action');actionChange($event,content,userForm);" #action="ngModel" name="action">
                         <option [value]="actionType"
                                 [ngClass]="{'selectedAction':selectedActions.indexOf(actionType)>-1}"
                                 [selected]="referenceDataObject.action===actionType"
                                 *ngFor="let actionType of actions ">{{actionType}}
                         </option>
                     </select>
-
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>VNF Type* </label>
-                    <input type="text" [readonly]="updateParams !='undefined' || vnfParams?.vnfType " class="form-control" id="txtVnfType" required [(ngModel)]="referenceDataObject['scope']['vnf-type']"
-                        (ngModelChange)="updateSessionValues($event,'vnfType')" #vnftype="ngModel" name="vnftype">
+                    <input type="text" [readonly]="updateParams !='undefined' || vnfParams?.vnfType " class="form-control" id="txtVnfType" required [(ngModel)]="referenceDataObject['scope']['vnf-type']" (ngModelChange)="updateSessionValues($event,'vnfType')" #vnftype="ngModel"
+                        name="vnftype">
                     <span class="error-message" [hidden]="vnfParams?.vnfType || vnftype.valid || (vnftype.pristine && !userForm.submitted)">Required Field</span>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>VNFC Type</label>
-                    <input type="text" class="form-control" [disabled]="nonConfigureAction || updateParams !='undefined' || vnfParams?.vnfType" id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']"
-                        (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')" #vnfcType="ngModel" name="vnfcType"
-                        disabled="disabled">
+                    <input type="text" class="form-control" [disabled]="nonConfigureAction || updateParams !='undefined' || vnfParams?.vnfType" id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']" (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')"
+                        #vnfcType="ngModel" name="vnfcType" disabled="disabled">
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>Device Protocol*</label>
@@ -60,9 +55,8 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                                 *ngFor="let device of deviceProtocols">{{device}}
                         </option>
                     </select>
-
                 </div>
-                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="referenceDataObject['action']== 'ConfigScaleOut'">
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="isConfigScaleOut">
                     <label>Template Identifier</label>
                     <select class="form-control" required id="tempIdentifier" (ngModelChange)="dataModified()" [(ngModel)]="templateIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
                         <option [value]="val" *ngFor="let val of referenceDataObject['template-id-list']">{{val}}
@@ -90,8 +84,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <div class="input-group">
                     <input id="excelInputFile" #myInput1 class="file" type="file" (change)="upload($event)">
                     <input [(ngModel)]="uploadFileName" type="text" class="input-lg" disabled placeholder="Upload VM Capabilities File" name="uploadFileName" style="width:80%">
-                    <button (click)="excelBrowseOption($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg"
-                        type="button">Upload VM Capabilities File
+                    <button (click)="excelBrowseOption($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg" type="button">Upload VM Capabilities File
                     </button>
                 </div>
             </div>
@@ -131,11 +124,10 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                                 </div>
                                 <div *ngIf="actionHealthCheck && referenceDataObject['device-protocol'] =='REST' " class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                                     <label>Context Url</label>
-                                    <input type="text" class="form-control" id="txtIpaddress" [(ngModel)]="referenceDataObject['context-url']" name="portNumber">
+                                    <input type="text" class="form-control" id="txtIpaddress" [(ngModel)]="referenceDataObject['url']" name="contextUrl">
                                 </div>
                             </div>
-                            <div class="card-block" *ngIf="(referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action ==''  || referenceDataObject.action ==undefined)"
-                                style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
+                            <div class="card-block" *ngIf="(referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action ==''  || referenceDataObject.action ==undefined)" style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
                                 <div class="col-12">
                                     <h5 style="margin-top: 0.5rem;font-family: Roboto"> VNFC Information
                                         <span class="pull-right">
@@ -164,13 +156,13 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                                 </div>
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
                                     <label style="font-size:12px;">Group Notation Type</label>
-                                    <select class="form-control" id="cmbGroupType" [(ngModel)]="Sample['group-notation-type']" name="sampleGroupNotation">
+                                    <select class="form-control" id="cmbGroupType" [(ngModel)]="Sample['group-notation-type']" name="sampleGroupNotation" (change)="resetGroupNotation()">
                                         <option [value]="type" *ngFor="let type of groupAnotationType">{{type}}</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
                                     <label style="font-size:12px;">Group Notation Value</label>
-                                    <input type="text" class="form-control" id="txtGroupValue" [(ngModel)]="Sample['group-notation-value']" name="sampleGroupValue">
+                                    <input type="text" class="form-control" [readonly]="disableGrpNotationValue" id="txtGroupValue" [(ngModel)]="Sample['group-notation-value']" name="sampleGroupValue">
                                 </div>
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
                                     <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent clear-btn" (click)="clearVnfcData()">Clear VNFC Info
@@ -184,22 +176,19 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6">
                                     <div class="form-group">
-                                        <input type="text" placeholder="Number of VM(s)" class="form-control" id="txtVmnumber22" [(ngModel)]="refernceScopeObj.from" (ngModelChange)="numberValidation($event)"
-                                            name="txtNumber23">
+                                        <input type="text" placeholder="Number of VM(s)" class="form-control" id="txtVmnumber22" [(ngModel)]="refernceScopeObj.from" (ngModelChange)="numberValidation($event)" name="txtNumber23">
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 text-right">
                                     <div class="form-group">
-                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="button" [disabled]="!refernceScopeObj.from || !numberOfVmTest"
-                                            (click)="addVms()">Add VM Information
+                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="button" [disabled]="!refernceScopeObj.from || !numberOfVmTest" (click)="addVms()">Add VM Information
                                         </button>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="referenceDataObject.vm?.length>0">
                                 <div class="row" *ngFor="let noOfvm of referenceDataObject.vm | vmFiltering:referenceDataObject?.action:templateIdentifier; let j=index">
-                                    <div *ngIf="((referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ))"
-                                        class="col-12">
+                                    <div *ngIf="((referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ))" class="col-12">
                                         <div class="row" *ngFor="let item of noOfvm.vnfc; let i=index">
                                             <div class="col-md-12" *ngIf="i==0">
                                                 <h5 class="headlinesInBold">VM Number: {{j+1}}</h5>
@@ -319,7 +308,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
             <div class="modal-body">
                 <div>
                     <div>
-                        <input name="test" type="text" class="" [(ngModel)]="templateId" placeholder="identifier">
+                        <input pattern=".*[^ ].*" name="test" type="text" class="" [(ngModel)]="templateId" placeholder="identifier">
                     </div>
                     <div>
                         <button style="padding: 10px" class="btn btn-primary" data-dismiss="modal" (click)="addToIdentDrp()">submit

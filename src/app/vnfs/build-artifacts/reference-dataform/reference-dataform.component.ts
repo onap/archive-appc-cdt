@@ -61,6 +61,7 @@ export class ReferenceDataformComponent implements OnInit {
     numberTest: RegExp = /^[^.a-z]+$/;
     public numberOfVmTest: boolean = true;
     public tempAllData = [];
+    disableGrpNotationValue: boolean;
     public noRefData = false;
     public disableRetrieve = false;
     public getRefStatus = false;
@@ -152,8 +153,9 @@ export class ReferenceDataformComponent implements OnInit {
     public vnfParams: any;
     public firstArrayElement = [];
     public remUploadedDataArray = [];
+    isConfigScaleOut = false
 
-    constructor (private buildDesignComponent: BuildDesignComponent, private httpUtils: HttpUtilService, private route: Router, private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService,
+    constructor(private buildDesignComponent: BuildDesignComponent, private httpUtils: HttpUtilService, private route: Router, private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService,
         private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private modalService: NgbModal, private nService: NotificationsService, private ngProgress: NgProgress) {
     }
 
@@ -176,8 +178,11 @@ export class ReferenceDataformComponent implements OnInit {
         let cacheData = this.mappingEditorService.referenceNameObjects;
         if (cacheData != undefined && cacheData != null && cacheData.length > 0) {
             this.tempAllData = cacheData;
+            // console.log("latest action")
+            // console.log(this.mappingEditorService.latestAction)
             if (this.mappingEditorService.latestAction != undefined) {
                 this.referenceDataObject = this.mappingEditorService.latestAction;
+                this.toggleIdentifier(this.referenceDataObject.action);
                 //this.referenceDataObject['template-id-list'] = this.mappingEditorService.identifier
                 //use these commented objects to be used in template and pd pages
                 //this.templateIdentifier = this.mappingEditorService.identifier
@@ -206,6 +211,14 @@ export class ReferenceDataformComponent implements OnInit {
         this.templateIdentifier = this.mappingEditorService.identifier
         //this.tempAllData = [];
     }
+    toggleIdentifier(data) {
+        if (data == 'ConfigScaleOut') {
+            this.isConfigScaleOut = true
+
+        } else {
+            this.isConfigScaleOut = false
+        }
+    }
 
     //to retrive the data from appc and assign it to the vaiables, if no data display the message reterived from the API
     getArtifact() {
@@ -232,7 +245,7 @@ export class ReferenceDataformComponent implements OnInit {
                     let artifactInfo = JSON.parse(resp.output.data.block).artifactInfo[0];
                     let reference_data = JSON.parse(artifactInfo['artifact-content'])['reference_data'][0];
                     this.referenceDataObject = reference_data;
-                    console.log('reference data obj==' + JSON.stringify(this.referenceDataObject));
+                    // console.log('reference data obj==' + JSON.stringify(this.referenceDataObject));
                     this.refernceScopeObj.sourceType = this.referenceDataObject['scopeType'];
                     this.mappingEditorService.getReferenceList().push(JSON.parse(artifactInfo['artifact-content']));
                     this.tempAllData = JSON.parse(artifactInfo['artifact-content'])['reference_data'];
@@ -263,7 +276,7 @@ export class ReferenceDataformComponent implements OnInit {
                             }*/
                         ];
                     }
-                    console.log('tempalldata===' + JSON.stringify(this.tempAllData));
+                    // console.log('tempalldata===' + JSON.stringify(this.tempAllData));
                 } else {
                     this.nService.success('Status', 'Sorry !!! I dont have any artifact Named : ' + (JSON.parse(payload))['artifact-name']);
                 }
@@ -288,11 +301,11 @@ export class ReferenceDataformComponent implements OnInit {
         this.firstArrayElement = [];
         this.uploadFileName = '';
         // this.tempAllData = [];
-        console.log('temp all data===' + JSON.stringify(this.tempAllData));
+        // console.log('temp all data===' + JSON.stringify(this.tempAllData));
     }
 
     numberValidation(event: any) {
-        // console.log(this.numberTest.test(event));
+        // // console.log(this.numberTest.test(event));
         if (this.numberTest.test(event) && event != 0) {
             this.numberOfVmTest = true;
         }
@@ -310,79 +323,7 @@ export class ReferenceDataformComponent implements OnInit {
         }
     }
 
-    checkConfigure(data) {
-        if (data == null) {
-            return;
-        }
-        if (this.fileUploaded && this.actionType == 'update') {
-            let refObject = this.uploadedData.find(obj => {
-                return obj.action == data;
-            });
-            this.referenceDataObject = JSON.parse(JSON.stringify(refObject));
-            if (data == 'HealthCheck') {
-                //show additional fileds user name port number and others
-                this.actionHealthCheck = true;
-            } else {
-                this.actionHealthCheck = false;
-                if (data == 'StartApplication' || data == 'StopApplication') {
-                    this.disableVnftype = true;
-                } else {
-
-                    this.otherActions = true;
-                }
-            }
-            return;
-        }
-        this.buildDesignComponent.updateAccessUpdatePages(data, this.mappingEditorService.getReferenceList());
-        let configureObject = _.find(this.tempAllData, function (obj) {
-            return obj['action'] == 'Configure';
-        });
-        if (data != 'Configure') {
-            if (!configureObject) {
-                this.allowAction = false;
-                $('#messageModal').modal();
-            } else {
-                this.allowAction = true;
-            }
-            if (this.referenceDataObject.action == 'Configure') {
-                this.allowAction = true;
-            }
-        }
-        //dont allow any action second time 
-        let y = _.find(this.tempAllData, function (obj) {
-            return obj['action'] == data;
-        });
-        if (y) {
-            this.actionExist = true;
-            $('#messageModal').modal();
-        } else {
-            this.actionExist = false;
-        }
-        //populate configure values for other actions
-        if (data != 'Configure' && configureObject != undefined) {
-            if (data == 'HealthCheck') {
-                //show additional fileds user name port number and others
-                this.actionHealthCheck = true;
-            } else {
-                this.actionHealthCheck = false;
-                if (data == 'StartApplication' || data == 'StopApplication') {
-                    this.disableVnftype = true;
-                } else {
-                    this.otherActions = true;
-                }
-            }
-            this.referenceDataObject.scope['vnf-type'] = configureObject['scope']['vnf-type'];
-            this.referenceDataObject.scope['vnfc-type'] = configureObject['scope']['vnfc-type'];
-            this.referenceDataObject['device-protocol'] = configureObject['device-protocol'];
-            this.refernceScopeObj['sourceType'] = configureObject['scopeType'];
-        } else {
-            this.actionHealthCheck = false;
-            this.otherActions = false;
-            this.disableVnftype = false;
-        }
-        //set default values for further actions 
-    }
-
+    
     addVnfcData(vmNumber: number) {
         var newObj = {
             'vnfc-instance': this.referenceDataObject.vm[vmNumber].vnfc.length + 1,
@@ -421,7 +362,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     //Reference object to create reference data
     prepareReferenceObject() {
-        // console.log("this temp all data before=="+ JSON.stringify(this.tempAllData))
+        // // console.log("this temp all data before=="+ JSON.stringify(this.tempAllData))
 
         this.referenceDataObject['artifact-list'] = [];
         let scopeName = '';
@@ -477,8 +418,6 @@ export class ReferenceDataformComponent implements OnInit {
         } else {
             let identifiers = this.referenceDataObject['template-id-list'];
             if (identifiers) {
-
-
                 for (var x = 0; x < identifiers.length; x++) {
                     pd_fileName = this.referenceDataObject.action + '_' + scopeName + '_' + '0.0.1V_' + identifiers[x] + '.yaml';
                     config_template_fileName = this.referenceDataObject.action + '_' + scopeName + '_' + '0.0.1V_' + identifiers[x] + '.' + extension;
@@ -510,10 +449,15 @@ export class ReferenceDataformComponent implements OnInit {
         let action = this.referenceDataObject.action;
         let configureObject = (newObj.action == 'Configure');
         let ConfigScaleOut = (newObj.action == 'ConfigScaleOut');
-        //delete VM's if selected action is configure.
+        //delete VM's if selected action is not configure.
         if (!ConfigScaleOut && !configureObject && this.tempAllData.length != 0) {
             //  delete newObj.vm
-            newObj.vm = [];
+
+            if (ConfigScaleOut) {
+                // 
+            } else {
+                newObj.vm = [];
+            }
             //this.tempAllData.push(newObj);
         } else {
             if (ConfigScaleOut) {
@@ -535,7 +479,7 @@ export class ReferenceDataformComponent implements OnInit {
             return obj['action'] == action;
         });
         if (newObj.action != 'HealthCheck') {
-            delete newObj['context-url'];
+            delete newObj['url'];
         }
         if (actionObjIndex > -1) {
             this.tempAllData[actionObjIndex] = newObj;
@@ -546,6 +490,19 @@ export class ReferenceDataformComponent implements OnInit {
                 this.tempAllData.push(newObj);
                 this.mappingEditorService.saveLatestAction(newObj);
                 this.mappingEditorService.saveLatestIdentifier(this.templateIdentifier);
+            }
+        }
+        //reset currentform vms based on action
+        if (this.currentAction == "ConfigScaleOut") {
+            //this.referenceDataObject.vm = []
+
+            let ConfigScaleOutIndex = this.tempAllData.findIndex(obj => {
+                return obj['action'] == this.currentAction;
+            });
+            if (ConfigScaleOutIndex > -1) {
+                this.referenceDataObject.vm = this.tempAllData[ConfigScaleOutIndex].vm
+            } else {
+                this.referenceDataObject.vm = []
             }
         }
         //Creating all action block to allow mulitple actions at once
@@ -566,14 +523,14 @@ export class ReferenceDataformComponent implements OnInit {
         } else {
             this.tempAllData.push(allAction);
         }
-        console.log('This uploaded array===' + JSON.stringify(this.uploadedDataArray));
+        // console.log('This uploaded array===' + JSON.stringify(this.uploadedDataArray));
         if (this.uploadedDataArray && this.uploadedDataArray != undefined && this.uploadedDataArray.length != 0) {
             /*for (var i = 0; i < this.uploadedDataArray.length; i++) {
                 var actionData = this.uploadedDataArray[i][0];
-               // console.log("Action data=="+ actionData);
+               // // console.log("Action data=="+ actionData);
                 for (var j = 0; j < this.tempAllData.length; j++) {
-                    //console.log("Actions from temp all data=="+ this.tempAllData[j].action)
-                    //console.log("Matched=="+ (actionData === this.tempAllData[j].action))
+                    //// console.log("Actions from temp all data=="+ this.tempAllData[j].action)
+                    //// console.log("Matched=="+ (actionData === this.tempAllData[j].action))
                     if (actionData === this.tempAllData[j].action) {
                         this.tempAllData.splice(j,1);
                         
@@ -592,7 +549,7 @@ export class ReferenceDataformComponent implements OnInit {
                         result = this.checkIfelementExistsInArray(this.tempAllData[i].action, this.actions);
                     }
                     if (!result) {
-                        console.log('Removing VM action==' + this.tempAllData[i].action);
+                        // console.log('Removing VM action==' + this.tempAllData[i].action);
                         this.tempAllData.splice(i, 1);
                         i = i - 1;
                     }
@@ -601,8 +558,8 @@ export class ReferenceDataformComponent implements OnInit {
             }
             this.addVmCapabilitiesData();
         }
-        // console.log("this temp all data after=="+ JSON.stringify(this.tempAllData))
-        //console.log("temp all data from save to appc=="+JSON.stringify(this.tempAllData))
+        // // console.log("this temp all data after=="+ JSON.stringify(this.tempAllData))
+        //// console.log("temp all data from save to appc=="+JSON.stringify(this.tempAllData))
         this.mappingEditorService.getReferenceList().push(JSON.parse(JSON.stringify(this.referenceDataObject)));
         this.buildDesignComponent.updateAccessUpdatePages(this.referenceDataObject.action, this.mappingEditorService.getReferenceList());
         this.mappingEditorService.changeNav(this.tempAllData);
@@ -610,13 +567,13 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     public checkIfelementExistsInArray(element, array) {
-        //console.log("Element==" + element)
+        //// console.log("Element==" + element)
         var result: boolean = false;
 
         array.forEach(function (item) {
-            // console.log("Item==" + item)
+            // // console.log("Item==" + item)
             if (element === item) {
-                console.log('Element==' + element + 'Item==' + item);
+                // console.log('Element==' + element + 'Item==' + item);
                 result = true;
             }
         }
@@ -625,15 +582,15 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     upload(evt: any) {
-        /*  console.log("This uploaded array==" + JSON.stringify(this.uploadedDataArray))
-          // console.log("This template data before==" + JSON.stringify(this.tempAllData))
+        /*  // console.log("This uploaded array==" + JSON.stringify(this.uploadedDataArray))
+          // // console.log("This template data before==" + JSON.stringify(this.tempAllData))
           if (this.uploadedDataArray && this.uploadedDataArray != undefined && this.uploadedDataArray.length!=0) {
               /*  for (var i = 0; i < this.uploadedDataArray.length; i++) {
                     var action = this.uploadedDataArray[i][0];
                     for (var j = 0; j < this.tempAllData.length; j++) {
                         if (action === this.tempAllData[j].action) {
                             this.tempAllData.splice(j);
-                            console.log("This template data===" + this.tempAllData[j]);
+                            // console.log("This template data===" + this.tempAllData[j]);
                         }
                     }
                 }
@@ -643,18 +600,18 @@ export class ReferenceDataformComponent implements OnInit {
                       var result = this.checkIfelementExistsInArray(this.tempAllData[i].action, this.actions);
                       if (this.tempAllData[i].action === "AllAction") result = true;
                       if (!result) {
-                          console.log("Removing VM action==" + this.tempAllData[i].action)
+                          // console.log("Removing VM action==" + this.tempAllData[i].action)
                           this.tempAllData.splice(i, 1);
                       }
      
                   }
               }
           }
-          // console.log("This template data after==" + JSON.stringify(this.tempAllData))
+          // // console.log("This template data after==" + JSON.stringify(this.tempAllData))
           /* wire up file reader */
         const target: DataTransfer = <DataTransfer>(evt.target);
 
-        //console.log("filename========" + evt.target.files[0].name)
+        //// console.log("filename========" + evt.target.files[0].name)
         this.uploadFileName = evt.target.files[0].name;
         var fileExtension = this.uploadFileName.substr(this.uploadFileName.lastIndexOf('.') + 1);
         if (target.files.length != 1) {
@@ -665,19 +622,19 @@ export class ReferenceDataformComponent implements OnInit {
             reader.onload = (e: any) => {
                 /* read workbook */
                 const bstr = e.target.result;
-                //      console.log("print 1---" + bstr);
+                //      // console.log("print 1---" + bstr);
                 const wb = XLSX.read(bstr, { type: 'binary' });
-                //    console.log("print 2---" + JSON.stringify(wb));
+                //    // console.log("print 2---" + JSON.stringify(wb));
                 /* grab first sheet */
                 const wsname = wb.SheetNames[0];
-                //  console.log("Name:---" + wsname);
+                //  // console.log("Name:---" + wsname);
                 const ws = wb.Sheets[wsname];
 
                 /* save data */
 
                 let arrData = (<AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 })));
-                //console.log("row======" + (XLSX.utils.sheet_to_json(ws, { header: 1 })).toString())
-                // console.log("Array data---" + JSON.stringify(arrData));
+                //// console.log("row======" + (XLSX.utils.sheet_to_json(ws, { header: 1 })).toString())
+                // // console.log("Array data---" + JSON.stringify(arrData));
                 this.uploadedDataArray = arrData;
                 this.firstArrayElement = arrData[0];
                 var remUploadedDataArray = arrData;
@@ -693,7 +650,7 @@ export class ReferenceDataformComponent implements OnInit {
                 }
             };
             reader.readAsBinaryString(target.files[0]);
-            console.log('TARGET files---' + JSON.stringify(evt.target));
+            // console.log('TARGET files---' + JSON.stringify(evt.target));
         }
         else {
             this.nService.error('Error', 'Incorrect VM capabilities file uploaded');
@@ -705,10 +662,10 @@ export class ReferenceDataformComponent implements OnInit {
         for (var i = 0; i < this.uploadedDataArray.length; i++) {
             var vnfcFuncCodeArray = [];
             var data = this.uploadedDataArray[i];
-            // console.log("Data is "+ JSON.stringify(data))
-            //console.log("Data length: "+ data.length)
+            // // console.log("Data is "+ JSON.stringify(data))
+            //// console.log("Data length: "+ data.length)
             for (var j = 1; j < data.length; j++) {
-                // console.log("Data " +j +" is "+ JSON.stringify(data[j]))
+                // // console.log("Data " +j +" is "+ JSON.stringify(data[j]))
                 if (data[j] != undefined) {
                     if (data[j].toUpperCase() === 'Y') {
                         vnfcFuncCodeArray.push(this.firstArrayElement[j]);
@@ -814,9 +771,9 @@ export class ReferenceDataformComponent implements OnInit {
             if (valid) {
 
                 let referenceObject = this.prepareReferenceObject();
-                console.log('##########');
+                // console.log('##########');
 
-                console.log(referenceObject);
+                // console.log(referenceObject);
                 this.validateTempAllData();
                 let theJSON = JSON.stringify(this.tempAllData, null, '\t');
                 let fileName = 'reference_AllAction_' + referenceObject.scopeName + '_' + '0.0.1V.json';
@@ -1051,16 +1008,15 @@ export class ReferenceDataformComponent implements OnInit {
         if (data == 'HealthCheck') {
             this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'REST'];
             this.actionHealthCheck = true;
-        } else if (data == 'UpgradeBackout' || data == 'ResumeTraffic' || data == 'QuiesceTraffic' || data == 'UpgradeBackup' || data == 'UpgradePostCheck' || data == 'UpgradePreCheck' || data == 'UpgradeSoftware' || data == 'ConfigBackup' || data == 'ConfigRestore' || data == 'StartApplication' || data == 'StopApplication') {
+        } else if (data == 'UpgradeBackout' || data == 'ResumeTraffic' || data == 'QuiesceTraffic' || data == 'UpgradeBackup' || data == 'UpgradePostCheck' || data == 'UpgradePreCheck' || data == 'UpgradeSoftware' || data == 'ConfigBackup' || data == 'ConfigRestore' || data == 'StartApplication' || data == 'StopApplication' || data == 'GetRunningConfig') {
             this.deviceProtocols = ['', 'CHEF', 'ANSIBLE'];
         } else if (data == 'OpenStack Actions') {
             this.deviceProtocols = ['', 'OpenStack'];
-        } else if (data == 'ConfigScaleOut' || data == 'Configure' || data == 'ConfigModify') {
+        } else if (data == 'ConfigScaleOut') {
             this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF'];
-        } else if (data == 'GetRunningConfig') {
-            this.deviceProtocols = ['', 'NETCONF'];
-        } else {
-            this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'NETCONF-XML', 'REST', 'RESTCONF', 'CLI'];
+        }
+        else {
+            this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'NETCONF-XML', 'RESTCONF', 'CLI'];
             this.actionHealthCheck = false;
         }
     }
@@ -1068,6 +1024,7 @@ export class ReferenceDataformComponent implements OnInit {
     //Modal pop up for action change with values entered.
     actionChange(data, content, userForm) {
         // this.actionChanged = true;
+        this.disableGrpNotationValue = false
         if (data == null) {
             return;
         }
@@ -1078,7 +1035,11 @@ export class ReferenceDataformComponent implements OnInit {
                     this.currentAction = this.referenceDataObject.action;
                     this.referenceDataObject.action = this.oldAction;
                     $('#saveToAppc').click();//make sure the save all is done before the tempall obj is saved form the API
-                    this.oldAction = this.referenceDataObject.action + '';
+                    this.toggleIdentifier(data)
+                    this.oldAction = this.currentAction;// this.referenceDataObject.action + '';
+                    this.referenceDataObject.action = this.currentAction
+
+                    this.populateExistinAction(data);
                     if (this.oldAction === 'OpenStack Actions') {
 
                         this.uploadedDataArray = [];
@@ -1089,6 +1050,8 @@ export class ReferenceDataformComponent implements OnInit {
                     }
                     this.clearCache();
                 } else {
+                    this.toggleIdentifier(data)
+                    this.currentAction = this.referenceDataObject.action;
                     this.populateExistinAction(data);
                     this.oldAction = this.referenceDataObject.action + '';
                     this.clearCache();
@@ -1099,6 +1062,12 @@ export class ReferenceDataformComponent implements OnInit {
             this.populateExistinAction(data);
         }
 
+
+        if (data == 'ConfigScaleOut') {
+            this.groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value', 'existing-group-name'];
+        }
+
+        this.toggleIdentifier(data)
 
         if (data == 'OpenStack Actions') {
             this.buildDesignComponent.tabs = [
@@ -1150,7 +1119,7 @@ export class ReferenceDataformComponent implements OnInit {
         this
             .httpUtils
             .post(
-            { url: environment.getDesigns, data: this.appData.template.templateData })
+                { url: environment.getDesigns, data: this.appData.template.templateData })
             .subscribe(resp => {
                 if (resp.output.status.code === '400' && resp.output.status.message === 'success') {
                     this.nService.success('Status', 'Successfully uploaded the Template Data');
@@ -1160,16 +1129,16 @@ export class ReferenceDataformComponent implements OnInit {
 
                 }
             },
-            (err) => this.nService.error('Status', 'Error Connecting to the APPC Network'));
+                (err) => this.nService.error('Status', 'Error Connecting to the APPC Network'));
     }
 
     saveNameValue() {
         this
             .httpUtils
             .post(
-            {
-                url: environment.getDesigns, data: this.appData.template.nameValueData
-            })
+                {
+                    url: environment.getDesigns, data: this.appData.template.nameValueData
+                })
             .subscribe(resp => {
                 if (resp.output.status.code === '400' && resp.output.status.message === 'success') {
                     this.nService.success('Status', 'Successfully uploaded the Name Value Pairs');
@@ -1178,19 +1147,19 @@ export class ReferenceDataformComponent implements OnInit {
                     this.nService.warn('Status', 'Error in saving the Name value pairs to Appc');
                 }
             },
-            error => {
-                this.nService.error('Status', 'Error Connecting to the APPC Network');
-                return false;
-            });
+                error => {
+                    this.nService.error('Status', 'Error Connecting to the APPC Network');
+                    return false;
+                });
     }
 
     savePd() {
         this
             .httpUtils
             .post(
-            {
-                url: environment.getDesigns, data: this.appData.pd
-            })
+                {
+                    url: environment.getDesigns, data: this.appData.pd
+                })
             .subscribe(resp => {
                 if (resp.output.status.code === '400' && resp.output.status.message === 'success') {
                     this.nService.success('Status', 'Successfully uploaded PD file');
@@ -1199,10 +1168,10 @@ export class ReferenceDataformComponent implements OnInit {
                     this.nService.warn('Status', 'Error in saving the PD to Appc');
                 }
             },
-            error => {
-                this.nService.error('Status', 'Error Connecting to the APPC Network');
-                return false;
-            });
+                error => {
+                    this.nService.error('Status', 'Error Connecting to the APPC Network');
+                    return false;
+                });
     }
 
     openModel(toShow: any, message: any, title: any) {
@@ -1227,7 +1196,10 @@ export class ReferenceDataformComponent implements OnInit {
         if (!(this.referenceDataObject['template-id-list'])) {
             this.referenceDataObject['template-id-list'] = [];
         }
-        this.referenceDataObject['template-id-list'].push(this.templateId);
+        if(!(this.referenceDataObject['template-id-list'].indexOf(this.templateId.trim())>-1)){
+            this.referenceDataObject['template-id-list'].push(this.templateId.trim());
+        }
+        
         // this.referenceDataObject['template-id-list'] = this.identifierDrpValues
         //this.identifierDrp = ""
     }
@@ -1238,5 +1210,15 @@ export class ReferenceDataformComponent implements OnInit {
 
     dataModified() {
         this.referenceDataObject.vm = this.referenceDataObject.vm;
+    }
+
+    resetGroupNotation() {
+        if (this.Sample['group-notation-type'] == "existing-group-name") {
+            this.Sample['group-notation-value'] = ""
+
+            this.disableGrpNotationValue = true
+        } else {
+            this.disableGrpNotationValue = false
+        }
     }
 }
