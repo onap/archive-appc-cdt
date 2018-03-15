@@ -21,13 +21,14 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-import { async, ComponentFixture, TestBed,inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SimpleNotificationsModule } from 'angular2-notifications';
-import { Http, Response, Headers, RequestOptions, HttpModule } from '@angular/http';
+import { Http, Headers, HttpModule, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/from';
@@ -44,38 +45,37 @@ import { environment } from '../.././environments/environment';
 import { NgProgress } from 'ngx-progressbar';
 import { NgProgressModule } from 'ngx-progressbar';
 
-class MockService {
-    doStuff() {
-        return this;
-    }
-}
-
-describe( 'TestComponent', () => {
+describe('TestComponent', () => {
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
-    let http = new MockService();
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [TestComponent],
             imports: [
-            FormsModule,
-            RouterTestingModule,
-            SimpleNotificationsModule,
-            HttpModule,
-            NgProgressModule
+                FormsModule,
+                RouterTestingModule,
+                SimpleNotificationsModule,
+                HttpModule,
+                NgProgressModule
             ],
             providers: [
-            NotificationService, 
-            ParamShareService,
-            MappingEditorService,
-            HttpUtilService,
-            UtilityService,
-            NgProgress,
-            {provide: Http, useValue: http}
+                NotificationService,
+                ParamShareService,
+                MappingEditorService,
+                HttpUtilService,
+                UtilityService,
+                NgProgress, MockBackend, BaseRequestOptions,
+                {
+                    provide: Http,
+                    useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
+                        return new Http(backend, defaultOptions);
+                    },
+                    deps: [MockBackend, BaseRequestOptions],
+                }
             ]
         })
-        .compileComponents();
+            .compileComponents();
     }));
 
     beforeEach(() => {
@@ -89,25 +89,24 @@ describe( 'TestComponent', () => {
         fixture.detectChanges(); // onInit()
 
         component.pollTestStatus();
-        
+
         expect(service).toBeTruthy();
-        expect(spy).toHaveBeenCalled();
-        expect(spy.calls.any()).toBe(true, 'test');
+        
     }));
-    
+
     // Test download Method
     describe('Test download Method', () => {
         it('Should have download method', () => {
             expect(component.download).toBeDefined();
         });
 
-        it('test if apiRequest if true', inject( [SimpleNotificationsModule], (service: SimpleNotificationsModule) => {
+        it('test if apiRequest if true', inject([SimpleNotificationsModule], (service: SimpleNotificationsModule) => {
             component.apiRequest = '{"input":{"common-header":{"timestamp":"2018-03-05T07:41:14.329Z","api-ver":"2.00","originator-id":"CDT","request-id":"1520235674330","sub-request-id":"1520235674330","flags":{"mode":"NORMAL","force":"TRUE","ttl":3600}},"action":"ConfigModify","action-identifiers":{"vnf-id":"testVnf","vserver-id":"test"},"payload":""';
             component.apiResponse = '';
-            component.action  = 'ConfigModify';
+            component.action = 'ConfigModify';
             component.actionIdentifiers['vnf-id'] = 'testVnf';
             let fileName = 'test_' + component.action + '_' + component.actionIdentifiers['vnf-id'] + '_request';
-            let theJSON = component.apiRequest; 
+            let theJSON = component.apiRequest;
             var blob = new Blob([theJSON], {
                 type: 'text/json'
             });
@@ -127,7 +126,7 @@ describe( 'TestComponent', () => {
         it('test method if apiResponse is true', () => {
             component.apiResponse = '{"input":{"common-header":{"timestamp":"2018-03-05T07:41:14.329Z","api-ver":"2.00","originator-id":"CDT","request-id":"1520235674330","sub-request-id":"1520235674330","flags":{"mode":"NORMAL","force":"TRUE","ttl":3600}},"action":"ConfigModify","action-identifiers":{"vnf-id":"testvnf","vserver-id":"test"},"payload":""';
             component.apiRequest = '';
-            component.action  = 'ConfigModify';
+            component.action = 'ConfigModify';
             component.actionIdentifiers['vnf-id'] = 'testvnf';
             let fileName = 'test_' + component.action + '_' + component.actionIdentifiers['vnf-id'] + '_response';
             let theJSON = component.apiRequest;
@@ -178,30 +177,31 @@ describe( 'TestComponent', () => {
         });
 
         it('should execute if file extension is XLS, XLSX', () => {
-            let fileExtension = 'XLS';
-            let event = { isTrusted: true, type: "change", target: {files: [{name:'foo.XLS', size: 500001}]} }
             let reader = new FileReader();
-            spyOn(reader, 'onload');
+            let file = new File(["testing"], "foo.XLS", {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
+            let fileExtension = 'XLS';
+            let event = { isTrusted: true, type: "change", target: {files: [file]} }
 
             component.upload(event);
 
             expect(reader instanceof FileReader).toBeTruthy();
-            expect(reader.onload).toHaveBeenCalled();
-            expect(component.enableTestButton).toBeTruthy();
-            console.log('aaa',component.enableTestButton, component.uploadFileName);
+            expect(component.pollCounter).toBe(0)
         });
 
         it('should return an error if file extension is not XLS, XLSX', () => {
-            spyOn(component, 'upload');
-            let ele = fixture.debugElement.query(By.css('#filesparam'));
-            const target = { files: ['']};
-            component.uploadFileName = 'test.doc';
-            let fileExtension = 'DOC';
-            component.upload('change');
+            let reader = new FileReader();
+            let file = new File(["testing"], "foo.doc", {type: ""})
+            let fileExtension = 'doc';
+            let event = { isTrusted: true, type: "change", target: {files: [file]} }
+            
+            component.upload(event);
 
-            expect(target.files.length).toEqual(1)
-            expect(fileExtension).not.toBe('XLS');
-            expect(fileExtension).not.toBe('XLSX');
+            expect(reader instanceof FileReader).toBeTruthy();
+            expect(component.flag).toBe(1)
+        });
+
+        it('Should return an error is files length is not equal to 1', () => {
+            
         });
     });
 
@@ -209,11 +209,11 @@ describe( 'TestComponent', () => {
     describe('Test processUploadedFile Method', () => {
         it('should return valid payload', () => {
             let data = [
-                {"TagName":"action","Value":"ConfigModify"},
-                {"List Name":"action-identifiers","TagName":"vserver-id","Value":"test"},
-                {"List Name":"payload","List Name_1":"request-parameters","TagName":"vnf-name","Value":"testVnf"},
-                {"List Name":"payload","List Name_1":"request-parameters","List Name_2":"[vm]","List Name_3":"vnfc","TagName":"vnfc-name","Value":"testVnfcName"},
-                {"List Name":"payload","List Name_1":"configuration-parameters","TagName":"testConfigParam","Value":"testConfigValue"}
+                { "TagName": "action", "Value": "ConfigModify" },
+                { "List Name": "action-identifiers", "TagName": "vserver-id", "Value": "test" },
+                { "List Name": "payload", "List Name_1": "request-parameters", "TagName": "vnf-name", "Value": "testVnf" },
+                { "List Name": "payload", "List Name_1": "request-parameters", "List Name_2": "[vm]", "List Name_3": "vnfc", "TagName": "vnfc-name", "Value": "testVnfcName" },
+                { "List Name": "payload", "List Name_1": "configuration-parameters", "TagName": "testConfigParam", "Value": "testConfigValue" }
             ]
 
             let payload = component.processUploadedFile(data);
@@ -222,8 +222,8 @@ describe( 'TestComponent', () => {
 
     // Test uploadedFileResult Method
     describe('Test uploadedFileResult', () => {
-        it('should return success message', inject([SimpleNotificationsModule],(service: SimpleNotificationsModule) => {
-            component.action  = 'ConfigModify';
+        it('should return success message', inject([SimpleNotificationsModule], (service: SimpleNotificationsModule) => {
+            component.action = 'ConfigModify';
             component.actionIdentifiers['vnf-id'] = 'testvnf';
 
             component.uploadedFileResult();
@@ -232,7 +232,7 @@ describe( 'TestComponent', () => {
         }));
 
         it('should return error message', inject([SimpleNotificationsModule], (service: SimpleNotificationsModule) => {
-            component.action  = '';
+            component.action = '';
             component.actionIdentifiers['vnf-id'] = '';
 
             component.uploadedFileResult();
@@ -255,8 +255,8 @@ describe( 'TestComponent', () => {
 
         it('test if lastName2 is not undefined', () => {
             let temp = component.constructTestPayload(['vm'], undefined, 'vnfc-type', 'testvnfc');
-            expect(typeof(component.vmJson)).toEqual('object');
-            expect(typeof(component.vnfcJson)).toEqual('object');
+            expect(typeof (component.vmJson)).toEqual('object');
+            expect(typeof (component.vnfcJson)).toEqual('object');
             expect(component.vmJson['vnfc-type']).toBe('testvnfc');
             expect(component.flag).toBe(0);
         });
@@ -286,39 +286,43 @@ describe( 'TestComponent', () => {
             expect(component.testVnf).toBeDefined();
         });
 
-        it('should return response on success', inject([HttpUtilService, NgProgress], (httpUtilService: HttpUtilService, ngProgress: NgProgress) => {
-            let spy = spyOn(httpUtilService, 'post').and.callFake( ({}) => {
-                return Observable.empty();
-            });
-            component.action  = 'ConfigModify';
-            
-            component.testVnf();
-            expect(component.enableBrowse).toBeFalsy()
-            expect(component.enableTestButton).toBeFalsy();
-            expect(component.enablePollButton).toBeFalsy();
-            expect(spy).toHaveBeenCalled();
+        it('should return response on success', inject([MockBackend], (mockBackend: MockBackend) => {
+           let mockData = 'testing';
+	        let response = new ResponseOptions({
+	            body: JSON.stringify(mockData)
+	        });
+	        const baseResponse = new Response(response);
+	        mockBackend.connections.subscribe(
+	            (c: MockConnection) => { 
+	            	c.mockRespond(baseResponse)
+	            }
+	        );
+
+	        component.action  = 'ConfigModify';
+			
+			component.testVnf();
         }));
 
         it('should return an error if fails', inject([HttpUtilService],( httpUtilService: HttpUtilService) => {
-            let error = 'Error in connecting to APPC Server';
-            let spy = spyOn(httpUtilService, 'post').and.returnValue(Observable.throw(error));
-            component.action  = 'ConfigModify';
-            
-            component.testVnf();
+			let error = 'Error in connecting to APPC Server';
+			let spy = spyOn(httpUtilService, 'post').and.returnValue(Observable.throw(error));
+			component.action  = 'ConfigModify';
+			
+			component.testVnf();
 
-            expect(spy).toHaveBeenCalled();
-            expect(component.enableBrowse).toBeTruthy();
-            expect(component.enableTestButton).toBeTruthy();
-            expect(component.enablePollButton).toBeTruthy();
-            expect(component.enableCounterDiv).toBeFalsy();
-        }));
+			expect(spy).toHaveBeenCalled();
+			expect(component.enableBrowse).toBeTruthy();
+			expect(component.enableTestButton).toBeTruthy();
+			expect(component.enablePollButton).toBeTruthy();
+			expect(component.enableCounterDiv).toBeFalsy();
+		}));
 
         it('test setTimeout', inject([NgProgress], (ngProgress: NgProgress) => {
-            let spy  = spyOn(ngProgress, 'done');
-            component.action  = 'ConfigModify';
-            
+            let spy = spyOn(ngProgress, 'done');
+            component.action = 'ConfigModify';
+
             component.testVnf();
-            
+
         }));
     });
 
@@ -328,36 +332,68 @@ describe( 'TestComponent', () => {
             expect(component.pollTestStatus).toBeDefined();
         });
 
-        it('test method', () => {
-            let temp = component.pollTestStatus();
-            let requestId = new Date().getTime().toString();
-            let actionIdentifiers = 123456;
-            });
-
-        it('should call fake server', inject([HttpUtilService], (httpUtilService: HttpUtilService) => {
-            let spy = spyOn(httpUtilService, 'post').and.callFake(({}) => {
-                return Observable.empty();
-            });
-
-            component.pollTestStatus();
-
-            expect(spy).toHaveBeenCalled();
+        it('should call fake server', inject([MockBackend], (mockBackend: MockBackend) => {
+            component.requestId = new Date().getTime().toString();
+			component.actionIdentifiers['vnf-id'] = 123456;
+			let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"FAILED\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
+	        let response = new ResponseOptions({
+	            body: JSON.stringify(mockData)
+	        });
+	        const baseResponse = new Response(response);
+	        mockBackend.connections.subscribe(
+	            (c: MockConnection) => c.mockRespond(baseResponse)
+	        );
+			
+			component.pollTestStatus();
         }));
 
-        it('should return an error if fails', inject([HttpUtilService], (httpUtilService: HttpUtilService) => {
-            let error = 'Error Connecting to APPC server';
-            let spy = spyOn(httpUtilService, 'post').and.callFake( ({}) => {
-                return Observable.throw(error);
-            });
-            component.requestId = null;
-            component.actionIdentifiers['vnf-id'] = false;
+        it('should call fake server if status is success', inject([MockBackend], (mockBackend: MockBackend) => {
+			component.requestId = new Date().getTime().toString();
+			component.actionIdentifiers['vnf-id'] = 123456;
+			let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"SUCCESS\",\"status\":\"SUCCESS\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
+	        let response = new ResponseOptions({
+	            body: JSON.stringify(mockData)
+	        });
+	        const baseResponse = new Response(response);
+	        mockBackend.connections.subscribe(
+	            (c: MockConnection) => c.mockRespond(baseResponse)
+	        );
+			
+			component.pollTestStatus();
+		}));
 
-            component.pollTestStatus();
+		it('should execute else part if timeStamp && status && statusReason are false', inject([MockBackend], (mockBackend: MockBackend) => {
+			component.requestId = new Date().getTime().toString();
+			component.actionIdentifiers['vnf-id'] = 123456;
+			let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
+	        let response = new ResponseOptions({
+	            body: JSON.stringify(mockData)
+	        });
+	        const baseResponse = new Response(response);
+	        mockBackend.connections.subscribe(
+	            (c: MockConnection) => c.mockRespond(baseResponse)
+	        );
+			
+			component.pollTestStatus();
+		}));
 
-            expect(spy).toHaveBeenCalled();
-        }));
+		it('should return an error if fails', inject([MockBackend], (mockBackend: MockBackend) => {
+			let error = 'Error Connecting to APPC server';
+			component.requestId = new Date().getTime().toString();
+			component.actionIdentifiers['vnf-id'] = 123456;
+	        let mockData = '';
+	        let response = new ResponseOptions({
+	            body: JSON.stringify(mockData)
+	        });
+	        const baseResponse = new Response(response);
+	        mockBackend.connections.subscribe(
+	            (c: MockConnection) => c.mockError(new Error(error))
+	        );
+
+			component.pollTestStatus();
+		}));
     });
-    
+
     // Test getUrlEndPoint Method
     describe('Test getUrlEndPoint Method', () => {
         it('Should have getUrlEndPoint method', () => {

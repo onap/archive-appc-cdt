@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 -->
 <simple-notifications [options]="options"></simple-notifications>
@@ -76,8 +75,12 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
     <app-modal [title]="'Confirmation'" [isShow]="false" [message]="'Template is saved and ready for creating parameter definition'" #modalComponent>
     </app-modal>
     <modal #myModal>
-        <modal-header [show-close]="true">
-            <h4 class="modal-title">Enter Name for {{selectedWord}}</h4>
+        <modal-header style="height:65px">
+            <h4 class="modal-title" style="position:absolute;">Enter Name for <b>"{{selectedWord}}"</b></h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.close()" style="margin-left:auto">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            
         </modal-header>
         <modal-body>
             <div class="form-group row">
@@ -89,7 +92,10 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
             </div>
         </modal-body>
         <modal-footer [show-default-buttons]="false">
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="submitNameValues()">Submit
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="submitNameValues()">Submit
             </button>
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent
+    
+    " (click)="modal.close()">Cancel</button>
         </modal-footer>
     </modal>

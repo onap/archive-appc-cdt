@@ -17,28 +17,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
 import { async, ComponentFixture, TestBed, fakeAsync, tick, inject } from '@angular/core/testing';
 import { RouterTestingModule } from "@angular/router/testing";
+import { BaseRequestOptions, Response, ResponseOptions, Http } from '@angular/http';
+import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/empty';
-import {DialogService} from 'ng2-bootstrap-modal';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
-import {HttpUtilService} from '../../../shared/services/httpUtil/http-util.service';
-import {MappingEditorService} from '../../..//shared/services/mapping-editor.service';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {NgModule} from '@angular/core';
-import {NgProgress} from 'ngx-progressbar';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {NotificationService} from '../../../shared/services/notification.service';
-import {ParamShareService} from '../../..//shared/services/paramShare.service';
-import {SharedModule} from '../../../shared/shared.module';
-import {environment} from '../../../../environments/environment';
+import 'rxjs/add/observable/of';
 
 import { NavigationComponent } from './navigation.component';
 import { EmitterService } from '../../services/emitter.service';
@@ -50,8 +39,14 @@ describe('NavigationComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [NavigationComponent],
-            imports: [RouterTestingModule.withRoutes([]),FormsModule, RouterTestingModule, HttpModule, NgbModule.forRoot()],
-            providers: []
+            imports: [RouterTestingModule.withRoutes([])],
+            providers: [EmitterService, MockBackend, BaseRequestOptions, {
+                    provide: Http,
+                    useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
+                        return new Http(backend, defaultOptions);
+                    },
+                    deps: [MockBackend, BaseRequestOptions],
+                }]
         })
             .compileComponents();
     }));
@@ -72,15 +67,26 @@ describe('NavigationComponent', () => {
         component.ngOnInit();
     });
 
-    it('should validate on ngOnChanges', () => {
-        let spy = spyOn(EmitterService, 'get').and.callFake( ({}) => {
-            return Observable.empty();
+    describe('Should test ngOnChanges', () => {
+        it('should validate on ngOnChanges subscribe return', () => {
+            let spy = spyOn(EmitterService, 'get').and.returnValue(Observable.of('you object'));
+            component.id = 'userLogin';
+
+            component.ngOnChanges();
+
+            expect(spy).toHaveBeenCalled();
         });
-        component.id = 'userLogin';
 
-        component.ngOnChanges();
+        it('should validate on ngOnChanges if subscribe return null or undefined', inject([Router],(router: Router) => {
+            let spy = spyOn(EmitterService, 'get').and.returnValue(Observable.of(''));
+            let spy1 = spyOn(component, 'logout');
+            component.id = 'userLogin';
+            component.ngOnChanges();
 
-        expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalled();
+            
+            expect(spy1).toHaveBeenCalled()
+        }));
     });
 
     it('should go to /vnfs/list if url = vnfs and userId is not null or undefined', inject([Router],(router: Router) => {
@@ -111,21 +117,4 @@ describe('NavigationComponent', () => {
 
         component.logout();
     }));
-    it('should ngOnChanges', () => {
-        component.id="uday"
-        component.ngOnChanges()
-        expect(component.userLoggedIn).toBeFalsy();
-    });
-    it('should ngOnInit()', () => {
-        localStorage['userId']="uday"
-        component.ngOnInit()
-        expect(component.userLoggedIn).toBeTruthy();
-    });
-    it('should gotoDetail(url)', () => {
-        component.gotoDetail('vnfs')
-    });
-    it('should logout()', () => {
-        component.logout()
-        expect(component.userLoggedIn).toBeFalsy();
-    });
 });

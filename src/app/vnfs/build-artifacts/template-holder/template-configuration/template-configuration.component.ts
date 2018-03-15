@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -194,8 +193,8 @@ export class GoldenConfigurationComponent implements OnInit {
     let self = this;
     this.templateEditor = self.templateeditor.getEditor();
     this.templateeditor.getEditor().commands.addCommand({
-      name: 'annotateCommand',
-      bindKey: { win: 'ENTER', mac: 'ENTER' },
+      name: 'annotateCommandAlternate',
+      bindKey: { win: 'CTRL-4', mac: 'Command-4' },
       exec: (editor: any) => {
         this.handleAnnotation(this.modal);
       }
@@ -724,7 +723,7 @@ export class GoldenConfigurationComponent implements OnInit {
   public handleAnnotation(modal) {
 
     this.selectedWord = this.templateeditor.getEditor().session.getTextRange(this.templateeditor.getEditor().selectionRange);
-    modal.open();
+    if(this.selectedWord && this.selectedWord!=undefined) modal.open();
   }
   //========================== End of handleAnnotations() Method============================================ 
   public submitNameValues() {

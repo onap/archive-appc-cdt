@@ -176,7 +176,23 @@ describe('ParameterComponent', () => {
     expect(obj['response-keys'][4]['key-name']).toBeNull;
     expect(obj['response-keys'][4]['key-value']).toBeNull;
   }));
+   
+  it('should read file key file content...', () => {
+      let file = new File(["testing"], "foo.XLS", {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+      let uploadType = 'keyfile';
+      let input = {files: [file]};
 
+      component.fileChange(input, uploadType);
+  });
+
+
+  it('should read file key file content...', () => {
+      let file = new File(["testing"], "foo.XLS", {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+      let uploadType = 'pdfile';
+      let input = {files: [file]};
+
+      component.fileChange(input, uploadType);
+  }); 
 
 
 });

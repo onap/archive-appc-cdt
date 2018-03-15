@@ -148,7 +148,7 @@ export class TestComponent implements OnInit {
         this.enableBrowse = true;
         this.enableTestButton = true;
         this.enablePollButton = true;
-        this.subscribe.unsubscribe();
+        if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
 
     }
 
@@ -387,7 +387,7 @@ processUploadedFile(arrData) {
                 this.enableTestButton = true;
                 this.enablePollButton = true;
                 this.enableCounterDiv = false;
-                this.subscribe.unsubscribe();
+                if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
 
             });
 
@@ -449,11 +449,11 @@ processUploadedFile(arrData) {
                         this.status = status;
                         this.statusReason = statusReason;
                         if (status.toUpperCase() === 'SUCCESS' || status.toUpperCase() === 'SUCCESSFUL') {
-                            this.subscribe.unsubscribe();
+                            if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
                             this.enablePollButton = true;
                         }
                         if (status.toUpperCase() === 'FAILED') {
-                            this.subscribe.unsubscribe();
+                            if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
                             this.enablePollButton = true;
                         }
                     }
@@ -468,7 +468,7 @@ processUploadedFile(arrData) {
                     this.showStatusResponseDiv = false;
                     this.errorResponse = 'Error Connecting to APPC server';
                     this.enableCounterDiv = false;
-                    this.subscribe.unsubscribe();
+                    if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
                 });
 
         }
