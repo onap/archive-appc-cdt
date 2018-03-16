@@ -122,8 +122,9 @@ export class ParameterComponent implements OnInit {
             }
         ]
     };
+    public configurable_source = require('../../../CDTProperties.json').source;
     public requiredValues: boolean[] = [null, true, false];
-    public sourceValues = ['Manual', 'INSTAR', 'A&AI'];
+    public sourceValues = ['Manual', this.configurable_source, 'A&AI'];
     public ruleTypeValues = [null, 'vnf-name', 'vm-name-list', 'vnfc-name-list', 'vnf-oam-ipv4-address', 'vnfc-oam-ipv4-address-list'];
     public typeValues = [null, 'ipv4-address', 'ipv6-address', 'ipv4-prefix', 'ipv6-prefix'];
     public responseKeyNameValues = ['', 'unique-key-name', 'unique-key-value', 'field-key-name'];
@@ -190,8 +191,6 @@ export class ParameterComponent implements OnInit {
     identifier: any;
     private selectedActionReference: any;
 
-    //this.mappingeditorservice.referenceNameObjects = object;PLEASE USE THIS OBJECT TO GET TEMPALLDATA
-
     constructor (private httpService: HttpUtilService,
         private parameterDefinitionService: ParameterDefinitionService,
         private paramShareService: ParamShareService,
@@ -234,11 +233,6 @@ export class ParameterComponent implements OnInit {
             };
         }
 
-        //let path = this.location.path
-        /* this.activeRoutes.url.subscribe(UrlSegment => {
-             this.actionType = UrlSegment[0].path
-         })
-         */
         this.identifier = this.mappingEditorService.identifier;
     }
 
@@ -353,7 +347,6 @@ export class ParameterComponent implements OnInit {
             // callback with the results
             callback(reader.result);
         };
-        //this.notificationService.notifySuccessMessage('Uploading File ' + file.name + ':' + file.type + ':' + file.size);
         // Read the file
         reader.readAsText(file, 'UTF-8');
     }

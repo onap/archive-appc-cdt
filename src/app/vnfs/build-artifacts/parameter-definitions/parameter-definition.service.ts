@@ -63,13 +63,12 @@ export class ParameterDefinitionService {
     private selectedActionReference: any;
     private apiToken = localStorage['apiToken'];
     private userId = localStorage['userId'];
-
+    public configurable_source = require('../../../CDTProperties.json').source;
     constructor(private mappingEditorService: MappingEditorService,
                 private paramShareService: ParamShareService,
                 private nService: NotificationsService,
                 private httpService: HttpUtilService,
                 private utilService: UtilityService) {
-
     }
 
     public initialize() {
@@ -313,7 +312,7 @@ export class ParameterDefinitionService {
         let isValid = true;
         if (undefined != objs || null != objs) {
             for (var i = 0; i < objs.length; i++) {
-                if (objs[i].source == 'INSTAR' && (null == objs[i]['response-keys'] || undefined == objs[i]['response-keys'])) {
+                if (objs[i].source == this.configurable_source && (null == objs[i]['response-keys'] || undefined == objs[i]['response-keys'])) {
                     isValid = false;
                     return isValid;
                 }
@@ -355,7 +354,6 @@ export class ParameterDefinitionService {
             jsonString = jsonString.replace(/"null"/g, 'null');
             let saveModel = JSON.parse(jsonString);
             let pdFileObject = this.processResponseKeys(saveModel);
-            //Validate for Source =INSTAR and responsekeys present
             if (this.isValidateSourceAndResponseKeys(pdFileObject)) {
                 let yamlObject = {
                     'kind': 'Property Definition',
@@ -386,7 +384,7 @@ export class ParameterDefinitionService {
                 for (var i = 0; i < this.modelParamDefinitionObjects.length; i++) {
                     this.formatKeys(this.modelParamDefinitionObjects[i]);
                 }
-                this.nService.error('Error', 'Response Keys cannot be empty if source is INSTAR');
+                this.nService.error('Error', 'Response Keys cannot be empty if source is '+this.configurable_source);
                 return;
             }
             //Restore Keys for display
@@ -437,7 +435,7 @@ export class ParameterDefinitionService {
                 parameterDefinitionObject['source'] = fields[0];
                 parameterDefinitionObject['rule-type'] = fields[1];
             } else {
-                if (parameterDefinitionObject['source'] === 'INSTAR') {
+                if (parameterDefinitionObject['source'] === this.configurable_source) {
                     parameterDefinitionObject['source'] = 'Manual';
                     parameterDefinitionObject['ruleTypeValues'] = [null];
                     parameterDefinitionObject['rule-type'] = null;
