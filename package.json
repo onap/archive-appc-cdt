@@ -1,7 +1,6 @@
 {
     "name": "appc_self_service_tool",
     "version": "1.0.1",
-    "license": "MIT",
     "scripts": {
         "ng": "ng",
         "start": "ng serve --port 8080",

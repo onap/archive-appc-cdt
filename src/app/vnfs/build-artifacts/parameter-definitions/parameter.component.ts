@@ -122,9 +122,8 @@ export class ParameterComponent implements OnInit {
             }
         ]
     };
-    public configurable_source = require('../../../CDTProperties.json').source;
     public requiredValues: boolean[] = [null, true, false];
-    public sourceValues = ['Manual', this.configurable_source, 'A&AI'];
+    public sourceValues = ['Manual', 'A&AI'];
     public ruleTypeValues = [null, 'vnf-name', 'vm-name-list', 'vnfc-name-list', 'vnf-oam-ipv4-address', 'vnfc-oam-ipv4-address-list'];
     public typeValues = [null, 'ipv4-address', 'ipv6-address', 'ipv4-prefix', 'ipv6-prefix'];
     public responseKeyNameValues = ['', 'unique-key-name', 'unique-key-value', 'field-key-name'];
@@ -326,10 +325,6 @@ export class ParameterComponent implements OnInit {
             // Create the file reader
             let reader = new FileReader();
             this.readFile(input.files[0], reader, (result) => {
-                if ('keyfile' === uploadType) {
-                    this.myKeyFileName = input.files[0].name;
-                    this.displayParamObjects = this.parameterDefinitionService.processKeyFile(this.myKeyFileName, result);
-                }
                 if ('pdfile' === uploadType) {
                     this.myPdFileName = input.files[0].name;
                     this.displayParamObjects = this.parameterDefinitionService.processPDfile(this.myPdFileName, result);

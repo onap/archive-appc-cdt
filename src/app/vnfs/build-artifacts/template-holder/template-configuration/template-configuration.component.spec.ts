@@ -21,7 +21,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-
+/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By, BrowserModule } from '@angular/platform-browser';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -153,7 +153,6 @@ describe('GoldenConfigurationComponent', () => {
   it('check if variables are empty when reference data object is empty', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
     fixture = TestBed.createComponent(GoldenConfigurationComponent);
     component = fixture.componentInstance;
-    // mappingEditorService.latestAction = { "action": "", "scope": { "vnf-type": "", "vnfc-type": "" }, "vm": [], "protocol": "", "download-dg-reference": "", "user-name": "", "port-number": "", "artifact-list": [], "deviceTemplate": "", "scopeType": "" };
     mappingEditorService.latestAction = undefined;
     expect(component.ngAfterViewInit());
     expect(component.action).toEqual('');
@@ -182,9 +181,9 @@ describe('GoldenConfigurationComponent', () => {
     var pdData = [{ "name": "sync_auto-pop_name1", "type": null, "description": null, "required": null, "default": null, "source": "A&AI", "rule-type": "vnfc-oam-ipv4-address-list", "request-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "response-keys": [{ "key-name": "unique-key-name", "key-value": "parent-name" }, { "key-name": "unique-key-value", "key-value": "vnfc" }, { "key-name": "field-key-name", "key-value": "ipaddress-v4-oam-vip" }, { "key-name": null, "key-value": "vm-number" }, { "key-name": null, "key-value": "test" }], "ruleTypeValues": [null, "vnf-name", "vm-name-list", "vnfc-name-list", "vnf-oam-ipv4-address", "vnfc-oam-ipv4-address-list"], "showFilterFields": true, "enableFilterByValue": true }, { "name": "sync_auto-pop_address1", "type": null, "description": null, "required": null, "default": null, "source": "A&AI", "rule-type": "vm-name-list", "request-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "response-keys": [{ "key-name": "unique-key-name", "key-value": "parent-name" }, { "key-name": "unique-key-value", "key-value": "vserver" }, { "key-name": "field-key-name", "key-value": "vserver-name" }, { "key-name": null, "key-value": "vnfc-function-code" }, { "key-name": null, "key-value": null }], "ruleTypeValues": [null, "vnf-name", "vm-name-list", "vnfc-name-list", "vnf-oam-ipv4-address", "vnfc-oam-ipv4-address-list"], "showFilterFields": true, "enableFilterByValue": true }, { "name": "node0_tacplus_server_name2", "type": null, "description": null, "required": null, "default": null, "source": "Manual", "rule-type": null, "request-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "response-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "ruleTypeValues": [null] }];
     paramShareService.setSessionParamData([pdData]);
     localStorage["paramsContent"] = {
-      "sync_auto-pop_name1": "testIp1",
+      "sync_auto-pop_name1": "10.0.1.34",
       "sync_auto-pop_address1": "",
-      "node0_tacplus_server_name2": "testIp2"
+      "node0_tacplus_server_name2": "192.34.45.5"
     };
     expect(component.syncTemplate());
 
@@ -215,13 +214,13 @@ describe('GoldenConfigurationComponent', () => {
     component.appDataObject = { reference: {}, template: { templateData: {}, nameValueData: {} }, pd: {} };
     component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\n            <version>15.1X49-D50.3</version>\n            <groups>\n                <name>node0</name>\n                <system>\n                   <tacplus-server>\n                        <name>${sync_auto-pop_name1}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                    <tacplus-server>\n                        <name>${node0_tacplus_server_name2}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                </system>         \n           </groups>\n    </configuration>"
     mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
-    localStorage["paramsContent"] = JSON.stringify({ "sync_auto-pop_name1": "testIp1", "sync_auto-pop_address1": "", "node0_tacplus_server_name2": "testIp2" });
+    localStorage["paramsContent"] = JSON.stringify({ "sync_auto-pop_name1": "10.0.1.34", "sync_auto-pop_address1": "", "node0_tacplus_server_name2": "192.34.45.5" });
 
-    component.userId = "testuser";
+    component.userId = "sj108s";
     component.apiToken = "87264736473";
     component.prepareAppData();
-    var paramData = { "input": ({ "design-request": ({ "request-id": '87264736473', "action": 'uploadArtifact', "payload": '{"userID":"testuser","vnf-type":"testVnf","action":"Configure","artifact-name":"param_Configure_testVnf_0.0.1V.json","artifact-type":"APPC-CONFIG","artifact-version":"0.0.1","artifact-contents":"[{\"sync_auto-pop_name1\":\"10.0.1.34\",\"sync_auto-pop_address1\":\"\",\"node0_tacplus_server_name2\":\"192.34.45.5\"}]"}' }) }) };
-    var templateData = { input: ({ "design-request": ({ "request-id": '87264736473', "action": 'uploadArtifact', "payload": '{"userID":"testuser","vnf-type":"testVnf","action":"Configure","artifact-name":"template_Configure_test_0.0.1V.json","artifact-type":"APPC-CONFIG","artifact-version":"0.0.1","artifact-contents":"<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\n<version>15.1X49-D50.3</version>\n            <groups>\n                <name>node0</name>\n                <system>\n                   <tacplus-server>\n                        <name>${sync_auto-pop_name1}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n              </tacplus-server>\n                    <tacplus-server>\n                        <name>${node0_tacplus_server_name2}</name>\n          <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                </system>         \n   </groups>\n    </configuration>"}' }) }) };
+    var paramData = { "input": ({ "design-request": ({ "request-id": '87264736473', "action": 'uploadArtifact', "payload": '{"userID":"sj108s","vnf-type":"testVnf","action":"Configure","artifact-name":"param_Configure_testVnf_0.0.1V.json","artifact-type":"APPC-CONFIG","artifact-version":"0.0.1","artifact-contents":"[{\"sync_auto-pop_name1\":\"10.0.1.34\",\"sync_auto-pop_address1\":\"\",\"node0_tacplus_server_name2\":\"192.34.45.5\"}]"}' }) }) };
+    var templateData = { input: ({ "design-request": ({ "request-id": '87264736473', "action": 'uploadArtifact', "payload": '{"userID":"sj108s","vnf-type":"testVnf","action":"Configure","artifact-name":"template_Configure_test_0.0.1V.json","artifact-type":"APPC-CONFIG","artifact-version":"0.0.1","artifact-contents":"<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\n<version>15.1X49-D50.3</version>\n            <groups>\n                <name>node0</name>\n                <system>\n                   <tacplus-server>\n                        <name>${sync_auto-pop_name1}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n              </tacplus-server>\n                    <tacplus-server>\n                        <name>${node0_tacplus_server_name2}</name>\n          <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                </system>         \n   </groups>\n    </configuration>"}' }) }) };
     expect(component.appDataObject.template.nameValueData["payload"]).toBe(JSON.stringify(paramData["payload"]));
     expect(component.appDataObject.template.templateData["payload"]).toBe(JSON.stringify(templateData["payload"]));
   }));
@@ -238,13 +237,13 @@ describe('GoldenConfigurationComponent', () => {
       template: { templateData: {}, nameValueData: {}, templateFileName: '', nameValueFileName: '' },
       pd: { pdData: '', pdFileName: '' }
     };
-    localStorage["paramsContent"] = JSON.stringify({ "sync_auto-pop_name1": "testIp1", "sync_auto-pop_address1": "", "node0_tacplus_server_name2": "testIp2" });
+    localStorage["paramsContent"] = JSON.stringify({ "sync_auto-pop_name1": "10.0.1.34", "sync_auto-pop_address1": "", "node0_tacplus_server_name2": "192.34.45.5" });
 
     component.onDownloadParameter();
     var nameValueData = {
-      "sync_auto-pop_name1": "testIp1",
+      "sync_auto-pop_name1": "10.0.1.34",
       "sync_auto-pop_address1": "",
-      "node0_tacplus_server_name2": "testIp2"
+      "node0_tacplus_server_name2": "192.34.45.5"
     };
     expect(component.downloadDataObject.template.nameValueData).toBe(JSON.stringify(nameValueData, null, "\t"));
     expect(component.downloadDataObject.template.nameValueFileName).toBe("param_Configure_testVnf_0.0.1V.json");
@@ -273,7 +272,7 @@ describe('GoldenConfigurationComponent', () => {
     component.fileNameForTempSave = "Configure_testVnf_0.0.1V.json"
     component.onDownloadTemplate('Template');
     expect(component.downloadDataObject.template.templateData).toBe(component.configMappingEditorContent.replace(/\(([^()]|(R))*\)=\(/g, '').replace(/\)}/g, '}'));
-   }));
+  }));
 
 
   it('test merge status for golden config template and uploaded parameter data', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
@@ -287,12 +286,12 @@ describe('GoldenConfigurationComponent', () => {
       template: { templateData: {}, nameValueData: {}, templateFileName: '', nameValueFileName: '' },
       pd: { pdData: '', pdFileName: '' }
     };
-    component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \r\n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\r\n            <version>15.1X49-D50.3</version>\r\n            <groups>\r\n                <name>node0</name>\r\n                <system>\r\n                   <tacplus-server>\r\n                        <name>testIp1</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                    <tacplus-server>\r\n                        <name>199.37.184.242</name>\r\n                        <source-address>testIp2</source-address>\r\n                    </tacplus-server>\r\n                </system>         \r\n            </groups>\r\n     </configuration>";
+    component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \r\n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\r\n            <version>15.1X49-D50.3</version>\r\n            <groups>\r\n                <name>node0</name>\r\n                <system>\r\n                   <tacplus-server>\r\n                        <name>199.37.184.211</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                    <tacplus-server>\r\n                        <name>199.37.184.242</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                </system>         \r\n            </groups>\r\n     </configuration>";
     mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
     localStorage["paramsContent"] = JSON.stringify({
-      "node0_tacplus_server_name1": "testIp1",
-      "node0_tacplus_server_source_address1": "675453432",
-      "node0_tacplus_server_name2": "testIp2"
+      "node0_tacplus_server_name1": "199.37.184.211",
+      "node0_tacplus_server_source_address1": "135.144.3.125",
+      "node0_tacplus_server_name2": "199.37.184.242"
     });
     component.mergeParams();
     expect(component.mergeStatus).toBe(true);
@@ -311,7 +310,7 @@ describe('GoldenConfigurationComponent', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
 
-    component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \r\n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\r\n            <version>15.1X49-D50.3</version>\r\n            <groups>\r\n                <name>node0</name>\r\n                <system>\r\n                   <tacplus-server>\r\n                        <name>199.37.184.211</name>\r\n                        <source-address>675453432</source-address>\r\n                    </tacplus-server>\r\n                    <tacplus-server>\r\n                        <name>199.37.184.242</name>\r\n                        <source-address>675453432</source-address>\r\n                    </tacplus-server>\r\n                </system>         \r\n            </groups>\r\n     </configuration>";
+    component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \r\n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\r\n            <version>15.1X49-D50.3</version>\r\n            <groups>\r\n                <name>node0</name>\r\n                <system>\r\n                   <tacplus-server>\r\n                        <name>199.37.184.211</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                    <tacplus-server>\r\n                        <name>199.37.184.242</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                </system>         \r\n            </groups>\r\n     </configuration>";
     mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
     component.selectedWord = "node0";
     expect(component.handleAnnotation(component.modal));
@@ -324,7 +323,7 @@ describe('GoldenConfigurationComponent', () => {
     component.ngOnInit();
     component.ngAfterViewInit();
 
-    component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \r\n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\r\n            <version>15.1X49-D50.3</version>\r\n            <groups>\r\n                <name>node0</name>\r\n                <system>\r\n                   <tacplus-server>\r\n                        <name>{(node1)=(name1)}</name>\r\n                        <source-address>675453432</source-address>\r\n                    </tacplus-server>\r\n                    <tacplus-server>\r\n                        <name>199.37.184.242</name>\r\n                        <source-address>675453432</source-address>\r\n                    </tacplus-server>\r\n                </system>         \r\n            </groups>\r\n     </configuration>";
+    component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \r\n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\r\n            <version>15.1X49-D50.3</version>\r\n            <groups>\r\n                <name>node0</name>\r\n                <system>\r\n                   <tacplus-server>\r\n                        <name>{(node1)=(name1)}</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                    <tacplus-server>\r\n                        <name>199.37.184.242</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                </system>         \r\n            </groups>\r\n     </configuration>";
     mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
     component.selectedWord = "node0";
     component.tempName = "name0";
@@ -372,5 +371,76 @@ describe('GoldenConfigurationComponent', () => {
     expect(component.configMappingEditorContent).not.toBe(null);
 
   }));
+
+  // fileChange method
+  it('Should validatte fileChange method if file type is xml', async(() => {
+    let reader = new FileReader();
+    let file = new File(["testing"], "foo.xml", {type: "text/xml"});
+    let input = {files: [file]};
+    component.refObj = true;
+
+    component.fileChange(input);
+
+    component.readFile(input.files[0], reader,(res) => {
+      expect(component.selectedUploadType).toEqual('Generated Template');
+      expect(component.configMappingEditorContent).toEqual(res);
+      expect(component.artifactRequest.templateContent).toEqual(res);
+    });    
+  }));
+
+  it('Should validatte fileChange method if file type is json', async(() => {
+    let reader = new FileReader();
+    let file = new File(["testing"], "foo.json", {type: "text/json"});
+    let input = {files: [file]};
+    component.refObj = true;
+
+    component.fileChange(input);
+
+    component.readFile(input.files[0], reader,(res) => {
+      expect(component.selectedUploadType).toEqual('Generated Template');
+      expect(component.configMappingEditorContent).toEqual(res);
+      expect(component.artifactRequest.templateContent).toEqual(res);
+    });    
+  }));
+
+  it('Should validatte fileChange method if file type is none ', async(() => {
+    let reader = new FileReader();
+    let file = new File(["testing"], "foo", {type: ""});
+    let input = {files: [file]};
+    component.refObj = true;
+
+    component.fileChange(input);
+
+    component.readFile(input.files[0], reader,(res) => {
+      expect(typeof sessionStorage.getItem('fileType')).toEqual('string')
+      expect(component.selectedUploadType).toEqual('Generated Template');
+      expect(component.configMappingEditorContent).toEqual(res);
+      expect(component.artifactRequest.templateContent).toEqual(res);
+    });    
+  }));
+
+  it('Should validate if files is false', () => {
+    let spy = spyOn(NotificationsService.prototype, 'error');
+    let reader = new FileReader();
+    let input = {files: []};
+    component.refObj = true;
+
+    component.fileChange(input);
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('Should validate if refObj is undefined', () => {
+    let spy = spyOn(NotificationsService.prototype, 'error');
+    let reader = new FileReader();
+    let input = {files: []};
+    component.refObj = undefined;
+
+    component.fileChange(input);
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  // End fileChange method
 
 });

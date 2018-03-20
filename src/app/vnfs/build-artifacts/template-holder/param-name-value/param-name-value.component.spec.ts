@@ -21,6 +21,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
+/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { By, BrowserModule } from '@angular/platform-browser';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -141,9 +142,9 @@ describe('GoldenConfigurationMappingComponent', () => {
         expect(component.ngAfterViewInit());
 
         component.paramsContent = JSON.stringify({
-            "sync_auto-pop_name1": "testIp1",
+            "sync_auto-pop_name1": "10.0.1.34",
             "sync_auto-pop_address1": "",
-            "node0_tacplus_server_name2": "testIp2"
+            "node0_tacplus_server_name2": "192.34.45.5"
         });
         expect(component.ngOnInit());
 
@@ -180,9 +181,9 @@ describe('GoldenConfigurationMappingComponent', () => {
         fixture = TestBed.createComponent(GoldenConfigurationMappingComponent);
         component = fixture.componentInstance;
         var data = JSON.stringify({
-            "sync_auto-pop_name1": "testIp1",
+            "sync_auto-pop_name1": "10.0.1.34",
             "sync_auto-pop_address1": "",
-            "node0_tacplus_server_name2": "testIp2"
+            "node0_tacplus_server_name2": "192.34.45.5"
         });
         component.onParamChanges(data);
         expect(localStorage["paramsContent"]).toBe(data);
@@ -195,7 +196,7 @@ describe('GoldenConfigurationMappingComponent', () => {
         var mockData = {
             "output": {
                 "data": {
-                    "block": "{\"userID\":null,\"designInfo\":null,\"statusInfo\":null,\"artifactInfo\":[{\"artifact-content\":\"[{\\\"node0_tacplus_server_name1\\\":\\\"testIp1\\\",\\\"node0_tacplus_server_source_address1\\\":\\\"testIp2\\\",\\\"node0_tacplus_server_name2\\\":\\\"testIp3\\\"}]\"}]}",
+                    "block": "{\"userID\":null,\"designInfo\":null,\"statusInfo\":null,\"artifactInfo\":[{\"artifact-content\":\"[{\\\"node0_tacplus_server_name1\\\":\\\"199.37.184.211\\\",\\\"node0_tacplus_server_source_address1\\\":\\\"135.144.3.125\\\",\\\"node0_tacplus_server_name2\\\":\\\"199.37.184.242\\\"}]\"}]}",
                     "requestId": "497085412083"
                 },
                 "status": {
@@ -231,12 +232,47 @@ describe('GoldenConfigurationMappingComponent', () => {
         fixture = TestBed.createComponent(GoldenConfigurationMappingComponent);
         component = fixture.componentInstance;
         localStorage['paramsContent'] = JSON.stringify({
-            "node0_tacplus_server_name1": "testIp1", "node0_tacplus_server_source_address1": "testIp2", "node0_tacplus_server_name2": "testIp3"
+            "node0_tacplus_server_name1": "199.37.184.211", "node0_tacplus_server_source_address1": "135.144.3.125", "node0_tacplus_server_name2": "199.37.184.242"
         });
         var pdData = [{ "name": "sync_auto-pop_name1", "type": null, "description": null, "required": null, "default": null, "source": "A&AI", "rule-type": "vnfc-oam-ipv4-address-list", "request-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "response-keys": [{ "key-name": "unique-key-name", "key-value": "parent-name" }, { "key-name": "unique-key-value", "key-value": "vnfc" }, { "key-name": "field-key-name", "key-value": "ipaddress-v4-oam-vip" }, { "key-name": null, "key-value": "vm-number" }, { "key-name": null, "key-value": "test" }], "ruleTypeValues": [null, "vnf-name", "vm-name-list", "vnfc-name-list", "vnf-oam-ipv4-address", "vnfc-oam-ipv4-address-list"], "showFilterFields": true, "enableFilterByValue": true }, { "name": "sync_auto-pop_address1", "type": null, "description": null, "required": null, "default": null, "source": "A&AI", "rule-type": "vm-name-list", "request-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "response-keys": [{ "key-name": "unique-key-name", "key-value": "parent-name" }, { "key-name": "unique-key-value", "key-value": "vserver" }, { "key-name": "field-key-name", "key-value": "vserver-name" }, { "key-name": null, "key-value": "vnfc-function-code" }, { "key-name": null, "key-value": null }], "ruleTypeValues": [null, "vnf-name", "vm-name-list", "vnfc-name-list", "vnf-oam-ipv4-address", "vnfc-oam-ipv4-address-list"], "showFilterFields": true, "enableFilterByValue": true }, { "name": "node0_tacplus_server_name2", "type": null, "description": null, "required": null, "default": null, "source": "Manual", "rule-type": null, "request-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "response-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "ruleTypeValues": [null] }];
         paramShareService.setSessionParamData([pdData]);
         component.syncParam();
     }));
 
+    // fileChange method
+    it('Should validatte fileChange method if file type is json', async(() => {
+        let reader = new FileReader();
+        let obj = {"e": " "};
+        let data = JSON.stringify(obj);
+        let file = new File([data], "foo.json", {type: "text/json"});
+        let input = {files: [file]};
 
+        component.fileParamChange(input);
+
+        component.readFile(input.files[0], reader,(res) => {
+            let jsonObject = JSON.parse(res);
+            expect(component.selectedUploadType).toEqual('Mapping Data');
+            expect(component.artifactRequest.paramsContent).toEqual(JSON.stringify(jsonObject, null, 1));
+        });  
+    }));
+
+
+    it('Should validatte fileChange method if file type is not json', () => {
+        let spy = spyOn(NotificationsService.prototype, 'error');
+        let file = new File(["testing"], "foo.txt", {type: "text/txt"});
+        let input = {files: [file]};
+
+        component.fileParamChange(input);
+
+        expect(spy).toHaveBeenCalled();  
+    });
+
+    it('Should validatte fileChange method if file is false', () => {
+        let spy = spyOn(NotificationsService.prototype, 'error');
+        let input = {files: []};
+
+        component.fileParamChange(input);
+
+        expect(spy).toHaveBeenCalled();  
+    });
 });
