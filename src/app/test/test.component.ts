@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -194,7 +193,7 @@ export class TestComponent implements OnInit {
                 this.showStatusResponseDiv = false;
                 this.errorResponse = '';
                 this.statusResponse = '';
-                this.enableDownload=true;
+                this.enableDownload = true;
                 let arrData = (<AOA>(XLSX.utils.sheet_to_json(ws, { blankrows: false })));
 
 
@@ -210,10 +209,10 @@ export class TestComponent implements OnInit {
                 // Refactor
                 this.payload = this.processUploadedFile(arrData);
                 this.uploadedFileResult();
-              };
+            };
 
             reader.readAsBinaryString(target.files[0]);
-            
+
 
         }
         else {
@@ -236,7 +235,7 @@ export class TestComponent implements OnInit {
         }
     }
 
-processUploadedFile(arrData) {
+    processUploadedFile(arrData) {
         let tempPayload = {};
         for (var i = 0; i < arrData.length; i++) {
             var element = arrData[i];
@@ -252,7 +251,7 @@ processUploadedFile(arrData) {
 
                 }
             }
-          
+
             if (element['List Name'] === 'payload') {
                 var listName1 = element['List Name_1'];
                 var listName2 = element['List Name_2'];
@@ -280,7 +279,7 @@ processUploadedFile(arrData) {
         return tempPayload;
     }
 
-      uploadedFileResult() {
+    uploadedFileResult() {
         if (this.action && this.actionIdentifiers['vnf-id']) {
             this.nService.success('Success', 'SpreadSheet uploaded successfully');
         }
@@ -459,23 +458,29 @@ processUploadedFile(arrData) {
                     }
                     else {
                         this.showStatusResponseDiv = false;
+                        if (this.subscribe && this.subscribe != undefined) {
+                            this.subscribe.unsubscribe();
+                            this.enablePollButton = true;
+                        }
+
                     }
 
-                    
                 },
                 error => {
                     this.statusResponse = null;
                     this.showStatusResponseDiv = false;
                     this.errorResponse = 'Error Connecting to APPC server';
                     this.enableCounterDiv = false;
-                    if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
+                    if (this.subscribe && this.subscribe != undefined) {
+                        this.subscribe.unsubscribe();
+                        this.enablePollButton = true;
+                    }
                 });
-
         }
         else {
             this.nService.error("Error", "Please enter vnf Id & request Id");
         }
-        
+
     }
 
     getUrlEndPoint(action) {

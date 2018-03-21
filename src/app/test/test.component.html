@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 -->
 <simple-notifications [options]="options"></simple-notifications>
@@ -26,7 +25,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 <div class="card" style=" margin-bottom: 23px;">
     <div class="card-block" style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
-        <div class="row">
+        <div class="row" style="padding: 10px 15px">
             <div class="col-lg-3 col-sm-6 col-md-4 col-xs-12">
                 <label>Action:</label>
                 <input class="form-control" type="text" disabled value="{{action}}" />
@@ -43,7 +42,8 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <input class="form-control" disabled type="text" [(ngModel)]="this.actionIdentifiers['vserver-id']" />
 
             </div>
-
+        </div>
+        <div class="row" style="padding: 10px 15px">
 
             <div class="col-12">
                 <div class="input-group">
@@ -98,9 +98,11 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
             <div class="col-md-12">
                 <div class="row justify-content-center" style="padding-top:0.3cm">
-                    <button style="margin-left:6%;" [disabled]="!enableTestButton" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="submit" (click)="testVnf()">Execute Test
+
+                    <button style="margin-left:6%;" [disabled]="!enableTestButton" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary"
+                        type="submit" (click)="testVnf()">Execute Test
                     </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                
+
                 </div>
 
             </div>
@@ -110,7 +112,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
     </div>
 
     <div style="padding-left:60%;padding-bottom:0.5cm">
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="button" [disabled]="!enableDownload" (click)="download()">Download Raw Request/Response
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="button" [disabled]="!enableDownload" (click)="download()">Download Raw Request/Response
         </button>
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" [disabled]="!enableAbort" (click)="abortTest()">Abort Test
         </button>
@@ -121,22 +123,22 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 <div class="card">
     <div class="card-block">
 
-        <div class="mdl-dialog__content" style="border:solid 1px grey;overflow:scroll;overflow-x:hidden;overflow-y:hidden;">
+        <div class="mdl-dialog__content" style="border:solid 1px grey;">
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="margin-left: 25%">
                 <input placeholder="Request Id" [(ngModel)]="requestId" class="mdl-textfield__input" id="requestId" required name="requestId">
-            </div>
-            <button type="submit" [disabled]="!enablePollButton" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)=pollTestStatus()>Poll Test Status
+            </div><br/>
+            <button style="margin-left: 30%" type="submit" [disabled]="!enablePollButton" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)=pollTestStatus()>Poll Test Status
             </button>
-
+            <br/><br/>
             <div class="col-md-12">
                 <span style="margin-left: 18.5%"><b>POLL TEST STATUS RESPONSE</b></span>
             </div>
 
             <div style="margin-left: 18.5%;height:100px;width:60%;border:solid 2px grey;overflow:scroll;overflow-x:hidden;overflow-y:hidden;">
 
-            <div *ngIf="showStatusResponseDiv">
-                <div *ngIf="enableCounterDiv"><b>Poll test no {{pollCounter}}</b></div>
+                <div *ngIf="showStatusResponseDiv">
+                    <div *ngIf="enableCounterDiv"><b>Poll test no {{pollCounter}}</b></div>
                     <table>
                         <thead></thead>
                         <tbody>
@@ -168,9 +170,9 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                     </table>
                 </div>
                 <div *ngIf="!showStatusResponseDiv">
-                     <div *ngIf="enableCounterDiv"><b>Poll test no {{pollCounter}}</b></div>
+                    <div *ngIf="enableCounterDiv"><b>Poll test no {{pollCounter}}</b></div>
                     <span>{{statusResponse}}</span>
-                </div> 
+                </div>
 
                 <div *ngIf="errorResponse">
                     <p style="height:450px;" disabled class="text-center">

@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -91,7 +90,7 @@ describe('TestComponent', () => {
         component.pollTestStatus();
 
         expect(service).toBeTruthy();
-        
+
     }));
 
     // Test download Method
@@ -178,9 +177,9 @@ describe('TestComponent', () => {
 
         it('should execute if file extension is XLS, XLSX', () => {
             let reader = new FileReader();
-            let file = new File(["testing"], "foo.XLS", {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
+            let file = new File(["testing"], "foo.XLS", { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
             let fileExtension = 'XLS';
-            let event = { isTrusted: true, type: "change", target: {files: [file]} }
+            let event = { isTrusted: true, type: "change", target: { files: [file] } }
 
             component.upload(event);
 
@@ -190,10 +189,10 @@ describe('TestComponent', () => {
 
         it('should return an error if file extension is not XLS, XLSX', () => {
             let reader = new FileReader();
-            let file = new File(["testing"], "foo.doc", {type: ""})
+            let file = new File(["testing"], "foo.doc", { type: "" })
             let fileExtension = 'doc';
-            let event = { isTrusted: true, type: "change", target: {files: [file]} }
-            
+            let event = { isTrusted: true, type: "change", target: { files: [file] } }
+
             component.upload(event);
 
             expect(reader instanceof FileReader).toBeTruthy();
@@ -201,7 +200,7 @@ describe('TestComponent', () => {
         });
 
         it('Should return an error is files length is not equal to 1', () => {
-            
+
         });
     });
 
@@ -287,35 +286,35 @@ describe('TestComponent', () => {
         });
 
         it('should return response on success', inject([MockBackend], (mockBackend: MockBackend) => {
-           let mockData = 'testing';
-	        let response = new ResponseOptions({
-	            body: JSON.stringify(mockData)
-	        });
-	        const baseResponse = new Response(response);
-	        mockBackend.connections.subscribe(
-	            (c: MockConnection) => { 
-	            	c.mockRespond(baseResponse)
-	            }
-	        );
+            let mockData = 'testing';
+            let response = new ResponseOptions({
+                body: JSON.stringify(mockData)
+            });
+            const baseResponse = new Response(response);
+            mockBackend.connections.subscribe(
+                (c: MockConnection) => {
+                    c.mockRespond(baseResponse)
+                }
+            );
 
-	        component.action  = 'ConfigModify';
-			
-			component.testVnf();
+            component.action = 'ConfigModify';
+
+            component.testVnf();
         }));
 
-        it('should return an error if fails', inject([HttpUtilService],( httpUtilService: HttpUtilService) => {
-			let error = 'Error in connecting to APPC Server';
-			let spy = spyOn(httpUtilService, 'post').and.returnValue(Observable.throw(error));
-			component.action  = 'ConfigModify';
-			
-			component.testVnf();
+        it('should return an error if fails', inject([HttpUtilService], (httpUtilService: HttpUtilService) => {
+            let error = 'Error in connecting to APPC Server';
+            let spy = spyOn(httpUtilService, 'post').and.returnValue(Observable.throw(error));
+            component.action = 'ConfigModify';
 
-			expect(spy).toHaveBeenCalled();
-			expect(component.enableBrowse).toBeTruthy();
-			expect(component.enableTestButton).toBeTruthy();
-			expect(component.enablePollButton).toBeTruthy();
-			expect(component.enableCounterDiv).toBeFalsy();
-		}));
+            component.testVnf();
+
+            expect(spy).toHaveBeenCalled();
+            expect(component.enableBrowse).toBeTruthy();
+            expect(component.enableTestButton).toBeTruthy();
+            expect(component.enablePollButton).toBeTruthy();
+            expect(component.enableCounterDiv).toBeFalsy();
+        }));
 
         it('test setTimeout', inject([NgProgress], (ngProgress: NgProgress) => {
             let spy = spyOn(ngProgress, 'done');
@@ -334,64 +333,80 @@ describe('TestComponent', () => {
 
         it('should call fake server', inject([MockBackend], (mockBackend: MockBackend) => {
             component.requestId = new Date().getTime().toString();
-			component.actionIdentifiers['vnf-id'] = 123456;
-			let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"FAILED\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
-	        let response = new ResponseOptions({
-	            body: JSON.stringify(mockData)
-	        });
-	        const baseResponse = new Response(response);
-	        mockBackend.connections.subscribe(
-	            (c: MockConnection) => c.mockRespond(baseResponse)
-	        );
-			
-			component.pollTestStatus();
+            component.actionIdentifiers['vnf-id'] = 123456;
+            let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"FAILED\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } };
+            let response = new ResponseOptions({
+                body: JSON.stringify(mockData)
+            });
+            const baseResponse = new Response(response);
+            mockBackend.connections.subscribe(
+                (c: MockConnection) => c.mockRespond(baseResponse)
+            );
+
+            component.pollTestStatus();
         }));
 
         it('should call fake server if status is success', inject([MockBackend], (mockBackend: MockBackend) => {
-			component.requestId = new Date().getTime().toString();
-			component.actionIdentifiers['vnf-id'] = 123456;
-			let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"SUCCESS\",\"status\":\"SUCCESS\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
-	        let response = new ResponseOptions({
-	            body: JSON.stringify(mockData)
-	        });
-	        const baseResponse = new Response(response);
-	        mockBackend.connections.subscribe(
-	            (c: MockConnection) => c.mockRespond(baseResponse)
-	        );
-			
-			component.pollTestStatus();
-		}));
+            component.requestId = new Date().getTime().toString();
+            component.actionIdentifiers['vnf-id'] = 123456;
+            let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"SUCCESS\",\"status\":\"SUCCESS\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } };
+            let response = new ResponseOptions({
+                body: JSON.stringify(mockData)
+            });
+            const baseResponse = new Response(response);
+            mockBackend.connections.subscribe(
+                (c: MockConnection) => c.mockRespond(baseResponse)
+            );
 
-		it('should execute else part if timeStamp && status && statusReason are false', inject([MockBackend], (mockBackend: MockBackend) => {
-			component.requestId = new Date().getTime().toString();
-			component.actionIdentifiers['vnf-id'] = 123456;
-			let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
-	        let response = new ResponseOptions({
-	            body: JSON.stringify(mockData)
-	        });
-	        const baseResponse = new Response(response);
-	        mockBackend.connections.subscribe(
-	            (c: MockConnection) => c.mockRespond(baseResponse)
-	        );
-			
-			component.pollTestStatus();
-		}));
+            component.pollTestStatus();
+        }));
 
-		it('should return an error if fails', inject([MockBackend], (mockBackend: MockBackend) => {
-			let error = 'Error Connecting to APPC server';
-			component.requestId = new Date().getTime().toString();
-			component.actionIdentifiers['vnf-id'] = 123456;
-	        let mockData = '';
-	        let response = new ResponseOptions({
-	            body: JSON.stringify(mockData)
-	        });
-	        const baseResponse = new Response(response);
-	        mockBackend.connections.subscribe(
-	            (c: MockConnection) => c.mockError(new Error(error))
-	        );
+        it('should check error condition on polling where timestamp and test status are not available', inject([MockBackend], (mockBackend: MockBackend) => {
+            component.requestId = new Date().getTime().toString();
+            component.actionIdentifiers['vnf-id'] = 123456;
+            //let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
+            let mockData = { "output": { "common-header": { "timestamp": "2018-03-21T14:20:30.910Z", "api-ver": "2.00", "request-id": "1521642030910", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 }, "originator-id": "CDT", "sub-request-id": "1521642030910" }, "status": { "message": "INVALID INPUT PARAMETER - vserver-id", "code": 301 } } };
+            let response = new ResponseOptions({
+                body: JSON.stringify(mockData)
+            });
+            const baseResponse = new Response(response);
+            mockBackend.connections.subscribe(
+                (c: MockConnection) => c.mockRespond(baseResponse)
+            );
 
-			component.pollTestStatus();
-		}));
+            component.pollTestStatus();
+        }));
+
+        it('should execute else part if timeStamp && status && statusReason are false', inject([MockBackend], (mockBackend: MockBackend) => {
+            component.requestId = new Date().getTime().toString();
+            component.actionIdentifiers['vnf-id'] = 123456;
+            let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } };
+            let response = new ResponseOptions({
+                body: JSON.stringify(mockData)
+            });
+            const baseResponse = new Response(response);
+            mockBackend.connections.subscribe(
+                (c: MockConnection) => c.mockRespond(baseResponse)
+            );
+
+            component.pollTestStatus();
+        }));
+
+        it('should return an error if fails', inject([MockBackend], (mockBackend: MockBackend) => {
+            let error = 'Error Connecting to APPC server';
+            component.requestId = new Date().getTime().toString();
+            component.actionIdentifiers['vnf-id'] = 123456;
+            let mockData = '';
+            let response = new ResponseOptions({
+                body: JSON.stringify(mockData)
+            });
+            const baseResponse = new Response(response);
+            mockBackend.connections.subscribe(
+                (c: MockConnection) => c.mockError(new Error(error))
+            );
+
+            component.pollTestStatus();
+        }));
     });
 
     // Test getUrlEndPoint Method
