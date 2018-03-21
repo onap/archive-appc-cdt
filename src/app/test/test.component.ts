@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -443,7 +442,7 @@ processUploadedFile(arrData) {
                             console.log("error" + err)
                         }
                     }
-                    if (timeStamp && status && statusReason) {
+                     if (timeStamp && status && statusReason) {
                         this.showStatusResponseDiv = true;
                         this.outputTimeStamp = timeStamp;
                         this.status = status;
@@ -459,18 +458,26 @@ processUploadedFile(arrData) {
                     }
                     else {
                         this.showStatusResponseDiv = false;
+                        if (this.subscribe && this.subscribe != undefined) 
+                        {
+                            this.subscribe.unsubscribe();
+                            this.enablePollButton = true;
+                        }
+                        
                     }
 
-                    
                 },
                 error => {
                     this.statusResponse = null;
                     this.showStatusResponseDiv = false;
                     this.errorResponse = 'Error Connecting to APPC server';
                     this.enableCounterDiv = false;
-                    if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
+                    if (this.subscribe && this.subscribe != undefined) 
+                    {
+                        this.subscribe.unsubscribe();
+                        this.enablePollButton = true;
+                    }
                 });
-
         }
         else {
             this.nService.error("Error", "Please enter vnf Id & request Id");

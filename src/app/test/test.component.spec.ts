@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -352,6 +351,22 @@ describe('TestComponent', () => {
 			component.actionIdentifiers['vnf-id'] = 123456;
 			let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"SUCCESS\",\"status\":\"SUCCESS\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
 	        let response = new ResponseOptions({
+	            body: JSON.stringify(mockData)
+	        });
+	        const baseResponse = new Response(response);
+	        mockBackend.connections.subscribe(
+	            (c: MockConnection) => c.mockRespond(baseResponse)
+	        );
+			
+			component.pollTestStatus();
+		}));
+
+        it('should check error condition on polling where timestamp and test status are not available', inject([MockBackend], (mockBackend: MockBackend) => {
+			component.requestId = new Date().getTime().toString();
+			component.actionIdentifiers['vnf-id'] = 123456;
+			//let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
+	        let mockData={"output":{"common-header":{"timestamp":"2018-03-21T14:20:30.910Z","api-ver":"2.00","request-id":"1521642030910","flags":{"force":"TRUE","mode":"NORMAL","ttl":3600},"originator-id":"CDT","sub-request-id":"1521642030910"},"status":{"message":"INVALID INPUT PARAMETER - vserver-id","code":301}}};
+            let response = new ResponseOptions({
 	            body: JSON.stringify(mockData)
 	        });
 	        const baseResponse = new Response(response);
