@@ -270,10 +270,7 @@ export class ReferenceDataformComponent implements OnInit {
                             }, {
                                 name: 'Parameter Definition',
                                 url: 'parameterDefinitions/create'
-                            }/*, {
-                                name: "Test",
-                                url: 'test',
-                            }*/
+                            }
                         ];
                     }
                     // console.log('tempalldata===' + JSON.stringify(this.tempAllData));
@@ -339,6 +336,13 @@ export class ReferenceDataformComponent implements OnInit {
     //to remove the VM's created by the user
     removeFeature(vmNumber: any, index: any) {
         this.referenceDataObject.vm.splice(vmNumber, 1);
+        this.referenceDataObject.vm.forEach((obj,arrIndex)=>{
+            if(arrIndex>=vmNumber){
+                obj["vm-instance"] = obj["vm-instance"]-1
+            }
+
+        })
+        console.log(this.referenceDataObject.vm)
     }
 
     //add new VM's to the configure
@@ -361,7 +365,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     //Reference object to create reference data
-    prepareReferenceObject() {
+    prepareReferenceObject() { 
         // // console.log("this temp all data before=="+ JSON.stringify(this.tempAllData))
 
         this.referenceDataObject['artifact-list'] = [];
@@ -461,13 +465,6 @@ export class ReferenceDataformComponent implements OnInit {
             //this.tempAllData.push(newObj);
         } else {
             if (ConfigScaleOut) {
-
-
-                // //add template identifier
-                // for(let x=0;x<newObj.vm.length;x++){
-                //     let vmObj= newObj.vm[x]
-                //     vmObj['template-id'] = this.templateIdentifier
-                // }
             } else {
                 delete newObj['template-id-list'];
             }
@@ -481,6 +478,7 @@ export class ReferenceDataformComponent implements OnInit {
         if (newObj.action != 'HealthCheck') {
             delete newObj['url'];
         }
+        this.resetVmsForScaleout()
         if (actionObjIndex > -1) {
             this.tempAllData[actionObjIndex] = newObj;
             this.mappingEditorService.saveLatestAction(this.tempAllData[actionObjIndex]);
@@ -492,19 +490,7 @@ export class ReferenceDataformComponent implements OnInit {
                 this.mappingEditorService.saveLatestIdentifier(this.templateIdentifier);
             }
         }
-        //reset currentform vms based on action
-        if (this.currentAction == "ConfigScaleOut") {
-            //this.referenceDataObject.vm = []
-
-            let ConfigScaleOutIndex = this.tempAllData.findIndex(obj => {
-                return obj['action'] == this.currentAction;
-            });
-            if (ConfigScaleOutIndex > -1) {
-                this.referenceDataObject.vm = this.tempAllData[ConfigScaleOutIndex].vm
-            } else {
-                this.referenceDataObject.vm = []
-            }
-        }
+      
         //Creating all action block to allow mulitple actions at once
         let allAction = {
             action: 'AllAction',
@@ -525,18 +511,6 @@ export class ReferenceDataformComponent implements OnInit {
         }
         // console.log('This uploaded array===' + JSON.stringify(this.uploadedDataArray));
         if (this.uploadedDataArray && this.uploadedDataArray != undefined && this.uploadedDataArray.length != 0) {
-            /*for (var i = 0; i < this.uploadedDataArray.length; i++) {
-                var actionData = this.uploadedDataArray[i][0];
-               // // console.log("Action data=="+ actionData);
-                for (var j = 0; j < this.tempAllData.length; j++) {
-                    //// console.log("Actions from temp all data=="+ this.tempAllData[j].action)
-                    //// console.log("Matched=="+ (actionData === this.tempAllData[j].action))
-                    if (actionData === this.tempAllData[j].action) {
-                        this.tempAllData.splice(j,1);
-                        
-                    }
-                }
-            }*/
             if (this.tempAllData && this.tempAllData != undefined) {
                 for (var i = 0; i < this.tempAllData.length; i++) {
                     // alert(this.checkIfelementExistsInArray(this.tempAllData[i].action,this.actions))
@@ -631,10 +605,7 @@ export class ReferenceDataformComponent implements OnInit {
                 const ws = wb.Sheets[wsname];
 
                 /* save data */
-
                 let arrData = (<AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 })));
-                //// console.log("row======" + (XLSX.utils.sheet_to_json(ws, { header: 1 })).toString())
-                // // console.log("Array data---" + JSON.stringify(arrData));
                 this.uploadedDataArray = arrData;
                 this.firstArrayElement = arrData[0];
                 var remUploadedDataArray = arrData;
@@ -662,8 +633,6 @@ export class ReferenceDataformComponent implements OnInit {
         for (var i = 0; i < this.uploadedDataArray.length; i++) {
             var vnfcFuncCodeArray = [];
             var data = this.uploadedDataArray[i];
-            // // console.log("Data is "+ JSON.stringify(data))
-            //// console.log("Data length: "+ data.length)
             for (var j = 1; j < data.length; j++) {
                 // // console.log("Data " +j +" is "+ JSON.stringify(data[j]))
                 if (data[j] != undefined) {
@@ -771,9 +740,6 @@ export class ReferenceDataformComponent implements OnInit {
             if (valid) {
 
                 let referenceObject = this.prepareReferenceObject();
-                // console.log('##########');
-
-                // console.log(referenceObject);
                 this.validateTempAllData();
                 let theJSON = JSON.stringify(this.tempAllData, null, '\t');
                 let fileName = 'reference_AllAction_' + referenceObject.scopeName + '_' + '0.0.1V.json';
@@ -916,10 +882,7 @@ export class ReferenceDataformComponent implements OnInit {
                                 }, {
                                     name: 'Parameter Definition',
                                     url: 'parameterDefinitions/create'
-                                } /*, {
-        name: "Test",
-        url: 'test',
-      }*/
+                                } 
                             ];
                         }
                         if (this.referenceDataObject.template == null) {
@@ -1067,7 +1030,7 @@ export class ReferenceDataformComponent implements OnInit {
             this.groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value', 'existing-group-name'];
         }
 
-        this.toggleIdentifier(data)
+      //  this.toggleIdentifier(data)
 
         if (data == 'OpenStack Actions') {
             this.buildDesignComponent.tabs = [
@@ -1199,9 +1162,6 @@ export class ReferenceDataformComponent implements OnInit {
         if(!(this.referenceDataObject['template-id-list'].indexOf(this.templateId.trim())>-1)){
             this.referenceDataObject['template-id-list'].push(this.templateId.trim());
         }
-        
-        // this.referenceDataObject['template-id-list'] = this.identifierDrpValues
-        //this.identifierDrp = ""
     }
 
     resetVms() {
@@ -1209,7 +1169,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     dataModified() {
-        this.referenceDataObject.vm = this.referenceDataObject.vm;
+      //  this.referenceDataObject.vm = this.referenceDataObject.vm;
     }
 
     resetGroupNotation() {
@@ -1219,6 +1179,20 @@ export class ReferenceDataformComponent implements OnInit {
             this.disableGrpNotationValue = true
         } else {
             this.disableGrpNotationValue = false
+        }
+    }
+
+    resetVmsForScaleout(){
+         //reset currentform vms based on action
+         if (this.currentAction == "ConfigScaleOut") {
+            let ConfigScaleOutIndex = this.tempAllData.findIndex(obj => {
+                return obj['action'] == this.currentAction;
+            });
+            if (ConfigScaleOutIndex > -1) {
+                this.referenceDataObject.vm = this.tempAllData[ConfigScaleOutIndex].vm
+            } else {
+                this.referenceDataObject.vm = []
+            }
         }
     }
 }
