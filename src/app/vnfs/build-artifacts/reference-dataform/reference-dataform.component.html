@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 -->
 
@@ -25,6 +24,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 <ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'" [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
 <form class="" novalidate #userForm="ngForm" (ngSubmit)="save(userForm.value,userForm.valid)">
     <div class="card">
+
         <div class="card-block" style="    border-top: 5px solid #6ab344; border-top-right-radius: 7px;border-top-left-radius: 7px;">
             <div class="row" style="padding: 15px 25px">
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
@@ -36,17 +36,16 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                                 *ngFor="let actionType of actions ">{{actionType}}
                         </option>
                     </select>
+
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>VNF Type* </label>
-                    <input type="text" [readonly]="updateParams !='undefined' || vnfParams?.vnfType " class="form-control" id="txtVnfType" required [(ngModel)]="referenceDataObject['scope']['vnf-type']" (ngModelChange)="updateSessionValues($event,'vnfType')" #vnftype="ngModel"
-                        name="vnftype">
+                    <input type="text" readonly class="form-control" id="txtVnfType" required [(ngModel)]="referenceDataObject['scope']['vnf-type']" (ngModelChange)="updateSessionValues($event,'vnfType')" #vnftype="ngModel" name="vnftype">
                     <span class="error-message" [hidden]="vnfParams?.vnfType || vnftype.valid || (vnftype.pristine && !userForm.submitted)">Required Field</span>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>VNFC Type</label>
-                    <input type="text" class="form-control" [disabled]="nonConfigureAction || updateParams !='undefined' || vnfParams?.vnfType" id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']" (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')"
-                        #vnfcType="ngModel" name="vnfcType" disabled="disabled">
+                    <input type="text" class="form-control" readonly id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']" (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')" #vnfcType="ngModel" name="vnfcType">
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>Device Protocol*</label>
@@ -55,6 +54,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                                 *ngFor="let device of deviceProtocols">{{device}}
                         </option>
                     </select>
+
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="isConfigScaleOut">
                     <label>Template Identifier</label>
@@ -229,7 +229,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                                             </div>
                                             <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                                                 <div class="removevnfcClass" *ngIf="refernceScopeObj.sourceType !='vnfcType'">
-                                                    <a role="button" style="color: white" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="removeFeature(j,i)">Remove Vm</a>
+                                                    <a role="button" style="color: white" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="removeFeature(j,i,templateIdentifier)">Remove Vm</a>
                                                 </div>
                                                 <div>
                                                     <a *ngIf="(referenceDataObject.vm[j].vnfc.length-1) == i " [hidden]="true" role="button" (click)="addVnfcData(j)">Add VNFC
@@ -310,16 +310,13 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                     <div>
                         <input pattern=".*[^ ].*" name="test" type="text" class="" [(ngModel)]="templateId" placeholder="identifier">
                     </div>
-                    <div>
-                        <button style="padding: 10px" class="btn btn-primary" data-dismiss="modal" (click)="addToIdentDrp()">submit
-                        </button>
-                        <button style="padding: 10px" class="btn btn-primary" (click)="templateId=''" data-dismiss="modal">cancel
-                        </button>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-
+                <div>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-dismiss="modal" (click)="addToIdentDrp()">Add</button>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="templateId=''" data-dismiss="modal">cancel</button>
+                </div>
             </div>
         </div>
     </div>
