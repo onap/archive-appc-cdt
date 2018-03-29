@@ -40,6 +40,5 @@ describe('DropDown', () => {
 
      it('should test open method', () => {
          let elementRef: ElementRef;
-         console.log(directive);
      });
 });

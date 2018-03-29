@@ -296,7 +296,6 @@ export class GoldenConfigurationMappingComponent implements OnInit {
                 }
             };
 
-            console.log('Retrieve name value from appc payload===>>' + payload);
             let artifactContent: any;
             this.ngProgress.start();
             this.httpUtil.post({
@@ -446,7 +445,6 @@ export class GoldenConfigurationMappingComponent implements OnInit {
             }
         }
         catch (error) {
-            console.log('Error occured in syncing param names' + JSON.stringify(error));
             this.nService.error('Error', 'Error synchronising with name values. Please check the format of json uploaded/ retrieved');
         }
     }

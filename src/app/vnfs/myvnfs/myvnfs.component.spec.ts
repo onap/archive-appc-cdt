@@ -112,8 +112,6 @@ describe('MyvnfsComponent', () => {
             url: "test url",
             data: data
         }).subscribe((resp) => {
-            console.log("resp")
-            console.log(resp)
             let  block = JSON.parse(resp.output.data.block)
             expect(block.userID).toBe("ug0221");
             
@@ -158,10 +156,7 @@ describe('MyvnfsComponent', () => {
             url: "test url",
             data: data
         }).subscribe((resp) => {
-            console.log("resp")
-            console.log(resp)
             let  block = JSON.parse(resp.output.data.status.code)
-            console.log("code",block)
             expect(block).toBe(400);     
         });
     }))

@@ -30,6 +30,9 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 export class HttpUtilService {
     headers: Headers;
     options: RequestOptions
+    private username = require('../../../cdt_properties.json').username;
+    private password = require('../../../cdt_properties.json').password;
+
     constructor (private http: Http) {
         this.headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
         // this.options = new RequestOptions({headers: this.headers}); //
@@ -45,8 +48,8 @@ export class HttpUtilService {
 
     post(req) {
 
-        this.headers.append('Authorization', 'Basic ' + btoa('m97292@appc.att.com:enc:Ai8KDxN7EANwATsV'));
-        this.options = new RequestOptions({ headers: this.headers });
+         this.headers.append('Authorization', 'Basic ' + btoa(this.username+':'+this.password));
+         this.options = new RequestOptions({ headers: this.headers });
 
         return this
             .http

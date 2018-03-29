@@ -175,8 +175,6 @@ export class ReferenceDataformComponent implements OnInit {
         let cacheData = this.mappingEditorService.referenceNameObjects;
         if (cacheData != undefined && cacheData != null && cacheData.length > 0) {
             this.tempAllData = cacheData;
-            // console.log("latest action")
-            // console.log(this.mappingEditorService.latestAction)
             if (this.mappingEditorService.latestAction != undefined) {
                 this.referenceDataObject = this.mappingEditorService.latestAction;
                 this.toggleIdentifier(this.referenceDataObject.action);
@@ -242,7 +240,6 @@ export class ReferenceDataformComponent implements OnInit {
                     let artifactInfo = JSON.parse(resp.output.data.block).artifactInfo[0];
                     let reference_data = JSON.parse(artifactInfo['artifact-content'])['reference_data'][0];
                     this.referenceDataObject = reference_data;
-                    // console.log('reference data obj==' + JSON.stringify(this.referenceDataObject));
                     this.refernceScopeObj.sourceType = this.referenceDataObject['scopeType'];
                     this.mappingEditorService.getReferenceList().push(JSON.parse(artifactInfo['artifact-content']));
                     this.tempAllData = JSON.parse(artifactInfo['artifact-content'])['reference_data'];
@@ -273,7 +270,6 @@ export class ReferenceDataformComponent implements OnInit {
                             }*/
                         ];
                     }
-                    // console.log('tempalldata===' + JSON.stringify(this.tempAllData));
                 } else {
                     this.nService.success('Status', 'Sorry !!! I dont have any artifact Named : ' + (JSON.parse(payload))['artifact-name']);
                 }
@@ -300,7 +296,6 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     numberValidation(event: any) {
-        // // console.log(this.numberTest.test(event));
         if (this.numberTest.test(event) && event != 0) {
             this.numberOfVmTest = true;
         }
@@ -339,7 +334,6 @@ export class ReferenceDataformComponent implements OnInit {
                     obj["vm-instance"] = obj["vm-instance"]-1
                 }
             })
-            console.log(this.referenceDataObject.vm)
         } else{
             let data = this.referenceDataObject.vm.filter(obj=>{
                 return obj['template-id'] == templateId;
@@ -399,13 +393,10 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     public checkIfelementExistsInArray(element, array) {
-        //// console.log("Element==" + element)
         var result: boolean = false;
 
         array.forEach(function (item) {
-            // // console.log("Item==" + item)
             if (element === item) {
-                // console.log('Element==' + element + 'Item==' + item);
                 result = true;
             }
         }

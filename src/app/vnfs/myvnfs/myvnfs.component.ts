@@ -76,7 +76,6 @@ export class MyvnfsComponent implements OnInit {
             data: data
         })
             .subscribe(resp => {
-                console.log("resp:",resp);
                 const tempObj = JSON.parse(resp.output.data.block);
                 this.vnfData = tempObj.designInfo;
                 if (this.vnfData == undefined || this.vnfData == null || this.vnfData.length == 0) {
@@ -86,7 +85,6 @@ export class MyvnfsComponent implements OnInit {
                 } else {
                     this.noData = false;
                 }
-                console.log(this.noData);
                 this.ngProgress.done();
             });
 

@@ -198,7 +198,6 @@ export class TestComponent implements OnInit {
 
 
 
-                console.log('Array data ==' + arrData[0]);
                 this.vmPayload = [];
                 this.subPayload = {};
                 this.vmJson = {};
@@ -333,9 +332,7 @@ export class TestComponent implements OnInit {
     }
 
     constructRequest() {
-        console.log('payload==' + JSON.stringify(this.payload));
         let timeStamp = new Date().toISOString();
-        console.log('timestamp==' + timeStamp);
         let reqId;
         this.requestId = reqId = new Date().getTime().toString();
         let data = {
@@ -367,7 +364,6 @@ export class TestComponent implements OnInit {
         this.enablePollButton = false;
         this.timer = Observable.interval(10000);
         this.subscribe = this.timer.subscribe((t) => this.pollTestStatus());
-        //console.log('full payload==' + JSON.stringify(this.apiRequest));
         this.ngProgress.start();
         this.apiRequest = JSON.stringify(this.constructRequest());
         this.httpUtil.post(
