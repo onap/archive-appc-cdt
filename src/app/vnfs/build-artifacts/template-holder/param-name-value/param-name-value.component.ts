@@ -51,7 +51,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     enableMappingSave: boolean = false;
     aceText: string = '';
     fileName: string = '';
-    actionType: any='';
+    actionType: any = '';
     modal: any;
     configMappingEditorContent: any;
     fileType: any = '';
@@ -69,8 +69,8 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     enableDownload: boolean = false;
     showMappingDownloadDiv: boolean = false;
     mapppingDownloadType: any;
-    action: any='';
-    artifactName: any='';
+    action: any = '';
+    artifactName: any = '';
     enableMerge: boolean = false;
     apiToken = localStorage['apiToken'];
     userId = localStorage['userId'];
@@ -98,13 +98,13 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     @ContentChildren(Tab) tabs: QueryList<Tab>;
     public subscription: any;
     public item: any = {};
-    vnfType: any='';
-    vnfcType: any='';
-    protocol: any='';
+    vnfType: any = '';
+    vnfcType: any = '';
+    protocol: any = '';
     refObj: any;
     public paramsContent = localStorage['paramsContent'];
 
-    constructor (private buildDesignComponent: BuildDesignComponent, private paramShareService: ParamShareService, private router: Router, private httpUtil: HttpUtilService, private dialogService: DialogService, private activeRoutes: ActivatedRoute, private mappingEditorService: MappingEditorService, private notificationService: NotificationService, private nService: NotificationsService, private ngProgress: NgProgress) {
+    constructor(private buildDesignComponent: BuildDesignComponent, private paramShareService: ParamShareService, private router: Router, private httpUtil: HttpUtilService, private dialogService: DialogService, private activeRoutes: ActivatedRoute, private mappingEditorService: MappingEditorService, private notificationService: NotificationService, private nService: NotificationsService, private ngProgress: NgProgress) {
         this.artifactRequest.action = '';
         this.artifactRequest.version = '';
         this.artifactRequest.paramKeysContent = '';
@@ -155,7 +155,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
         this.activeRoutes.url.subscribe(UrlSegment => {
             this.actionType = UrlSegment[0].path;
         });
-      
+
         if (this.actionType === 'myTemplates') {
             this.mappingEditorService.fromScreen = 'MappingScreen';
         }
@@ -171,7 +171,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of browseOption() Method============================================
-  
+
     ngOnDestroy() {
         this.prepareFileName();
     }
@@ -201,8 +201,8 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of ngAfterViewInit() Method============================================
-   
-  
+
+
     public fileParamChange(input) {
         if (input.files && input.files[0]) {
             this.enableMappingSave = true;
@@ -264,7 +264,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of onParamChanges() Method============================================
-   
+
     updateFileName(action: any, scopeName: any, versionNo: any) {
         let fileName = 'param_' + action + '_' + scopeName + '_' + versionNo + 'V.json';
         this.downloadedFileName = fileName;
@@ -272,19 +272,29 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of updateFileName() Method============================================
+    updateFileNameForConfigScaleOut(action: any, scopeName: any, versionNo: any, id: any) {
+        let fileName = 'param_' + action + '_' + scopeName + '_' + versionNo + 'V_' + id + '.json';
+        this.downloadedFileName = fileName;
+        return fileName;
+    }
+    //========================== End of updateFileNameForConfigScaleOut() Method============================================
     prepareFileName(): any {
         let fileNameObject: any = this.mappingEditorService.latestAction;
         return fileNameObject;
     }
 
     //========================== End of prepareFileName() Method============================================
-  
+
     retrieveNameValueFromAppc() {
         let refObj = this.refObj;
         if (refObj && refObj != undefined) {
             this.enableMerge = true;
             var scopeName = this.scopeName.replace(/ /g, '').replace(new RegExp('/', "g"), '_').replace(/ /g, '');
-            let fileName = this.updateFileName(this.item.action, scopeName, this.versionNo);
+            let fileName = '';
+            let id = this.mappingEditorService.identifier;
+            if (id) fileName = this.updateFileNameForConfigScaleOut(this.item.action, scopeName, this.versionNo, id);
+            else fileName = this.updateFileName(this.item.action, scopeName, this.versionNo);
+
             let payload = '{"userID": "' + this.userId + '", "action": "' + this.item.action + '", "vnf-type" : "' + this.vnfType + '", "artifact-type":"APPC-CONFIG", "artifact-name":"' + fileName + '"}';
             let input = {
                 'input': {
@@ -337,7 +347,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     }
 
     //========================== End of retrieveNameValueFromAppc() Method============================================
-   
+
     formatNameValuePairs(namevaluePairs: string) {
         var string = namevaluePairs.substring(1, namevaluePairs.length - 1);
         var stringArr = string.split(',');
@@ -431,7 +441,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
                                     'ruleTypeValues': arr2item.ruleTypeValues
                                 };
                                 pdDataArrayForSession.splice(i, 1, json);
-                               
+
                             }
 
                         });

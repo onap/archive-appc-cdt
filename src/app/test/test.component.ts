@@ -148,7 +148,7 @@ export class TestComponent implements OnInit {
         this.enableTestButton = true;
         this.enablePollButton = true;
         if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
-
+        this.nService.info("Information","Test has been abandoned and polling stopped");
     }
 
 
