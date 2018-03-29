@@ -16,6 +16,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -611,7 +613,10 @@ export class ReferenceDataformComponent implements OnInit {
                 if (nameValueData != '{}' && nameValueData != null && nameValueData != undefined) this.saveNameValue();
                 if (pdData != '{}' && pdData != null && pdData != undefined) this.savePd();
                 if (this.actionChanged) {
-                    this.referenceDataObject.action = this.currentAction;
+                    if(this.currentAction){
+                        this.referenceDataObject.action = this.currentAction;
+                    }
+                    
                     this.populateExistinAction(this.referenceDataObject.action);
                     this.actionChanged = false;
                 }
@@ -925,79 +930,87 @@ export class ReferenceDataformComponent implements OnInit {
         } else {
             this.nonConfigureAction = true;
         }
+        this.buildDesignComponent.getRefData(this.referenceDataObject);
+
     }
+    
+    deviceProtocolChange() {
+        // Stop redirecting to template tab is redired fields are not true
+        this.buildDesignComponent.getRefData(this.referenceDataObject)
+    }
+
     // For the issue with multiple template changes
-    // idChange(data, content, userForm) {
-    //     if (data == null) {
-    //     return;
-    //     }
-    //     if ((userForm.valid) && this.oldAction != '' && this.oldAction != undefined) {
-    //     let referenceObject = this.prepareReferenceObject();
-    //     this.actionChanged = true;
-    //     if(this.templateIdentifier)
-    //     {
-    //     this.modalService.open(content).result.then(res => {
-    //     if (res == 'yes') {
-    //     this.validateTempAllData();
-    //     let theJSON = JSON.stringify(this.tempAllData, null, '\t');
-    //     let fileName = 'reference_AllAction_' + referenceObject.scopeName + '_' + '0.0.1V.json';
-    //     this.uploadArtifact(JSON.stringify({ reference_data: this.tempAllData }), this.tempAllData[this.tempAllData.length - 1], fileName);
-    //     var templateData = JSON.stringify(this.appData.template.templateData);
-    //     var nameValueData = JSON.stringify(this.appData.template.nameValueData);
-    //     var pdData = JSON.stringify(this.appData.pd);
-    //     if (templateData != '{}' && templateData != null && templateData != undefined) this.saveTemp();
-    //     if (nameValueData != '{}' && nameValueData != null && nameValueData != undefined) this.saveNameValue();
-    //     if (pdData != '{}' && pdData != null && pdData != undefined) this.savePd();
-    //     this.clearTemplateCache();
-    //     this.clearPdCache();
-    //     }
-    //     else{
-    //     this.clearTemplateCache();
-    //     this.clearPdCache();
-    //     }
-    //     });
-    //     }
-    //     }
-    //     }
+    idChange(data, content, userForm) {
+        if (data == null) {
+        return;
+        }
+        if ((userForm.valid) && this.oldAction != '' && this.oldAction != undefined) {
+        let referenceObject = this.prepareReferenceObject();
+        this.actionChanged = true;
+        if(this.templateIdentifier)
+        {
+        this.modalService.open(content).result.then(res => {
+        if (res == 'yes') {
+        this.validateTempAllData();
+        let theJSON = JSON.stringify(this.tempAllData, null, '\t');
+        let fileName = 'reference_AllAction_' + referenceObject.scopeName + '_' + '0.0.1V.json';
+        this.uploadArtifact(JSON.stringify({ reference_data: this.tempAllData }), this.tempAllData[this.tempAllData.length - 1], fileName);
+        var templateData = JSON.stringify(this.appData.template.templateData);
+        var nameValueData = JSON.stringify(this.appData.template.nameValueData);
+        var pdData = JSON.stringify(this.appData.pd);
+        if (templateData != '{}' && templateData != null && templateData != undefined) this.saveTemp();
+        if (nameValueData != '{}' && nameValueData != null && nameValueData != undefined) this.saveNameValue();
+        if (pdData != '{}' && pdData != null && pdData != undefined) this.savePd();
+        this.clearTemplateCache();
+        this.clearPdCache();
+        }
+        else{
+        this.clearTemplateCache();
+        this.clearPdCache();
+        }
+        });
+        }
+        }
+        }
 
     clearCache() 
-    {
-        // get the value and save the userid and persist it. 
-        this.mappingEditorService.setTemplateMappingDataFromStore(undefined);
-        localStorage['paramsContent'] = '{}';
-        this.mappingEditorService.setParamContent(undefined);
-        this.paramShareService.setSessionParamData(undefined);
-        this.appData = { reference: {}, template: { templateData: {}, nameValueData: {} }, pd: {} };
-        this.downloadData = {
-            reference: {},
-            template: { templateData: {}, nameValueData: {}, templateFileName: '', nameValueFileName: '' },
-            pd: { pdData: '', pdFileName: '' }
-        };
-    }
-
-    // needed for the the clearing template cache.
-    //{
-    //     // get the value and save the userid and persist it.
-    //     this.clearTemplateCache();
-    //     this.clearPdCache();
-    //     this.appData = { reference: {}, template: { templateData: {}, nameValueData: {} }, pd: {} };
-    //     this.downloadData = {
-    //     reference: {},
-    //     template: { templateData: {}, nameValueData: {}, templateFileName: '', nameValueFileName: '' },
-    //     pd: { pdData: '', pdFileName: '' }
-    //     };
-    //     }
-        
-    //     clearTemplateCache()
-    //     {
+    // {
+    //     // get the value and save the userid and persist it. 
     //     this.mappingEditorService.setTemplateMappingDataFromStore(undefined);
     //     localStorage['paramsContent'] = '{}';
-    //     }
-    //     clearPdCache()
-    //     {
     //     this.mappingEditorService.setParamContent(undefined);
     //     this.paramShareService.setSessionParamData(undefined);
-    //     }
+    //     this.appData = { reference: {}, template: { templateData: {}, nameValueData: {} }, pd: {} };
+    //     this.downloadData = {
+    //         reference: {},
+    //         template: { templateData: {}, nameValueData: {}, templateFileName: '', nameValueFileName: '' },
+    //         pd: { pdData: '', pdFileName: '' }
+    //     };
+    // }
+
+    //needed for the the clearing template cache.
+    {
+        // get the value and save the userid and persist it.
+        this.clearTemplateCache();
+        this.clearPdCache();
+        this.appData = { reference: {}, template: { templateData: {}, nameValueData: {} }, pd: {} };
+        this.downloadData = {
+        reference: {},
+        template: { templateData: {}, nameValueData: {}, templateFileName: '', nameValueFileName: '' },
+        pd: { pdData: '', pdFileName: '' }
+        };
+        }
+        
+        clearTemplateCache()
+        {
+        this.mappingEditorService.setTemplateMappingDataFromStore(undefined);
+        localStorage['paramsContent'] = '{}';
+        }
+        clearPdCache()
+        {
+        this.mappingEditorService.setParamContent(undefined);
+        this.paramShareService.setSessionParamData(undefined);
+        }
 
     saveTemp() {
         this

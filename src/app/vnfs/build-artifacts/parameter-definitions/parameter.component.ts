@@ -212,7 +212,19 @@ export class ParameterComponent implements OnInit {
             for (let i = 0; i < this.selectedActionReference['artifact-list'].length; i++) {
                 let artifactList = this.selectedActionReference['artifact-list'];
                 if (artifactList[i]['artifact-type'] === 'parameter_definitions') {
-                    this.artifact_fileName = artifactList[i]['artifact-name'];
+                     var artifactName = artifactList[i]['artifact-name'];
+                    var artifactNameWithoutExtension = '';
+                    if (artifactName) artifactNameWithoutExtension = artifactName.substring(0, artifactName.lastIndexOf("."))
+                    var identifier = artifactNameWithoutExtension.split("_");
+                    var id = '';
+                    if (identifier) id = identifier[identifier.length - 1];
+                    if (this.mappingEditorService.identifier) {
+                        if (id === this.mappingEditorService.identifier) this.artifact_fileName = artifactName;
+
+                    }
+                    else {
+                        this.artifact_fileName = artifactName;
+                    }
                 }
             }
             this.parameterDefinitionService.setValues(this.vnfType, this.vnfcType, this.protocol, this.action, this.artifact_fileName);

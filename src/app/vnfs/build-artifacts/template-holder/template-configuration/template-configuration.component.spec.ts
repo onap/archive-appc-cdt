@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -375,54 +374,54 @@ describe('GoldenConfigurationComponent', () => {
   // fileChange method
   it('Should validatte fileChange method if file type is xml', async(() => {
     let reader = new FileReader();
-    let file = new File(["testing"], "foo.xml", {type: "text/xml"});
-    let input = {files: [file]};
+    let file = new File(["testing"], "foo.xml", { type: "text/xml" });
+    let input = { files: [file] };
     component.refObj = true;
 
     component.fileChange(input);
 
-    component.readFile(input.files[0], reader,(res) => {
+    component.readFile(input.files[0], reader, (res) => {
       expect(component.selectedUploadType).toEqual('Generated Template');
       expect(component.configMappingEditorContent).toEqual(res);
       expect(component.artifactRequest.templateContent).toEqual(res);
-    });    
+    });
   }));
 
   it('Should validatte fileChange method if file type is json', async(() => {
     let reader = new FileReader();
-    let file = new File(["testing"], "foo.json", {type: "text/json"});
-    let input = {files: [file]};
+    let file = new File(["testing"], "foo.json", { type: "text/json" });
+    let input = { files: [file] };
     component.refObj = true;
 
     component.fileChange(input);
 
-    component.readFile(input.files[0], reader,(res) => {
+    component.readFile(input.files[0], reader, (res) => {
       expect(component.selectedUploadType).toEqual('Generated Template');
       expect(component.configMappingEditorContent).toEqual(res);
       expect(component.artifactRequest.templateContent).toEqual(res);
-    });    
+    });
   }));
 
   it('Should validatte fileChange method if file type is none ', async(() => {
     let reader = new FileReader();
-    let file = new File(["testing"], "foo", {type: ""});
-    let input = {files: [file]};
+    let file = new File(["testing"], "foo", { type: "" });
+    let input = { files: [file] };
     component.refObj = true;
 
     component.fileChange(input);
 
-    component.readFile(input.files[0], reader,(res) => {
+    component.readFile(input.files[0], reader, (res) => {
       expect(typeof sessionStorage.getItem('fileType')).toEqual('string')
       expect(component.selectedUploadType).toEqual('Generated Template');
       expect(component.configMappingEditorContent).toEqual(res);
       expect(component.artifactRequest.templateContent).toEqual(res);
-    });    
+    });
   }));
 
   it('Should validate if files is false', () => {
     let spy = spyOn(NotificationsService.prototype, 'error');
     let reader = new FileReader();
-    let input = {files: []};
+    let input = { files: [] };
     component.refObj = true;
 
     component.fileChange(input);
@@ -433,7 +432,7 @@ describe('GoldenConfigurationComponent', () => {
   it('Should validate if refObj is undefined', () => {
     let spy = spyOn(NotificationsService.prototype, 'error');
     let reader = new FileReader();
-    let input = {files: []};
+    let input = { files: [] };
     component.refObj = undefined;
 
     component.fileChange(input);
@@ -442,5 +441,15 @@ describe('GoldenConfigurationComponent', () => {
   });
 
   // End fileChange method
+
+  it('should give the correct template artifact name when multiple template identifiers are provided from reference page', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
+    fixture = TestBed.createComponent(GoldenConfigurationComponent);
+    component = fixture.componentInstance;
+    mappingEditorService.identifier = "id1";
+    mappingEditorService.latestAction = { "action": "ConfigScaleOut", "action-level": "vnf", "scope": { "vnf-type": "test", "vnfc-type": "" }, "template": "Y", "vm": [], "device-protocol": "CHEF", "user-name": "", "port-number": "", "artifact-list": [{ "artifact-name": "template_ConfigScaleOut_test_0.0.1V_id1.json", "artifact-type": "config_template" }, { "artifact-name": "pd_ConfigScaleOut_test_0.0.1V_id1.yaml", "artifact-type": "parameter_definitions" }, { "artifact-name": "template_ConfigScaleOut_test_0.0.1V_id2.json", "artifact-type": "config_template" }, { "artifact-name": "pd_ConfigScaleOut_test_0.0.1V_id2.yaml", "artifact-type": "parameter_definitions" }], "template-id-list": ["id1", "id2"], "scopeType": "vnf-type" };
+    component.ngAfterViewInit();
+    expect(component.artifactName).toBe("template_ConfigScaleOut_test_0.0.1V_id1.json");
+  }));
+
 
 });

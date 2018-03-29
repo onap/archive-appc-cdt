@@ -36,7 +36,7 @@ export class AboutUsComponent implements OnInit {
 
     public releaseName: any;
     public versionNo: any;
-
+    public contactUsMail: any;
     public data: any;
     closeResult: string;
 
@@ -46,6 +46,7 @@ export class AboutUsComponent implements OnInit {
     ngOnInit() {
         this.versionNo = require('./appVersion.json').versionNo;
         this.releaseName = require('./appVersion.json').releaseName;
+        this.contactUsMail = require('../cdt.application.properties.json').CONTACT_US;
     }
 
     versionLogFile() {
