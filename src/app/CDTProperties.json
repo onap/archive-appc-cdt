@@ -1,2 +1,8 @@
 {
+    "CONTACT_US": {
+            "CONTACT_US_EMAIL": "DL-APPCDEVELOPMENTTEAM@att.com",
+            "CONTACT_US_SUBJECT": "1710CDTContactus"
+    },
+    "username" : "appc123@appc.onap.org",
+    "password" : "test"
 }

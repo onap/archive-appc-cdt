@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -94,4 +93,12 @@ describe('BuildDesignComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('Should validate getRefData method', () => {
+        let refData = {"action": "Configure", "vnf-type": "test 1", "device-protocol": "ANSIBLE"};
+        component.refDataRequiredFiels = false;
+        component.getRefData(refData);
+        expect(component.refDataRequiredFiels).toBeTruthy();
+    });
+
 });

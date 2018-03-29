@@ -16,6 +16,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
 ============LICENSE_END============================================
 -->
 
@@ -48,7 +49,8 @@ limitations under the License.
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>Device Protocol*</label>
-                    <select class="form-control" required id="txtDeviceProtocol" [(ngModel)]="referenceDataObject['device-protocol']" #deviceProtocol="ngModel" name="deviceProtocol">
+                     <select class="form-control" required id="txtDeviceProtocol" [(ngModel)]="referenceDataObject['device-protocol']" (ngModelChange)="deviceProtocolChange()" #deviceProtocol="ngModel" name="deviceProtocol">
+
                         <option [value]="device" [selected]="referenceDataObject.deviceProtocol===device"
                                 *ngFor="let device of deviceProtocols">{{device}}
                         </option>
@@ -57,7 +59,7 @@ limitations under the License.
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="isConfigScaleOut">
                     <label>Template Identifier</label>
-                    <select class="form-control" required id="tempIdentifier" (ngModelChange)="dataModified()" [(ngModel)]="templateIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
+                    <select class="form-control" required id="tempIdentifier" (ngModelChange)="dataModified();idChange($event,content,userForm)" [(ngModel)]="templateIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
                         <option [value]="val" *ngFor="let val of referenceDataObject['template-id-list']">{{val}}
                         </option>
                     </select>
@@ -139,11 +141,11 @@ limitations under the License.
                             </div>
                             <div class="row" *ngIf="(( referenceDataObject.action =='ConfigScaleOut' ||referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ) && isCollapsedContent) ">
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                    <label style="font-size:12px;">VNFC Type*</label>
+                                    <label style="font-size:12px;">VNFC Type</label>
                                     <input type="text" class="form-control" id="txtVnfcTypeInColl" [(ngModel)]="Sample['vnfc-type']" #vnfcType="ngModel" name="samplevnfcType">
                                 </div>
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                    <label style="font-size:12px">VNFC Function Code*</label>
+                                    <label style="font-size:12px">VNFC Function Code</label>
                                     <input type="text" class="form-control" id="txtVnfcFunctionCode" [(ngModel)]="Sample['vnfc-function-code']" #vnfcFunctionCode="ngModel" name="samplevnfcFunctionCode">
                                 </div>
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
