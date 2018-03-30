@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_4241fd09",
+        "filename": "src/app/shared/services/httpUtil/http-util.service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T14:47:57Z",
+      "side": 1,
+      "message": "is this line required?",
+      "revId": "2aa556edce345b491f90211f7446328d15f785d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_823705b0",
+        "filename": "src/app/shared/services/httpUtil/http-util.service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T14:47:57Z",
+      "side": 1,
+      "message": "indentation incorrect",
+      "revId": "2aa556edce345b491f90211f7446328d15f785d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_024bf52b",
+        "filename": "src/app/vnfs/build-artifacts/parameter-definitions/parameter.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T14:47:57Z",
+      "side": 1,
+      "message": "is this line required?",
+      "revId": "2aa556edce345b491f90211f7446328d15f785d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6244391b",
+        "filename": "src/app/vnfs/build-artifacts/parameter-definitions/parameter.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T14:47:57Z",
+      "side": 1,
+      "message": "indentation",
+      "revId": "2aa556edce345b491f90211f7446328d15f785d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_22463122",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T14:47:57Z",
+      "side": 1,
+      "message": "indentation",
+      "revId": "2aa556edce345b491f90211f7446328d15f785d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
