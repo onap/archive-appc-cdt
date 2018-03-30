@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_cfc77663",
+        "filename": "package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1577
+      },
+      "writtenOn": "2018-03-30T07:00:09Z",
+      "side": 1,
+      "message": "chnage port number to 8080",
+      "range": {
+        "startLine": 6,
+        "startChar": 38,
+        "endLine": 6,
+        "endChar": 40
+      },
+      "revId": "00bf70ae7822755aec0888ab8e30a54ca65934ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_efc27252",
+        "filename": "src/app/CDTProperties.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1577
+      },
+      "writtenOn": "2018-03-30T07:00:09Z",
+      "side": 1,
+      "message": "Chnage name of this file to \"cdt.application.properties\"",
+      "revId": "00bf70ae7822755aec0888ab8e30a54ca65934ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_afa46ab9",
+        "filename": "src/app/about-us/aboutus.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1577
+      },
+      "writtenOn": "2018-03-30T07:00:09Z",
+      "side": 1,
+      "message": "Name has to be chnaged.",
+      "revId": "00bf70ae7822755aec0888ab8e30a54ca65934ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4fab6689",
+        "filename": "src/app/home/home/home.component.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1577
+      },
+      "writtenOn": "2018-03-30T07:00:09Z",
+      "side": 1,
+      "message": "name should be \"Controller Design Tool\"",
+      "revId": "00bf70ae7822755aec0888ab8e30a54ca65934ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
