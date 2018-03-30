@@ -1,0 +1,582 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_42581dfa",
+        "filename": "src/app/about-us/aboutus.component.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of line",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_625bd9f6",
+        "filename": "src/app/about-us/aboutus.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of line",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c26bcd83",
+        "filename": "src/app/about-us/aboutus.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e26609bb",
+        "filename": "src/app/about-us/aboutus.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8205c5c3",
+        "filename": "src/app/about-us/aboutus.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "this line should be removed",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_22f4f1cd",
+        "filename": "src/app/shared/services/httpUtil/http-util.service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "indentation is not correct",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c202edb3",
+        "filename": "src/app/shared/services/httpUtil/http-util.service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "indentation is not correct",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e2fda9b2",
+        "filename": "src/app/test/test.component.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of line",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a22fa13d",
+        "filename": "src/app/vnfs/build-artifacts/build-artifacts.component.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of several lines.",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_62299936",
+        "filename": "src/app/vnfs/build-artifacts/parameter-definitions/parameter.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "this line should be removed",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_221b911d",
+        "filename": "src/app/vnfs/build-artifacts/parameter-definitions/parameter.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "indentation is not correct",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c2198d23",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "indentation is not correct",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e214c9ea",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "indentation is not correct",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_82d38537",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of line",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a2d6c125",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_02e77513",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "indentation is not correct",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_22e2b101",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c2f0adcb",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e2eb69da",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_82baa5df",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a2bd61d9",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_42b49df1",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_62b759f6",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of line.  can these be removed?   several other instances between here and the end of the file.",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_22c95179",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "this line should be removed",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c2c74d63",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of line.  can these be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e2c28952",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of line.  can these be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_82a145ab",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of line.  can these be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_62ae799a",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "can this commented code be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0295353f",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "spaces at the end of line.  can these be removed?",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2290714d",
+        "filename": "src/app/vnfs/build-artifacts/template-holder/template-configuration/template-configuration.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "indentation is not correct in this file",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c29e6d63",
+        "filename": "src/app/vnfs/build-artifacts/template-holder/template-configuration/template-configuration.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "indentation is not correct in this file",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e299297a",
+        "filename": "src/environments/environment.dev3.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "this line should be removed",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_82886523",
+        "filename": "src/environments/environment.dev4.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "this line should be removed",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a28b211d",
+        "filename": "src/environments/environment.prod.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:06:56Z",
+      "side": 1,
+      "message": "this line should be removed",
+      "revId": "b1f6777bb98b1038108fff9e5b6f51fc9635e106",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
