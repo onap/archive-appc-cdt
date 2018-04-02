@@ -16,36 +16,40 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from './home/home/home.component';
-import {LogoutComponent} from './shared/components/logout/logout.component';
-import {HelpComponent} from './shared/components/help/help/help.component';
+
 import {AboutUsComponent} from './about-us/aboutus.component';
+import { CanActivate } from '@angular/router';
+import {HelpComponent} from './shared/components/help/help/help.component';
+import {HomeComponent} from './home/home/home.component';
+import { LoginGuardService } from './vnfs/LoginGuardService/Login-guard-service';
+import {LogoutComponent} from './shared/components/logout/logout.component';
+import {NgModule} from '@angular/core';
 import {TestComponent} from './test/test.component';
 
 const routes: Routes = [
     {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
     }, {
         path: 'vnfs',
         loadChildren: './vnfs/vnfs.module#VnfsModule'
     }, {
         path: 'test',
-        component: TestComponent
+        component: TestComponent,
+        canActivate:[LoginGuardService]
     },
     {
         path: 'help',
-        component: HelpComponent
+        component: HelpComponent,
+        canActivate:[LoginGuardService]
     }, {
         path: 'aboutUs',
-        component: AboutUsComponent
+        component: AboutUsComponent,
+        canActivate:[LoginGuardService]
     }, {
         path: 'logout',
         component: LogoutComponent
@@ -58,7 +62,8 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+    
+exports: [RouterModule]
 })
 export class AppRoutingModule {
 }

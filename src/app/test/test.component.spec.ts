@@ -16,11 +16,13 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
 ============LICENSE_END============================================
 */
 
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+/* tslint:disable:no-unused-variable */
+
+// Modules
+import { async, ComponentFixture, TestBed,inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +36,10 @@ import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/throw';
 
+// Component
 import { TestComponent } from './test.component';
+
+// Services
 import { NotificationService } from '../shared/services/notification.service';
 import { ParamShareService } from '.././shared/services/paramShare.service';
 import { MappingEditorService } from '../shared/services/mapping-editor.service';
@@ -44,7 +49,7 @@ import { environment } from '../.././environments/environment';
 import { NgProgress } from 'ngx-progressbar';
 import { NgProgressModule } from 'ngx-progressbar';
 
-describe('TestComponent', () => {
+describe( 'TestComponent', () => {
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
 
@@ -52,19 +57,19 @@ describe('TestComponent', () => {
         TestBed.configureTestingModule({
             declarations: [TestComponent],
             imports: [
-                FormsModule,
-                RouterTestingModule,
-                SimpleNotificationsModule,
-                HttpModule,
-                NgProgressModule
+            FormsModule,
+            RouterTestingModule,
+            SimpleNotificationsModule,
+            HttpModule,
+            NgProgressModule
             ],
             providers: [
-                NotificationService,
-                ParamShareService,
-                MappingEditorService,
-                HttpUtilService,
-                UtilityService,
-                NgProgress, MockBackend, BaseRequestOptions,
+            NotificationService, 
+            ParamShareService,
+            MappingEditorService,
+            HttpUtilService,
+            UtilityService,
+            NgProgress,MockBackend, BaseRequestOptions,
                 {
                     provide: Http,
                     useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -74,7 +79,7 @@ describe('TestComponent', () => {
                 }
             ]
         })
-            .compileComponents();
+        .compileComponents();
     }));
 
     beforeEach(() => {
@@ -84,28 +89,26 @@ describe('TestComponent', () => {
     });
 
     it('should ...', inject([HttpUtilService], (service: HttpUtilService) => {
-        let spy = spyOn(service, 'post').and.returnValue(Observable.empty());
         fixture.detectChanges(); // onInit()
 
         component.pollTestStatus();
-
+        
         expect(service).toBeTruthy();
-
     }));
-
+    
     // Test download Method
     describe('Test download Method', () => {
         it('Should have download method', () => {
             expect(component.download).toBeDefined();
         });
 
-        it('test if apiRequest if true', inject([SimpleNotificationsModule], (service: SimpleNotificationsModule) => {
-            component.apiRequest = '{"input":{"common-header":{"timestamp":"2018-03-05T07:41:14.329Z","api-ver":"2.00","originator-id":"CDT","request-id":"1520235674330","sub-request-id":"1520235674330","flags":{"mode":"NORMAL","force":"TRUE","ttl":3600}},"action":"ConfigModify","action-identifiers":{"vnf-id":"testVnf","vserver-id":"test"},"payload":""';
+        it('test if apiRequest if true', inject( [SimpleNotificationsModule], (service: SimpleNotificationsModule) => {
+            component.apiRequest = '{"input":{"common-header":{"timestamp":"2018-03-05T07:41:14.329Z","api-ver":"2.00","originator-id":"CDT","request-id":"1520235674330","sub-request-id":"1520235674330","flags":{"mode":"NORMAL","force":"TRUE","ttl":3600}},"action":"ConfigModify","action-identifiers":{"vnf-id":"ibcx0001","vserver-id":"test"},"payload":""';
             component.apiResponse = '';
-            component.action = 'ConfigModify';
-            component.actionIdentifiers['vnf-id'] = 'testVnf';
+            component.action  = 'ConfigModify';
+            component.actionIdentifiers['vnf-id'] = 'ibcx0001';
             let fileName = 'test_' + component.action + '_' + component.actionIdentifiers['vnf-id'] + '_request';
-            let theJSON = component.apiRequest;
+            let theJSON = component.apiRequest; 
             var blob = new Blob([theJSON], {
                 type: 'text/json'
             });
@@ -123,10 +126,10 @@ describe('TestComponent', () => {
         }));
 
         it('test method if apiResponse is true', () => {
-            component.apiResponse = '{"input":{"common-header":{"timestamp":"2018-03-05T07:41:14.329Z","api-ver":"2.00","originator-id":"CDT","request-id":"1520235674330","sub-request-id":"1520235674330","flags":{"mode":"NORMAL","force":"TRUE","ttl":3600}},"action":"ConfigModify","action-identifiers":{"vnf-id":"testvnf","vserver-id":"test"},"payload":""';
+            component.apiResponse = '{"input":{"common-header":{"timestamp":"2018-03-05T07:41:14.329Z","api-ver":"2.00","originator-id":"CDT","request-id":"1520235674330","sub-request-id":"1520235674330","flags":{"mode":"NORMAL","force":"TRUE","ttl":3600}},"action":"ConfigModify","action-identifiers":{"vnf-id":"ibcx0001","vserver-id":"test"},"payload":""';
             component.apiRequest = '';
-            component.action = 'ConfigModify';
-            component.actionIdentifiers['vnf-id'] = 'testvnf';
+            component.action  = 'ConfigModify';
+            component.actionIdentifiers['vnf-id'] = 'ibcx0001';
             let fileName = 'test_' + component.action + '_' + component.actionIdentifiers['vnf-id'] + '_response';
             let theJSON = component.apiRequest;
             var blob = new Blob([theJSON], {
@@ -152,7 +155,7 @@ describe('TestComponent', () => {
         });
 
         it('Test abortTest Method', () => {
-            const temp = component.abortTest();
+            component.abortTest();
             expect(component.enableBrowse).toBeTruthy();
             expect(component.enableTestButton).toBeTruthy();
             expect(component.enablePollButton).toBeTruthy();
@@ -177,9 +180,9 @@ describe('TestComponent', () => {
 
         it('should execute if file extension is XLS, XLSX', () => {
             let reader = new FileReader();
-            let file = new File(["testing"], "foo.XLS", { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
+            let file = new File(["testing"], "foo.XLS", {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
             let fileExtension = 'XLS';
-            let event = { isTrusted: true, type: "change", target: { files: [file] } }
+            let event = { isTrusted: true, type: "change", target: {files: [file]} }
 
             component.upload(event);
 
@@ -189,10 +192,10 @@ describe('TestComponent', () => {
 
         it('should return an error if file extension is not XLS, XLSX', () => {
             let reader = new FileReader();
-            let file = new File(["testing"], "foo.doc", { type: "" })
+            let file = new File(["testing"], "foo.doc", {type: ""})
             let fileExtension = 'doc';
-            let event = { isTrusted: true, type: "change", target: { files: [file] } }
-
+            let event = { isTrusted: true, type: "change", target: {files: [file]} }
+            
             component.upload(event);
 
             expect(reader instanceof FileReader).toBeTruthy();
@@ -200,7 +203,7 @@ describe('TestComponent', () => {
         });
 
         it('Should return an error is files length is not equal to 1', () => {
-
+            
         });
     });
 
@@ -208,11 +211,11 @@ describe('TestComponent', () => {
     describe('Test processUploadedFile Method', () => {
         it('should return valid payload', () => {
             let data = [
-                { "TagName": "action", "Value": "ConfigModify" },
-                { "List Name": "action-identifiers", "TagName": "vserver-id", "Value": "test" },
-                { "List Name": "payload", "List Name_1": "request-parameters", "TagName": "vnf-name", "Value": "testVnf" },
-                { "List Name": "payload", "List Name_1": "request-parameters", "List Name_2": "[vm]", "List Name_3": "vnfc", "TagName": "vnfc-name", "Value": "testVnfcName" },
-                { "List Name": "payload", "List Name_1": "configuration-parameters", "TagName": "testConfigParam", "Value": "testConfigValue" }
+                {"TagName":"action","Value":"ConfigModify"},
+                {"List Name":"action-identifiers","TagName":"vserver-id","Value":"test"},
+                {"List Name":"payload","List Name_1":"request-parameters","TagName":"vnf-name","Value":"ibcx0001"},
+                {"List Name":"payload","List Name_1":"request-parameters","List Name_2":"[vm]","List Name_3":"vnfc","TagName":"vnfc-name","Value":"ibcx0001vm001ssc001"},
+                {"List Name":"payload","List Name_1":"configuration-parameters","TagName":"CORE_NETWORK_DEFAULT_GATEWAY","Value":"192.168.30.44"}
             ]
 
             let payload = component.processUploadedFile(data);
@@ -221,9 +224,9 @@ describe('TestComponent', () => {
 
     // Test uploadedFileResult Method
     describe('Test uploadedFileResult', () => {
-        it('should return success message', inject([SimpleNotificationsModule], (service: SimpleNotificationsModule) => {
-            component.action = 'ConfigModify';
-            component.actionIdentifiers['vnf-id'] = 'testvnf';
+        it('should return success message', inject([SimpleNotificationsModule],(service: SimpleNotificationsModule) => {
+            component.action  = 'ConfigModify';
+            component.actionIdentifiers['vnf-id'] = 'ibcx0001';
 
             component.uploadedFileResult();
 
@@ -231,7 +234,7 @@ describe('TestComponent', () => {
         }));
 
         it('should return error message', inject([SimpleNotificationsModule], (service: SimpleNotificationsModule) => {
-            component.action = '';
+            component.action  = '';
             component.actionIdentifiers['vnf-id'] = '';
 
             component.uploadedFileResult();
@@ -242,28 +245,27 @@ describe('TestComponent', () => {
 
     // Test constructTestPayload Method 
     describe('Test constructTestPayload Method', () => {
-        //3rd , 4th columnd, tag name , tag value
         it('Should have constructTestPayload method', () => {
             expect(component.constructTestPayload).toBeDefined();
         });
 
         it('test if listName2, listName3 are undefined', () => {
-            let temp = component.constructTestPayload(undefined, undefined, 'vnfc-type', 'testvnfc');
-            expect(component.subPayload['vnfc-type']).toEqual('testvnfc')
+            let temp = component.constructTestPayload(undefined, undefined, 'vnfc-type', 'vISBC - ssc');
+            expect(component.subPayload['vnfc-type']).toEqual('vISBC - ssc')
         });
 
         it('test if lastName2 is not undefined', () => {
-            let temp = component.constructTestPayload(['vm'], undefined, 'vnfc-type', 'testvnfc');
-            expect(typeof (component.vmJson)).toEqual('object');
-            expect(typeof (component.vnfcJson)).toEqual('object');
-            expect(component.vmJson['vnfc-type']).toBe('testvnfc');
+            let temp = component.constructTestPayload(['vm'], undefined, 'vnfc-type', 'vISBC - ssc');
+            expect(typeof(component.vmJson)).toEqual('object');
+            expect(typeof(component.vnfcJson)).toEqual('object');
+            expect(component.vmJson['vnfc-type']).toBe('vISBC - ssc');
             expect(component.flag).toBe(0);
         });
 
         it('test if lastNmae2, lastName3 are not undefined', () => {
-            let temp = component.constructTestPayload(['vm'], 'vnfc', 'vnfc-type', 'testvnfc');
-            expect(component.vnfcJson['vnfc-type']).toEqual('testvnfc');
-            expect(component.vmJson['vnfc']['vnfc-type']).toEqual('testvnfc');
+            let temp = component.constructTestPayload(['vm'], 'vnfc', 'vnfc-type', 'vISBC - ssc');
+            expect(component.vnfcJson['vnfc-type']).toEqual('vISBC - ssc');
+            expect(component.vmJson['vnfc']['vnfc-type']).toEqual('vISBC - ssc');
             expect(component.flag).toBe(1);
         })
     });
@@ -285,28 +287,28 @@ describe('TestComponent', () => {
             expect(component.testVnf).toBeDefined();
         });
 
-        it('should return response on success', inject([MockBackend], (mockBackend: MockBackend) => {
+        it('should return response on success', inject([MockBackend], (mockBackend: MockBackend) => {    
             let mockData = 'testing';
             let response = new ResponseOptions({
                 body: JSON.stringify(mockData)
             });
             const baseResponse = new Response(response);
             mockBackend.connections.subscribe(
-                (c: MockConnection) => {
+                (c: MockConnection) => { 
                     c.mockRespond(baseResponse)
                 }
             );
 
-            component.action = 'ConfigModify';
-
+            component.action  = 'ConfigModify';
+            
             component.testVnf();
         }));
 
-        it('should return an error if fails', inject([HttpUtilService], (httpUtilService: HttpUtilService) => {
+        it('should return an error if fails', inject([HttpUtilService],( httpUtilService: HttpUtilService) => {
             let error = 'Error in connecting to APPC Server';
             let spy = spyOn(httpUtilService, 'post').and.returnValue(Observable.throw(error));
-            component.action = 'ConfigModify';
-
+            component.action  = 'ConfigModify';
+            
             component.testVnf();
 
             expect(spy).toHaveBeenCalled();
@@ -317,11 +319,9 @@ describe('TestComponent', () => {
         }));
 
         it('test setTimeout', inject([NgProgress], (ngProgress: NgProgress) => {
-            let spy = spyOn(ngProgress, 'done');
-            component.action = 'ConfigModify';
-
+            component.action  = 'ConfigModify';
+            
             component.testVnf();
-
         }));
     });
 
@@ -334,7 +334,7 @@ describe('TestComponent', () => {
         it('should call fake server', inject([MockBackend], (mockBackend: MockBackend) => {
             component.requestId = new Date().getTime().toString();
             component.actionIdentifiers['vnf-id'] = 123456;
-            let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"FAILED\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } };
+            let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"FAILED\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
             let response = new ResponseOptions({
                 body: JSON.stringify(mockData)
             });
@@ -342,14 +342,14 @@ describe('TestComponent', () => {
             mockBackend.connections.subscribe(
                 (c: MockConnection) => c.mockRespond(baseResponse)
             );
-
+            
             component.pollTestStatus();
         }));
 
         it('should call fake server if status is success', inject([MockBackend], (mockBackend: MockBackend) => {
             component.requestId = new Date().getTime().toString();
             component.actionIdentifiers['vnf-id'] = 123456;
-            let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"SUCCESS\",\"status\":\"SUCCESS\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } };
+            let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"SUCCESS\",\"status\":\"SUCCESS\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
             let response = new ResponseOptions({
                 body: JSON.stringify(mockData)
             });
@@ -357,30 +357,14 @@ describe('TestComponent', () => {
             mockBackend.connections.subscribe(
                 (c: MockConnection) => c.mockRespond(baseResponse)
             );
-
-            component.pollTestStatus();
-        }));
-
-        it('should check error condition on polling where timestamp and test status are not available', inject([MockBackend], (mockBackend: MockBackend) => {
-            component.requestId = new Date().getTime().toString();
-            component.actionIdentifiers['vnf-id'] = 123456;
-            //let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
-            let mockData = { "output": { "common-header": { "timestamp": "2018-03-21T14:20:30.910Z", "api-ver": "2.00", "request-id": "1521642030910", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 }, "originator-id": "CDT", "sub-request-id": "1521642030910" }, "status": { "message": "INVALID INPUT PARAMETER - vserver-id", "code": 301 } } };
-            let response = new ResponseOptions({
-                body: JSON.stringify(mockData)
-            });
-            const baseResponse = new Response(response);
-            mockBackend.connections.subscribe(
-                (c: MockConnection) => c.mockRespond(baseResponse)
-            );
-
+            
             component.pollTestStatus();
         }));
 
         it('should execute else part if timeStamp && status && statusReason are false', inject([MockBackend], (mockBackend: MockBackend) => {
             component.requestId = new Date().getTime().toString();
             component.actionIdentifiers['vnf-id'] = 123456;
-            let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } };
+            let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
             let response = new ResponseOptions({
                 body: JSON.stringify(mockData)
             });
@@ -388,7 +372,23 @@ describe('TestComponent', () => {
             mockBackend.connections.subscribe(
                 (c: MockConnection) => c.mockRespond(baseResponse)
             );
+            
+            component.pollTestStatus();
+        }));
 
+         it('should check error condition on polling where timestamp and test status are not available', inject([MockBackend], (mockBackend: MockBackend) => {
+            component.requestId = new Date().getTime().toString();
+            component.actionIdentifiers['vnf-id'] = 123456;
+            //let mockData = { "output": { "common-header": { "originator-id": "CDT", "sub-request-id": "653018029941", "timestamp": "2018-02-12T07:27:21.448Z", "api-ver": "2.00", "request-id": "653018029941", "flags": { "force": "TRUE", "mode": "NORMAL", "ttl": 3600 } }, "payload": "{\"status-reason\":\"FAILED\",\"status\":\"\"}", "status": { "message": "SUCCESS - request has been processed successfully", "code": 400 } } } ;
+            let mockData={"output":{"common-header":{"timestamp":"2018-03-21T14:20:30.910Z","api-ver":"2.00","request-id":"1521642030910","flags":{"force":"TRUE","mode":"NORMAL","ttl":3600},"originator-id":"CDT","sub-request-id":"1521642030910"},"status":{"message":"INVALID INPUT PARAMETER - vserver-id","code":301}}};
+            let response = new ResponseOptions({
+                body: JSON.stringify(mockData)
+            });
+            const baseResponse = new Response(response);
+            mockBackend.connections.subscribe(
+                (c: MockConnection) => c.mockRespond(baseResponse)
+            );
+            
             component.pollTestStatus();
         }));
 
@@ -408,7 +408,7 @@ describe('TestComponent', () => {
             component.pollTestStatus();
         }));
     });
-
+    
     // Test getUrlEndPoint Method
     describe('Test getUrlEndPoint Method', () => {
         it('Should have getUrlEndPoint method', () => {
@@ -429,6 +429,9 @@ describe('TestComponent', () => {
             expect(component.getUrlEndPoint('upgradeprecheck')).toEqual('upgrade-pre-check');
             expect(component.getUrlEndPoint('upgradesoftware')).toEqual('upgrade-software');
             expect(component.getUrlEndPoint('DeFaultCASE')).toEqual('defaultcase');
+            expect(component.getUrlEndPoint('upgradebackup')).toEqual('upgrad-ebackup');
+            expect(component.getUrlEndPoint('attachvolume')).toEqual('attach-volume');
+            expect(component.getUrlEndPoint('detachvolume')).toEqual('detach-volume');
         });
     });
 })

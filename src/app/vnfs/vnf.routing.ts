@@ -16,26 +16,24 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
+import { RouterModule, Routes } from '@angular/router';
+
+import { BuildDesignComponent } from './build-artifacts/build-artifacts.component';
+import { GoldenConfigurationComponent } from './build-artifacts/template-holder/template-configuration/template-configuration.component';
 import { GoldenConfigurationHolderComponent, } from './build-artifacts/template-holder/template-holder.component';
+import { GoldenConfigurationMappingComponent } from './build-artifacts/template-holder/param-name-value/param-name-value.component';
+import { LoginGuardService } from './LoginGuardService/Login-guard-service';
 import { MyvnfsComponent } from './myvnfs/myvnfs.component';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ReferenceDataformComponent } from './build-artifacts/reference-dataform/reference-dataform.component';
-import { GoldenConfigurationComponent } from './build-artifacts/template-holder/template-configuration/template-configuration.component';
-import { GoldenConfigurationMappingComponent } from './build-artifacts/template-holder/param-name-value/param-name-value.component';
 import { ParameterComponent } from './build-artifacts/parameter-definitions/parameter.component';
 import { ParameterHolderComponent } from './build-artifacts/parameter-holder/parameter-holder.component';
-import { VnfsComponent } from './vnfs/vnfs.component';
-import { BuildDesignComponent } from './build-artifacts/build-artifacts.component';
-import { userloginFormComponent } from './userlogin-form/userlogin-form.component';
-import { LoginGuardService } from './LoginGuardService/Login-guard-service';
 import { ReferenceDataHolderComponent } from './build-artifacts/reference-data-holder/reference-data-holder.component';
-
+import { ReferenceDataformComponent } from './build-artifacts/reference-dataform/reference-dataform.component';
+import { VnfsComponent } from './vnfs/vnfs.component';
+import { userloginFormComponent } from './userlogin-form/userlogin-form.component';
 
 const routes: Routes = [
     {
@@ -43,19 +41,21 @@ const routes: Routes = [
         component: VnfsComponent,
         children: [
             {
-                path: '',
+                path: 'login',
                 component: userloginFormComponent,
-                canActivate: [LoginGuardService],
+                
 
             }, {
                 path: 'list',
-                component: MyvnfsComponent
+                component: MyvnfsComponent,
+                canActivate: [LoginGuardService],
 
             },
 
             {
                 path: 'design',
                 component: BuildDesignComponent,
+                
                 children: [
                     {
                         path: 'references',
@@ -117,8 +117,13 @@ const routes: Routes = [
 
 
                         ]
-                    },
+                    }
                 ]
+            }, {
+                path: '',
+                                redirectTo: 'list',
+                                pathMatch: 'full'
+
             }
         ]
     }

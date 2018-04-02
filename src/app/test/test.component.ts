@@ -16,7 +16,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
 ============LICENSE_END============================================
 */
 
@@ -101,7 +100,7 @@ export class TestComponent implements OnInit {
     public pollCounter = 0;
     public enableCounterDiv: boolean = false;
     public enableDownload: boolean = false;
-
+    private userId = localStorage['userId'];
     constructor(private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService, private nService: NotificationsService, private router: Router, private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private httpUtil: HttpUtilService,
         private utiltiy: UtilityService, private ngProgress: NgProgress) {
 
@@ -198,7 +197,6 @@ export class TestComponent implements OnInit {
 
 
 
-                console.log('Array data ==' + arrData[0]);
                 this.vmPayload = [];
                 this.subPayload = {};
                 this.vmJson = {};
@@ -333,9 +331,7 @@ export class TestComponent implements OnInit {
     }
 
     constructRequest() {
-        console.log('payload==' + JSON.stringify(this.payload));
         let timeStamp = new Date().toISOString();
-        console.log('timestamp==' + timeStamp);
         let reqId;
         this.requestId = reqId = new Date().getTime().toString();
         let data = {
@@ -343,7 +339,7 @@ export class TestComponent implements OnInit {
                 'common-header': {
                     'timestamp': timeStamp,
                     'api-ver': '2.00',
-                    'originator-id': 'CDT',
+                    'originator-id': this.userId,
                     'request-id': this.requestId,
                     'sub-request-id': this.requestId,
                     'flags': {
@@ -367,9 +363,9 @@ export class TestComponent implements OnInit {
         this.enablePollButton = false;
         this.timer = Observable.interval(10000);
         this.subscribe = this.timer.subscribe((t) => this.pollTestStatus());
-        //console.log('full payload==' + JSON.stringify(this.apiRequest));
         this.ngProgress.start();
         this.apiRequest = JSON.stringify(this.constructRequest());
+
         this.httpUtil.post(
             {
                 url: environment.testVnf + this.getUrlEndPoint(this.action.toLowerCase()), data: this.apiRequest
@@ -405,7 +401,7 @@ export class TestComponent implements OnInit {
                     'common-header': {
                         'timestamp': timeStamp,
                         'api-ver': '2.00',
-                        'originator-id': 'CDT',
+                        'originator-id': this.userId,
                         'request-id': reqId,
                         'sub-request-id': reqId,
                         'flags': {
@@ -415,7 +411,9 @@ export class TestComponent implements OnInit {
                         }
                     },
                     'action': 'ActionStatus',
-                    'action-identifiers': this.actionIdentifiers,
+                    'action-identifiers': { 
+                        'vnf-id' : this.actionIdentifiers['vnf-id']
+                    },
                     'payload': '{"request-id":' + this.requestId + '}'
                 }
             };
@@ -509,6 +507,12 @@ export class TestComponent implements OnInit {
                 return 'upgrade-pre-check';
             case 'upgradesoftware':
                 return 'upgrade-software';
+            case 'upgradebackup':
+                return 'upgrade-backup';
+            case 'attachvolume':
+                return 'attach-volume';
+            case 'detachvolume':
+                return 'detach-volume';
             default:
                 return action.toLowerCase();
         }

@@ -16,18 +16,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
-
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-
+import {Injectable} from '@angular/core';
 import {MappingEditorService} from '../../shared/services/mapping-editor.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class LoginGuardService implements CanActivate {
@@ -39,10 +35,10 @@ export class LoginGuardService implements CanActivate {
 
         let userId = localStorage['userId'];
         if (userId != null && userId != undefined && userId != '') {
-            this.router.navigate(['/vnfs/list']);
-            return false;
-        } else {
             return true;
+        } else {
+            this.router.navigate(['/vnfs/login'],{ queryParams: { returnUrl: state.url }});
+            return false;
         }
 
     }
