@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_5bb7a8f5",
+        "filename": "src/app/cdt.application.properties.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-02T15:36:30Z",
+      "side": 1,
+      "message": "This e-mail address should not be a company specific id.",
+      "revId": "417808f3148443895d42ca4c8468c2800ff6867f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
