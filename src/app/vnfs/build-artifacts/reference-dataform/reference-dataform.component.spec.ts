@@ -22,82 +22,104 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 */
 /* tslint:disable:no-unused-variable */
 
-import {ComponentFixture, TestBed, async, inject} from '@angular/core/testing';
-import {Http, Response, ResponseOptions, XHRBackend} from '@angular/http';
-import {BuildDesignComponent} from '../build-artifacts.component';
-import {DialogService} from 'ng2-bootstrap-modal';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
-import {HttpUtilService} from '../../../shared/services/httpUtil/http-util.service';
-import {MappingEditorService} from '../../..//shared/services/mapping-editor.service';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {NgModule} from '@angular/core';
-import {NgProgress} from 'ngx-progressbar';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {NotificationService} from '../../../shared/services/notification.service';
-import {Observable} from 'rxjs/Observable';
-import {ParamShareService} from '../../..//shared/services/paramShare.service';
-import {ReferenceDataformComponent} from './reference-dataform.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {SharedModule} from '../../../shared/shared.module';
-import {environment} from '../../../../environments/environment';
+import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
+import { Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
+
+import { BuildDesignComponent } from '../build-artifacts.component';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { HttpUtilService } from '../../../shared/services/httpUtil/http-util.service';
+import { MappingEditorService } from '../../..//shared/services/mapping-editor.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { NgProgress } from 'ngx-progressbar';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService } from '../../../shared/services/notification.service';
+import { Observable } from 'rxjs/Observable';
+import { ParamShareService } from '../../..//shared/services/paramShare.service';
+import { ReferenceDataformComponent } from './reference-dataform.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SharedModule } from '../../../shared/shared.module';
+import { environment } from '../../../../environments/environment';
 
 describe('ReferenceDataformComponent', () => {
-    let component : ReferenceDataformComponent;
-    let fixture : ComponentFixture < ReferenceDataformComponent >;
-    let service : MockMappingService;
+    let component: ReferenceDataformComponent;
+    let fixture: ComponentFixture<ReferenceDataformComponent>;
+    let service: MockMappingService;
 
-    let httpMock : HttpUtilService
+    let httpMock: HttpUtilService
     //mockingthe data for mappingEditorService
 
     class HttpMock {
         post(req) {
-        if(req.url==""){
-        
-        return Observable.of({
-        output: {
-        data: {block:'{"artifactInfo": [ {"artifact-content": "{"reference_data": [{ "action": "Configure","scopeType":"tetsScope"}] }" } ]}'},
-        status:{code:"400",message:"success"}
+
+            return Observable.of(
+
+
+                {
+                    "output": { "data": { "block": "{\"userID\":null,\"designInfo\":null,\"statusInfo\":null,\"artifactInfo\":[{\"artifact-content\":\" {\\\"reference_data\\\":[{\\\"action\\\":\\\"Configure\\\",\\\"action-level\\\":\\\"vnf\\\",\\\"scope\\\":{\\\"vnf-type\\\":\\\"Btesting123\\\",\\\"vnfc-type\\\":\\\"\\\"},\\\"template\\\":\\\"Y\\\",\\\"vm\\\":[],\\\"device-protocol\\\":\\\"ANSIBLE\\\",\\\"user-name\\\":\\\"root\\\",\\\"port-number\\\":\\\"830\\\",\\\"artifact-list\\\":[{\\\"artifact-name\\\":\\\"template_Configure_Btesting123_0.0.1V.json\\\",\\\"artifact-type\\\":\\\"config_template\\\"},{\\\"artifact-name\\\":\\\"pd_Configure_Btesting123_0.0.1V.yaml\\\",\\\"artifact-type\\\":\\\"parameter_definitions\\\"}],\\\"scopeType\\\":\\\"vnf-type\\\"},{\\\"action\\\":\\\"AllAction\\\",\\\"action-level\\\":\\\"vnf\\\",\\\"scope\\\":{\\\"vnf-type\\\":\\\"Btesting123\\\",\\\"vnfc-type\\\":\\\"\\\"},\\\"artifact-list\\\":[{\\\"artifact-name\\\":\\\"reference_AllAction_Btesting123_0.0.1V.json\\\",\\\"artifact-type\\\":\\\"reference_template\\\"}]},{\\\"action\\\":\\\"ConfigScaleOut\\\",\\\"action-level\\\":\\\"vnf\\\",\\\"scope\\\":{\\\"vnf-type\\\":\\\"Btesting123\\\",\\\"vnfc-type\\\":\\\"\\\"},\\\"template\\\":\\\"Y\\\",\\\"vm\\\":[{\\\"template-id\\\":\\\"id1\\\",\\\"vm-instance\\\":1,\\\"vnfc\\\":[{\\\"vnfc-instance\\\":\\\"1\\\",\\\"vnfc-function-code\\\":\\\"12313\\\",\\\"ipaddress-v4-oam-vip\\\":\\\"Y\\\",\\\"group-notation-type\\\":\\\"first-vnfc-name\\\",\\\"group-notation-value\\\":\\\"pair\\\",\\\"vnfc-type\\\":\\\"vDBE-V\\\"}]},{\\\"template-id\\\":\\\"id1\\\",\\\"vm-instance\\\":2,\\\"vnfc\\\":[{\\\"vnfc-instance\\\":\\\"1\\\",\\\"vnfc-function-code\\\":\\\"12313\\\",\\\"ipaddress-v4-oam-vip\\\":\\\"Y\\\",\\\"group-notation-type\\\":\\\"first-vnfc-name\\\",\\\"group-notation-value\\\":\\\"pair\\\",\\\"vnfc-type\\\":\\\"vDBE-V\\\"}]},{\\\"template-id\\\":\\\"id1\\\",\\\"vm-instance\\\":3,\\\"vnfc\\\":[{\\\"vnfc-instance\\\":\\\"1\\\",\\\"vnfc-function-code\\\":\\\"12313\\\",\\\"ipaddress-v4-oam-vip\\\":\\\"Y\\\",\\\"group-notation-type\\\":\\\"first-vnfc-name\\\",\\\"group-notation-value\\\":\\\"pair\\\",\\\"vnfc-type\\\":\\\"vDBE-V\\\"}]}],\\\"device-protocol\\\":\\\"CHEF\\\",\\\"user-name\\\":\\\"root\\\",\\\"port-number\\\":\\\"830\\\",\\\"artifact-list\\\":[{\\\"artifact-name\\\":\\\"template_ConfigScaleOut_Btesting123_0.0.1V_id1.json\\\",\\\"artifact-type\\\":\\\"config_template\\\"},{\\\"artifact-name\\\":\\\"pd_ConfigScaleOut_Btesting123_0.0.1V_id1.yaml\\\",\\\"artifact-type\\\":\\\"parameter_definitions\\\"}],\\\"scopeType\\\":\\\"vnf-type\\\",\\\"template-id-list\\\":[\\\"id1\\\"]}]}\"}]}", "requestId": "563507520187" }, "status": { "code": "400", "message": "success" } },
+
+                    "status": { code: "400", message: "success" }
+                }
+
+
+            )
         }
-        })
-        } }
+    }
+    class MockMappingService {
+        public latestAction; // = {"action":"Configure"}
+        appDataObject = {
+            reference: {},
+            template: {
+                templateData: {},
+                nameValueData: {}
+            },
+            pd: {}
+        };
+        downloadDataObject = {
+            reference: {},
+            template: {
+                templateData: {},
+                nameValueData: {},
+                templateFileName: '',
+                nameValueFileName: ''
+            },
+            pd: {
+                pdData: '',
+                pdFileName: ''
+            }
         }
-        class MockMappingService {
-            public latestAction; // = {"action":"Configure"}
-            appDataObject= { reference: {}, template: { templateData: {}, nameValueData: {} }, pd: {} };
-            downloadDataObject={reference: {},
-            template: { templateData: {}, nameValueData: {}, templateFileName: '', nameValueFileName: '' },
-            pd: { pdData: '', pdFileName: '' }}
-            referenceNameObjects = [
+        referenceNameObjects = [
             {
-            action: "Configure"
+                action: "Configure"
             }, {
-            action: "StartApplication"
+                action: "StartApplication"
             }
-            ]
-            
-            setTemplateMappingDataFromStore(data){
+        ]
+
+        setTemplateMappingDataFromStore(data) {
             return "test"
-            }
-            getReferenceList() {
+        }
+        getReferenceList() {
             return ["test data"]
-            }
-            changeNav() {
+        }
+        changeNav() {
             return "test data"
-            }
-            setParamContent(data){
+        }
+        setParamContent(data) {
             return "test"
-            }
-            setSessionParamData(data){
+        }
+        setSessionParamData(data) {
             return "test"
-            }
-            
-            saveLatestAction() {}
-            saveLatestIdentifier() {}
-            changeNavDownloadData() {}
-            changeNavAppData() {}
-            }
-    class MockreferenceDataObject {}
+        }
+
+        saveLatestAction() { }
+        saveLatestIdentifier() { }
+        changeNavDownloadData() { }
+        changeNavAppData() { }
+    }
+    class MockreferenceDataObject { }
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [ReferenceDataformComponent],
@@ -123,14 +145,14 @@ describe('ReferenceDataformComponent', () => {
         }).compileComponents();
     }));
     beforeEach(() => {
-        
+
         fixture = TestBed.createComponent(ReferenceDataformComponent);
         component = fixture.componentInstance;
         //  component = new ReferenceDataformComponent(service)
         fixture.detectChanges();
         service = TestBed.get(MappingEditorService)
         httpMock = TestBed.get(HttpUtilService)
-        sessionStorage.setItem('vnfParams',JSON.stringify({vnfType:"test",vnfcType:"testVnfcType"}));
+        sessionStorage.setItem('vnfParams', JSON.stringify({ vnfType: "test", vnfcType: "testVnfcType" }));
         // component = new ReferenceDataformComponent(service)
     });
     it('should create reference component', () => {
@@ -145,13 +167,17 @@ describe('ReferenceDataformComponent', () => {
         expect(component.tempAllData.length).toBe(2)
     })
 
-    it("should set app data from service", ()=>{
+    it("should set app data from service", () => {
         component.ngOnInit()
-        expect(component.appData).not.toBe(undefined)
+        expect(component.appData)
+            .not
+            .toBe(undefined)
     })
-    it("should set download from service", ()=>{
+    it("should set download from service", () => {
         component.ngOnInit()
-        expect(component.downloadData).not.toBe(undefined)
+        expect(component.downloadData)
+            .not
+            .toBe(undefined)
     })
     it('Should reset form', () => {
         component.resetForm()
@@ -473,7 +499,7 @@ describe('ReferenceDataformComponent', () => {
 
     it("should remove feature from the reference object ", () => {
         component.referenceDataObject = {
-            action: '',
+            action: 'Configure',
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '',
@@ -503,9 +529,59 @@ describe('ReferenceDataformComponent', () => {
             'artifact-list': []
         };
 
-        component.removeFeature(0, 0)
+        component.removeFeature(0, 0, 0)
 
         expect(component.referenceDataObject.vm.length).toBe(1)
+    })
+
+    it("remove templateIds vm if action is confiogscaleout", () => {
+        component.referenceDataObject = {
+            action: 'ConfigScaleOut',
+            'action-level': 'vnf',
+            scope: {
+                'vnf-type': '',
+                'vnfc-type': ''
+            },
+            'template': 'Y',
+            "vm": [
+                {
+                    "template-id": "klmklj",
+                    "vm-instance": 1,
+                    "vnfc": [
+                        {
+                            "vnfc-instance": "1",
+                            "vnfc-function-code": "klkl",
+                            "ipaddress-v4-oam-vip": "",
+                            "group-notation-type": "",
+                            "group-notation-value": "",
+                            "vnfc-type": "nnk"
+                        }
+                    ]
+                }, {
+                    "template-id": "test 12",
+                    "vm-instance": 2,
+                    "vnfc": [
+                        {
+                            "vnfc-instance": "1",
+                            "vnfc-function-code": "klkl",
+                            "ipaddress-v4-oam-vip": "",
+                            "group-notation-type": "",
+                            "group-notation-value": "",
+                            "vnfc-type": "nnk"
+                        }
+                    ]
+                }
+            ],
+            'device-protocol': '',
+            'user-name': '',
+            'port-number': '',
+            'artifact-list': []
+        };
+
+        component.removeFeature(0, 0, 'test 12')
+
+        expect(component.referenceDataObject.vm.length).toBe(2)
+
     })
 
     it("should add capabilities", () => {
@@ -544,7 +620,7 @@ describe('ReferenceDataformComponent', () => {
         expect(component.referenceDataObject['action-level']).toBe("vnf")
     })
 
-     it("should add capabilities", () => {
+    it("should add capabilities", () => {
         service.latestAction = {
             action: 'OpenStack Actions',
             'action-level': 'vnf',
@@ -560,7 +636,7 @@ describe('ReferenceDataformComponent', () => {
             'artifact-list': []
         }
 
-        component.referenceDataObject.action="OpenStack Actions"
+        component.referenceDataObject.action = "OpenStack Actions"
         service.referenceNameObjects = [
             {
                 action: "Configure"
@@ -664,177 +740,236 @@ describe('ReferenceDataformComponent', () => {
     })
 
     it('Should call get artifact', () => {
-        sessionStorage.setItem('updateParams', JSON.stringify({vnf: 123, userID: 'testUser'}))
+        sessionStorage.setItem('updateParams', JSON.stringify({ vnf: 123, userID: 'testUser' }))
         component.getArtifact()
-        expect(component.tempAllData.length).toBe(2)
+        expect(component.tempAllData.length).toBe(3)
     })
 
     it('Save file - should not process if action is null ', () => {
-        component.referenceDataObject.action =""
-       let fileSaved =  component.save({},true)
-        expect(fileSaved).toBe(undefined)
-    })
-  it('Save file - should not process if device protocol is null ', () => {
-        component.referenceDataObject['device-protocol'] =""
-       let fileSaved =  component.save({},true)
+        component.referenceDataObject.action = ""
+        let fileSaved = component.save({}, true)
         expect(fileSaved).toBe(undefined)
     })
     it('Save file - should not process if device protocol is null ', () => {
-        component.referenceDataObject.action ="Configure"
-        component.referenceDataObject['device-protocol'] ="test"
-       let fileSaved =  component.save({},true)
+        component.referenceDataObject.action = "Configure"
+        component.referenceDataObject['device-protocol'] = ''
+        let fileSaved = component.save({}, true)
+        expect(fileSaved).toBe(undefined)
+    })
+    it('Save file - should not process if device protocol is null ', () => {
+        component.referenceDataObject.action = "Configure"
+        component.referenceDataObject['device-protocol'] = "test"
+        component.downloadData.template.templateData = { "test": "test" }
+        component.downloadData.template.nameValueData = { "test": "test" }
+        component.downloadData.pd.pdData = "test"
+        let fileSaved = component.save({}, true)
         //expect(fileSaved).toBe(undefined)
     })
 
-     it('Save to appc file - should not process if action is null ', () => {
-        component.referenceDataObject.action =""
-       let fileSaved =  component.saveToAppc(true,{})
+    it('Save to appc file - should not process if action is null ', () => {
+        component.referenceDataObject.action = ""
+        let fileSaved = component.saveToAppc(true, {}, onclick)
         expect(fileSaved).toBe(undefined)
     })
-  it('Save to app cfile - should not process if device protocol is null ', () => {
-        component.referenceDataObject['device-protocol'] =""
-       let fileSaved =  component.saveToAppc(true,{})
+    it('Save to app cfile - should not process if device protocol is null ', () => {
+        component.referenceDataObject['device-protocol'] = ""
+        component.referenceDataObject.action = "Configure"
+        let fileSaved = component.saveToAppc(true, {}, onclick)
         expect(fileSaved).toBe(undefined)
     })
     it('Save to appc file - should not process if device protocol is null ', () => {
-        component.referenceDataObject.action ="Configure"
-        component.referenceDataObject['device-protocol'] ="test"
-       let fileSaved =  component.saveToAppc(true,{})
-        //expect(fileSaved).toBe(undefined)
+        component.referenceDataObject.action = "Configure"
+        component.referenceDataObject['device-protocol'] = "test"
+        component.appData.template.templateData = { "test": "test" }
+        component.appData.template.nameValueData = { "test": "test" }
+        component.appData.pd = { "test": "test" }
+        component.actionChanged = true
+        component.currentAction = "COnfigure"
+        let fileSaved = component.saveToAppc(true, {}, onclick)
     })
-
-    //   it('uploadfile  ', () => {
-
-    //  let    files = { 0: {name:'foo.XLS', size: 500001} };
-    //     var mockEVet = {
-    //         target:{files:files}
-    //     }
-    //   component.upload(mockEVet)
-    //     //expect(fileSaved).toBe(undefined)
-    // })
-
-    it('downloadTemplate() of reference dataform',()=>{
-        component.downloadTemplate()
-        
+    it('downloadTemplate() of reference dataform', () => {
+        expect(component.downloadTemplate());
     })
-    it('downloadNameValue() of reference dataform',()=>{
+    it('downloadNameValue() of reference dataform', () => {
         component.downloadNameValue()
     })
-    
-    it('downloadPd() of reference dataform',()=>{
+    it('downloadPd() of reference dataform', () => {
         component.downloadPd()
     })
-    it('validateTempAllData() of reference dataform',()=>{
+    it('validateTempAllData() of reference dataform', () => {
         component.validateTempAllData()
     })
-    it('retriveFromAppc() of reference dataform',()=>{
-        sessionStorage.setItem('updateParams', JSON.stringify({vnf: 123, userID: 'testUser'}))
+    it('retriveFromAppc() of reference dataform', () => {
+        sessionStorage.setItem('updateParams', JSON.stringify({ vnf: 123, userID: 'testUser' }))
         component.retriveFromAppc()
         expect(component.noCacheData).toBeFalsy()
     })
-    it('retriveFromAppc() of reference dataform for false',()=>{
-        
+    it('retriveFromAppc() of reference dataform for false', () => {
+        sessionStorage.setItem('updateParams', 'undefined')
         component.retriveFromAppc()
-        expect(component.noCacheData).toBeFalsy()
+        expect(component.noCacheData).toBeTruthy()
     })
-    it(' cloneMessage(servermessage) of reference dataform',()=>{
-        let servermessage = {test:"test"}
+    it(' cloneMessage(servermessage) of reference dataform', () => {
+        let servermessage = {
+            test: "test"
+        }
         component.cloneMessage(servermessage)
     })
 
-    it('resetGroupNotation() of reference dataform for false case',()=>{
+    it('resetGroupNotation() of reference dataform for false case', () => {
         component.resetGroupNotation()
         expect(component.disableGrpNotationValue).toBeFalsy()
     })
-    it('resetGroupNotation() of reference dataform for true case',()=>{
-        component.Sample['group-notation-type'] == "existing-group-name"
+    it('resetGroupNotation() of reference dataform for true case', () => {
+        component.Sample['group-notation-type'] = "existing-group-name"
         component.resetGroupNotation()
         expect(component.disableGrpNotationValue).toBeTruthy()
     })
-    it('resetVms() of reference dataform',()=>{
+    it('resetVms() of reference dataform', () => {
         component.resetVms()
-        expect(component.referenceDataObject.vm).toBe([])
+        expect(component.referenceDataObject.vm).toBeNull
     })
-    it('dataModified() of reference dataform',()=>{
-        component.dataModified()
-        expect(component.referenceDataObject.vm).toBe(this.referenceDataObject.vm)
-    })
-
     it('Clear cache ', () => {
         component.clearCache()
         expect(component.downloadData.reference['name']).toBe(undefined);
-         //expect(fileSaved).toBe(undefined)
-     })
- 
-     it('sholud reset group notification ', () => {
-         component.Sample['group-notation-type'] = "existing-group-name"
+    })
+    it('sholud reset group notification ', () => {
+        component.Sample['group-notation-type'] = "existing-group-name"
         component.resetGroupNotation()
         expect(component.disableGrpNotationValue).toBe(true);
-         //expect(fileSaved).toBe(undefined)
-     })
-      it('sholud reset group notification if value does not match ', () => {
-         component.Sample['group-notation-type'] = "123"
+    })
+    it('sholud reset group notification if value does not match ', () => {
+        component.Sample['group-notation-type'] = "123"
         component.resetGroupNotation()
         expect(component.disableGrpNotationValue).toBe(false);
-         //expect(fileSaved).toBe(undefined)
-     })
-      it('add identity group', () => {
-         component.referenceDataObject['template-id-list'] = undefined
-         component.templateId="test"
+    })
+    it('add identity group', () => {
+        component.referenceDataObject['template-id-list'] = undefined
+        component.templateId = "test"
         component.addToIdentDrp()
         expect(component.referenceDataObject['template-id-list'].length).toBe(1);
-         //expect(fileSaved).toBe(undefined)
-     })
- 
-      it('add identity group', () => {
-         
+    })
+
+    it('add identity group', () => {
+
         component.resetVms()
         expect(component.referenceDataObject.vm.length).toBe(0);
-         //expect(fileSaved).toBe(undefined)
-     })
-     it('data modified', () => {
-         
+    })
+    it('data modified', () => {
+
         component.dataModified()
- 
-        component.referenceDataObject.vm =[1,2]
+        component.referenceDataObject.vm = [1, 2]
         expect(component.referenceDataObject.vm.length).toBe(2);
-         //expect(fileSaved).toBe(undefined)
+    })
+
+    it("should set values on action change ConfigScaleOut", () => {
+        component.actionChange("ConfigScaleOut", "", {})
+
+        expect(component.groupAnotationType.length).toBe(5)
+    })
+    it("shpukd return false if its very first action", () => {
+        component.actionChange(null, "", "")
+
+        expect(component.disableGrpNotationValue).toBe(false)
+    })
+    it("sholud check no configuration actions", () => {
+        component.tempAllData = [
+            {
+                action: "Configure",
+                scope: {
+                    'vnf-type': "testVnf"
+                }
+            }
+        ]
+        component.actionChange("Configure", "", "")
+
+        expect(component.nonConfigureAction).toBe(false)
+    })
+
+    it("should set values on action change when action is HealthCheck ", () => {
+        component.populateExistinAction("HealthCheck")
+
+        expect(component.deviceProtocols.length).toBe(4)
+
+    })
+    it("should set values on action change when action is UpgradeBackout", () => {
+        component.populateExistinAction("UpgradeBackout")
+
+        expect(component.deviceProtocols.length).toBe(3)
+
+    })
+    it("should set values on action change when action is OpenStack Actions", () => {
+        component.populateExistinAction("OpenStack Actions")
+
+        expect(component.deviceProtocols.length).toBe(2)
+
+    })
+    it("should set values on action change when action is Configure", () => {
+        component.tempAllData = [
+            {
+                action: "Configure",
+                scope: {
+                    'vnf-type': "testVnf"
+                }
+            }
+        ]
+        component.populateExistinAction("Configure")
+        expect(component.referenceDataObject.scope['vnf-type']).toBe('testVnf')
+
+    })
+    it("shoukd clear vnf data ", () => {
+        component.clearVnfcData()
+        expect(component.Sample['vnfc-instance']).toBe('1')
+    })
+    it("shoudl showUpload", () => {
+        component.uploadTypes = [
+            {
+                value: 'Reference Data',
+                display: 'Sample Json Param File'
+            },
+            {
+                value: 'Mapping Data',
+                display: 'Sample Json Param File'
+            }
+        ]
+        component.showUpload()
+
+        expect(component.selectedUploadType).toBe('Reference Data')
+    })
+    it("set vm instance", () => {
+
+        component.referenceDataObject.vm = [
+            {
+                'vm-instance': 1
+            }
+        ]
+        component.setVmInstance(0)
+        expect(component.referenceDataObject.vm[0]['vm-instance']).toBe(1)
+
+    })
+    it("set vnfc type", () => {
+        component.setVnfcType("test")
+        expect(component.Sample['vnfc-type']).toBe("test")
+    })
+    it("getChange", () => {
+        component.getChange("vnfType")
+        expect(component.referenceDataObject.scope['vnfc-type']).toBe("")
      })
- 
-     it("should set values on action change ConfigScaleOut",()=>{
-         component.actionChange("ConfigScaleOut","",{})
- 
-         expect(component.groupAnotationType.length).toBe(5)
-     })
- 
-     it("should set values on action change when action is HealthCheck ",()=>{
-         component.populateExistinAction("HealthCheck")
- 
-         expect(component.deviceProtocols.length).toBe(4)
- 
- 
-     })
-     it("should set values on action change when action is UpgradeBackout",()=>{
-         component.populateExistinAction("UpgradeBackout")
- 
-         expect(component.deviceProtocols.length).toBe(3)
- 
- 
-     })
-     it("should set values on action change when action is OpenStack Actions",()=>{
-         component.populateExistinAction("OpenStack Actions")
- 
-         expect(component.deviceProtocols.length).toBe(2)
- 
- 
-     })
-     it("should set values on action change when action is Configure",()=>{
- 
-         component.tempAllData=[{action:"Configure",scope:{'vnf-type':"testVnf"}}]
-         component.populateExistinAction("Configure")
- 
-         expect(component.referenceDataObject.scope['vnf-type']).toBe('testVnf')
- 
- 
-     })
+    it("idChange", () => {
+        component.idChange(null, "", { valid: true })
+        component.oldAction = "Configure"
+        expect(component.actionChanged).toBeFalsy()
+    })
+    it("idChange", () => {
+        component.oldAction = "Configure"
+        component.idChange("test", "", { valid: true })
+        expect(component.actionChanged).toBeTruthy()
+    })
+    it('Should test deviceProtocolChange method', () => {
+        let spy = spyOn(BuildDesignComponent.prototype, 'getRefData');
+        let refData = { "action": "Configure", "vnf-type": "test 1", "device-protocol": "ANSIBLE" };
+        component.deviceProtocolChange();
+        expect(spy).toHaveBeenCalled()
+    });
+
 });

@@ -16,8 +16,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 import { observable } from 'rxjs/symbol/observable';
@@ -30,13 +28,14 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 export class HttpUtilService {
     headers: Headers;
     options: RequestOptions
-    constructor (private http: Http) {
+    private username = require('../../../cdt.application.properties.json').username;
+    private password = require('../../../cdt.application.properties.json').password;
+    constructor(private http: Http) {
         this.headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
         // this.options = new RequestOptions({headers: this.headers}); //
     }
 
     get(req) {
-
         return this
             .http
             .get(req.url, this.options)
@@ -44,10 +43,8 @@ export class HttpUtilService {
     }
 
     post(req) {
-
-        this.headers.append('Authorization', 'Basic ' + btoa('m97292@appc.att.com:enc:Ai8KDxN7EANwATsV'));
+        this.headers.append('Authorization', 'Basic ' + btoa(this.username + ':' + this.password));
         this.options = new RequestOptions({ headers: this.headers });
-
         return this
             .http
             .post(req.url, req.data, this.options)

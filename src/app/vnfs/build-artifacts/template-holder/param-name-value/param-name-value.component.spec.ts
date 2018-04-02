@@ -223,6 +223,7 @@ describe('GoldenConfigurationMappingComponent', () => {
         component.vnfType = "testVnf";
         component.userId = "abc";
         component.item.action = "Configure";
+        mappingEditorService.identifier="id1";
         component.retrieveNameValueFromAppc();
         expect(localStorage["localStorage['paramsContent']"]).not.toBe(null);
 

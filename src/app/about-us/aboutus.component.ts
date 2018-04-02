@@ -16,8 +16,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -36,7 +34,7 @@ export class AboutUsComponent implements OnInit {
 
     public releaseName: any;
     public versionNo: any;
-
+    public contactUsMail: any;
     public data: any;
     closeResult: string;
 
@@ -46,6 +44,7 @@ export class AboutUsComponent implements OnInit {
     ngOnInit() {
         this.versionNo = require('./appVersion.json').versionNo;
         this.releaseName = require('./appVersion.json').releaseName;
+        this.contactUsMail = require('../cdt.application.properties.json').CONTACT_US;
     }
 
     versionLogFile() {
