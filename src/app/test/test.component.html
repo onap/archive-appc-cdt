@@ -114,9 +114,7 @@ limitations under the License.
     <div style="padding-left:60%;padding-bottom:0.5cm">
         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="button" [disabled]="!enableDownload" (click)="download()">Download Raw Request/Response
         </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" [disabled]="!enableAbort" (click)="abortTest()">Abort Test
-        </button>
-
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="button" [disabled]="!enableAbort" (click)="abortTest()">Abandon Test</button>    
     </div>
 </div>
 <br>
@@ -135,7 +133,7 @@ limitations under the License.
                 <span style="margin-left: 18.5%"><b>POLL TEST STATUS RESPONSE</b></span>
             </div>
 
-            <div style="margin-left: 18.5%;height:100px;width:60%;border:solid 2px grey;overflow:scroll;overflow-x:hidden;overflow-y:hidden;">
+            <div style="margin-left: 18.5%;height:130px;width:60%;border:solid 2px grey;overflow:scroll;overflow-x:hidden;overflow-y:hidden;">
 
                 <div *ngIf="showStatusResponseDiv">
                     <div *ngIf="enableCounterDiv"><b>Poll test no {{pollCounter}}</b></div>

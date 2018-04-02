@@ -17,9 +17,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
+
 import { async, ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
 import { Http, HttpModule, ConnectionBackend, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -55,9 +55,7 @@ describe('ContacUsComponent', () => {
             { provide: MockBackend, useClass: MockBackend },
             { provide: BaseRequestOptions, useClass: BaseRequestOptions },
             {provide: Http, useValue: http}]
-            
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -70,26 +68,15 @@ describe('ContacUsComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('test', inject([Http], (http: Http) => {
-        let spy = spyOn(http, 'get').and.returnValue(Observable.of('some value'))
-
-        component.versionLogFile();
-
-        expect(http).toBeTruthy();
-        expect(spy).toHaveBeenCalled()
-
-    }));
-    
     it('should open modal', inject([NgbModule],(ngbModule: NgbModule) => {
-       let content = 'test';
-       component.open(content);
+        let content = 'test';
+        component.open(content);
     }));
 
     it('should download log file', () => {
         var blob = new Blob(['test'], {
             type: 'text/plain;charset=utf-8'
         });
-
         component.downloadLogFile();
     });
 });

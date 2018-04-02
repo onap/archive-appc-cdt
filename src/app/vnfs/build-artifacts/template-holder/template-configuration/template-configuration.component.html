@@ -41,7 +41,8 @@ limitations under the License.
                         <label>Protocol</label><input class="form-control" type="text" disabled value="{{protocol}}" />
                     </div>
                     <div *ngIf="(action === 'ConfigScaleOut')" class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
-                        <label>Template Identifier</label><input class="form-control" type="text" disabled value="{{identifier}}" />
+                        <label>Template Identifier</label><input class="form-control" type="text" [(ngModel)]="identifier" disabled />
+
                     </div>
                 </div>
             </div>

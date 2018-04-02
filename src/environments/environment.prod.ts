@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -27,7 +26,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
     production: true,
-    getDesigns: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:dbservice',
-    validateTemplate: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:validator',
-    testConfigure: 'https://' + window.location.hostname + ':8443/restconf/operations/appc-provider-lcm:configure'
+    getDesigns: 'https://' + window.location.hostname + ':8282/restconf/operations/design-services:dbservice',
+    validateTemplate: 'https://' + window.location.hostname + ':8282/restconf/operations/design-services:validator',
+    testConfigure: 'https://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:configure'
 };

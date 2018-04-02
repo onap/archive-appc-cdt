@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -190,7 +189,7 @@ export class ParameterComponent implements OnInit {
     identifier: any;
     private selectedActionReference: any;
 
-    constructor (private httpService: HttpUtilService,
+    constructor(private httpService: HttpUtilService,
         private parameterDefinitionService: ParameterDefinitionService,
         private paramShareService: ParamShareService,
         private mappingEditorService: MappingEditorService,
@@ -212,7 +211,19 @@ export class ParameterComponent implements OnInit {
             for (let i = 0; i < this.selectedActionReference['artifact-list'].length; i++) {
                 let artifactList = this.selectedActionReference['artifact-list'];
                 if (artifactList[i]['artifact-type'] === 'parameter_definitions') {
-                    this.artifact_fileName = artifactList[i]['artifact-name'];
+                    var artifactName = artifactList[i]['artifact-name'];
+                    var artifactNameWithoutExtension = '';
+                    if (artifactName) artifactNameWithoutExtension = artifactName.substring(0, artifactName.lastIndexOf("."))
+                    var identifier = artifactNameWithoutExtension.split("_");
+                    var id = '';
+                    if (identifier) id = identifier[identifier.length - 1];
+                    if (this.mappingEditorService.identifier) {
+                        if (id === this.mappingEditorService.identifier) this.artifact_fileName = artifactName;
+
+                    }
+                    else {
+                        this.artifact_fileName = artifactName;
+                    }
                 }
             }
             this.parameterDefinitionService.setValues(this.vnfType, this.vnfcType, this.protocol, this.action, this.artifact_fileName);

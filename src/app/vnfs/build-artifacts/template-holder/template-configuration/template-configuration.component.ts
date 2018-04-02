@@ -129,9 +129,9 @@ export class GoldenConfigurationComponent implements OnInit {
   enableValidateTemplate: boolean = false;;
   public selectedUploadType: string = this.uploadTypes[0].value;
   identifier: any;
-  public tempRetrievalResponse:any;
-  public mergeStatus:boolean=false;
-  
+  public tempRetrievalResponse: any;
+  public mergeStatus: boolean = false;
+
   //======================================Start of ngOnInit() Method============================================
   ngOnInit() {
     var refObj = this.refObj = this.prepareFileName();
@@ -186,7 +186,19 @@ export class GoldenConfigurationComponent implements OnInit {
       for (let i = 0; i < this.refNameObj['artifact-list'].length; i++) {
         let artifactList = this.refNameObj['artifact-list'];
         if (artifactList[i]['artifact-type'] === 'config_template') {
-          this.artifactName = artifactList[i]['artifact-name'];
+          var artifactName = artifactList[i]['artifact-name'];
+          var artifactNameWithoutExtension = '';
+          if (artifactName) artifactNameWithoutExtension = artifactName.substring(0, artifactName.lastIndexOf("."))
+          var identifier = artifactNameWithoutExtension.split("_");
+          var id = '';
+          if (identifier) id = identifier[identifier.length - 1];
+          if (this.mappingEditorService.identifier) {
+            if (id === this.mappingEditorService.identifier) this.artifactName = artifactName;
+          }
+          else {
+            this.artifactName = artifactName;
+          }
+
         }
       }
     }
@@ -255,7 +267,7 @@ export class GoldenConfigurationComponent implements OnInit {
       if (this.fileType === '') {
         sessionStorage.setItem('fileType', '');
       }
-     }
+    }
   }
   //========================== End of saveTemplate() Method============================================
   retrieveTemplateFromAppc() {
@@ -281,7 +293,7 @@ export class GoldenConfigurationComponent implements OnInit {
       }).subscribe(resp => {
         if (resp.output.status.code === '400' && resp.output.status.message === "success") {
           this.nService.success("Success", "Template retrieved successfully from APPC");
-          this.tempRetrievalResponse=resp;
+          this.tempRetrievalResponse = resp;
           let result = JSON.parse(resp.output.data.block).artifactInfo[0];
           result = result['artifact-content'];
           if ('Generated Template' === this.selectedUploadType) {
@@ -303,7 +315,7 @@ export class GoldenConfigurationComponent implements OnInit {
         }
         this.ngProgress.done();
       },
-      error => this.nService.error("Error", "Error in connecting to APPC Server"));
+        error => this.nService.error("Error", "Error in connecting to APPC Server"));
       setTimeout(() => {
         this.ngProgress.done();
       }, 3500);
@@ -324,7 +336,11 @@ export class GoldenConfigurationComponent implements OnInit {
         this.showTemplateVersionDiv = true;
         let action = this.item.action;
         var scopeName = this.scopeName.replace(/ /g, '').replace(new RegExp('/', "g"), '_').replace(/ /g, '');
-        let fileName = this.updateParamFileName(refObj.action, scopeName, this.templateVersionNo);
+        var fileName = '';
+        let id = this.mappingEditorService.identifier;
+        if (id) fileName = this.updateFileNameForConfigScaleOut(this.item.action, scopeName, this.templateVersionNo, id);
+        else fileName = this.updateParamFileName(this.item.action, scopeName, this.templateVersionNo);
+
         let vnfType = this.vnfType;
         let Json = [paramsKeyValueFromEditor];
         let slashedPayload = this.appendSlashes(JSON.stringify(Json));
@@ -349,7 +365,7 @@ export class GoldenConfigurationComponent implements OnInit {
               }
             }
           }
-         this.appDataObject.template.nameValueData = data;
+        this.appDataObject.template.nameValueData = data;
       }
       if (this.configMappingEditorContent) {
         let actualContent = this.configMappingEditorContent;
@@ -412,7 +428,7 @@ export class GoldenConfigurationComponent implements OnInit {
     let refObj = this.refObj;
     if (refObj) {
       let paramsKeyValueFromEditor: JSON;
-     try {
+      try {
         paramsKeyValueFromEditor = JSON.parse(localStorage["paramsContent"]);
       }
       catch (error) {
@@ -425,7 +441,10 @@ export class GoldenConfigurationComponent implements OnInit {
       this.showTemplateVersionDiv = true;
       let fileName: any;
       var scopeName = this.scopeName.replace(/ /g, '').replace(new RegExp('/', "g"), '_').replace(/ /g, '');
-      fileName = this.updateParamFileName(refObj.action, scopeName, this.templateVersionNo);
+      let id = this.mappingEditorService.identifier;
+      if (id) fileName = this.updateFileNameForConfigScaleOut(this.item.action, scopeName, this.templateVersionNo, id);
+      else fileName = this.updateParamFileName(this.item.action, scopeName, this.templateVersionNo);
+
       this.downloadDataObject.template.nameValueData = theJSON;
       this.downloadDataObject.template.nameValueFileName = fileName;
     }
@@ -441,13 +460,19 @@ export class GoldenConfigurationComponent implements OnInit {
     return fileName;
   }
   //========================== End of updateParamFileName() Method============================================
+  updateFileNameForConfigScaleOut(action: any, scopeName: any, versionNo: any, id: any) {
+    let fileName = 'param_' + action + '_' + scopeName + '_' + versionNo + 'V_' + id + '.json';
+    this.downloadedParamFileName = fileName;
+    return fileName;
+  }
+  //========================== End of updateFileNameForConfigScaleOut() Method============================================
   public onDownloadTemplate(artifact: string) {
     let actualContent = this.configMappingEditorContent;
     var textToSaveAsBlob: any;
     var config_template_fileName: any
     let refObj = this.refObj;
     let versionandFileType: string;
-   if (artifact == 'Template' && this.artifactRequest && this.configMappingEditorContent && refObj) {
+    if (artifact == 'Template' && this.artifactRequest && this.configMappingEditorContent && refObj) {
       this.showTemplateVersionDiv = true;
       if (this.fileType === "text/xml") {
         textToSaveAsBlob = new Blob([this.configMappingEditorContent], {
@@ -523,7 +548,7 @@ export class GoldenConfigurationComponent implements OnInit {
           this.saveTemplate();
 
         });
-        }
+      }
       else {
         this.nService.error("Error", "Failed to read file");
       }
@@ -582,11 +607,11 @@ export class GoldenConfigurationComponent implements OnInit {
     var templateData = this.mappingEditorService.paramData; //template data array
     var pdData = this.paramShareService.getSessionParamData(); //PD data array
     var paramsContent = localStorage["paramsContent"];
-    
+
     if (paramsContent && paramsContent != undefined) {
       try {
         var paramTabData = JSON.parse(paramsContent);
-       }
+      }
       catch (error) {
         console.log("error is : " + error)
       }
@@ -693,7 +718,7 @@ export class GoldenConfigurationComponent implements OnInit {
               "ruleTypeValues": arr2item.ruleTypeValues
             };
             resultArr.splice(i, 1, json)
-            }
+          }
 
         });
 
@@ -723,7 +748,7 @@ export class GoldenConfigurationComponent implements OnInit {
   public handleAnnotation(modal) {
 
     this.selectedWord = this.templateeditor.getEditor().session.getTextRange(this.templateeditor.getEditor().selectionRange);
-    if(this.selectedWord && this.selectedWord!=undefined) modal.open();
+    if (this.selectedWord && this.selectedWord != undefined) modal.open();
   }
   //========================== End of handleAnnotations() Method============================================ 
   public submitNameValues() {
@@ -732,14 +757,14 @@ export class GoldenConfigurationComponent implements OnInit {
 
       if (this.selectedWord) {
         if (this.selectedWord.startsWith('${(')) {
-          var replaceWord: any =this.replaceWord = this.selectedWord.substring(3, this.selectedWord.indexOf(')=(')) + this.tempName;
+          var replaceWord: any = this.replaceWord = this.selectedWord.substring(3, this.selectedWord.indexOf(')=(')) + this.tempName;
           this.templateeditor.getEditor().session.replace(this.templateeditor.getEditor().session.selection.getRange(), replaceWord);
-          
+
         } else {
           let mappingKey = this.mappingEditorService.getKeysForValues(this.selectedWord);
-          var replaceWord: any = this.replaceWord='${(' + this.selectedWord + ')=(' + this.tempName + ')}';
+          var replaceWord: any = this.replaceWord = '${(' + this.selectedWord + ')=(' + this.tempName + ')}';
           this.templateeditor.getEditor().session.replace(this.templateeditor.getEditor().session.selection.getRange(), replaceWord);
-          
+
         }
       }
       this.mappingEditorService.refreshEditor();

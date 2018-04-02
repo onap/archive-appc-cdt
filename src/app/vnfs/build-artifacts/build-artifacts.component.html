@@ -17,17 +17,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 -->
 
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <ul class="nav nav-tabs custom-heade-nav" style="    margin-bottom: 12px;">
-                <li [ngClass]="{'active-tab':((router.url.indexOf('/'+item.url))>-1 || router.url.indexOf(item.url)>-1 )}"
-                    *ngFor="let item of tabs">
-                    <a [routerLink]="[item.url]" [type]="item.type" class="nav-link">{{item.name}}</a>
+            <ul class="nav nav-tabs custom-heade-nav" style="margin-bottom: 12px;">
+                <li [ngClass]="{'active-tab':((router.url.indexOf('/'+item.url))>-1 || router.url.indexOf(item.url)>-1 )}" *ngFor="let item of tabs">
+                    <a *ngIf="this.refDataRequiredFiels == true" [routerLink]="[item.url]" [type]="item.type" class="nav-link">{{item.name}}</a>
+                    <a *ngIf="this.refDataRequiredFiels == false" [type]="item.type" class="nav-link">{{item.name}}</a>
                 </li>
             </ul>
         </div>

@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -29,8 +28,9 @@ import * as _ from 'underscore';
 export class BuildDesignComponent implements OnInit {
     tabs: Array<Object> = [];
     private allowOtherUpdates: boolean = true;
+    public refDataRequiredFiels: boolean = false;
 
-    constructor (private router: Router) {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
@@ -79,4 +79,14 @@ export class BuildDesignComponent implements OnInit {
             return false;
         }
     }
+
+    public getRefData(referenceList) {
+        if (referenceList.action !== '' && referenceList['vnf-type'] !== '' && referenceList['device-protocol'] !== '') {
+            this.refDataRequiredFiels = true;
+        }
+        else {
+            this.refDataRequiredFiels = false;
+        }
+    }
+
 }

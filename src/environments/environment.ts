@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -30,10 +29,10 @@ export const environment = {
     production: false,
     //Environment for PROD
 
-    getDesigns: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:dbservice',
-    validateTemplate: 'https://' + window.location.hostname + ':8443/restconf/operations/design-services:validator',
-    testVnf: 'https://' + window.location.hostname + ':8443/restconf/operations/appc-provider-lcm:',
-    checkTestStatus: 'https://' + window.location.hostname + ':8443/restconf/operations/appc-provider-lcm:action-status'
+    getDesigns: 'https://' + window.location.hostname + ':8282/restconf/operations/design-services:dbservice',
+    validateTemplate: 'https://' + window.location.hostname + ':8282/restconf/operations/design-services:validator',
+    testVnf: 'https://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:',
+    checkTestStatus: 'https://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:action-status'
 
 
 };

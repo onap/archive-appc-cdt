@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 -->
 
@@ -28,8 +27,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <div class="card-header" style="font-size: 20px">CONTACT DETAILS</div>
                 <div class="mdl-card__title">
                     <div class="text-center">
-                        Contact us @: <a href="#">APPC
-                        DEVELOPMENT TEAM </a>
+                        Contact us @:<a href="mailto:{{contactUsMail.CONTACT_US_EMAIL}}?Subject={{contactUsMail.CONTACT_US_SUBJECT}}">APPC DEVELOPMENT TEAM</a>
                     </div>
                 </div>
             </div>&emsp;&emsp;&emsp;&emsp;
@@ -39,29 +37,28 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                     <table>
                         <thead></thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <div class="android-title mdl-layout-title">Current Release :</div>
-                            </td>
-                            <td>
-                                <div class="android-title mdl-layout-title">{{releaseName}}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="android-title mdl-layout-title">Current Version :</div>
-                            </td>
-                            <td>
-                                <div class="android-title mdl-layout-title">{{versionNo}}</div>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <div class="android-title mdl-layout-title">Current Release :</div>
+                                </td>
+                                <td>
+                                    <div class="android-title mdl-layout-title">{{releaseName}}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="android-title mdl-layout-title">Current Version :</div>
+                                </td>
+                                <td>
+                                    <div class="android-title mdl-layout-title">{{versionNo}}</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="text-right">
                     <div class="mdl-dialog__content">
-                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary"
-                           (click)="open(content)" (click)="versionLogFile()">VIEW CHANGE LOG</a>
+                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="open(content)" (click)="versionLogFile()">VIEW CHANGE LOG</a>
                     </div>
                 </div>
 
@@ -84,7 +81,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <html>
 
                 <body>
-                <textarea class="textarea">{{this.data}}</textarea>
+                    <textarea class="textarea">{{this.data}}</textarea>
                 </body>
 
                 </html>
