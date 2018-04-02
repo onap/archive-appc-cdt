@@ -22,20 +22,26 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 */
 
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+
+import { ActivatedRoute } from '@angular/router';
 import {EmitterService} from '../../shared/services/emitter.service';
+import {Router} from '@angular/router';
 import {UtilityService} from '../../shared/services/utilityService/utility.service';
 
 @Component({selector: 'app-mvnfs-form', templateUrl: './userlogin-form.component.html', styleUrls: ['./userlogin-form.component.css']})
 export class userloginFormComponent implements OnInit {
 
     userId: string = '';
+    returnUrl:string
 
-    constructor(private router: Router, private utiltiy: UtilityService) {
+    constructor(private router: Router, private utiltiy: UtilityService, private route: ActivatedRoute
+        ) {
     }
 
     ngOnInit() {
+           this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
     }
+
 
     getData() {
         localStorage['userId'] = this.userId;
@@ -43,9 +49,7 @@ export class userloginFormComponent implements OnInit {
         EmitterService
             .get('userLogin')
             .emit(this.userId);
-        this
-            .router
-            .navigate(['vnfs', 'list']);
+       this.router.navigateByUrl(this.returnUrl);
     }
 
 }

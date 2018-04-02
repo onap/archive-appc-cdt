@@ -36,13 +36,14 @@ import {RouterModule} from '@angular/router';
 import {TestComponent} from './test/test.component';
 import {AboutUsComponent} from './about-us/aboutus.component';
 import {NgProgressModule} from 'ngx-progressbar';
+import {LoginGuardService} from './vnfs/LoginGuardService/Login-guard-service';
 
 @NgModule({
     declarations: [AppComponent, TestComponent, AboutUsComponent],
     imports: [BrowserModule, FormsModule, HomeModule, SharedModule.forRoot(),
         NgbModule.forRoot(), NoopAnimationsModule, AppRoutingModule, SimpleNotificationsModule, NgProgressModule],
     exports: [RouterModule],
-    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, LoginGuardService],
 
     bootstrap: [AppComponent]
 })
