@@ -1,0 +1,8 @@
+Code-Review+1: Amaresh Kumar <ak583p@us.att.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Takamune Cho <tc012c@att.com>
+Submitted-by: Takamune Cho <tc012c@att.com>
+Submitted-at: Tue, 03 Apr 2018 14:37:04 +0000
+Reviewed-on: https://gerrit.onap.org/r/40501
+Project: appc/cdt
+Branch: refs/heads/master
