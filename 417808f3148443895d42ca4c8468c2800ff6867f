@@ -16,6 +16,24 @@
       "revId": "417808f3148443895d42ca4c8468c2800ff6867f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_79762b40",
+        "filename": "src/app/cdt.application.properties.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1577
+      },
+      "writtenOn": "2018-04-03T05:31:36Z",
+      "side": 1,
+      "message": "Skip - Sandeep has to go on an emergency leave for next one week or so.\nSo we would not be able to update this pull request.\nIf there are no other major issues in this code base,can we merge this pull request?\nI will have that email id issue fixed in next pull request.\nPlease let me know.\nThanks.",
+      "parentUuid": "5a93c517_5bb7a8f5",
+      "revId": "417808f3148443895d42ca4c8468c2800ff6867f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
