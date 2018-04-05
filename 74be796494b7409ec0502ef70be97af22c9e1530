@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_d1914b9b",
+        "filename": "src/app/app.module.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-05T14:24:48Z",
+      "side": 1,
+      "message": "The ECOMP trademark line should be removed.",
+      "revId": "74be796494b7409ec0502ef70be97af22c9e1530",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_31eaef0f",
+        "filename": "src/app/app.routing.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-05T14:24:48Z",
+      "side": 1,
+      "message": "The ECOMP trademark line should be removed.",
+      "revId": "74be796494b7409ec0502ef70be97af22c9e1530",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_51ed3b24",
+        "filename": "src/app/test/test.component.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-05T14:24:48Z",
+      "side": 1,
+      "message": "The ECOMP trademark line should be removed.",
+      "revId": "74be796494b7409ec0502ef70be97af22c9e1530",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f1f32708",
+        "filename": "src/app/test/test.component.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-05T14:24:48Z",
+      "side": 1,
+      "message": "Use 4 spaces for indentation.  \nONAP Style Guide:  https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "74be796494b7409ec0502ef70be97af22c9e1530",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_71e71741",
+        "filename": "src/app/vnfs/LoginGuardService/Login-guard-service.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-05T14:24:48Z",
+      "side": 1,
+      "message": "The ECOMP trademark should be removed.",
+      "revId": "74be796494b7409ec0502ef70be97af22c9e1530",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_31d18f57",
+        "filename": "src/app/vnfs/userlogin-form/userlogin-form.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-05T14:24:48Z",
+      "side": 1,
+      "message": "The ECOMP trademark should be removed.",
+      "revId": "74be796494b7409ec0502ef70be97af22c9e1530",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f1ca47a0",
+        "filename": "src/app/vnfs/vnf.routing.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-05T14:24:48Z",
+      "side": 1,
+      "message": "The ECOMP trademark should be removed.",
+      "revId": "74be796494b7409ec0502ef70be97af22c9e1530",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
