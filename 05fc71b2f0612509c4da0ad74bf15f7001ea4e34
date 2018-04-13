@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_fed3cfd2",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-13T19:29:53Z",
+      "side": 1,
+      "message": "does this comment extend to line 467?",
+      "revId": "05fc71b2f0612509c4da0ad74bf15f7001ea4e34",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
