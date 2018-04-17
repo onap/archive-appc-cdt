@@ -101,4 +101,33 @@ describe('BuildDesignComponent', () => {
         expect(component.refDataRequiredFiels).toBeTruthy();
     });
 
+// Test checkRefDataReqFields Method
+    it('Should notify error message if action is not valid', () => {
+        let spy = spyOn(NotificationsService.prototype, 'error');
+        component.refList = {"action": "", "scope": {"vnf-type": "test 1"}, "device-protocol": "ANSIBLE"};
+
+        component.checkRefDataReqFields();
+
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it('Should notify error message if VNF Type is not valid', () => {
+        let spy = spyOn(NotificationsService.prototype, 'error');
+        component.refList = {"action": "Configure", "scope": {"vnf-type": ""}, "device-protocol": "ANSIBLE"};
+
+        component.checkRefDataReqFields();
+
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it('Should notify error message if Device Protocol is not valid', () => {
+        let spy = spyOn(NotificationsService.prototype, 'error');
+        component.refList = {"action": "Configure", "scope": {"vnf-type": "test 1"}, "device-protocol": ""};
+
+        component.checkRefDataReqFields();
+
+        expect(spy).toHaveBeenCalled();
+    });
+
+
 });

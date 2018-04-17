@@ -895,15 +895,19 @@ export class ReferenceDataformComponent implements OnInit {
                     this.toggleIdentifier(data)
                     this.oldAction = this.currentAction;// this.referenceDataObject.action + '';
                     this.referenceDataObject.action = this.currentAction
+
                     this.populateExistinAction(data);
                     if (this.oldAction === 'OpenStack Actions') {
+
                         this.uploadedDataArray = [];
                         this.remUploadedDataArray = [];
                         this.firstArrayElement = [];
                         this.uploadFileName = '';
+                        //this.tempAllData = [];
                     }
                     this.clearCache();
                     this.refernceScopeObj.from = '';
+                    this.getArtifactsOpenStack()
                 } else {
                     this.toggleIdentifier(data)
                     this.currentAction = this.referenceDataObject.action;
@@ -914,8 +918,15 @@ export class ReferenceDataformComponent implements OnInit {
                     this.clearVnfcData()
                     this.refernceScopeObj.from = '';
                 }
+
                 // Enable or Block Template and PD Tabs
-                this.buildDesignComponent.getRefData(this.referenceDataObject);
+                if(this.currentAction == 'ConfigScaleOut' && this.templateIdentifier) {
+                    let referenceDataObjectTemp = this.referenceDataObject;
+                    referenceDataObjectTemp['template-id'] = this.templateIdentifier;
+                    this.buildDesignComponent.getRefData(referenceDataObjectTemp);
+                } else {
+                    this.buildDesignComponent.getRefData(this.referenceDataObject);
+                }
             });
         } else {
             this.actionChanged = true;
@@ -923,8 +934,15 @@ export class ReferenceDataformComponent implements OnInit {
             this.populateExistinAction(data);
             this.resetVmsForScaleout(data);
             this.toggleIdentifier(data);
+
             // Enable or Block Template and PD Tabs
-            this.buildDesignComponent.getRefData(this.referenceDataObject);
+            if(this.currentAction == 'ConfigScaleOut' && this.templateIdentifier) {
+                let referenceDataObjectTemp = this.referenceDataObject;
+                referenceDataObjectTemp['template-id'] = this.templateIdentifier;
+                this.buildDesignComponent.getRefData(referenceDataObjectTemp);
+            } else {
+                this.buildDesignComponent.getRefData(this.referenceDataObject);
+            }
         }
         this.configDrp(data)
     }
@@ -977,6 +995,11 @@ export class ReferenceDataformComponent implements OnInit {
         if (data == null) {
             return;
         }
+        // Enable or Block Template and PD Tabs
+        let referenceDataObjectTemp = this.referenceDataObject;
+        referenceDataObjectTemp['template-id'] = data;
+        this.buildDesignComponent.getRefData(referenceDataObjectTemp);
+
         if ((userForm.valid) && this.oldAction != '' && this.oldAction != undefined) {
             this.currentAction = "ConfigScaleOut"
             let referenceObject = this.prepareReferenceObject();
@@ -1324,22 +1347,24 @@ export class ReferenceDataformComponent implements OnInit {
     trackByFn(index, item) {
         return index; 
     }
-    getArtifactsOpenStack() {
+   getArtifactsOpenStack() {
         var array = []
         var vnfcFunctionCodeArrayList = [];
         var vnfcSet = new Set();
-        vnfcSet.add("VM Type")
         for (var i = 0; i < this.tempAllData.length; i++) {
             if (!this.checkIfelementExistsInArray(this.tempAllData[i].action, this.actions) && (this.tempAllData[i].action != 'AllAction')) {
                 var vnfcFunctionCodeArray = this.tempAllData[i]["vnfc-function-code-list"]
+                vnfcSet.add("Actions")
                 for (var j = 0; j < vnfcFunctionCodeArray.length; j++) {
                     vnfcSet.add(vnfcFunctionCodeArray[j])
                 }
                 vnfcFunctionCodeArrayList.push([this.tempAllData[i].action].concat(this.tempAllData[i]["vnfc-function-code-list"]))
             }
         }
+
         var vnfcSetArray = Array.from(vnfcSet);
         let vnfcSetArrayLen = vnfcSetArray.length;
+
         for (let i = 0; i < vnfcFunctionCodeArrayList.length; i++) {
             let element = vnfcFunctionCodeArrayList[i];
             for (let j = 1; j < element.length; j++) {

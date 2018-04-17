@@ -972,4 +972,14 @@ describe('ReferenceDataformComponent', () => {
         expect(spy).toHaveBeenCalled()
     });
 
+    it('Should return valid data in getArtifactsOpenStack', () => {
+        component.tempAllData = [{"action":"OpenStack Actions","action-level":"vnf","scope":{"vnf-type":"OpenStack test8","vnfc-type":""},"template":"N","vm":[],"device-protocol":"OpenStack","user-name":"","port-number":"","artifact-list":[],"scopeType":"vnf-type"},{"action":"AllAction","action-level":"vnf","scope":{"vnf-type":"OpenStack test8","vnfc-type":""},"artifact-list":[{"artifact-name":"reference_AllAction_OpenStacktest8_0.0.1V.json","artifact-type":"reference_template"}]},{"action":"Migrate","action-level":"vm","scope":{"vnf-type":"OpenStack test8","vnfc-type":null},"vnfc-function-code-list":["First","Second","Third","Fourth","Fifth"],"template":"N","device-protocol":"OS"},{"action":"Reboot","action-level":"vm","scope":{"vnf-type":"OpenStack test8","vnfc-type":null},"vnfc-function-code-list":["First","Second","Fourth","Fifth"],"template":"N","device-protocol":"OS"},{"action":"Rebuild","action-level":"vm","scope":{"vnf-type":"OpenStack test8","vnfc-type":null},"vnfc-function-code-list":["First","Second","Third","Fourth"],"template":"N","device-protocol":"OS"},{"action":"Snapshot","action-level":"vm","scope":{"vnf-type":"OpenStack test8","vnfc-type":null},"vnfc-function-code-list":["First","Third"],"template":"N","device-protocol":"OS"},{"action":"AttachVolume","action-level":"vm","scope":{"vnf-type":"OpenStack test8","vnfc-type":null},"vnfc-function-code-list":["First","Second","Third","Fourth"],"template":"N","device-protocol":"OS"},{"action":"DetachVolume","action-level":"vm","scope":{"vnf-type":"OpenStack test8","vnfc-type":null},"vnfc-function-code-list":["First","Fourth"],"template":"N","device-protocol":"OS"}]
+        let firstArrayElement = ["VM Type","First","Second","Third","Fourth","Fifth"];
+        let remUploadedDataArray = [["Migrate","Y","Y","Y","Y","Y"],["Reboot","Y","Y","","Y","Y"],["Rebuild","Y","Y","Y","Y"],["Snapshot","Y","","Y"],["AttachVolume","Y","Y","Y","Y"],["DetachVolume","Y","","","Y"]];
+        
+        component.getArtifactsOpenStack();
+        
+        expect(component.firstArrayElement).toEqual(firstArrayElement);        
+        expect(component.remUploadedDataArray).toEqual(remUploadedDataArray);        
+    });
 });

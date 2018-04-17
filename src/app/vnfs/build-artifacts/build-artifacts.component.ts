@@ -23,14 +23,17 @@ limitations under the License.
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
+import { NotificationsService } from 'angular2-notifications';
+
 
 @Component({ selector: 'app-build-design', templateUrl: './build-artifacts.component.html', styleUrls: ['./build-artifacts.component.css'] })
 export class BuildDesignComponent implements OnInit {
     tabs: Array<Object> = [];
     private allowOtherUpdates: boolean = true;
     public refDataRequiredFiels: boolean = false;
+    public refList;
 
-    constructor(private router: Router) {
+    constructor (private router: Router, private notificationsService: NotificationsService) {
     }
 
     ngOnInit() {
@@ -81,11 +84,34 @@ export class BuildDesignComponent implements OnInit {
     }
 
     public getRefData(referenceList) {
-        if (referenceList.action !== '' && referenceList['vnf-type'] !== '' && referenceList['device-protocol'] !== '') {
-            this.refDataRequiredFiels = true;
+        this.refList = referenceList;
+        if(referenceList.action !== '' && referenceList.scope['vnf-type'] !== '' && referenceList['device-protocol'] !== '') {
+            if(referenceList.action === 'ConfigScaleOut') {
+                if(referenceList.hasOwnProperty('template-id') && referenceList['template-id'] !== undefined && referenceList['template-id'] != '')
+                    this.refDataRequiredFiels = true;
+            }
+            else this.refDataRequiredFiels = true;
         }
         else {
             this.refDataRequiredFiels = false;
+        }
+    }
+
+     public checkRefDataReqFields() {
+        if(this.refList.action == '' && this.refList.scope['vnf-type'] == '' && this.refList['device-protocol'] == '') {
+            this.notificationsService.error('Error', 'Select Valid Action, VNF Type, Device Protocol');
+        } 
+        else if(this.refList.action == '') {
+            this.notificationsService.error('Error', 'Select a valid Action');
+        } 
+        else if(this.refList.scope['vnf-type'] == '') {
+            this.notificationsService.error('Error', 'Select a valid VNF Type');
+        } 
+        else if(this.refList['device-protocol'] == '') {
+            this.notificationsService.error('Error', 'Select a valid Device Protocol');
+        } 
+        else if (this.refList.action === 'ConfigScaleOut') {
+            this.notificationsService.error('Error', 'Select a valid Template Identifier');
         }
     }
 

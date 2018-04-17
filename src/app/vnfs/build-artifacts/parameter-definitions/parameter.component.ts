@@ -185,7 +185,7 @@ export class ParameterComponent implements OnInit {
     public artifactName;
     public appDataObject: any;
     public downloadDataObject: any;
-    public artifact_fileName;
+    public artifact_fileName="";
     identifier: any;
     private selectedActionReference: any;
 
@@ -213,12 +213,13 @@ export class ParameterComponent implements OnInit {
                 if (artifactList[i]['artifact-type'] === 'parameter_definitions') {
                     var artifactName = artifactList[i]['artifact-name'];
                     var artifactNameWithoutExtension = '';
-                    if (artifactName) artifactNameWithoutExtension = artifactName.substring(0, artifactName.lastIndexOf("."))
-                    var identifier = artifactNameWithoutExtension.split("_");
-                    var id = '';
-                    if (identifier) id = identifier[identifier.length - 1];
-                    if (this.mappingEditorService.identifier) {
-                        if (id === this.mappingEditorService.identifier) this.artifact_fileName = artifactName;
+                    if (artifactName) {
+                        artifactNameWithoutExtension = artifactName.substring(0, artifactName.lastIndexOf("."));
+                    }
+                    if(this.mappingEditorService.identifier) {
+                        if(artifactNameWithoutExtension.endsWith(this.mappingEditorService.identifier)) {
+                            this.artifact_fileName = artifactName;
+                        }
 
                     }
                     else {
