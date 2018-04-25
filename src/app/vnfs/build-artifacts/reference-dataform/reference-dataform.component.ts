@@ -86,7 +86,7 @@ export class ReferenceDataformComponent implements OnInit {
     public actionLevels = [
         'vnfc', 'vnf'
     ];
-
+    oldtemplateIdentifier: any
     identifierDrp: any;
     identifierDrpValues: any = [];
     //settings for the notifications.
@@ -151,12 +151,18 @@ export class ReferenceDataformComponent implements OnInit {
     public firstArrayElement = [];
     public remUploadedDataArray = [];
     isConfigScaleOut = false
-
+    configScaleOutExist: boolean
     constructor(private buildDesignComponent: BuildDesignComponent, private httpUtils: HttpUtilService, private route: Router, private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService,
         private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private modalService: NgbModal, private nService: NotificationsService, private ngProgress: NgProgress) {
     }
 
     ngOnInit() {
+        this.configScaleOutExist = require('../../../cdt.application.properties.json').showconfigsaleout;
+        if (this.configScaleOutExist) {
+            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
+        } else {
+            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions'];
+        }
         this.self = this;
         let path = this.location.path;
         this.title = 'Reference Data';
@@ -920,7 +926,7 @@ export class ReferenceDataformComponent implements OnInit {
                 }
 
                 // Enable or Block Template and PD Tabs
-                if(this.currentAction == 'ConfigScaleOut' && this.templateIdentifier) {
+                if (this.currentAction == 'ConfigScaleOut' && this.templateIdentifier) {
                     let referenceDataObjectTemp = this.referenceDataObject;
                     referenceDataObjectTemp['template-id'] = this.templateIdentifier;
                     this.buildDesignComponent.getRefData(referenceDataObjectTemp);
@@ -930,13 +936,14 @@ export class ReferenceDataformComponent implements OnInit {
             });
         } else {
             this.actionChanged = true;
+            this.currentAction = this.referenceDataObject.action;
             this.oldAction = this.referenceDataObject.action + '';
             this.populateExistinAction(data);
             this.resetVmsForScaleout(data);
             this.toggleIdentifier(data);
 
             // Enable or Block Template and PD Tabs
-            if(this.currentAction == 'ConfigScaleOut' && this.templateIdentifier) {
+            if (this.currentAction == 'ConfigScaleOut' && this.templateIdentifier) {
                 let referenceDataObjectTemp = this.referenceDataObject;
                 referenceDataObjectTemp['template-id'] = this.templateIdentifier;
                 this.buildDesignComponent.getRefData(referenceDataObjectTemp);
@@ -1000,8 +1007,9 @@ export class ReferenceDataformComponent implements OnInit {
         referenceDataObjectTemp['template-id'] = data;
         this.buildDesignComponent.getRefData(referenceDataObjectTemp);
 
-        if ((userForm.valid) && this.oldAction != '' && this.oldAction != undefined) {
+        if ((userForm.valid) && this.oldtemplateIdentifier != '' && this.oldtemplateIdentifier != undefined) {
             this.currentAction = "ConfigScaleOut"
+            this.oldtemplateIdentifier = this.templateIdentifier
             let referenceObject = this.prepareReferenceObject();
             this.actionChanged = true;
             if (this.templateIdentifier) {
@@ -1030,8 +1038,7 @@ export class ReferenceDataformComponent implements OnInit {
         }
     }
 
-    clearCache()
-    {
+    clearCache() {
         // get the value and save the userid and persist it.
         this.clearTemplateCache();
         this.clearPdCache();
@@ -1149,7 +1156,7 @@ export class ReferenceDataformComponent implements OnInit {
     resetGroupNotation() {
         if (this.Sample['group-notation-type'] == "existing-group-name") {
             this.Sample['group-notation-value'] = ""
-            this.disableGrpNotationValue = true 
+            this.disableGrpNotationValue = true
         } else {
             this.disableGrpNotationValue = false
         }
@@ -1166,7 +1173,7 @@ export class ReferenceDataformComponent implements OnInit {
             } else {
                 if (this.actionChanged) {
                     this.referenceDataObject.vm = []
-                } 
+                }
             }
         }
     }
@@ -1345,9 +1352,9 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     trackByFn(index, item) {
-        return index; 
+        return index;
     }
-   getArtifactsOpenStack() {
+    getArtifactsOpenStack() {
         var array = []
         var vnfcFunctionCodeArrayList = [];
         var vnfcSet = new Set();

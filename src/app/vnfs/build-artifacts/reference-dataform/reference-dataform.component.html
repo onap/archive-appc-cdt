@@ -140,11 +140,11 @@ limitations under the License.
                             </div>
                             <div class="row" *ngIf="(( referenceDataObject.action =='ConfigScaleOut' ||referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ) && isCollapsedContent) ">
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                    <label style="font-size:12px;">VNFC Type*</label>
+                                    <label style="font-size:12px;">VNFC Type</label>
                                     <input type="text" class="form-control" id="txtVnfcTypeInColl" [(ngModel)]="Sample['vnfc-type']" #vnfcType="ngModel" name="samplevnfcType">
                                 </div>
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                    <label style="font-size:12px">VNFC Function Code*</label>
+                                    <label style="font-size:12px">VNFC Function Code</label>
                                     <input type="text" class="form-control" id="txtVnfcFunctionCode" [(ngModel)]="Sample['vnfc-function-code']" #vnfcFunctionCode="ngModel" name="samplevnfcFunctionCode">
                                 </div>
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
@@ -200,12 +200,12 @@ limitations under the License.
                                                 <input type="text" class="form-control" id="txtVmnumber" disabled='true' [(ngModel)]="item['vnfc-instance']" name="vmNumber{{j}}">
                                             </div>
                                             <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                                <label style="font-size:12px;">VNFC Type*</label>
+                                                <label style="font-size:12px;">VNFC Type</label>
                                                 <input type="text" class="form-control" id="txtVnfcTypeInColl" required [(ngModel)]="item['vnfc-type']" #vnfcType{{j}}="ngModel" name="vnfcType{{j}}">
                                                 <span class="error-message" [hidden]="vnfcType.valid || (vnfcType.pristine && !userForm.submitted)">Required Field</span>
                                             </div>
                                             <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                                <label style="font-size:12px;">VNFC Function Code*</label>
+                                                <label style="font-size:12px;">VNFC Function Code</label>
                                                 <input type="text" class="form-control" id="txtVnfcFunctionCode" required [(ngModel)]="item['vnfc-function-code']" #vnfcFunctionCode="ngModel" name="vnfcFunctionCode{{j}}">
                                                 <span class="error-message" [hidden]="vnfcFunctionCode.valid || (vnfcFunctionCode.pristine && !userForm.submitted)">Required Field</span>
                                             </div>
