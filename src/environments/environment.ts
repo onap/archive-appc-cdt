@@ -29,10 +29,10 @@ export const environment = {
     production: false,
     //Environment for PROD
 
-    getDesigns: 'https://' + window.location.hostname + ':8282/restconf/operations/design-services:dbservice',
-    validateTemplate: 'https://' + window.location.hostname + ':8282/restconf/operations/design-services:validator',
-    testVnf: 'https://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:',
-    checkTestStatus: 'https://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:action-status'
+    getDesigns: 'http://' + window.location.hostname + ':8282/restconf/operations/design-services:dbservice',
+    validateTemplate: 'http://' + window.location.hostname + ':8282/restconf/operations/design-services:validator',
+    testVnf: 'http://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:',
+    checkTestStatus: 'http://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:action-status'
 
 
 };

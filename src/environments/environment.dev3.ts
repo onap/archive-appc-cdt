@@ -26,7 +26,7 @@ limitations under the License.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
     production: false,
-    getDesigns: 'https://' + window.location.hostname + ':8282/restconf/operations/design-services:dbservice',
-    validateTemplate: 'https://' + window.location.hostname + ':8282/restconf/operations/design-services:validator',
-    testConfigure: 'https://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:configure'
+    getDesigns: 'http://' + window.location.hostname + ':8282/restconf/operations/design-services:dbservice',
+    validateTemplate: 'http://' + window.location.hostname + ':8282/restconf/operations/design-services:validator',
+    testConfigure: 'http://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:configure'
 };
