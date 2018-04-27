@@ -411,6 +411,7 @@ export class ReferenceDataformComponent implements OnInit {
         if (this.referenceDataObject.action === 'OpenStack Actions') {
             this.referenceDataObject['template'] = 'N';
             this.referenceDataObject['artifact-list'] = [];
+            this.referenceDataObject['firstRowVmSpreadSheet']=this.firstArrayElement;
         }
         //detaching the object from the form and processing further
         let newObj = $.extend(true, {}, this.referenceDataObject);
@@ -444,33 +445,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     upload(evt: any) {
-        /*  // console.log("This uploaded array==" + JSON.stringify(this.uploadedDataArray))
-          // // console.log("This template data before==" + JSON.stringify(this.tempAllData))
-          if (this.uploadedDataArray && this.uploadedDataArray != undefined && this.uploadedDataArray.length!=0) {
-              /*  for (var i = 0; i < this.uploadedDataArray.length; i++) {
-                    var action = this.uploadedDataArray[i][0];
-                    for (var j = 0; j < this.tempAllData.length; j++) {
-                        if (action === this.tempAllData[j].action) {
-                            this.tempAllData.splice(j);
-                            // console.log("This template data===" + this.tempAllData[j]);
-                        }
-                    }
-                }
-               if (this.tempAllData && this.tempAllData != undefined) {
-                  for (var i = 0; i < this.tempAllData.length; i++) {
-                      // alert(this.checkIfelementExistsInArray(this.tempAllData[i].action,this.actions))
-                      var result = this.checkIfelementExistsInArray(this.tempAllData[i].action, this.actions);
-                      if (this.tempAllData[i].action === "AllAction") result = true;
-                      if (!result) {
-                          // console.log("Removing VM action==" + this.tempAllData[i].action)
-                          this.tempAllData.splice(i, 1);
-                      }
-     
-                  }
-              }
-          }
-          // // console.log("This template data after==" + JSON.stringify(this.tempAllData))
-          /* wire up file reader */
+       /* wire up file reader */
         const target: DataTransfer = <DataTransfer>(evt.target);
         //// console.log("filename========" + evt.target.files[0].name)
         this.uploadFileName = evt.target.files[0].name;
@@ -785,6 +760,7 @@ export class ReferenceDataformComponent implements OnInit {
       }*/
                             ];
                         }
+                        this.getArtifactsOpenStack();
                         if (this.referenceDataObject.template == null) {
                             this.referenceDataObject.template = 'Y';
                         }
@@ -1357,19 +1333,20 @@ export class ReferenceDataformComponent implements OnInit {
     getArtifactsOpenStack() {
         var array = []
         var vnfcFunctionCodeArrayList = [];
-        var vnfcSet = new Set();
+        var vnfcSetArray=[];
         for (var i = 0; i < this.tempAllData.length; i++) {
             if (!this.checkIfelementExistsInArray(this.tempAllData[i].action, this.actions) && (this.tempAllData[i].action != 'AllAction')) {
                 var vnfcFunctionCodeArray = this.tempAllData[i]["vnfc-function-code-list"]
-                vnfcSet.add("Actions")
-                for (var j = 0; j < vnfcFunctionCodeArray.length; j++) {
-                    vnfcSet.add(vnfcFunctionCodeArray[j])
-                }
                 vnfcFunctionCodeArrayList.push([this.tempAllData[i].action].concat(this.tempAllData[i]["vnfc-function-code-list"]))
+            }
+            if(this.tempAllData[i].action==='OpenStack Actions')
+            {
+                vnfcSetArray=this.tempAllData[i]['firstRowVmSpreadSheet']
             }
         }
 
-        var vnfcSetArray = Array.from(vnfcSet);
+       if(vnfcSetArray)
+       {
         let vnfcSetArrayLen = vnfcSetArray.length;
 
         for (let i = 0; i < vnfcFunctionCodeArrayList.length; i++) {
@@ -1388,5 +1365,6 @@ export class ReferenceDataformComponent implements OnInit {
         }
         this.firstArrayElement = vnfcSetArray;
         this.remUploadedDataArray = vnfcFunctionCodeArrayList;
+       }
     }
 }

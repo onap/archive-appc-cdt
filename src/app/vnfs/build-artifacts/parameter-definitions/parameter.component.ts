@@ -252,7 +252,7 @@ export class ParameterComponent implements OnInit {
             this.displayParamObjects = [];
             this.modelParamDefinitionObjects = [];
             if (this.paramShareService.getSessionParamData() != undefined && this.paramShareService.getSessionParamData().length > 0) {
-                this.displayParamObjects = this.paramShareService.getSessionParamData();
+                this.getPDFromSession();
             } else {
                 this.getPD();
             }
@@ -294,6 +294,21 @@ export class ParameterComponent implements OnInit {
 
             error => this.nService.error('Error', 'Error in connecting APPC Server'));
 
+    }
+
+    public getPDFromSession() {
+        
+        this.ngProgress.start();
+        return this.httpService.get({
+            url: 'testurl',
+        }).subscribe(data => {
+                this.displayParamObjects = this.paramShareService.getSessionParamData();
+            this.ngProgress.done();
+        },
+            error => {
+               this.displayParamObjects = this.paramShareService.getSessionParamData();
+               this.ngProgress.done();
+            });
     }
 
     //========================== End of NGInit() Method============================================

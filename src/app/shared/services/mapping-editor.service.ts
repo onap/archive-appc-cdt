@@ -197,7 +197,7 @@ export class MappingEditorService {
                 if (value) {
                     var occurances = this.editor.findAll(value, {regExp: false});
                     var ranges = this.editor.getSelection().getAllRanges();
-                    if (ranges) {
+                    if (ranges && occurances && occurances > 0) {
 
                         for (var r = 0; r < ranges.length; r++) {
                             let selectedRange: any = ranges[r];
