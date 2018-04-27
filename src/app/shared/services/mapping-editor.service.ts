@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -197,7 +196,7 @@ export class MappingEditorService {
                 if (value) {
                     var occurances = this.editor.findAll(value, {regExp: false});
                     var ranges = this.editor.getSelection().getAllRanges();
-                    if (ranges) {
+                    if (ranges && occurances && occurances > 0) {
 
                         for (var r = 0; r < ranges.length; r++) {
                             let selectedRange: any = ranges[r];
