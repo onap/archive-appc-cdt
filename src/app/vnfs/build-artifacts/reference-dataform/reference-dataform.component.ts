@@ -157,12 +157,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.configScaleOutExist = require('../../../cdt.application.properties.json').showconfigsaleout;
-        if (this.configScaleOutExist) {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
-        } else {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions'];
-        }
+
         this.self = this;
         let path = this.location.path;
         this.title = 'Reference Data';
