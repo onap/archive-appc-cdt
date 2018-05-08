@@ -32,7 +32,7 @@ export class HttpUtilService {
     private password = require('../../../cdt.application.properties.json').password;
     constructor(private http: Http) {
         this.headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
-        // this.options = new RequestOptions({headers: this.headers}); //
+        this.options = new RequestOptions({headers: this.headers}); //
     }
 
     get(req) {
