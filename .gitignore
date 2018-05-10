@@ -27,3 +27,5 @@ target/
 .settings/
 coverage/
 npm-debug.log
+/CdtProxyService/CdtProxyService.iml
+/CdtProxyService/.idea
