@@ -293,6 +293,10 @@ a img {
     padding-bottom: 80px;
 }
 
+.ace_editor .ace_marker-layer .ace_selection {
+    background:blue !important;
+}
+
 .android-screens {
     text-align: right;
     width: 100%;

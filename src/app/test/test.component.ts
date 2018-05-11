@@ -101,7 +101,7 @@ export class TestComponent implements OnInit {
     public enableCounterDiv: boolean = false;
     public enableDownload: boolean = false;
     private userId = localStorage['userId'];
-    constructor (private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService, private nService: NotificationsService, private router: Router, private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private httpUtil: HttpUtilService,
+    constructor(private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService, private nService: NotificationsService, private router: Router, private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private httpUtil: HttpUtilService,
         private utiltiy: UtilityService, private ngProgress: NgProgress) {
 
     }
@@ -368,24 +368,21 @@ export class TestComponent implements OnInit {
 
         this.httpUtil.post(
             {
-                url: environment.testVnf + "?urlAction=" + this.getUrlEndPoint(this.action.toLowerCase()),
-                data: this.apiRequest
+                url: environment.testVnf + this.getUrlEndPoint(this.action), data: this.apiRequest
             })
             .subscribe(resp => {
                 this.apiResponse = JSON.stringify(resp);
-                this.enableBrowse = true;
-                this.enableTestButton = true;
                 this.ngProgress.done();
             },
-                error => {
-                    this.nService.error('Error', 'Error in connecting to APPC Server');
-                    this.enableBrowse = true;
-                    this.enableTestButton = true;
-                    this.enablePollButton = true;
-                    this.enableCounterDiv = false;
-                    if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
+            error => {
+                this.nService.error('Error', 'Error in connecting to APPC Server');
+                this.enableTestButton = true;
+                this.enablePollButton = true;
+                this.enableCounterDiv = false;
+                this.enableBrowse = true;
+                if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
 
-                });
+            });
 
         setTimeout(() => {
             this.ngProgress.done();
@@ -396,6 +393,7 @@ export class TestComponent implements OnInit {
     pollTestStatus() {
         if (this.requestId && this.actionIdentifiers['vnf-id']) {
             let timeStamp = new Date().toISOString();
+            console.log("pollTestStatus: timestamp==" + timeStamp)
             let reqId = new Date().getTime().toString();
             let data = {
                 'input': {
@@ -418,6 +416,7 @@ export class TestComponent implements OnInit {
                     'payload': '{"request-id":' + this.requestId + '}'
                 }
             };
+            //this.ngProgress.start();
             this.httpUtil.post(
                 {
                     url: environment.checkTestStatus, data: data
@@ -449,10 +448,14 @@ export class TestComponent implements OnInit {
                         if (status.toUpperCase() === 'SUCCESS' || status.toUpperCase() === 'SUCCESSFUL') {
                             if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
                             this.enablePollButton = true;
+                            this.enableBrowse = true;
+                            this.enableTestButton = true;
                         }
                         if (status.toUpperCase() === 'FAILED') {
                             if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
                             this.enablePollButton = true;
+                            this.enableBrowse = true;
+                            this.enableTestButton = true;
                         }
                     }
                     else {
@@ -460,26 +463,30 @@ export class TestComponent implements OnInit {
                         if (this.subscribe && this.subscribe != undefined) {
                             this.subscribe.unsubscribe();
                             this.enablePollButton = true;
+                            this.enableBrowse = true;
+                            this.enableTestButton = true;
                         }
 
                     }
 
                 },
-                    error => {
-                        this.statusResponse = null;
-                        this.showStatusResponseDiv = false;
-                        this.errorResponse = 'Error Connecting to APPC server';
-                        this.enableCounterDiv = false;
-                        if (this.subscribe && this.subscribe != undefined) {
-                            this.subscribe.unsubscribe();
-                            this.enablePollButton = true;
-                        }
-                    });
+                error => {
+                    this.statusResponse = null;
+                    this.showStatusResponseDiv = false;
+                    this.errorResponse = 'Error Connecting to APPC server';
+                    this.enableCounterDiv = false;
+                    this.enableBrowse = true;
+                    this.enableTestButton = true;
+                    if (this.subscribe && this.subscribe != undefined) {
+                        this.subscribe.unsubscribe();
+                        this.enablePollButton = true;
+                    }
+                });
+
         }
         else {
             this.nService.error("Error", "Please enter vnf Id & request Id");
         }
-
     }
 
     getUrlEndPoint(action) {

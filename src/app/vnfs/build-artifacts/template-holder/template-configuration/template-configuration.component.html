@@ -89,6 +89,7 @@ limitations under the License.
                 <div class="col-12">
                     <input class="form-control" [(ngModel)]="tempName" name="templateName" type="text" id="tempName">
                     <span class="error-message" [hidden]="checkNameEntered" style="color: red;">Required Field</span>
+                    <span class="error-message" [hidden]="checkSpace" style="color: red;">Name can't start or end with space(s)</span>
                 </div>
             </div>
         </modal-body>
@@ -97,6 +98,6 @@ limitations under the License.
             </button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent
     
-    " (click)="modal.close()">Cancel</button>
+    " (click)="modal.close();checkNameEntered=true;checkSpace=true;tempName=''">Cancel</button>
         </modal-footer>
     </modal>
