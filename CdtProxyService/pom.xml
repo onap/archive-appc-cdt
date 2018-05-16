@@ -34,7 +34,25 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>org.onap.appc.cdt.service.MainApplication</start-class>
+        <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
     </properties>
+    
+    <!-- ================================================================================== -->
+    <!-- Distribution Management Sites -->
+    <!-- ================================================================================== -->
+    <distributionManagement>        
+        <repository>
+            <id>ecomp-releases</id>
+            <name>openecomp-repository-releases</name>
+            <url>${onap.nexus.url}/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>ecomp-snapshots</id>
+            <name>openecomp-repository-snapshots</name>
+            <url>${onap.nexus.url}/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
     <!-- Inherit defaults from Spring Boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
