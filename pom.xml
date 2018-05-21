@@ -63,6 +63,16 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
     <build>
         <plugins>
+            <!-- Allows the maven version plugin to work even when child modules
+                 don't use this pom as a parent. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <processAllModules>true</processAllModules>
+                </configuration>
+            </plugin>
             <!--maven staging plugin --> 
             <plugin> 
                 <groupId>org.sonatype.plugins</groupId> 
