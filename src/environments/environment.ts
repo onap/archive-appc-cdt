@@ -35,9 +35,9 @@ export const environment = {
      checkTestStatus: 'http://' + window.location.hostname + ':8282/restconf/operations/appc-provider-lcm:action-status'
   */
     // APIs for CORS proxy Service.
-    getDesigns: 'http://' + window.location.hostname + ':9090/cdtService/getDesigns',
-    validateTemplate: 'http://' + window.location.hostname + ':9090/cdtService/validateTemplate',
-    testVnf: 'http://' + window.location.hostname + ':9090/cdtService/testVnf',
-    checkTestStatus: 'http://' + window.location.hostname + ':9090/cdtService/checkTestStatus'
+    getDesigns: 'http://' + window.location.hostname + ':30290/cdtService/getDesigns',
+    validateTemplate: 'http://' + window.location.hostname + ':30290/cdtService/validateTemplate',
+    testVnf: 'http://' + window.location.hostname + ':30290/cdtService/testVnf',
+    checkTestStatus: 'http://' + window.location.hostname + ':30290/cdtService/checkTestStatus'
 
 };
