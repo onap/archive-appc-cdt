@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -24,6 +26,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { NotificationsService } from 'angular2-notifications';
+import { appConstants } from '../../../constants/app-constants';
 
 
 @Component({ selector: 'app-build-design', templateUrl: './build-artifacts.component.html', styleUrls: ['./build-artifacts.component.css'] })
@@ -33,28 +36,11 @@ export class BuildDesignComponent implements OnInit {
     public refDataRequiredFiels: boolean = false;
     public refList;
 
-    constructor (private router: Router, private notificationsService: NotificationsService) {
+    constructor(private router: Router, private notificationsService: NotificationsService) {
     }
 
     ngOnInit() {
-        this.tabs = [
-            {
-                type: 'dropdown',
-                name: 'Reference Data',
-                url: 'references',
-            }, {
-                name: 'Template',
-                type: 'dropdown',
-                url: 'templates/myTemplates',
-            }, {
-                name: 'Parameter Definition',
-                type: 'dropdown',
-                url: 'parameterDefinitions/create'
-            } /*, {
-        name: "Test",
-        url: 'test',
-      }*/
-        ];
+        this.tabs = appConstants.tabs;
     }
 
     public setAllowOtherUpdates(allowOtherUpdates: boolean) {
@@ -85,9 +71,9 @@ export class BuildDesignComponent implements OnInit {
 
     public getRefData(referenceList) {
         this.refList = referenceList;
-        if(referenceList.action !== '' && referenceList.scope['vnf-type'] !== '' && referenceList['device-protocol'] !== '') {
-            if(referenceList.action === 'ConfigScaleOut') {
-                if(referenceList.hasOwnProperty('template-id') && referenceList['template-id'] !== undefined && referenceList['template-id'] != '')
+        if (referenceList.action !== appConstants.Actions.blank && referenceList.scope['vnf-type'] !== '' && referenceList['device-protocol'] !== appConstants.DeviceProtocols.blank) {
+            if (referenceList.action === appConstants.Actions.configScaleOut) {
+                if (referenceList.hasOwnProperty('template-id') && referenceList['template-id'] !== undefined && referenceList['template-id'] != '')
                     this.refDataRequiredFiels = true;
             }
             else this.refDataRequiredFiels = true;
@@ -97,21 +83,21 @@ export class BuildDesignComponent implements OnInit {
         }
     }
 
-     public checkRefDataReqFields() {
-        if(this.refList.action == '' && this.refList.scope['vnf-type'] == '' && this.refList['device-protocol'] == '') {
-            this.notificationsService.error('Error', 'Select Valid Action, VNF Type, Device Protocol');
-        } 
-        else if(this.refList.action == '') {
-            this.notificationsService.error('Error', 'Select a valid Action');
-        } 
-        else if(this.refList.scope['vnf-type'] == '') {
-            this.notificationsService.error('Error', 'Select a valid VNF Type');
-        } 
-        else if(this.refList['device-protocol'] == '') {
-            this.notificationsService.error('Error', 'Select a valid Device Protocol');
-        } 
-        else if (this.refList.action === 'ConfigScaleOut') {
-            this.notificationsService.error('Error', 'Select a valid Template Identifier');
+    public checkRefDataReqFields() {
+        if (this.refList.action == appConstants.Actions.blank && this.refList.scope['vnf-type'] == '' && this.refList['device-protocol'] == appConstants.DeviceProtocols.blank) {
+            this.notificationsService.error(appConstants.errors.error, appConstants.errors.noActionVnfProtocolError);
+        }
+        else if (this.refList.action == appConstants.Actions.blank) {
+            this.notificationsService.error(appConstants.errors.error, appConstants.errors.noActionError);
+        }
+        else if (this.refList.scope['vnf-type'] == '') {
+            this.notificationsService.error(appConstants.errors.error, appConstants.errors.noVnfTypeError);
+        }
+        else if (this.refList['device-protocol'] == appConstants.DeviceProtocols.blank) {
+            this.notificationsService.error(appConstants.errors.error, appConstants.errors.noDeviceProtocolError);
+        }
+        else if (this.refList.action === appConstants.Actions.configScaleOut) {
+            this.notificationsService.error(appConstants.errors.error, appConstants.errors.noValidTemplateIdentifierError);
         }
     }
 
