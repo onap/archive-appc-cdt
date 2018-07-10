@@ -21,8 +21,9 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import { HttpUtilService } from '../../shared/services/httpUtil/http-util.service';
 import { MappingEditorService } from '../../shared/services/mapping-editor.service';
 import { ParamShareService } from '../../shared/services/paramShare.service';
@@ -32,7 +33,7 @@ import { NgProgress } from 'ngx-progressbar';
 
 
 @Component({ selector: 'app-myvnfs', templateUrl: './myvnfs.component.html', styleUrls: ['./myvnfs.component.css'] })
-export class MyvnfsComponent implements OnInit {
+export class MyvnfsComponent implements OnInit, OnDestroy {
     vnfData: Array<Object> = [];
     sortOrder = false;
     noData = true;
@@ -41,8 +42,8 @@ export class MyvnfsComponent implements OnInit {
     noDataMsg: string;
     vnfType: any;
     vnfcType: any;
-
-    constructor (private paramShareService: ParamShareService, private ngProgress: NgProgress, private httpUtil: HttpUtilService, private router: Router, private activeROute: ActivatedRoute,
+    subscription: Subscription;
+    constructor(private paramShareService: ParamShareService, private ngProgress: NgProgress, private httpUtil: HttpUtilService, private router: Router, private activeROute: ActivatedRoute,
         private mappingEditorService: MappingEditorService, private modalService: NgbModal) {
     }
 
@@ -69,14 +70,18 @@ export class MyvnfsComponent implements OnInit {
         this.clearCache();
     }
 
+    ngOnDestroy() {
+        if (this.subscription) { this.subscription.unsubscribe(); }
+    }
+
     getArtifacts(data) {
         this.ngProgress.start();
-        this.httpUtil.post({
+        this.subscription = this.httpUtil.post({
             url: environment.getDesigns,
             data: data
         })
             .subscribe(resp => {
-                console.log("resp:",resp);
+                console.log("resp:", resp);
                 const tempObj = JSON.parse(resp.output.data.block);
                 this.vnfData = tempObj.designInfo;
                 if (this.vnfData == undefined || this.vnfData == null || this.vnfData.length == 0) {

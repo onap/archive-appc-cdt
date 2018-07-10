@@ -16,27 +16,32 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
 
-import {Component, OnInit} from '@angular/core';
-import {Http} from '@angular/http';
-import {saveAs} from 'file-saver';
-import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { saveAs } from 'file-saver';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-help',
     templateUrl: './aboutus.component.html',
     styleUrls: ['./aboutus.component.css']
 })
-export class AboutUsComponent implements OnInit {
+export class AboutUsComponent implements OnInit, OnDestroy {
 
     public releaseName: any;
     public versionNo: any;
     public contactUsMail: any;
     public data: any;
     closeResult: string;
+    versionLogSubscription: Subscription;
 
     constructor(private http: Http, private modalService: NgbModal) {
     }
@@ -47,8 +52,14 @@ export class AboutUsComponent implements OnInit {
         this.contactUsMail = require('../cdt.application.properties.json').CONTACT_US;
     }
 
+    ngOnDestroy() {
+        if (this.versionLogSubscription) {
+            this.versionLogSubscription.unsubscribe();
+        }
+    }
+
     versionLogFile() {
-        this.http.get('app/about-us/versionLog.txt')
+        this.versionLogSubscription = this.http.get('app/about-us/versionLog.txt')
             .subscribe(res => this.data = res.text());
     }
 

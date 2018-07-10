@@ -16,13 +16,16 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
 import * as XLSX from 'xlsx';
 import * as _ from 'underscore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { BuildDesignComponent } from '../build-artifacts.component';
 import { HttpUtilService } from '../../../shared/services/httpUtil/http-util.service';
 import { Location } from '@angular/common';
@@ -43,7 +46,7 @@ type AOA = Array<Array<any>>;
     templateUrl: './reference-dataform.component.html',
     styleUrls: ['./reference-dataform.component.css']
 })
-export class ReferenceDataformComponent implements OnInit {
+export class ReferenceDataformComponent implements OnInit, OnDestroy {
     @ViewChild(ModalComponent) modalComponent: ModalComponent;
     public showUploadStatus: boolean = false;
     public fileUploaded: boolean = false;
@@ -152,6 +155,11 @@ export class ReferenceDataformComponent implements OnInit {
     public remUploadedDataArray = [];
     isConfigScaleOut = false
     configScaleOutExist: boolean
+    getArtifactSubscription: Subscription;
+    uploadArtifactSubscription: Subscription;
+    saveTempSubscription: Subscription;
+    saveNameValueSubscription: Subscription;
+    savePdSubscription: Subscription;
     constructor(private buildDesignComponent: BuildDesignComponent, private httpUtils: HttpUtilService, private route: Router, private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService,
         private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private modalService: NgbModal, private nService: NotificationsService, private ngProgress: NgProgress) {
     }
@@ -231,7 +239,7 @@ export class ReferenceDataformComponent implements OnInit {
                 }
             };
             this.ngProgress.start();
-            this.httpUtils.post({
+            this.getArtifactSubscription = this.httpUtils.post({
                 url: environment.getDesigns,
                 data: data
             }).subscribe(resp => {
@@ -301,6 +309,11 @@ export class ReferenceDataformComponent implements OnInit {
         this.remUploadedDataArray = [];
         this.firstArrayElement = [];
         this.uploadFileName = '';
+        if (this.saveNameValueSubscription) { this.saveNameValueSubscription.unsubscribe(); }
+        if (this.savePdSubscription) { this.savePdSubscription.unsubscribe(); }
+        if (this.saveTempSubscription) { this.saveTempSubscription.unsubscribe(); }
+        if (this.getArtifactSubscription) { this.getArtifactSubscription.unsubscribe(); }
+        if (this.uploadArtifactSubscription) { this.uploadArtifactSubscription.unsubscribe(); }
     }
 
     numberValidation(event: any) {
@@ -406,7 +419,7 @@ export class ReferenceDataformComponent implements OnInit {
         if (this.referenceDataObject.action === 'OpenStack Actions') {
             this.referenceDataObject['template'] = 'N';
             this.referenceDataObject['artifact-list'] = [];
-            this.referenceDataObject['firstRowVmSpreadSheet']=this.firstArrayElement;
+            this.referenceDataObject['firstRowVmSpreadSheet'] = this.firstArrayElement;
         }
         //detaching the object from the form and processing further
         let newObj = $.extend(true, {}, this.referenceDataObject);
@@ -440,7 +453,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     upload(evt: any) {
-       /* wire up file reader */
+        /* wire up file reader */
         const target: DataTransfer = <DataTransfer>(evt.target);
         //// console.log("filename========" + evt.target.files[0].name)
         this.uploadFileName = evt.target.files[0].name;
@@ -656,7 +669,7 @@ export class ReferenceDataformComponent implements OnInit {
             }
         };
         this.ngProgress.start();
-        this.httpUtils.post({
+        this.uploadArtifactSubscription = this.httpUtils.post({
             url: environment.getDesigns,
             data: payload
         }).subscribe((resp) => {
@@ -1031,7 +1044,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     saveTemp() {
-        this
+        this.saveTempSubscription = this
             .httpUtils
             .post(
                 { url: environment.getDesigns, data: this.appData.template.templateData })
@@ -1048,7 +1061,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     saveNameValue() {
-        this
+        this.saveNameValueSubscription = this
             .httpUtils
             .post(
                 {
@@ -1069,7 +1082,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     savePd() {
-        this
+        this.savePdSubscription = this
             .httpUtils
             .post(
                 {
@@ -1328,38 +1341,36 @@ export class ReferenceDataformComponent implements OnInit {
     getArtifactsOpenStack() {
         var array = []
         var vnfcFunctionCodeArrayList = [];
-        var vnfcSetArray=[];
+        var vnfcSetArray = [];
         for (var i = 0; i < this.tempAllData.length; i++) {
             if (!this.checkIfelementExistsInArray(this.tempAllData[i].action, this.actions) && (this.tempAllData[i].action != 'AllAction')) {
                 var vnfcFunctionCodeArray = this.tempAllData[i]["vnfc-function-code-list"]
                 vnfcFunctionCodeArrayList.push([this.tempAllData[i].action].concat(this.tempAllData[i]["vnfc-function-code-list"]))
             }
-            if(this.tempAllData[i].action==='OpenStack Actions')
-            {
-                vnfcSetArray=this.tempAllData[i]['firstRowVmSpreadSheet']
+            if (this.tempAllData[i].action === 'OpenStack Actions') {
+                vnfcSetArray = this.tempAllData[i]['firstRowVmSpreadSheet']
             }
         }
 
-       if(vnfcSetArray)
-       {
-        let vnfcSetArrayLen = vnfcSetArray.length;
+        if (vnfcSetArray) {
+            let vnfcSetArrayLen = vnfcSetArray.length;
 
-        for (let i = 0; i < vnfcFunctionCodeArrayList.length; i++) {
-            let element = vnfcFunctionCodeArrayList[i];
-            for (let j = 1; j < element.length; j++) {
-                for (let k = j; k < vnfcSetArrayLen; k++) {
-                    if (element[j] === vnfcSetArray[k]) {
-                        element[j] = 'Y';
+            for (let i = 0; i < vnfcFunctionCodeArrayList.length; i++) {
+                let element = vnfcFunctionCodeArrayList[i];
+                for (let j = 1; j < element.length; j++) {
+                    for (let k = j; k < vnfcSetArrayLen; k++) {
+                        if (element[j] === vnfcSetArray[k]) {
+                            element[j] = 'Y';
+                        }
+                        else {
+                            element.splice(j, 0, '');
+                        }
+                        break;
                     }
-                    else {
-                        element.splice(j, 0, '');
-                    }
-                    break;
                 }
             }
+            this.firstArrayElement = vnfcSetArray;
+            this.remUploadedDataArray = vnfcFunctionCodeArrayList;
         }
-        this.firstArrayElement = vnfcSetArray;
-        this.remUploadedDataArray = vnfcFunctionCodeArrayList;
-       }
     }
 }

@@ -21,8 +21,9 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-import { Component, ContentChildren, OnInit, QueryList, ViewChild } from '@angular/core';
+import { Component, ContentChildren, OnInit, QueryList, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import { MappingEditorService } from '../../../../shared/services/mapping-editor.service';
 import { HttpUtilService } from '../../../../shared/services/httpUtil/http-util.service';
 import { GoldenConfigurationComponent } from '../template-configuration/template-configuration.component';
@@ -47,7 +48,7 @@ declare var $: any;
     templateUrl: './param-name-value.component.html',
     styleUrls: ['./param-name-value.component.css']
 })
-export class GoldenConfigurationMappingComponent implements OnInit {
+export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
     enableMappingSave: boolean = false;
     aceText: string = '';
     fileName: string = '';
@@ -75,7 +76,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     apiToken = localStorage['apiToken'];
     userId = localStorage['userId'];
     identifier: any;
-
+    nameValueSubscription: Subscription;
     public uploadTypes = [
         {
             value: 'Mapping Data',
@@ -96,7 +97,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     @ViewChild('myInputParam') myInputParam: any;
     @ViewChild(ModalComponent) modalComponent: ModalComponent;
     @ContentChildren(Tab) tabs: QueryList<Tab>;
-    public subscription: any;
+    public subscription: Subscription;
     public item: any = {};
     vnfType: any = '';
     vnfcType: any = '';
@@ -152,7 +153,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
             };
         }
         this.initialAction = this.item.action;
-        this.activeRoutes.url.subscribe(UrlSegment => {
+        this.subscription = this.activeRoutes.url.subscribe(UrlSegment => {
             this.actionType = UrlSegment[0].path;
         });
 
@@ -174,6 +175,8 @@ export class GoldenConfigurationMappingComponent implements OnInit {
 
     ngOnDestroy() {
         this.prepareFileName();
+        if (this.subscription) { this.subscription.unsubscribe(); }
+        if (this.nameValueSubscription) { this.nameValueSubscription.unsubscribe(); }
     }
 
     //========================== End of ngOnDestroy() Method============================================
@@ -309,7 +312,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
             console.log('Retrieve name value from appc payload===>>' + payload);
             let artifactContent: any;
             this.ngProgress.start();
-            this.httpUtil.post({
+            this.nameValueSubscription = this.httpUtil.post({
                 url: environment.getDesigns,
                 data: input
             }).subscribe(resp => {

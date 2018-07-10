@@ -16,10 +16,13 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
@@ -44,7 +47,7 @@ type AOA = Array<Array<any>>;
 declare var $: any;
 
 @Component({ selector: 'test', templateUrl: './test.component.html', styleUrls: ['./test.component.css'] })
-export class TestComponent implements OnInit {
+export class TestComponent implements OnInit, OnDestroy {
     public displayParamObjects;
     options = {
         timeOut: 1000,
@@ -101,7 +104,9 @@ export class TestComponent implements OnInit {
     public enableCounterDiv: boolean = false;
     public enableDownload: boolean = false;
     private userId = localStorage['userId'];
-    constructor (private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService, private nService: NotificationsService, private router: Router, private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private httpUtil: HttpUtilService,
+    testVNFSubscription: Subscription;
+    pollTestStatusSubscription: Subscription;
+    constructor(private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService, private nService: NotificationsService, private router: Router, private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private httpUtil: HttpUtilService,
         private utiltiy: UtilityService, private ngProgress: NgProgress) {
 
     }
@@ -109,6 +114,11 @@ export class TestComponent implements OnInit {
     ngOnInit() {
 
 
+    }
+
+    ngOnDestroy() {
+        if (this.testVNFSubscription) { this.testVNFSubscription.unsubscribe() };
+        if (this.pollTestStatusSubscription) { this.pollTestStatusSubscription.unsubscribe() };
     }
 
 
@@ -366,7 +376,7 @@ export class TestComponent implements OnInit {
         this.ngProgress.start();
         this.apiRequest = JSON.stringify(this.constructRequest());
 
-        this.httpUtil.post(
+        this.testVNFSubscription = this.httpUtil.post(
             {
                 url: environment.testVnf + "?urlAction=" + this.getUrlEndPoint(this.action.toLowerCase()),
                 data: this.apiRequest
@@ -418,7 +428,7 @@ export class TestComponent implements OnInit {
                     'payload': '{"request-id":' + this.requestId + '}'
                 }
             };
-            this.httpUtil.post(
+            this.pollTestStatusSubscription = this.httpUtil.post(
                 {
                     url: environment.checkTestStatus, data: data
 
