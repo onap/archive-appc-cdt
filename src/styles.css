@@ -1,7 +1,7 @@
 /* 
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -302,6 +302,10 @@ a img {
 
 .android-screen {
     text-align: center;
+}
+
+.ace_editor .ace_marker-layer .ace_selection {
+    background:blue !important;
 }
 
 .android-screen .android-link {
