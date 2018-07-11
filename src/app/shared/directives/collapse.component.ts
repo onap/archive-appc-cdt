@@ -17,15 +17,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
 
-import {Directive, HostBinding, Input} from '@angular/core';
+import { Directive, HostBinding, Input } from '@angular/core';
 
 
-@Directive({selector: '[collapse]'})
+@Directive({ selector: '[collapse]' })
 export class Collapse {
     // style
     @HostBinding('style.height')
