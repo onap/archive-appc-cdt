@@ -304,6 +304,10 @@ a img {
     text-align: center;
 }
 
+.ace_editor .ace_marker-layer .ace_selection {
+    background:blue !important;
+}
+
 .android-screen .android-link {
     margin-top: 16px;
     display: block;
