@@ -48,6 +48,10 @@ describe('CollapseComponent', () => {
             directive.toggle();
         });
 
-
+        it('should return proper expand value collapse method', () => {
+            directive.isExpanded = true;
+            let expandValue = directive.collapse;
+            expect(expandValue).toBe(true);
+        });
     });
 });
