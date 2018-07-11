@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -48,6 +50,10 @@ describe('CollapseComponent', () => {
             directive.toggle();
         });
 
-
+        it('should return proper expand value collapse method', () => {
+            directive.isExpanded = true;
+            let expandValue = directive.collapse;
+            expect(expandValue).toBe(true);
+        });
     });
 });
