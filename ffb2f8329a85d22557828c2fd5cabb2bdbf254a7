@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_1e41690b",
+        "filename": "src/app/vnfs/build-artifacts/template-holder/template-configuration/template-configuration.component.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-12T18:23:56Z",
+      "side": 1,
+      "message": "please put your company name in the license header",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 67
+      },
+      "revId": "ffb2f8329a85d22557828c2fd5cabb2bdbf254a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
