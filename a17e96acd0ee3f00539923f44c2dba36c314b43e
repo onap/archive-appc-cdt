@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_9e1fb9b7",
+        "filename": "src/styles.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 3373
+      },
+      "writtenOn": "2018-07-12T21:47:40Z",
+      "side": 1,
+      "message": "Please, show the code source, where this style is applied to the editor (need to reproduce the color on screen)",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 309,
+        "endChar": 1
+      },
+      "revId": "a17e96acd0ee3f00539923f44c2dba36c314b43e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
