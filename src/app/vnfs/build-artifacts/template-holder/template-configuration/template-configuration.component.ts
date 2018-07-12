@@ -35,6 +35,7 @@ import { BuildDesignComponent } from '../../build-artifacts.component';
 import { environment } from '../../../../../environments/environment';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { NgProgress } from 'ngx-progressbar';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any
 
 @Component({ selector: 'app-golden-configuration', templateUrl: './template-configuration.component.html', styleUrls: ['./template-configuration.component.css'] })
@@ -95,7 +96,18 @@ export class GoldenConfigurationComponent implements OnInit {
   }
   public replaceWord;
   public enableDownloadButtons: boolean = false;
-  constructor(private buildDesignComponent: BuildDesignComponent, private paramShareService: ParamShareService, private dialogService: DialogService, private notificationService: NotificationService, private httpUtil: HttpUtilService, private mappingEditorService: MappingEditorService, private activeRoutes: ActivatedRoute, private router: Router, private nService: NotificationsService, private ngProgress: NgProgress) {
+  constructor(
+    private buildDesignComponent: BuildDesignComponent, 
+    private paramShareService: ParamShareService, 
+    private dialogService: DialogService, 
+    private notificationService: NotificationService, 
+    private httpUtil: HttpUtilService, 
+    private mappingEditorService: MappingEditorService, 
+    private activeRoutes: ActivatedRoute, 
+    private router: Router, 
+    private nService: NotificationsService, 
+    private ngProgress: NgProgress,
+    private spinner: NgxSpinnerService) {
     this.artifactRequest.action = '';
     this.artifactRequest.version = '';
     this.artifactRequest.paramsContent = '{}';
@@ -212,6 +224,8 @@ export class GoldenConfigurationComponent implements OnInit {
         this.handleAnnotation(this.modal);
       }
     });
+    this.templateeditor.getEditor().$enableBlockSelect = false;
+    this.templateeditor.getEditor().$enableMultiselect = false;
     if (this.mappingEditorService.fromScreen === 'MappingScreen') {
       this.configMappingEditorContent = this.mappingEditorService.getTemplateMappingDataFromStore();
       this.fileType = sessionStorage.getItem('fileType');
@@ -519,6 +533,7 @@ export class GoldenConfigurationComponent implements OnInit {
 
     if (refObj && refObj != undefined) {
       if (input.files && input.files[0]) {
+        this.spinner.show();
         this.myfileName = input.files[0].name;
         this.fileName = input.files[0].name;
         this.fileType = input.files[0].type;
@@ -547,7 +562,12 @@ export class GoldenConfigurationComponent implements OnInit {
           this.enableDownloadButtons = true;
           this.initialData = result;
           this.saveTemplate();
-
+          this.templateeditor.getEditor().$enableBlockSelect = false;
+          this.templateeditor.getEditor().$enableMultiselect = false;
+          setTimeout(() => {
+                        /** spinner ends after 3.5 seconds */
+                        this.spinner.hide();
+          }, 3500);
         });
       }
       else {
