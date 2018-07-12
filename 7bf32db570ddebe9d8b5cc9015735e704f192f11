@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_be45d5b4",
+        "filename": "src/app/shared/services/utilityService/utility.service.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 3373
+      },
+      "writtenOn": "2018-07-12T21:18:12Z",
+      "side": 1,
+      "message": "This is not a small new code addition (~ 130 lines), which could introduce some related and un-related bugs, and thus it would require extensive regression testing. To justify this change I need to see in how many places this new code is supposed to be applied – need approximate list of targeted modules and targeted lines of code in each module.",
+      "revId": "7bf32db570ddebe9d8b5cc9015735e704f192f11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
