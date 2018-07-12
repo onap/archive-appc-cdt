@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_dee6a116",
+        "filename": "src/app/shared/services/cdt.apicall.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3373
+      },
+      "writtenOn": "2018-07-12T19:47:06Z",
+      "side": 1,
+      "message": "Introduction of this new service achieves very little (just removes one argument: url), but the price is not too small: we would have to add a new source files and modify existing code in 12 places (which can introduce bugs, and requires some regression testing). I think it’s not worth-while, unless there are additional benefits apart from removal of 1 argument from 12 calls.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 4
+      },
+      "revId": "2d86b26b0ecb051e654062c7b169a36814d2caa3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
