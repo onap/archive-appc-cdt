@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_3ecf85b2",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 3373
+      },
+      "writtenOn": "2018-07-12T18:26:39Z",
+      "side": 1,
+      "message": "Agree, the closing braces are needed to close this: describe(\u0027ReferenceDataformComponent\u0027, () \u003d\u003e {",
+      "range": {
+        "startLine": 996,
+        "startChar": 0,
+        "endLine": 996,
+        "endChar": 2
+      },
+      "revId": "e89bcddeb830d8398359f4176a38c18014da7bcb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
