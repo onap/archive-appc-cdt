@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -20,23 +22,25 @@ limitations under the License.
 */
 
 
-import {Component, OnInit} from '@angular/core';
-import {Http} from '@angular/http';
-import {saveAs} from 'file-saver';
-import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Http } from '@angular/http';
+import { Subscription } from 'rxjs/Subscription';
+import { saveAs } from 'file-saver';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-help',
     templateUrl: './aboutus.component.html',
     styleUrls: ['./aboutus.component.css']
 })
-export class AboutUsComponent implements OnInit {
+export class AboutUsComponent implements OnInit, OnDestroy {
 
     public releaseName: any;
     public versionNo: any;
     public contactUsMail: any;
     public data: any;
     closeResult: string;
+    versionLogSubscription: Subscription;
 
     constructor(private http: Http, private modalService: NgbModal) {
     }
@@ -47,8 +51,14 @@ export class AboutUsComponent implements OnInit {
         this.contactUsMail = require('../cdt.application.properties.json').CONTACT_US;
     }
 
+    ngOnDestroy() {
+        if (this.versionLogSubscription) {
+            this.versionLogSubscription.unsubscribe();
+        }
+    }
+
     versionLogFile() {
-        this.http.get('app/about-us/versionLog.txt')
+        this.versionLogSubscription = this.http.get('app/about-us/versionLog.txt')
             .subscribe(res => this.data = res.text());
     }
 
