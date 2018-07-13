@@ -3,6 +3,8 @@
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
+Copyright (C) 2018 IBM.
+===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
 under the Apache License, Version 2.0 (the License);
@@ -39,6 +41,7 @@ import { Tab } from './tab';
 import { environment } from '../../../../../environments/environment';
 import { NgProgress } from 'ngx-progressbar';
 import * as XLSX from 'xlsx';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var $: any;
 
@@ -104,7 +107,19 @@ export class GoldenConfigurationMappingComponent implements OnInit {
     refObj: any;
     public paramsContent = localStorage['paramsContent'];
 
-    constructor(private buildDesignComponent: BuildDesignComponent, private paramShareService: ParamShareService, private router: Router, private httpUtil: HttpUtilService, private dialogService: DialogService, private activeRoutes: ActivatedRoute, private mappingEditorService: MappingEditorService, private notificationService: NotificationService, private nService: NotificationsService, private ngProgress: NgProgress) {
+    constructor(
+        private buildDesignComponent: BuildDesignComponent,
+        private paramShareService: ParamShareService,
+        private router: Router,
+        private httpUtil: HttpUtilService,
+        private dialogService: DialogService,
+        private activeRoutes: ActivatedRoute,
+        private mappingEditorService: MappingEditorService,
+        private notificationService: NotificationService,
+        private nService: NotificationsService,
+        private ngProgress: NgProgress,
+        private spinner: NgxSpinnerService
+    ) {
         this.artifactRequest.action = '';
         this.artifactRequest.version = '';
         this.artifactRequest.paramKeysContent = '';
@@ -205,6 +220,7 @@ export class GoldenConfigurationMappingComponent implements OnInit {
 
     public fileParamChange(input) {
         if (input.files && input.files[0]) {
+            this.spinner.show();
             this.enableMappingSave = true;
             this.myfileName = input.files[0].name;
             var fileExtension = this.myfileName.substr(this.myfileName.lastIndexOf('.') + 1);
@@ -221,6 +237,10 @@ export class GoldenConfigurationMappingComponent implements OnInit {
                     }
                     this.enableMerge = true;
                     this.initialData = result;
+                    setTimeout(() => {
+                        /** spinner ends after 3.5 seconds */
+                        this.spinner.hide();
+                    }, 3500);
                 });
             }
             else {
