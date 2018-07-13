@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_c4733414",
+        "filename": "src/app/about-us/aboutus.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-13T19:18:53Z",
+      "side": 1,
+      "message": "you should add one line for IBM to declare your copyright for your change.",
+      "range": {
+        "startLine": 4,
+        "startChar": 66,
+        "endLine": 4,
+        "endChar": 67
+      },
+      "revId": "21b0080660d564d8df03febbad139739c46c7bfd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
