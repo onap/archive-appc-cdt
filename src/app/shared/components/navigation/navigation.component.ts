@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -22,24 +24,26 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 */
 
 
-import {Component, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {EmitterService} from '../../services/emitter.service';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { EmitterService } from '../../services/emitter.service';
 
 
-@Component({selector: 'app-navigation', templateUrl: './navigation.component.html', styleUrls: ['./navigation.component.css']})
-export class NavigationComponent implements OnInit {
+@Component({ selector: 'app-navigation', templateUrl: './navigation.component.html', styleUrls: ['./navigation.component.css'] })
+export class NavigationComponent implements OnInit, OnDestroy {
     navigationTabs: Array<Object> = [];
     //@ViewChild(GoldenConfigurationComponent) goldenConfig: GoldenConfigurationComponent;
     @Input() id: string;
     userLoggedIn = false;
     userId: string = localStorage['userId'];
+    subscription: Subscription;
 
     constructor(private router: Router) {
     };
 
     ngOnChanges() {
-        EmitterService
+        this.subscription = EmitterService
             .get(this.id)
             .subscribe((value) => {
                 if (value != null && value != '' && value != undefined && value != 'undefined') {
@@ -78,6 +82,12 @@ export class NavigationComponent implements OnInit {
             }
 
         ];
+    }
+
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
 
