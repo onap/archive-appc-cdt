@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -95,6 +97,28 @@ describe('ParameterComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should call ngOnInit...', inject([MappingEditorService, ParamShareService], (mappingEditorService: MappingEditorService, paramShareService:ParamShareService) => {
+    
+        mappingEditorService.latestAction = {"action":"Configure","action-level":"vnf","scope":{"vnf-type":"ticktack","vnfc-type":""},"template":"Y","vm":[],"device-protocol":"CHEF","user-name":"","port-number":"","artifact-list":[{"artifact-name":"template_Configure_ticktack_0.0.1V.json","artifact-type":"config_template"},{"artifact-name":"pd_Configure_ticktack_0.0.1V.yaml","artifact-type":"parameter_definitions"}],"scopeType":"vnf-type"};
+        mappingEditorService.appDataObject = {"value" : ''};
+        mappingEditorService.downloadDataObject = {"value": ''};
+        mappingEditorService.identifier = "identifier";
+        component.ngOnInit();
+    
+    }));
+
+    it('should test selectedNavItem method...', () => {
+            component.selectedNavItem('item');
+            expect(component.item).toEqual('item');
+        });
+
+    it('should set the selectedUploadType value', ()=>{
+        let obj = {value : 'type1', display : 'display1'};
+        component.uploadTypes = [obj];
+        component.showUpload();
+        expect(component.selectedUploadType.toString()).toEqual("type1");
     });
 
 
