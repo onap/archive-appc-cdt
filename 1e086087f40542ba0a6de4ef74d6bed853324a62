@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_a1e4daac",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-13T12:11:03Z",
+      "side": 1,
+      "message": "remove ECOMP",
+      "range": {
+        "startLine": 20,
+        "startChar": 59,
+        "endLine": 20,
+        "endChar": 67
+      },
+      "revId": "1e086087f40542ba0a6de4ef74d6bed853324a62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
