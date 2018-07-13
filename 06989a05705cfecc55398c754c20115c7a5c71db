@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a9dcd25_c4ffb4a9",
+        "filename": "src/app/vnfs/build-artifacts/build-artifacts.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4251
+      },
+      "writtenOn": "2018-07-13T16:02:14Z",
+      "side": 1,
+      "message": "Chnaged it to IBM copyright",
+      "parentUuid": "1a9dcd25_41d636c7",
+      "range": {
+        "startLine": 4,
+        "startChar": 21,
+        "endLine": 4,
+        "endChar": 22
+      },
+      "revId": "06989a05705cfecc55398c754c20115c7a5c71db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9dcd25_21d1aacd",
         "filename": "src/app/vnfs/build-artifacts/build-artifacts.component.ts",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-07-13T12:09:55Z",
       "side": 1,
       "message": "remove ECOMP",
+      "range": {
+        "startLine": 20,
+        "startChar": 40,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "06989a05705cfecc55398c754c20115c7a5c71db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_a402a8b2",
+        "filename": "src/app/vnfs/build-artifacts/build-artifacts.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4251
+      },
+      "writtenOn": "2018-07-13T16:02:14Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "1a9dcd25_21d1aacd",
       "range": {
         "startLine": 20,
         "startChar": 40,
