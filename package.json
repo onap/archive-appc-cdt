@@ -49,7 +49,9 @@
         "underscore": "^1.8.3",
         "xlsx": "^0.11.3",
         "yamljs": "0.2.10",
-        "zone.js": "^0.8.14"
+        "zone.js": "^0.8.14",
+        "ngx-spinner": "^1.2.0"
+
     },
     "devDependencies": {
         "@angular/cli": "1.2.3",

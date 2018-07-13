@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -27,7 +27,7 @@ import {CommonModule} from '@angular/common';
 // modules
 import {VnfRoutingModule} from './vnf.routing';
 import {SharedModule} from '../shared/shared.module';
-
+import { NgxSpinnerModule } from 'ngx-spinner';
 import {AceEditorComponent} from 'ng2-ace-editor';
 // components
 import {MyvnfsComponent} from './myvnfs/myvnfs.component';
@@ -77,7 +77,7 @@ export const components = [
 
 export const modules = [
     CommonModule, VnfRoutingModule, SharedModule.forRoot(),
-    FormsModule, BootstrapModalModule, Ng2Bs3ModalModule, SimpleNotificationsModule.forRoot()
+    FormsModule, BootstrapModalModule, Ng2Bs3ModalModule, SimpleNotificationsModule.forRoot(),NgxSpinnerModule
 
 ];
 
