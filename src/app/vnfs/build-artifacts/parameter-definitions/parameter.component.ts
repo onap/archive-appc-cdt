@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -32,7 +32,6 @@ import { NotificationsService } from 'angular2-notifications';
 import { ParameterDefinitionService } from './parameter-definition.service';
 import 'rxjs/add/operator/map';
 import { NgProgress } from 'ngx-progressbar';
-
 
 let YAML = require('yamljs');
 
@@ -254,7 +253,11 @@ export class ParameterComponent implements OnInit {
             if (this.paramShareService.getSessionParamData() != undefined && this.paramShareService.getSessionParamData().length > 0) {
                 this.getPDFromSession();
             } else {
+                this.ngProgress.start();
                 this.getPD();
+                setTimeout(() => {
+                this.ngProgress.done();
+            }, 3500);
             }
         } else {
             this.nService.error('Error', 'Please enter Action and VNF type in Reference Data screen');
@@ -275,7 +278,6 @@ export class ParameterComponent implements OnInit {
             }
         };
         let artifactContent: any;
-        this.ngProgress.start();
         return this.httpService.post({
             url: environment.getDesigns,
             data: input
@@ -286,14 +288,11 @@ export class ParameterComponent implements OnInit {
                 let fileModel = pdObject['vnf-parameter-list'];
                 this.displayParamObjects = this.parameterDefinitionService.populatePD(fileModel);
             }
-            else {
-
-            }
-            this.ngProgress.done();
+                       
         },
 
             error => this.nService.error('Error', 'Error in connecting APPC Server'));
-
+         
     }
 
     public getPDFromSession() {
@@ -340,7 +339,6 @@ export class ParameterComponent implements OnInit {
 
     //========================== End of ngOnDestroy() Method============================================
 
-    //========================== End of createOrUpdateParameterDefinitionData() Method============================================
     public showUpload() {
         this.selectedUploadType = this.uploadTypes[0].value;
     };
@@ -357,8 +355,7 @@ export class ParameterComponent implements OnInit {
                     this.displayParamObjects = this.parameterDefinitionService.processPDfile(this.myPdFileName, result);
                 }
             });
-        } else {
-            //this.notificationService.notifyErrorMessage('Failed to read file!Please try again.');
+            
         }
     }
 
