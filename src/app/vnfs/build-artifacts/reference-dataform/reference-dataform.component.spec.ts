@@ -993,3 +993,4 @@ describe('ReferenceDataformComponent', () => {
         component.deviceProtocolChange();
         expect(spy).toHaveBeenCalled()
     });
+});
