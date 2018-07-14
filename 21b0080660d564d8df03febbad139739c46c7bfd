@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a9dcd25_2f7c3172",
+        "filename": "src/app/about-us/aboutus.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4251
+      },
+      "writtenOn": "2018-07-14T03:41:36Z",
+      "side": 1,
+      "message": "Added",
+      "revId": "21b0080660d564d8df03febbad139739c46c7bfd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9dcd25_c4733414",
         "filename": "src/app/about-us/aboutus.component.ts",
         "patchSetId": 2
