@@ -79,6 +79,7 @@ describe('BuildDesignComponent', () => {
             declarations: [BuildDesignComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [HttpModule, FormsModule, RouterTestingModule.withRoutes(routes)],
+            providers : [ NotificationsService ]
             
         })
             .compileComponents();
@@ -95,7 +96,23 @@ describe('BuildDesignComponent', () => {
     });
 
     it('Should validate getRefData method', () => {
-        let refData = {"action": "Configure", "vnf-type": "test 1", "device-protocol": "ANSIBLE"};
+        let refData = {"action":"Configure",
+        "action-level":"vnf",
+        "scope": {
+            "vnf-type":"ticktack",
+            "vnfc-type":""
+                },
+         "template":"Y",
+         "vm":[],
+         "device-protocol":"CHEF",
+         "user-name":"",
+         "port-number":"",
+         "artifact-list":[
+             {"artifact-name":"template_Configure_ticktack_0.0.1V.json","artifact-type":"config_template"},
+             {"artifact-name":"pd_Configure_ticktack_0.0.1V.yaml","artifact-type":"parameter_definitions"}],
+        "scopeType":"vnf-type"
+        };
+        
         component.refDataRequiredFiels = false;
         component.getRefData(refData);
         expect(component.refDataRequiredFiels).toBeTruthy();
@@ -128,6 +145,4 @@ describe('BuildDesignComponent', () => {
 
         expect(spy).toHaveBeenCalled();
     });
-
-
 });
