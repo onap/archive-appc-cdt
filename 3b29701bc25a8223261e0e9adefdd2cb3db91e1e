@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_b0541ecb",
+        "filename": "src/app/vnfs/build-artifacts/template-holder/param-name-value/param-name-value.component.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-07-16T19:06:55Z",
+      "side": 1,
+      "message": "I think this is an incorrect comment notation for an html file",
+      "revId": "3b29701bc25a8223261e0e9adefdd2cb3db91e1e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
