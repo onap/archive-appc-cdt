@@ -22,6 +22,29 @@
       "revId": "1e086087f40542ba0a6de4ef74d6bed853324a62",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_75b688de",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 3373
+      },
+      "writtenOn": "2018-07-16T15:37:31Z",
+      "side": 1,
+      "message": "This new code addition would require extensive regression testing. To justify this change I need to see in which places this new code is supposed to be applied – need approximate list of targeted modules (is this for reference-dataform.component.ts only ?) and targeted lines of code for each function.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 1
+      },
+      "revId": "1e086087f40542ba0a6de4ef74d6bed853324a62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
