@@ -1,5 +1,5 @@
 
-Version 1.0.0(18/06 Release)
+Version 1.0.0(ONAP Release)
 ==========================================================
 First released version.
 
