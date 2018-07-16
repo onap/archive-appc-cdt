@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a9dcd25_95947438",
+        "filename": "src/styles.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 3373
+      },
+      "writtenOn": "2018-07-16T15:28:06Z",
+      "side": 1,
+      "message": "This new style is not applied automatically to the ace editor, when I tried to reproduce the color in my local environment. There should be additional code change to configure the ace editor instances to use this style. Could you please, show how to make the ace editor to use this style ?",
+      "range": {
+        "startLine": 307,
+        "startChar": 1,
+        "endLine": 307,
+        "endChar": 11
+      },
+      "revId": "a17e96acd0ee3f00539923f44c2dba36c314b43e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9dcd25_9e1fb9b7",
         "filename": "src/styles.css",
         "patchSetId": 2
