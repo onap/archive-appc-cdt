@@ -215,21 +215,7 @@ export class TestComponent implements OnInit {
         }
         else {
             this.nService.error('Error', 'Incorrect spreadsheet uploaded');
-            this.flag = 1;
-            this.oldListName1 = '';
-            this.vmJson = {};
-            this.vnfcJson = {};
-            this.subPayload = {};
-            this.vmPayload = [];
-            this.payload = {};
-            this.action = '';
-            this.actionIdentifiers = {};
-            this.apiRequest = '';
-            this.apiResponse = '';
-            this.enableCounterDiv = false;
-            this.enableAbort = false;
-            this.enableTestButton = false;
-            this.enableDownload = false;
+            this.setValuesOnFileUploadFailure();
         }
     }
 
@@ -282,21 +268,7 @@ export class TestComponent implements OnInit {
             this.nService.success('Success', 'SpreadSheet uploaded successfully');
         }
         else {
-            this.flag = 1;
-            this.oldListName1 = '';
-            this.vmJson = {};
-            this.vnfcJson = {};
-            this.subPayload = {};
-            this.vmPayload = [];
-            this.payload = {};
-            this.action = '';
-            this.actionIdentifiers = {};
-            this.apiRequest = '';
-            this.apiResponse = '';
-            this.enableCounterDiv = false;
-            this.enableAbort = false;
-            this.enableTestButton = false;
-            this.enableDownload = false;
+            this.setValuesOnFileUploadFailure();
             this.nService.error("Error", "Please check the contents of the file uploaded")
         }
     }
@@ -518,6 +490,24 @@ export class TestComponent implements OnInit {
                 return action.toLowerCase();
         }
 
+    }
+
+    setValuesOnFileUploadFailure() {        
+        this.flag = 1;
+        this.oldListName1 = '';
+        this.vmJson = {};
+        this.vnfcJson = {};
+        this.subPayload = {};
+        this.vmPayload = [];
+        this.payload = {};
+        this.action = '';
+        this.actionIdentifiers = {};
+        this.apiRequest = '';
+        this.apiResponse = '';
+        this.enableCounterDiv = false;
+        this.enableAbort = false;
+        this.enableTestButton = false;
+        this.enableDownload = false;
     }
 
 }
