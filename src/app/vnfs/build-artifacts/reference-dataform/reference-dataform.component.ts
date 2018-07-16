@@ -401,7 +401,7 @@ export class ReferenceDataformComponent implements OnInit {
     //Reference object to create reference data
     prepareReferenceObject(isSaving?: any) {
         let scopeName = this.resetParamsOnVnfcType();
-        let extension = this.decideExtension();
+        let extension = this.decideExtension(this.referenceDataObject);
         this.prepareArtifactList(scopeName, extension);
         if (this.referenceDataObject.action === 'OpenStack Actions') {
             this.referenceDataObject['template'] = 'N';
@@ -832,7 +832,7 @@ export class ReferenceDataformComponent implements OnInit {
             let obj = $.extend(true, {}, this.tempAllData[existAction]);
             this.referenceDataObject = obj;
             this.referenceDataObject.scope['vnf-type'] = obj['scope']['vnf-type'];
-            this.referenceDataObject.scope['vnfc-type'] = obj['scope']['vnfc-type'];
+            this.referenceDataObject.scope['vnfc-type-list'] = obj['scope']['vnfc-type-list'];
             this.referenceDataObject['device-protocol'] = obj['device-protocol'];
             this.refernceScopeObj['sourceType'] = obj['scopeType'];
         } else {
@@ -840,19 +840,34 @@ export class ReferenceDataformComponent implements OnInit {
             this.referenceDataObject.action = data;
         }
         //# iof healthCeck change deviceprotocol drp vaues
-        if (data == 'HealthCheck') {
-            this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'REST'];
-            this.actionHealthCheck = true;
-        } else if (data == 'UpgradeBackout' || data == 'ResumeTraffic' || data == 'QuiesceTraffic' || data == 'UpgradeBackup' || data == 'UpgradePostCheck' || data == 'UpgradePreCheck' || data == 'UpgradeSoftware' || data == 'ConfigBackup' || data == 'ConfigRestore' || data == 'StartApplication' || data == 'StopApplication' || data == 'GetRunningConfig') {
-            this.deviceProtocols = ['', 'CHEF', 'ANSIBLE'];
-        } else if (data == 'OpenStack Actions') {
-            this.deviceProtocols = ['', 'OpenStack'];
-        } else if (data == 'ConfigScaleOut') {
-            this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF-XML', 'RESTCONF'];
-        }
-        else {
-            this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'NETCONF-XML', 'RESTCONF', 'CLI'];
-            this.actionHealthCheck = false;
+        switch (data) {
+            case 'HealthCheck':
+                this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'REST'];
+                this.actionHealthCheck = true;
+                break;
+            case 'UpgradeBackout':
+            case 'ResumeTraffic':
+            case 'QuiesceTraffic':
+            case 'UpgradeBackup':
+            case 'UpgradePostCheck':
+            case 'UpgradePreCheck':
+            case 'UpgradeSoftware':
+            case 'ConfigRestore':
+            case 'StartApplication':
+            case 'StopApplication':
+            case 'GetRunningConfig':
+            case 'ConfigBackup':
+                this.deviceProtocols = ['', 'CHEF', 'ANSIBLE'];
+                break;
+            case 'OpenStack Actions':
+                this.deviceProtocols = ['', 'OpenStack'];
+                break;
+            case 'ConfigScaleOut':
+                this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF-XML', 'RESTCONF'];
+                break;
+            default:
+                this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'NETCONF-XML', 'RESTCONF', 'CLI'];
+                this.actionHealthCheck = false;
         }
     }
 
@@ -1175,15 +1190,21 @@ export class ReferenceDataformComponent implements OnInit {
         }
         return scopeName
     }
-    decideExtension() {
+    decideExtension(obj) {
         //marking the extension based on the device-protocol selected by the user 
-        let extension = 'json';
-        if (this.referenceDataObject['device-protocol'] == 'ANSIBLE' || this.referenceDataObject['device-protocol'] == 'CHEF' || this.referenceDataObject['device-protocol'] == 'CLI') {
-            extension = 'json';
-        } else if (this.referenceDataObject['device-protocol'] == 'NETCONF-XML' || this.referenceDataObject['device-protocol'] == 'REST') {
-            extension = 'xml';
+        let extension = '.json';
+        switch (obj['device-protocol']) {
+            case 'ANSIBLE':
+            case 'CHEF':
+            case 'CLI':
+                extension = '.json';
+                break;
+            case 'NETCONF-XML':
+            case 'REST':
+                extension = '.xml';
+                break;
         }
-        return extension
+        return extension;
     }
     prepareArtifactList(scopeName, extension) {
         this.referenceDataObject['artifact-list'] = [];
