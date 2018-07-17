@@ -23,7 +23,7 @@ limitations under the License.
 import { inject, TestBed, ComponentFixture } from '@angular/core/testing';
 import { MappingEditorService } from './mapping-editor.service';
 
-fdescribe('MappingEditorService', () => {
+describe('MappingEditorService', () => {
     let service;
     beforeEach(() => {
         TestBed.configureTestingModule({
