@@ -21,9 +21,10 @@ limitations under the License.
 ============LICENSE_END============================================
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpUtilService } from '../../shared/services/httpUtil/http-util.service';
+import { Subscription } from 'rxjs/Subscription';
 import { MappingEditorService } from '../../shared/services/mapping-editor.service';
 import { ParamShareService } from '../../shared/services/paramShare.service';
 import { environment } from '../../../environments/environment';
@@ -32,7 +33,7 @@ import { NgProgress } from 'ngx-progressbar';
 import { NotificationsService } from 'angular2-notifications';
 
 @Component({ selector: 'app-myvnfs', templateUrl: './myvnfs.component.html', styleUrls: ['./myvnfs.component.css'] })
-export class MyvnfsComponent implements OnInit {
+export class MyvnfsComponent implements OnInit, OnDestroy {
     vnfData: Array<Object> = [];
     sortOrder = false;
     noData = true;
@@ -42,15 +43,16 @@ export class MyvnfsComponent implements OnInit {
     vnfType: any;
     vnfcType: any;
     options = {
-    timeOut: 1000,
-    showProgressBar: true,
-    pauseOnHover: true,
-    clickToClose: true,
-    maxLength: 200
+        timeOut: 1000,
+        showProgressBar: true,
+        pauseOnHover: true,
+        clickToClose: true,
+        maxLength: 200
     }
+    subscription: Subscription;
 
-    constructor (private paramShareService: ParamShareService, private ngProgress: NgProgress, private httpUtil: HttpUtilService, private router: Router, private activeROute: ActivatedRoute,
-        private mappingEditorService: MappingEditorService, private modalService: NgbModal,private nService: NotificationsService) {
+    constructor(private paramShareService: ParamShareService, private ngProgress: NgProgress, private httpUtil: HttpUtilService, private router: Router, private activeROute: ActivatedRoute,
+        private mappingEditorService: MappingEditorService, private modalService: NgbModal, private nService: NotificationsService) {
     }
 
     ngOnInit() {
@@ -76,14 +78,18 @@ export class MyvnfsComponent implements OnInit {
         this.clearCache();
     }
 
+    ngOnDestroy() {
+        if (this.subscription) { this.subscription.unsubscribe() };
+    }
+
     getArtifacts(data) {
         this.ngProgress.start();
-        this.httpUtil.post({
+        this.subscription = this.httpUtil.post({
             url: environment.getDesigns,
             data: data
         })
             .subscribe(resp => {
-                console.log("resp:",resp);
+                console.log("resp:", resp);
                 const tempObj = JSON.parse(resp.output.data.block);
                 this.vnfData = tempObj.designInfo;
                 if (this.vnfData == undefined || this.vnfData == null || this.vnfData.length == 0) {
@@ -96,13 +102,14 @@ export class MyvnfsComponent implements OnInit {
                 console.log(this.noData);
                 this.ngProgress.done();
             }
-            ,
-        error => {
-            
-            this.nService.error("Error", "Error in connecting to APPC Server")}
-        
-        );
- 
+                ,
+                error => {
+
+                    this.nService.error("Error", "Error in connecting to APPC Server")
+                }
+
+            );
+
         this.filter = ['vnf-type', 'vnfc-type', 'artifact-name'];
         setTimeout(() => {
             this.ngProgress.done();
