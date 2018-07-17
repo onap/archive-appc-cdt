@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -32,6 +34,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { ParameterDefinitionService } from './parameter-definition.service';
 import 'rxjs/add/operator/map';
 import { NgProgress } from 'ngx-progressbar';
+import { appConstants } from '../../../../constants/app-constants';
 
 
 let YAML = require('yamljs');
@@ -48,87 +51,16 @@ export class ParameterComponent implements OnInit {
     public paramForm: any;
     public actionType: any;
     public showFilterFields: boolean;
-    public filterByFieldvalues = [null, 'vm-number', 'vnfc-function-code'];
-    public ruleTypeConfiguaration = {
-        'vnf-name': [
-            {
-                'key-name': 'unique-key-name',
-                'key-value': 'parent-name'
-            },
-            {
-                'key-name': 'unique-key-value',
-                'key-value': 'vnf'
-            },
-            {
-                'key-name': 'field-key-name',
-                'key-value': 'vnf-name'
-            }
-        ],
-        'vm-name-list': [
-            {
-                'key-name': 'unique-key-name',
-                'key-value': 'parent-name'
-            },
-            {
-                'key-name': 'unique-key-value',
-                'key-value': 'vserver'
-            },
-            {
-                'key-name': 'field-key-name',
-                'key-value': 'vserver-name'
-            }
-        ],
-        'vnfc-name-list': [
-            {
-                'key-name': 'unique-key-name',
-                'key-value': 'parent-name'
-            },
-            {
-                'key-name': 'unique-key-value',
-                'key-value': 'vnfc'
-            },
-            {
-                'key-name': 'field-key-name',
-                'key-value': 'vnfc-name'
-            }
-        ],
-        'vnf-oam-ipv4-address': [
-            {
-                'key-name': 'unique-key-name',
-                'key-value': 'parent-name'
-            },
-            {
-                'key-name': 'unique-key-value',
-                'key-value': 'vnf'
-            },
-            {
-                'key-name': 'field-key-name',
-                'key-value': 'ipv4-oam-ipaddress'
-            }
-        ],
-        'vnfc-oam-ipv4-address-list': [
-            {
-                'key-name': 'unique-key-name',
-                'key-value': 'parent-name'
-            },
-            {
-                'key-name': 'unique-key-value',
-                'key-value': 'vnfc'
-            },
-            {
-                'key-name': 'field-key-name',
-                'key-value': 'ipaddress-v4-oam-vip'
-            }
-        ]
-    };
-    public requiredValues: boolean[] = [null, true, false];
-    public sourceValues = ['Manual', 'A&AI'];
-    public ruleTypeValues = [null, 'vnf-name', 'vm-name-list', 'vnfc-name-list', 'vnf-oam-ipv4-address', 'vnfc-oam-ipv4-address-list'];
-    public typeValues = [null, 'ipv4-address', 'ipv6-address', 'ipv4-prefix', 'ipv6-prefix'];
-    public responseKeyNameValues = ['', 'unique-key-name', 'unique-key-value', 'field-key-name'];
-    public responseKeyValues = ['(none)', 'addressfqdn', 'ipaddress-v4', 'ipaddress-v6'];
-    public requestKeyNameValues = [''];
-    public requestKeyValues = ['', '(none)'];
+    public filterByFieldvalues = appConstants.filterByFieldvalues;
+    public ruleTypeConfiguaration = appConstants.ruleTypeConfiguaration;
+    public requiredValues: boolean[] = appConstants.requiredValues;
+    public sourceValues = appConstants.sourceValues;
+    public ruleTypeValues = appConstants.ruleTypeValues;
+    public typeValues = appConstants.typeValues;
+    public responseKeyNameValues = appConstants.responseKeyNameValues;
+    public responseKeyValues = appConstants.responseKeyValues;
+    public requestKeyNameValues = appConstants.requestKeyNameValues;
+    public requestKeyValues = appConstants.requestKeyValues;
     public myKeyFileName = null;
     public myPdFileName = null;
     public disposable: any;
@@ -143,32 +75,18 @@ export class ParameterComponent implements OnInit {
     public item: any = {};
     public subscription: any;
     public Actions = [
-        { action: 'ConfigBackup', value: 'ConfigBackup' },
-        { action: 'ConfigModify', value: 'ConfigModify' },
-        { action: 'ConfigRestore', value: 'ConfigRestore' },
-        { action: 'Configure', value: 'Configure' },
-        { action: 'GetRunningConfig', value: 'GetRunningConfig' },
-        { action: 'HealthCheck', value: 'HealthCheck' },
-        { action: 'StartApplication', value: 'StartApplication' },
-        { action: 'StopApplication', value: 'StopApplication' }
+        { action: appConstants.Actions.configBackup, value: appConstants.Actions.configBackup },
+        { action: appConstants.Actions.ConfigModify, value: appConstants.Actions.ConfigModify },
+        { action: appConstants.Actions.configRestore, value: appConstants.Actions.configRestore },
+        { action: appConstants.Actions.configure, value: appConstants.Actions.configure },
+        { action: appConstants.Actions.getRunningConfig, value: appConstants.Actions.getRunningConfig },
+        { action: appConstants.Actions.healthCheck, value: appConstants.Actions.healthCheck },
+        { action: appConstants.Actions.startApplication, value: appConstants.Actions.startApplication },
+        { action: appConstants.Actions.stopApplication, value: appConstants.Actions.stopApplication }
     ];
-    public uploadTypes = [{
-        value: 'External Key File',
-        display: 'KeyFile'
-    },
-    {
-        value: 'Pd File',
-        display: 'Pd File'
-    }
-    ];
+    public uploadTypes = appConstants.uploadTypes;
 
-    options = {
-        timeOut: 1000,
-        showProgressBar: true,
-        pauseOnHover: true,
-        clickToClose: true,
-        maxLength: 200
-    };
+    options = appConstants.optionsToNotificationComponent;
     public vnfcTypeData: string = '';
     public selectedUploadType: string;
     @ViewChild(ModalComponent) modalComponent: ModalComponent;
@@ -185,7 +103,7 @@ export class ParameterComponent implements OnInit {
     public artifactName;
     public appDataObject: any;
     public downloadDataObject: any;
-    public artifact_fileName="";
+    public artifact_fileName = "";
     identifier: any;
     private selectedActionReference: any;
 
@@ -216,8 +134,8 @@ export class ParameterComponent implements OnInit {
                     if (artifactName) {
                         artifactNameWithoutExtension = artifactName.substring(0, artifactName.lastIndexOf("."));
                     }
-                    if(this.mappingEditorService.identifier) {
-                        if(artifactNameWithoutExtension.endsWith(this.mappingEditorService.identifier)) {
+                    if (this.mappingEditorService.identifier) {
+                        if (artifactNameWithoutExtension.endsWith(this.mappingEditorService.identifier)) {
                             this.artifact_fileName = artifactName;
                         }
 
@@ -257,7 +175,7 @@ export class ParameterComponent implements OnInit {
                 this.getPD();
             }
         } else {
-            this.nService.error('Error', 'Please enter Action and VNF type in Reference Data screen');
+            this.nService.error(appConstants.errors.error, appConstants.errors["noAction&VNFTypeInRDscreenError"]);
         }
         return this.displayParamObjects;
     }
@@ -292,22 +210,22 @@ export class ParameterComponent implements OnInit {
             this.ngProgress.done();
         },
 
-            error => this.nService.error('Error', 'Error in connecting APPC Server'));
+            error => this.nService.error(appConstants.errors.error, appConstants.errors.connectionError));
 
     }
 
     public getPDFromSession() {
-        
+
         this.ngProgress.start();
         return this.httpService.get({
             url: 'testurl',
         }).subscribe(data => {
-                this.displayParamObjects = this.paramShareService.getSessionParamData();
+            this.displayParamObjects = this.paramShareService.getSessionParamData();
             this.ngProgress.done();
         },
             error => {
-               this.displayParamObjects = this.paramShareService.getSessionParamData();
-               this.ngProgress.done();
+                this.displayParamObjects = this.paramShareService.getSessionParamData();
+                this.ngProgress.done();
             });
     }
 
@@ -381,7 +299,7 @@ export class ParameterComponent implements OnInit {
 
     sourceChanged(data, obj) {
         if (data == 'A&AI') {
-            obj.ruleTypeValues = [null, 'vnf-name', 'vm-name-list', 'vnfc-name-list', 'vnf-oam-ipv4-address', 'vnfc-oam-ipv4-address-list'];
+            obj.ruleTypeValues = appConstants.ruleTypeValues;
             for (let x = 0; x < 5; x++) {
                 obj['response-keys'][x]['key-name'] = null;
                 obj['response-keys'][x]['key-value'] = null;

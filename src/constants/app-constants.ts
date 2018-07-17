@@ -23,56 +23,149 @@ limitations under the License.
 
 
 export const appConstants = {
-        "errors": {
-            "error": "Error",
-            "noActionVnfProtocolError": "Select Valid Action, VNF Type, Device Protocol",
-            "noActionError": "Select a valid Action",
-            "noVnfTypeError": "Select a valid VNF Type",
-            "noDeviceProtocolError": "Select a valid Device Protocol",
-            "noValidTemplateIdentifierError": "Select a valid Template Identifier"
-        },
-        "tabs": [
+    "errors": {
+        "error": "Error",
+        "noActionVnfProtocolError": "Select Valid Action, VNF Type, Device Protocol",
+        "noActionError": "Select a valid Action",
+        "noVnfTypeError": "Select a valid VNF Type",
+        "noDeviceProtocolError": "Select a valid Device Protocol",
+        "noValidTemplateIdentifierError": "Select a valid Template Identifier",
+        "noAction&VNFTypeInRDscreenError": "Please enter Action and VNF type in Reference Data screen",
+        "connectionError": "Error in connecting APPC Server"
+    },
+    "tabs": [
+        {
+            type: 'dropdown',
+            name: 'Reference Data',
+            url: 'references',
+        }, {
+            name: 'Template',
+            type: 'dropdown',
+            url: 'templates/myTemplates',
+        }, {
+            name: 'Parameter Definition',
+            type: 'dropdown',
+            url: 'parameterDefinitions/create'
+        }
+    ],
+    "Actions": {
+        "blank": '',
+        "configure": "Configure",
+        "ConfigModify": "ConfigModify",
+        "configBackup": "ConfigBackup",
+        "configRestore": "ConfigRestore",
+        "getRunningConfig": "GetRunningConfig",
+        "healthCheck": "HealthCheck",
+        "startApplication": "StartApplication",
+        "stopApplication": "StopApplication",
+        "quiesceTraffic": "QuiesceTraffic",
+        "resumeTraffic": "ResumeTraffic",
+        "upgradeBackout": "UpgradeBackout",
+        "upgradeBackup": "UpgradeBackup",
+        "upgradePostCheck": "UpgradePostCheck",
+        "upgradePreCheck": "UpgradePreCheck",
+        "upgradeSoftware": "UpgradeSoftware",
+        "openStackActions": "OpenStack Actions",
+        "configScaleOut": "ConfigScaleOut"
+    },
+    "DeviceProtocols": {
+        "blank": '',
+        "ansible": "ANSIBLE",
+        "chef": "CHEF",
+        "netconfXML": "NETCONF-XML",
+        "rest": "REST",
+        "cli": "CLI",
+        "restConf": "RESTCONF"
+    },
+    "ruleTypeConfiguaration": {
+        'vnf-name': [
             {
-                type: 'dropdown',
-                name: 'Reference Data',
-                url: 'references',
-            }, {
-                name: 'Template',
-                type: 'dropdown',
-                url: 'templates/myTemplates',
-            }, {
-                name: 'Parameter Definition',
-                type: 'dropdown',
-                url: 'parameterDefinitions/create'
+                'key-name': 'unique-key-name',
+                'key-value': 'parent-name'
+            },
+            {
+                'key-name': 'unique-key-value',
+                'key-value': 'vnf'
+            },
+            {
+                'key-name': 'field-key-name',
+                'key-value': 'vnf-name'
             }
         ],
-        "Actions" : {
-            "blank" : '',
-            "configure" : "Configure",
-            "ConfigModify" : "ConfigModify",
-            "configBackup" : "ConfigBackup",
-            "configRestore" : "ConfigRestore",
-            "getRunningConfig" : "GetRunningConfig",
-            "healthCheck" : "HealthCheck",
-            "startApplication" : "StartApplication",
-            "stopApplication" : "StopApplication",
-            "quiesceTraffic" : "QuiesceTraffic",
-            "resumeTraffic" : "ResumeTraffic",
-            "upgradeBackout" : "UpgradeBackout",
-            "upgradeBackup" : "UpgradeBackup",
-            "upgradePostCheck" : "UpgradePostCheck",
-            "upgradePreCheck" : "UpgradePreCheck",
-            "upgradeSoftware" : "UpgradeSoftware",
-            "openStackActions" : "OpenStack Actions",
-            "configScaleOut" : "ConfigScaleOut"
-        },
-        "DeviceProtocols" : {
-            "blank" : '',
-            "ansible" : "ANSIBLE",
-            "chef" : "CHEF",
-            "netconfXML" : "NETCONF-XML",
-            "rest" : "REST",
-            "cli" : "CLI",
-            "restConf" : "RESTCONF"
-        }
+        'vm-name-list': [
+            {
+                'key-name': 'unique-key-name',
+                'key-value': 'parent-name'
+            },
+            {
+                'key-name': 'unique-key-value',
+                'key-value': 'vserver'
+            },
+            {
+                'key-name': 'field-key-name',
+                'key-value': 'vserver-name'
+            }
+        ],
+        'vnfc-name-list': [
+            {
+                'key-name': 'unique-key-name',
+                'key-value': 'parent-name'
+            },
+            {
+                'key-name': 'unique-key-value',
+                'key-value': 'vnfc'
+            },
+            {
+                'key-name': 'field-key-name',
+                'key-value': 'vnfc-name'
+            }
+        ],
+        'vnf-oam-ipv4-address': [
+            {
+                'key-name': 'unique-key-name',
+                'key-value': 'parent-name'
+            },
+            {
+                'key-name': 'unique-key-value',
+                'key-value': 'vnf'
+            },
+            {
+                'key-name': 'field-key-name',
+                'key-value': 'ipv4-oam-ipaddress'
+            }
+        ],
+        'vnfc-oam-ipv4-address-list': [
+            {
+                'key-name': 'unique-key-name',
+                'key-value': 'parent-name'
+            },
+            {
+                'key-name': 'unique-key-value',
+                'key-value': 'vnfc'
+            },
+            {
+                'key-name': 'field-key-name',
+                'key-value': 'ipaddress-v4-oam-vip'
+            }
+        ]
+    },
+    "ruleTypeValues": [null, 'vnf-name', 'vm-name-list', 'vnfc-name-list', 'vnf-oam-ipv4-address', 'vnfc-oam-ipv4-address-list'],
+    "typeValues": [null, 'ipv4-address', 'ipv6-address', 'ipv4-prefix', 'ipv6-prefix'],
+    "responseKeyNameValues": ['', 'unique-key-name', 'unique-key-value', 'field-key-name'],
+    "responseKeyValues": ['(none)', 'addressfqdn', 'ipaddress-v4', 'ipaddress-v6'],
+    "requestKeyNameValues": [''],
+    "requestKeyValues": ['', '(none)'],
+    "sourceValues": ['Manual', 'A&AI'],
+    "filterByFieldvalues": [null, 'vm-number', 'vnfc-function-code'],
+    "requiredValues": [null, true, false],
+    "uploadTypes": [{ value: 'External Key File', display: 'KeyFile' },
+    { value: 'Pd File', display: 'Pd File' }
+    ],
+    "optionsToNotificationComponent": {
+        timeOut: 1000,
+        showProgressBar: true,
+        pauseOnHover: true,
+        clickToClose: true,
+        maxLength: 200
+    }
 };
