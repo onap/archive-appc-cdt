@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -21,14 +23,13 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-import {async, TestBed} from '@angular/core/testing';
-import {AppComponent} from './app.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {RouterTestingModule} from '@angular/router/testing';
-import {NotificationService} from './shared/services/notification.service';
-import {ParamShareService} from './shared/services/paramShare.service';
-import {MappingEditorService} from './shared/services/mapping-editor.service';
-
+import { async, TestBed } from '@angular/core/testing';
+import { AppComponent } from './app.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NotificationService } from './shared/services/notification.service';
+import { ParamShareService } from './shared/services/paramShare.service';
+import { MappingEditorService } from './shared/services/mapping-editor.service';
 
 describe('AppComponent', () => {
     beforeEach(() => {
@@ -38,8 +39,8 @@ describe('AppComponent', () => {
             ],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [RouterTestingModule],
-            providers: [ ParamShareService, NotificationService, MappingEditorService]
-     
+            providers: [ParamShareService, NotificationService, MappingEditorService]
+
         });
         TestBed.compileComponents();
     });
@@ -58,4 +59,10 @@ describe('AppComponent', () => {
         app.ngOnDestroy();
     }));
 
+    it('should test selectedNavItem', () => {
+        const fixture = TestBed.createComponent(AppComponent);
+        const app = fixture.componentInstance;
+        app.selectedNavItem({ 'name': 'item1', 'value': 'item1' });
+        expect(app.item).toEqual({ 'name': 'item1', 'value': 'item1' });
+    });
 });
