@@ -25,8 +25,13 @@ limitations under the License.
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { NotificationsService } from 'angular2-notifications';
 import { saveAs } from 'file-saver';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { ConfirmComponent } from '../shared/confirmModal/confirm.component';
+import { appConstants } from '../../constants/app-constants';
 
 @Component({
     selector: 'app-help',
@@ -41,8 +46,15 @@ export class AboutUsComponent implements OnInit, OnDestroy {
     public data: any;
     closeResult: string;
     versionLogSubscription: Subscription;
+    options = {
+        timeOut: 1000,
+        showProgressBar: true,
+        pauseOnHover: true,
+        clickToClose: true,
+        maxLength: 200
+    };
 
-    constructor(private http: Http, private modalService: NgbModal) {
+    constructor(private http: Http, private modalService: NgbModal, private dialogService: DialogService, private notificationsService: NotificationsService) {
     }
 
     ngOnInit() {
@@ -57,16 +69,30 @@ export class AboutUsComponent implements OnInit, OnDestroy {
         }
     }
 
-    versionLogFile() {
-        this.versionLogSubscription = this.http.get('app/about-us/versionLog.txt')
-            .subscribe(res => this.data = res.text());
+    versionLogFile(): Observable<any> {
+        return this.http.get('app/about-us/versionLog.txt');
     }
 
     open(content) {
-        this.modalService.open(content).result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        this.versionLogSubscription = this.versionLogFile()
+            .subscribe((res) => {
+                this.data = res.text();
+                this.dialogService.addDialog(ConfirmComponent, {
+                    title: 'VERSION CHANGE LOG',
+                    message: this.data,
+                    cancelButtonText: 'CLOSE',
+                    confirmButtonText: 'DOWNLOAD'
+                }).subscribe(isConfirmed => {
+                    if (isConfirmed) {
+                        this.downloadLogFile()
+                    } else {
+                        // do nothing
+                    }
+                });
+
+            },
+        (error)=>{
+            this.notificationsService.error(appConstants.errors.error, 'unable to fetch change log details');
         });
     }
 
