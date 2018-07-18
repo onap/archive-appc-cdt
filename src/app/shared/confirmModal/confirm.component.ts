@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -20,12 +22,14 @@ limitations under the License.
 ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================ */
 
-import {Component} from '@angular/core';
-import {DialogComponent, DialogService} from 'ng2-bootstrap-modal';
+import { Component } from '@angular/core';
+import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 
 export interface ConfirmModel {
     title: string;
     message: string;
+    cancelButtonText: string;
+    confirmButtonText: string;
 }
 
 @Component({
@@ -34,15 +38,15 @@ export interface ConfirmModel {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" (click)="close()">&times;</button>
-                    <h4 class="modal-title">Confirm</h4>
+                    <h4 class="modal-title">{{title}}</h4>
+                    <button type="button" class="close" (click)="cancel()">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Change Actions Without Saving?</p>
+                    <p>{{message}}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" (click)="confirm()">Yes</button>
-                    <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="confirm()">{{confirmButtonText}}</button>
+                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="cancel()">{{cancelButtonText}}</button>
                 </div>
             </div>
         </div>`
@@ -50,6 +54,8 @@ export interface ConfirmModel {
 export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> implements ConfirmModel {
     title: string;
     message: string;
+    cancelButtonText: string;
+    confirmButtonText: string;
 
     constructor(dialogService: DialogService) {
         super(dialogService);
@@ -59,6 +65,13 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
         // we set dialog result as true on click on confirm button,
         // then we can get dialog result from caller code
         this.result = true;
+        this.close();
+    }
+
+    cancel() {
+        // we set dialog result as false on click on cancel/close button,
+        // then we can get dialog result from caller code
+        this.result = false;
         this.close();
     }
 }
