@@ -23,7 +23,7 @@ limitations under the License.
 import { inject, TestBed } from '@angular/core/testing';
 import { ParamShareService } from './paramShare.service';
 
-describe('ParamShareService', () => {
+fdescribe('ParamShareService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [ParamShareService]
@@ -65,13 +65,11 @@ describe('ParamShareService', () => {
     }));
 
     it('should set and return proper sharedData value', inject([ParamShareService], (service: ParamShareService) => {
-        service.setData([
-            { displayName: 'A-IP', displayValue: '234' },
-            { displayName: 'B-IP', displayValue: '10.168.15.15' }]);
+        service.setData(
+            { displayName: 'A-IP', displayValue: '234' });
         let sharedData = service.getData();
-        expect(sharedData).toEqual([
-            { displayName: 'A-IP', displayValue: '234' },
-            { displayName: 'B-IP', displayValue: '10.168.15.15' }]);
+        expect(sharedData).toEqual(
+            { displayName: 'A-IP', displayValue: '234' });
     }));
 
     it('should set templateData value', inject([ParamShareService], (service: ParamShareService) => {
