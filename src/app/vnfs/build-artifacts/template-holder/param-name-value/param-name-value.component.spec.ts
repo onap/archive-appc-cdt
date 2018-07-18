@@ -3,6 +3,8 @@
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
+Copyright (C) 2018 IBM.
+===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
 under the Apache License, Version 2.0 (the License);
@@ -275,5 +277,14 @@ describe('GoldenConfigurationMappingComponent', () => {
         component.fileParamChange(input);
 
         expect(spy).toHaveBeenCalled();  
+    });
+
+     it('should validate of the file name creation for configscaleout is correct', () => {
+        fixture = TestBed.createComponent(GoldenConfigurationMappingComponent);
+        component = fixture.componentInstance;
+
+        let fileName=component.updateFileNameForConfigScaleOut('Configure','testVnfType','0.0.1','id1');
+        let expectedFileName="param_ Configure_testVnfType_0.0.1V_id1.json"
+        expect(expectedFileName).toBe(fileName);  
     });
 });
