@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_13c4f790",
+        "filename": "src/app/vnfs/build-artifacts/template-holder/param-name-value/param-name-value.component.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-18T19:14:05Z",
+      "side": 1,
+      "message": "add 2018 IBM",
+      "range": {
+        "startLine": 4,
+        "startChar": 66,
+        "endLine": 4,
+        "endChar": 67
+      },
+      "revId": "7336500ff8a035524d399e58a10a5c7454f4b108",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
