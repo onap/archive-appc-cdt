@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -19,7 +21,7 @@ limitations under the License.
 
 ============LICENSE_END============================================
 -->
-
+<simple-notifications [options]="options"></simple-notifications>
 <div class="text-center">
     <div class="card">
         <div class="mdl-dialog__content">
@@ -27,7 +29,8 @@ limitations under the License.
                 <div class="card-header" style="font-size: 20px">CONTACT DETAILS</div>
                 <div class="mdl-card__title">
                     <div class="text-center">
-                        Contact us @:<a href="mailto:{{contactUsMail.CONTACT_US_EMAIL}}?Subject={{contactUsMail.CONTACT_US_SUBJECT}}">APPC DEVELOPMENT TEAM</a>
+                        Contact us @:
+                        <a href="mailto:{{contactUsMail.CONTACT_US_EMAIL}}?Subject={{contactUsMail.CONTACT_US_SUBJECT}}">APPC DEVELOPMENT TEAM</a>
                     </div>
                 </div>
             </div>&emsp;&emsp;&emsp;&emsp;
@@ -58,7 +61,7 @@ limitations under the License.
                 </div>
                 <div class="text-right">
                     <div class="mdl-dialog__content">
-                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="open(content)" (click)="versionLogFile()">VIEW CHANGE LOG</a>
+                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="open(content)">VIEW CHANGE LOG</a>
                     </div>
                 </div>
 
@@ -67,34 +70,3 @@ limitations under the License.
         </div>
     </div>
 </div>
-
-<ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-content" style="width:800px;vertical-align:auto;">
-        <div class="modal-header">
-            <h4 class="modal-title" style="text-align:center">VERSION CHANGE LOG</h4>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group row">
-                <html>
-
-                <body>
-                    <textarea class="textarea">{{this.data}}</textarea>
-                </body>
-
-                </html>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" (click)="downloadLogFile()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent
-    " (click)="c('yes')">Download
-            </button>
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary
-    
-    " (click)="c('yes')">Cancel
-            </button>
-        </div>
-    </div>
-</ng-template>
