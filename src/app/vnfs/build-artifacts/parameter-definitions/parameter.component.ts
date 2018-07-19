@@ -34,6 +34,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { ParameterDefinitionService } from './parameter-definition.service';
 import 'rxjs/add/operator/map';
 import { NgProgress } from 'ngx-progressbar';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 let YAML = require('yamljs');
 
@@ -197,7 +198,8 @@ export class ParameterComponent implements OnInit {
         private httpUtil: HttpUtilService,
         private utilService: UtilityService,
         private nService: NotificationsService,
-        private ngProgress: NgProgress) {
+        private ngProgress: NgProgress,
+        private spinner: NgxSpinnerService) {
     }
 
     ngOnInit() {
@@ -349,6 +351,7 @@ export class ParameterComponent implements OnInit {
     //This is called when the user selects new files from the upload button
     public fileChange(input, uploadType) {
         if (input.files && input.files[0]) {
+            this.spinner.show();
             // Create the file reader
             let reader = new FileReader();
             this.readFile(input.files[0], reader, (result) => {
@@ -357,7 +360,10 @@ export class ParameterComponent implements OnInit {
                     this.displayParamObjects = this.parameterDefinitionService.processPDfile(this.myPdFileName, result);
                 }
             });
-            
+            setTimeout(() => {
+                        /** spinner ends after 3.5 seconds */
+                        this.spinner.hide();
+          }, 3500);
         }
     }
 
