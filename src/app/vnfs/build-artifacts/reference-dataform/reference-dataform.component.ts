@@ -36,6 +36,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { ParamShareService } from '../../..//shared/services/paramShare.service';
 import { environment } from '../../../../environments/environment';
 import { saveAs } from 'file-saver';
+import { UtilityService } from '../../../shared/services/utilityService/utility.service';
 declare var $: any;
 type AOA = Array<Array<any>>;
 
@@ -153,8 +154,20 @@ export class ReferenceDataformComponent implements OnInit {
     public remUploadedDataArray = [];
     isConfigScaleOut = false
     configScaleOutExist: boolean
-    constructor(private buildDesignComponent: BuildDesignComponent, private httpUtils: HttpUtilService, private route: Router, private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService,
-        private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private modalService: NgbModal, private nService: NotificationsService, private ngProgress: NgProgress) {
+    public versionNoForApiCall: any= "0.0.1"
+    constructor(
+    private buildDesignComponent: BuildDesignComponent,
+    private httpUtils: HttpUtilService, 
+    private route: Router, 
+    private location: Location, 
+    private activeRoutes: ActivatedRoute, 
+    private notificationService: NotificationService,
+    private paramShareService: ParamShareService, 
+    private mappingEditorService: MappingEditorService, 
+    private modalService: NgbModal, 
+    private nService: NotificationsService, 
+    private ngProgress: NgProgress,
+    private utilityService: UtilityService) {
     }
 
     ngOnInit() {
@@ -219,18 +232,7 @@ export class ReferenceDataformComponent implements OnInit {
     //to retrive the data from appc and assign it to the vaiables, if no data display the message reterived from the API
     getArtifact() {
         try {
-            let payload = JSON.parse(sessionStorage.getItem('updateParams'));
-            payload['userID'] = localStorage['userId'];
-            payload = JSON.stringify(payload);
-            let data = {
-                'input': {
-                    'design-request': {
-                        'request-id': localStorage['apiToken'],
-                        'action': 'getArtifact',
-                        'payload': payload
-                    }
-                }
-            };
+            let data = this.utilityService.createPayloadForRetrieve(true, '', '', '');
             this.ngProgress.start();
             this.httpUtils.post({
                 url: environment.getDesigns,
@@ -280,7 +282,7 @@ export class ReferenceDataformComponent implements OnInit {
                     }
                     this.getArtifactsOpenStack();
                 } else {
-                    this.nService.success('Status', 'Sorry !!! I dont have any artifact Named : ' + (JSON.parse(payload))['artifact-name']);
+                    this.nService.success('Status', 'Sorry !!! I dont have any artifact Named : ' + (JSON.parse(sessionStorage.getItem('updateParams')))['artifact-name']);
                 }
                 this.ngProgress.done();
             });
