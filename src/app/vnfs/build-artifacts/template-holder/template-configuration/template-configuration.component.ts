@@ -38,6 +38,7 @@ import { environment } from '../../../../../environments/environment';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { NgProgress } from 'ngx-progressbar';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { UtilityService } from '../../../../shared/services/utilityService/utility.service';
 declare var $: any
 
 @Component({ selector: 'app-golden-configuration', templateUrl: './template-configuration.component.html', styleUrls: ['./template-configuration.component.css'] })
@@ -109,7 +110,8 @@ export class GoldenConfigurationComponent implements OnInit {
     private router: Router, 
     private nService: NotificationsService, 
     private ngProgress: NgProgress,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private utilityService: UtilityService) {
     this.artifactRequest.action = '';
     this.artifactRequest.version = '';
     this.artifactRequest.paramsContent = '{}';
@@ -292,16 +294,7 @@ export class GoldenConfigurationComponent implements OnInit {
     if (refObj && refObj != undefined) {
 
       let fileName = this.artifactName;
-      let payload = '{"userID": "' + this.userId + '","action": "' + this.item.action + '", "vnf-type" : "' + this.vnfType + '", "artifact-type":"APPC-CONFIG", "artifact-name":"' + fileName + '"}';
-      let input = {
-        "input": {
-          "design-request": {
-            "request-id": this.apiToken,
-            "action": "getArtifact",
-            "payload": payload
-          }
-        }
-      };
+      let input = this.utilityService.createPayloadForRetrieve(false, this.item.action, this.vnfType, fileName);
       let artifactContent: any;
       this.ngProgress.start();
       this.httpUtil.post({
