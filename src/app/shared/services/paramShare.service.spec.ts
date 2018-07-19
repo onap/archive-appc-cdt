@@ -23,7 +23,7 @@ limitations under the License.
 import { inject, TestBed } from '@angular/core/testing';
 import { ParamShareService } from './paramShare.service';
 
-fdescribe('ParamShareService', () => {
+describe('ParamShareService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [ParamShareService]
