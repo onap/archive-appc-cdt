@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -25,6 +27,7 @@ import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing'
 import { By, BrowserModule } from '@angular/platform-browser';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpUtilService } from '../../../../shared/services/httpUtil/http-util.service';
 import { MappingEditorService } from '../../../../shared/services/mapping-editor.service';
 import { ArtifactRequest } from '../../../../shared/models/index';
@@ -97,7 +100,7 @@ describe('GoldenConfigurationComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, BrowserModule, RouterTestingModule.withRoutes(routes), HttpModule, Ng2Bs3ModalModule, SimpleNotificationsModule.forRoot()],
       declarations: [GoldenConfigurationComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent, AceEditorComponent],
-      providers: [BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService, MockBackend,
+      providers: [BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService, NgxSpinnerService, MockBackend,
         BaseRequestOptions,
         {
           provide: Http,
