@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -19,11 +21,21 @@ limitations under the License.
 
 ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================ */
-import {VmFilteringPipe} from './vm-filtering.pipe';
+import { VmFilteringPipe } from './vm-filtering.pipe';
 
 describe('VmFilteringPipe', () => {
     it('create an instance', () => {
         const pipe = new VmFilteringPipe();
         expect(pipe).toBeTruthy();
+    });
+
+    it('should return empty list', () => {
+        const pipe = new VmFilteringPipe();
+        expect(pipe.transform([{ 'template-id': '321' }], 'ConfigScaleOut', '234')).toEqual([]);
+    });
+
+    it('should return original list', () => {
+        const pipe = new VmFilteringPipe();
+        expect(pipe.transform([{ 'template-id': '321' }], 'Config', '234')).toEqual([{ 'template-id': '321' }]);
     });
 });
