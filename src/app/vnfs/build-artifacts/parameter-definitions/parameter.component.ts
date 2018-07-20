@@ -190,15 +190,7 @@ export class ParameterComponent implements OnInit {
 
     public getPD() {
         let result: any;
-        let input = {
-            'input': {
-                'design-request': {
-                    'request-id': this.apiToken,
-                    'action': 'getArtifact',
-                    'payload': '{"userID": "' + this.userId + '", "vnf-type" : "' + this.vnfType + '", "artifact-type":"APPC-CONFIG", "artifact-name":"' + this.artifact_fileName + '"}'
-                }
-            }
-        };
+        let input=this.utilService.createPayloadForRetrieve(false, this.action, this.vnfType,this.artifact_fileName);
         let artifactContent: any;
         return this.httpService.post({
             url: environment.getDesigns,
