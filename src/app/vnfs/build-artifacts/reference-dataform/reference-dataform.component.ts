@@ -39,7 +39,7 @@ import { saveAs } from 'file-saver';
 import { UtilityService } from '../../../shared/services/utilityService/utility.service';
 declare var $: any;
 type AOA = Array<Array<any>>;
-
+const REFERENCE_DATA:string= "reference_data";
 @Component({
     selector: 'reference-dataform',
     templateUrl: './reference-dataform.component.html',
@@ -648,16 +648,7 @@ export class ReferenceDataformComponent implements OnInit {
     uploadArtifact(artifactData, dataJson, fileName) {
         let data = [];
         let slashedPayload = this.appendSlashes(artifactData);
-        let newPyaload = '{"userID": "' + localStorage['userId'] + '","vnf-type" : "' + dataJson['scope']['vnf-type'] + '","action" : "AllAction","artifact-name" : "' + fileName + '","artifact-type" : "APPC-CONFIG","artifact-version" : "0.1","artifact-contents" :" ' + slashedPayload + '"}';
-        let payload = {
-            'input': {
-                'design-request': {
-                    'request-id': localStorage['apiToken'],
-                    'action': 'uploadArtifact',
-                    'payload': newPyaload,
-                }
-            }
-        };
+        let payload = this.utilityService.createPayLoadForSave(REFERENCE_DATA, dataJson['scope']['vnf-type'], "AllAction", fileName, this.versionNoForApiCall, slashedPayload);
         this.ngProgress.start();
         this.httpUtils.post({
             url: environment.getDesigns,
