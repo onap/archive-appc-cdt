@@ -3,7 +3,8 @@
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
-
+Copyright (C) 2018 IBM.
+===================================================================
 Unless otherwise specified, all software contained herein is licensed
 under the Apache License, Version 2.0 (the License);
 you may not use this software except in compliance with the License.
@@ -35,11 +36,12 @@ import {TestComponent} from './test/test.component';
 import {AboutUsComponent} from './about-us/aboutus.component';
 import {NgProgressModule} from 'ngx-progressbar';
 import {LoginGuardService} from './vnfs/LoginGuardService/Login-guard-service';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
     declarations: [AppComponent, TestComponent, AboutUsComponent],
     imports: [BrowserModule, FormsModule, HomeModule, SharedModule.forRoot(),
-        NgbModule.forRoot(), NoopAnimationsModule, AppRoutingModule, SimpleNotificationsModule, NgProgressModule],
+        NgbModule.forRoot(), NoopAnimationsModule, AppRoutingModule, SimpleNotificationsModule, NgProgressModule,NgxSpinnerModule],
     exports: [RouterModule],
     providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, LoginGuardService],
 
