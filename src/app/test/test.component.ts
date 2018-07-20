@@ -3,7 +3,8 @@
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
-
+Copyright (C) 2018 IBM.
+===================================================================
 Unless otherwise specified, all software contained herein is licensed
 under the Apache License, Version 2.0 (the License);
 you may not use this software except in compliance with the License.
@@ -20,7 +21,7 @@ limitations under the License.
 */
 
 import { Component, OnInit } from '@angular/core';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -101,8 +102,19 @@ export class TestComponent implements OnInit {
     public enableCounterDiv: boolean = false;
     public enableDownload: boolean = false;
     private userId = localStorage['userId'];
-    constructor (private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService, private nService: NotificationsService, private router: Router, private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private httpUtil: HttpUtilService,
-        private utiltiy: UtilityService, private ngProgress: NgProgress) {
+    constructor (
+    private location: Location, 
+    private activeRoutes: ActivatedRoute, 
+    private notificationService: NotificationService, 
+    private nService: NotificationsService, 
+    private router: Router, 
+    private paramShareService: ParamShareService, 
+    private mappingEditorService: MappingEditorService, 
+    private httpUtil: HttpUtilService,
+    private utiltiy: UtilityService, 
+    private ngProgress: NgProgress,
+    private spinner: NgxSpinnerService
+    ) {
 
     }
 
@@ -168,6 +180,7 @@ export class TestComponent implements OnInit {
             throw new Error('Cannot upload multiple files on the entry');
         }
         if (fileExtension.toUpperCase() === 'XLS' || fileExtension.toUpperCase() === 'XLSX') {
+            this.spinner.show();
             const reader = new FileReader();
             reader.onload = (e: any) => {
                 /* read workbook */
@@ -210,7 +223,10 @@ export class TestComponent implements OnInit {
             };
 
             reader.readAsBinaryString(target.files[0]);
-
+            setTimeout(() => {
+                        /** spinner ends after 2.5 seconds */
+                        this.spinner.hide();
+          }, 2500);
 
         }
         else {
