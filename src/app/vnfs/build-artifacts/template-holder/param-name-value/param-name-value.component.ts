@@ -43,6 +43,7 @@ import { environment } from '../../../../../environments/environment';
 import { NgProgress } from 'ngx-progressbar';
 import * as XLSX from 'xlsx';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {UtilityService} from '../../../../shared/services/utilityService/utility.service';
 
 declare var $: any;
 
@@ -120,7 +121,8 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
         private notificationService: NotificationService,
         private nService: NotificationsService,
         private ngProgress: NgProgress,
-        private spinner: NgxSpinnerService
+        private spinner: NgxSpinnerService,
+        private utilityService: UtilityService,
     ) {
         this.artifactRequest.action = '';
         this.artifactRequest.version = '';
@@ -319,18 +321,7 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
             if (id) fileName = this.updateFileNameForConfigScaleOut(this.item.action, scopeName, this.versionNo, id);
             else fileName = this.updateFileName(this.item.action, scopeName, this.versionNo);
 
-            let payload = '{"userID": "' + this.userId + '", "action": "' + this.item.action + '", "vnf-type" : "' + this.vnfType + '", "artifact-type":"APPC-CONFIG", "artifact-name":"' + fileName + '"}';
-            let input = {
-                'input': {
-                    'design-request': {
-                        'request-id': this.apiToken,
-                        'action': 'getArtifact',
-                        'payload': payload
-                    }
-                }
-            };
-
-            console.log('Retrieve name value from appc payload===>>' + payload);
+            let input=this.utilityService.createPayloadForRetrieve(false, this.item.action, this.vnfType, fileName);
             let artifactContent: any;
             this.ngProgress.start();
             this.nameValueSubscription = this.httpUtil.post({
