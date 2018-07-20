@@ -20,6 +20,11 @@ limitations under the License.
 ============LICENSE_END============================================
 -->
 <simple-notifications [options]="options"></simple-notifications>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)"
+  size="large"
+  color="orange"
+  loadingText="Uploading test spreadsheet..."
+  type="ball-scale-multiple"></ngx-spinner>
 <ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'"
     [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
 
