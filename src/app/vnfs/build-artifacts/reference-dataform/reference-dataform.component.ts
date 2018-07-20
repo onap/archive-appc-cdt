@@ -648,16 +648,7 @@ export class ReferenceDataformComponent implements OnInit {
     uploadArtifact(artifactData, dataJson, fileName) {
         let data = [];
         let slashedPayload = this.appendSlashes(artifactData);
-        let newPyaload = '{"userID": "' + localStorage['userId'] + '","vnf-type" : "' + dataJson['scope']['vnf-type'] + '","action" : "AllAction","artifact-name" : "' + fileName + '","artifact-type" : "APPC-CONFIG","artifact-version" : "0.1","artifact-contents" :" ' + slashedPayload + '"}';
-        let payload = {
-            'input': {
-                'design-request': {
-                    'request-id': localStorage['apiToken'],
-                    'action': 'uploadArtifact',
-                    'payload': newPyaload,
-                }
-            }
-        };
+        let payload = this.utilityService.createPayLoadForSave("reference_data", dataJson['scope']['vnf-type'], "AllAction", fileName, this.versionNoForApiCall, slashedPayload);
         this.ngProgress.start();
         this.httpUtils.post({
             url: environment.getDesigns,
