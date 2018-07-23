@@ -57,6 +57,7 @@ import { Observable } from 'rxjs/Observable';
 import { NgProgress } from 'ngx-progressbar';
 import { BaseRequestOptions, Response, ResponseOptions, Http } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 describe('GoldenConfigurationMappingComponent', () => {
@@ -102,8 +103,8 @@ describe('GoldenConfigurationMappingComponent', () => {
         TestBed.configureTestingModule({
             imports: [FormsModule, BrowserModule, RouterTestingModule.withRoutes(routes), HttpModule, Ng2Bs3ModalModule, SimpleNotificationsModule.forRoot()],
             declarations: [GoldenConfigurationMappingComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent, AceEditorComponent],
-            providers: [BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService,MockBackend,
-                HttpUtilService, MappingEditorService, NotificationsService,
+            providers: [BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService, MockBackend,
+                HttpUtilService, MappingEditorService, NotificationsService, NgxSpinnerService,
                 BaseRequestOptions,
                 {
                     provide: Http,
@@ -225,7 +226,7 @@ describe('GoldenConfigurationMappingComponent', () => {
         component.vnfType = "testVnf";
         component.userId = "abc";
         component.item.action = "Configure";
-        mappingEditorService.identifier="id1";
+        mappingEditorService.identifier = "id1";
         component.retrieveNameValueFromAppc();
         expect(localStorage["localStorage['paramsContent']"]).not.toBe(null);
 
@@ -245,46 +246,46 @@ describe('GoldenConfigurationMappingComponent', () => {
     // fileChange method
     it('Should validatte fileChange method if file type is json', async(() => {
         let reader = new FileReader();
-        let obj = {"e": " "};
+        let obj = { "e": " " };
         let data = JSON.stringify(obj);
-        let file = new File([data], "foo.json", {type: "text/json"});
-        let input = {files: [file]};
+        let file = new File([data], "foo.json", { type: "text/json" });
+        let input = { files: [file] };
 
         component.fileParamChange(input);
 
-        component.readFile(input.files[0], reader,(res) => {
+        component.readFile(input.files[0], reader, (res) => {
             let jsonObject = JSON.parse(res);
             expect(component.selectedUploadType).toEqual('Mapping Data');
             expect(component.artifactRequest.paramsContent).toEqual(JSON.stringify(jsonObject, null, 1));
-        });  
+        });
     }));
 
 
     it('Should validatte fileChange method if file type is not json', () => {
         let spy = spyOn(NotificationsService.prototype, 'error');
-        let file = new File(["testing"], "foo.txt", {type: "text/txt"});
-        let input = {files: [file]};
+        let file = new File(["testing"], "foo.txt", { type: "text/txt" });
+        let input = { files: [file] };
 
         component.fileParamChange(input);
 
-        expect(spy).toHaveBeenCalled();  
+        expect(spy).toHaveBeenCalled();
     });
 
     it('Should validatte fileChange method if file is false', () => {
         let spy = spyOn(NotificationsService.prototype, 'error');
-        let input = {files: []};
+        let input = { files: [] };
 
         component.fileParamChange(input);
 
-        expect(spy).toHaveBeenCalled();  
+        expect(spy).toHaveBeenCalled();
     });
 
-     it('should validate of the file name creation for configscaleout is correct', () => {
+    it('should validate of the file name creation for configscaleout is correct', () => {
         fixture = TestBed.createComponent(GoldenConfigurationMappingComponent);
         component = fixture.componentInstance;
 
-        let fileName=component.updateFileNameForConfigScaleOut('Configure','testVnfType','0.0.1','id1');
-        let expectedFileName="param_ Configure_testVnfType_0.0.1V_id1.json"
-        expect(expectedFileName).toBe(fileName);  
+        let fileName = component.updateFileNameForConfigScaleOut('Configure', 'testVnfType', '0.0.1', 'id1');
+        let expectedFileName = "param_ Configure_testVnfType_0.0.1V_id1.json"
+        expect(expectedFileName).toBe(fileName);
     });
 });
