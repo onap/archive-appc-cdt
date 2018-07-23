@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_38dd6043",
+        "filename": "src/app/vnfs/build-artifacts/template-holder/param-name-value/param-name-value.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-23T20:47:47Z",
+      "side": 1,
+      "message": "Can you point out why you need utilityService in this case? if there is only one place to use in CDT. Also Is there reason why you need to refactor the code to use createPayloadForRetrieve method ?",
+      "range": {
+        "startLine": 324,
+        "startChar": 42,
+        "endLine": 324,
+        "endChar": 66
+      },
+      "revId": "80c42f9dd212d60cb970011e12ee5fe1ccd79836",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
