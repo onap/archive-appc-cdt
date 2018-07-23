@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_582b7430",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-23T20:43:59Z",
+      "side": 1,
+      "message": "how do you know this artifactType is always equal to \"reference_data\". isn\u0027t it hardcoded?",
+      "range": {
+        "startLine": 651,
+        "startChar": 64,
+        "endLine": 651,
+        "endChar": 78
+      },
+      "revId": "99a426da4b2f162bc6a94c7f6e1d1ae3661303d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
