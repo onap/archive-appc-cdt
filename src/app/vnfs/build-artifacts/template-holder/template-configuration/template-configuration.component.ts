@@ -354,27 +354,7 @@ export class GoldenConfigurationComponent implements OnInit {
         let vnfType = this.vnfType;
         let Json = [paramsKeyValueFromEditor];
         let slashedPayload = this.appendSlashes(JSON.stringify(Json));
-        let newPayload =
-          {
-            "userID": this.userId,
-            "vnf-type": this.vnfType,
-            "action": action,
-            "artifact-name": fileName,
-            "artifact-type": "APPC-CONFIG",
-            "artifact-version": this.templateVersionNo,
-            "artifact-contents": slashedPayload
-          }
-        let data =
-          {
-            "input": {
-              "design-request": {
-                "request-id": this.apiToken,
-                "action": "uploadArtifact",
-                "payload": JSON.stringify(newPayload)
-
-              }
-            }
-          }
+        let data = this.utilityService.createPayLoadForSave("param_data", this.vnfType, action, fileName, this.templateVersionNo, slashedPayload);
         this.appDataObject.template.nameValueData = data;
       }
       if (this.configMappingEditorContent) {
@@ -398,28 +378,7 @@ export class GoldenConfigurationComponent implements OnInit {
           fileName = this.artifactName;
         }
         let vnfType = this.vnfType;
-        let newPayload =
-          {
-            "userID": this.userId,
-            "vnf-type": this.vnfType,
-            "action": action,
-            "artifact-name": fileName,
-            "artifact-type": "APPC-CONFIG",
-            "artifact-version": this.templateVersionNo,
-            "artifact-contents": this.configMappingEditorContent.replace(/\(([^()]|(R))*\)=\(/g, '').replace(/\)}/g, '}')
-
-          }
-        let data =
-          {
-            "input": {
-              "design-request": {
-                "request-id": this.apiToken,
-                "action": "uploadArtifact",
-                "payload": JSON.stringify(newPayload)
-
-              }
-            }
-          }
+        let data = this.utilityService.createPayLoadForSave("template_data", this.vnfType, action, fileName, this.templateVersionNo, this.configMappingEditorContent.replace(/\(([^()]|(R))*\)=\(/g, '').replace(/\)}/g, '}'));
         this.appDataObject.template.templateData = data;
         this.mappingEditorService.initialise(this.templateeditor.getEditor(), actualContent, this.modal);
       }
