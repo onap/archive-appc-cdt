@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -37,6 +39,7 @@ import { UtilityService } from '.././../shared/services/utilityService/utility.s
 import { TidyTableModule } from '../../shared/modules/tidy-table/tidy-table.module';
 import { NgModule } from '@angular/core';
 import { NgProgress } from 'ngx-progressbar';
+import { NotificationsService } from 'angular2-notifications';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -60,7 +63,7 @@ describe('MyvnfsComponent', () => {
             providers: [
 
                 { provide: XHRBackend, useClass: MockBackend },
-                NgProgress, UtilityService, ParamShareService, DialogService, NotificationService, HttpUtilService, MappingEditorService]
+                NgProgress, UtilityService, ParamShareService, DialogService, NotificationService, HttpUtilService, MappingEditorService, NotificationsService]
 
         })
             .compileComponents();
