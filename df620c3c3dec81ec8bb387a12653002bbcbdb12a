@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_31c1fb80",
+        "filename": "src/app/vnfs/build-artifacts/template-holder/template-configuration/template-configuration.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-24T15:10:33Z",
+      "side": 1,
+      "message": "i would tend to use a constant definition for param_data here. there are various similarities from your changes recently.",
+      "range": {
+        "startLine": 357,
+        "startChar": 61,
+        "endLine": 357,
+        "endChar": 71
+      },
+      "revId": "df620c3c3dec81ec8bb387a12653002bbcbdb12a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_d1bd1f04",
+        "filename": "src/app/vnfs/build-artifacts/template-holder/template-configuration/template-configuration.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-24T15:10:33Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 381,
+        "startChar": 61,
+        "endLine": 381,
+        "endChar": 74
+      },
+      "revId": "df620c3c3dec81ec8bb387a12653002bbcbdb12a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
