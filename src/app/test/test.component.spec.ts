@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -429,7 +431,7 @@ describe( 'TestComponent', () => {
             expect(component.getUrlEndPoint('upgradeprecheck')).toEqual('upgrade-pre-check');
             expect(component.getUrlEndPoint('upgradesoftware')).toEqual('upgrade-software');
             expect(component.getUrlEndPoint('DeFaultCASE')).toEqual('defaultcase');
-            expect(component.getUrlEndPoint('upgradebackup')).toEqual('upgrad-ebackup');
+            expect(component.getUrlEndPoint('upgradebackup')).toEqual('upgrade-backup');
             expect(component.getUrlEndPoint('attachvolume')).toEqual('attach-volume');
             expect(component.getUrlEndPoint('detachvolume')).toEqual('detach-volume');
         });
