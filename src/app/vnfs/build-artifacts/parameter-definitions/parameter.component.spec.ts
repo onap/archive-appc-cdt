@@ -27,6 +27,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 import {NotificationService} from '../../../shared/services/notification.service';
 import {ParamShareService} from '../../../shared/services/paramShare.service';
 import {MappingEditorService} from '../../../shared/services/mapping-editor.service';
@@ -84,7 +85,7 @@ describe('ParameterComponent', () => {
             declarations: [ParameterComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [HttpModule, FormsModule, RouterTestingModule.withRoutes(routes)],
-            providers: [UtilityService, NgProgress, BuildDesignComponent, ParamShareService, DialogService, NotificationService, HttpUtilService, MappingEditorService, NotificationsService]
+            providers: [UtilityService, NgProgress, BuildDesignComponent, ParamShareService, DialogService, NotificationService, HttpUtilService, MappingEditorService, NotificationsService, NgxSpinnerService]
         })
             .compileComponents();
     }));
