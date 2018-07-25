@@ -31,6 +31,7 @@ import { environment } from '../../../environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgProgress } from 'ngx-progressbar';
 import { NotificationsService } from 'angular2-notifications';
+import { appConstants } from '../../../constants/app-constants'
 
 @Component({ selector: 'app-myvnfs', templateUrl: './myvnfs.component.html', styleUrls: ['./myvnfs.component.css'] })
 export class MyvnfsComponent implements OnInit, OnDestroy {
@@ -105,7 +106,7 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
                 ,
                 error => {
 
-                    this.nService.error("Error", "Error in connecting to APPC Server")
+                    this.nService.error(appConstants.errors.error, appConstants.errors.connectionError)
                 }
 
             );
