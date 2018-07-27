@@ -56,6 +56,7 @@ import { GoldenConfigurationComponent } from './template-configuration.component
 import { NgProgress } from 'ngx-progressbar';
 import { BaseRequestOptions, Response, ResponseOptions, Http } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
+import { UtilityService } from '../../../../shared/services/utilityService/utility.service';
 
 describe('GoldenConfigurationComponent', () => {
   let component: GoldenConfigurationComponent;
@@ -101,7 +102,7 @@ describe('GoldenConfigurationComponent', () => {
       imports: [FormsModule, BrowserModule, RouterTestingModule.withRoutes(routes), HttpModule, Ng2Bs3ModalModule, SimpleNotificationsModule.forRoot()],
       declarations: [GoldenConfigurationComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent, AceEditorComponent],
       providers: [BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService, NgxSpinnerService, MockBackend,
-        BaseRequestOptions,
+        BaseRequestOptions, UtilityService,
         {
           provide: Http,
           useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
