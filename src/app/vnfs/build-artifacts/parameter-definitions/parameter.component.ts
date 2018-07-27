@@ -25,6 +25,7 @@ limitations under the License.
 */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { saveAs } from 'file-saver';
 import { ParamShareService } from '../../../shared/services/paramShare.service';
 import { MappingEditorService } from '../../../shared/services/mapping-editor.service';
@@ -108,6 +109,8 @@ export class ParameterComponent implements OnInit {
     public artifact_fileName = "";
     identifier: any;
     private selectedActionReference: any;
+    pdSubscription: Subscription;
+    sessionPDSubscription : Subscription;
 
     constructor(private httpService: HttpUtilService,
         private parameterDefinitionService: ParameterDefinitionService,
@@ -173,10 +176,10 @@ export class ParameterComponent implements OnInit {
             this.displayParamObjects = [];
             this.modelParamDefinitionObjects = [];
             if (this.paramShareService.getSessionParamData() != undefined && this.paramShareService.getSessionParamData().length > 0) {
-                this.getPDFromSession();
+               this.sessionPDSubscription = this.getPDFromSession();
             } else {
                 this.ngProgress.start();
-                this.getPD();
+                this.pdSubscription = this.getPD();
                 setTimeout(() => {
                 this.ngProgress.done();
             }, 3500);
@@ -249,6 +252,8 @@ export class ParameterComponent implements OnInit {
     //========================== End of prepareFileName() Method============================================
     ngOnDestroy() {
         this.parameterDefinitionService.destroy(this.displayParamObjects);
+        if(this.pdSubscription) { this.pdSubscription.unsubscribe(); }
+        if(this.sessionPDSubscription) { this.sessionPDSubscription.unsubscribe(); }
     }
 
     //========================== End of ngOnDestroy() Method============================================
