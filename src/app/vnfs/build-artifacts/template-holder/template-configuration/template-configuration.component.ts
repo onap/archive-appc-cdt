@@ -23,6 +23,7 @@ limitations under the License.
 */
 
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { HttpUtilService } from '../../../../shared/services/httpUtil/http-util.service';
 import { MappingEditorService } from '../../../../shared/services/mapping-editor.service';
 import { ArtifactRequest } from '../../../../shared/models/index';
@@ -59,7 +60,8 @@ export class GoldenConfigurationComponent implements OnInit {
   initialAction: any;
   public referenceData: Array<Object> = [];
   public scopeName: any;
-  public subscription: any;
+  public subscription: Subscription;
+  public templateSubscription : Subscription;
   public item: any = {};
   public goldenActions: Array<string> = [];
   public refNameObj = {};
@@ -173,7 +175,7 @@ export class GoldenConfigurationComponent implements OnInit {
       this.item = { "action": "", "scope": { "vnf-type": "", "vnfc-type": "" }, "vm": [], "protocol": "", "download-dg-reference": "", "user-name": "", "port-number": "", "artifact-list": [], "deviceTemplate": "", "scopeType": "" };
     }
     this.initialAction = this.item.action;
-    this.activeRoutes.url.subscribe(UrlSegment => {
+    this.subscription = this.activeRoutes.url.subscribe(UrlSegment => {
       this.actionType = UrlSegment[0].path
     })
     this.mappingEditorService.fromScreen = 'MappingScreen';
@@ -190,6 +192,9 @@ export class GoldenConfigurationComponent implements OnInit {
         this.mappingEditorService.changeNavDownloadData(this.downloadDataObject);
       }
     }
+
+    if(this.subscription) { this.subscription.unsubscribe(); }
+    if(this.templateSubscription) { this.templateSubscription.unsubscribe(); }
   }
   //========================== End of ngOnDestroy() Method============================================
   ngAfterViewInit() {
@@ -299,7 +304,7 @@ export class GoldenConfigurationComponent implements OnInit {
       let input = this.utilityService.createPayloadForRetrieve(false, this.item.action, this.vnfType, fileName);
       let artifactContent: any;
       this.ngProgress.start();
-      this.httpUtil.post({
+      this.templateSubscription = this.httpUtil.post({
         url: environment.getDesigns,
         data: input
       }).subscribe(resp => {
