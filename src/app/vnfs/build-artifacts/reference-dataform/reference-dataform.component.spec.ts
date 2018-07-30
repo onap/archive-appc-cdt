@@ -993,4 +993,14 @@ describe('ReferenceDataformComponent', () => {
         component.deviceProtocolChange();
         expect(spy).toHaveBeenCalled()
     });
+
+    it('should test uplaod function', () => {        
+        let content = "Hello World";  
+        let data = new Blob([content], { type: 'text/plain' });  
+        let arrayOfBlob = new Array<Blob>();  
+        arrayOfBlob.push(data);  
+        let file = new File(arrayOfBlob, "Mock.XLS"); 
+        let evnt = {target: {files: [file]}};
+        component.upload(evnt);
+    });
 });
