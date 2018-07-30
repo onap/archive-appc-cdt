@@ -22,6 +22,30 @@
       "revId": "e686ea41bcd152091beb101fe98266f31ce4c809",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_d753dc6a",
+        "filename": "src/app/vnfs/build-artifacts/parameter-definitions/parameter.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 4251
+      },
+      "writtenOn": "2018-07-30T05:08:29Z",
+      "side": 1,
+      "message": "The getPDFromSession() function returns a http get subscription, which needs to be assigned to rxjx/Subscription variable so that it can be unsubscribed once the component is destroyed.",
+      "parentUuid": "9a6a9dd7_57dd8c13",
+      "range": {
+        "startLine": 179,
+        "startChar": 20,
+        "endLine": 179,
+        "endChar": 41
+      },
+      "revId": "e686ea41bcd152091beb101fe98266f31ce4c809",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
