@@ -58,6 +58,7 @@ import { NgProgress } from 'ngx-progressbar';
 import { BaseRequestOptions, Response, ResponseOptions, Http } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { UtilityService } from '../../../../shared/services/utilityService/utility.service';
 
 
 describe('GoldenConfigurationMappingComponent', () => {
@@ -103,7 +104,7 @@ describe('GoldenConfigurationMappingComponent', () => {
         TestBed.configureTestingModule({
             imports: [FormsModule, BrowserModule, RouterTestingModule.withRoutes(routes), HttpModule, Ng2Bs3ModalModule, SimpleNotificationsModule.forRoot()],
             declarations: [GoldenConfigurationMappingComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent, AceEditorComponent],
-            providers: [BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService, MockBackend,
+            providers: [UtilityService, BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService, MockBackend,
                 HttpUtilService, MappingEditorService, NotificationsService, NgxSpinnerService,
                 BaseRequestOptions,
                 {
