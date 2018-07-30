@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -24,6 +26,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { userloginFormComponent } from './userlogin-form.component';
 import { FormsModule } from '@angular/forms';
 import { NotificationService } from './../../shared/services/notification.service';
@@ -39,15 +42,21 @@ import {NotificationsService} from 'angular2-notifications';
 describe('userloginFormComponent', () => {
     let component: userloginFormComponent;
     let fixture: ComponentFixture<userloginFormComponent>;
+    let mockActiveRoute = {
+        snapshot: {
+          queryParams: {
+            returnUrl: '/home',
+          }
+        }
+     };
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [userloginFormComponent],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [FormsModule, RouterTestingModule,],
-            providers: [UtilityService, ParamShareService, DialogService, NotificationService,NotificationsService, HttpUtilService, MappingEditorService, {
-                provide: Router,
-                useClass: MockRouter
-            }, { provide: Router, useClass: MockRouter }]
+            providers: [UtilityService, ParamShareService, DialogService,NotificationsService, HttpUtilService, MappingEditorService,
+                {provide: ActivatedRoute, useValue: mockActiveRoute}, 
+                { provide: Router, useClass: MockRouter }]
         })
             .compileComponents();
     }));
@@ -82,7 +91,7 @@ describe('userloginFormComponent', () => {
     });
 
     it('should route to myvnfform', inject([Router], (router: Router) => {
-        const spy = spyOn(router, 'navigate');
+        const spy = spyOn(router, 'navigateByUrl');
         component.getData();
         const url = spy.calls.first().args[0];
 
