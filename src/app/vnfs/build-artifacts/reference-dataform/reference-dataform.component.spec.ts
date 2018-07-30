@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Modification Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -992,5 +994,15 @@ describe('ReferenceDataformComponent', () => {
         let refData = { "action": "Configure", "vnf-type": "test 1", "device-protocol": "ANSIBLE" };
         component.deviceProtocolChange();
         expect(spy).toHaveBeenCalled()
+    });
+
+    it('should test uplaod function', () => {        
+        let content = "Hello World";  
+        let data = new Blob([content], { type: 'text/plain' });  
+        let arrayOfBlob = new Array<Blob>();  
+        arrayOfBlob.push(data);  
+        let file = new File(arrayOfBlob, "Mock.XLS"); 
+        let evnt = {target: {files: [file]}};
+        component.upload(evnt);
     });
 });
