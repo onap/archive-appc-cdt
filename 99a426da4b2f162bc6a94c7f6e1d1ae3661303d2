@@ -46,6 +46,30 @@
       "revId": "99a426da4b2f162bc6a94c7f6e1d1ae3661303d2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_7f572c03",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-07-30T10:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_582b7430",
+      "range": {
+        "startLine": 651,
+        "startChar": 64,
+        "endLine": 651,
+        "endChar": 78
+      },
+      "revId": "99a426da4b2f162bc6a94c7f6e1d1ae3661303d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
