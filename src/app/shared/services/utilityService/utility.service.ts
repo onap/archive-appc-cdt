@@ -26,19 +26,20 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 import {Injectable} from '@angular/core';
 import {NotificationsService} from 'angular2-notifications';
 import { saveAs } from 'file-saver';
+import { appConstants } from '../../../../constants/app-constants';
 
 @Injectable()
 export class UtilityService {
-    public putAction = 'uploadArtifact';
-    public getAction = 'getArtifact';
-    private retrievalSuccessMessage = 'Retrieved artifact successfully';
-    private retrievalFailureMessage = 'There is no artifact saved in APPC for the selected action';
-    private saveSuccessMessage = 'Successfully uploaded the ';
-    private saveFailureMessage = 'Error in saving the ';
-    public connectionErrorMessage = 'Error in connecting to the APPC Server';
+    public putAction = appConstants.messages.artifactUploadAction;
+    public getAction = appConstants.messages.artifactgetAction;
+    private retrievalSuccessMessage = appConstants.messages.retrievalSuccessMessage;
+    private retrievalFailureMessage = appConstants.messages.retrievalFailureMessage;
+    private saveSuccessMessage = appConstants.messages.saveSuccessMessage;
+    private saveFailureMessage = appConstants.messages.saveFailureMessage;
+    public connectionErrorMessage = appConstants.errors.connectionError;
     
-    private successMessage = 'Retrieved artifact successfully';
-    private failureMessage = 'There is no artifact saved in APPC for the selected action!';
+    private successMessage = appConstants.messages.artifactRetrivalsuccessMessage;
+    private failureMessage = appConstants.messages.artifactRetrivalfailureMessage;
 
     constructor(private notificationService: NotificationsService) {
     }
@@ -56,12 +57,12 @@ export class UtilityService {
 
     public checkResult(result: any) {
 
-        if (result.output.status.code == '401') {
-            this.notificationService.info('Information', this.failureMessage);
+        if (result.output.status.code == appConstants.errorCode["401"]) {
+            this.notificationService.info(appConstants.notifications.titles.information, this.failureMessage);
             return false;
         }
-        else if (result.output.status.code == '400') {
-            this.notificationService.success('Success', this.successMessage);
+        else if (result.output.status.code == appConstants.errorCode["400"]) {
+            this.notificationService.success(appConstants.notifications.titles.success, this.successMessage);
             return true;
         }
 
@@ -69,24 +70,24 @@ export class UtilityService {
 
     public processApiSubscribe(result: any, action, artifactType) {
 
-        if (result.output.status.code == '401' && action == this.getAction) {
-            this.notificationService.info('Information', this.retrievalFailureMessage);
+        if (result.output.status.code == appConstants.errorCode["401"] && action == this.getAction) {
+            this.notificationService.info(appConstants.notifications.titles.information, this.retrievalFailureMessage);
         }
-        else if (result.output.status.code == '400' && action == this.getAction) {
-            this.notificationService.success('Success', this.retrievalSuccessMessage);
+        else if (result.output.status.code == appConstants.errorCode["400"] && action == this.getAction) {
+            this.notificationService.success(appConstants.notifications.titles.success, this.retrievalSuccessMessage);
         }
-        if (result.output.status.code == '401' && action == this.putAction) {
-            this.notificationService.warn('Error', this.saveFailureMessage + artifactType);
+        if (result.output.status.code == appConstants.errorCode["401"] && action == this.putAction) {
+            this.notificationService.warn(appConstants.notifications.titles.error, this.saveFailureMessage + artifactType);
         }
-        else if (result.output.status.code == '400' && action == this.putAction) {
-            this.notificationService.success('Success', this.saveSuccessMessage + artifactType);
+        else if (result.output.status.code == appConstants.errorCode["400"] && action == this.putAction) {
+            this.notificationService.success(appConstants.notifications.titles.success, this.saveSuccessMessage + artifactType);
         }
 
     }
 
     public processApiError()
     {
-        this.notificationService.error('Error', this.connectionErrorMessage);
+        this.notificationService.error(appConstants.notifications.titles.error, this.connectionErrorMessage);
     }
 
 

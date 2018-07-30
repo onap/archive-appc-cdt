@@ -167,5 +167,26 @@ export const appConstants = {
         pauseOnHover: true,
         clickToClose: true,
         maxLength: 200
+    },
+    "messages" : {
+        "retrievalSuccessMessage" : 'Retrieved artifact successfully',
+        "retrievalFailureMessage" : 'There is no artifact saved in APPC for the selected action',
+        "saveSuccessMessage" : 'Successfully uploaded the ',
+        "saveFailureMessage" : 'Error in saving the ',
+        "artifactRetrivalsuccessMessage" : 'Retrieved artifact successfully',
+        "artifactRetrivalfailureMessage" : 'There is no artifact saved in APPC for the selected action!',
+        "artifactUploadAction" : 'uploadArtifact',
+        "artifactgetAction" : 'getArtifact'
+    },
+    "errorCode" : {
+        "401" : '401',
+        "400" : '400'
+    },
+    "notifications" : {
+        "titles" : {
+            "information" : 'Information',
+            "success" : 'Success',
+            "error" : 'Error'
+        }
     }
 };
