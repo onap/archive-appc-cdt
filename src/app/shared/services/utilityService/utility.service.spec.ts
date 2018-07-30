@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Modification Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -62,5 +64,13 @@ describe('UtilityService', () => {
         expect(service.checkResult(data)).toBeTruthy();
     }));
 
+    it('should retrive failure message on status 401', inject([UtilityService], (service: UtilityService) => {
+        let result = { output: {status: {code: '401'}}};
+        service.processApiSubscribe(result, 'getArtifact', '');
+    }));
 
+    it('should set success message on status 400', inject([UtilityService], (service: UtilityService) => {
+        let result = { output: {status: {code: '400'}}};
+        service.processApiSubscribe(result, 'getArtifact', '');
+    }));
 });
