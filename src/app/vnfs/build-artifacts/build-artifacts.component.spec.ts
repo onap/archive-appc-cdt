@@ -145,4 +145,16 @@ describe('BuildDesignComponent', () => {
 
         expect(spy).toHaveBeenCalled();
     });
+
+    it('Should test updateAccessUpdatePages method to call setAllowOtherUpdates with true', ()=> {
+        spyOn(component, 'setAllowOtherUpdates');        
+        component.updateAccessUpdatePages('config', [{'action' : 'configModify'}, {'action' : 'config'}]);
+        expect(component.setAllowOtherUpdates).toHaveBeenCalledWith(true);
+    });
+
+    it('Should test updateAccessUpdatePages method to call setAllowOtherUpdates with fasle', ()=> {
+        spyOn(component, 'setAllowOtherUpdates');        
+        component.updateAccessUpdatePages('config', [{'action' : 'configModify'}]);
+        expect(component.setAllowOtherUpdates).toHaveBeenCalledWith(false);
+    });
 });
