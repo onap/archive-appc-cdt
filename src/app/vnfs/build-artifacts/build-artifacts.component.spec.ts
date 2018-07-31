@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Modification Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -144,5 +146,17 @@ describe('BuildDesignComponent', () => {
         component.checkRefDataReqFields();
 
         expect(spy).toHaveBeenCalled();
+    });
+
+    it('Should test updateAccessUpdatePages method to call setAllowOtherUpdates with true', ()=> {
+        spyOn(component, 'setAllowOtherUpdates');        
+        component.updateAccessUpdatePages('config', [{'action' : 'configModify'}, {'action' : 'config'}]);
+        expect(component.setAllowOtherUpdates).toHaveBeenCalledWith(true);
+    });
+
+    it('Should test updateAccessUpdatePages method to call setAllowOtherUpdates with fasle', ()=> {
+        spyOn(component, 'setAllowOtherUpdates');        
+        component.updateAccessUpdatePages('config', [{'action' : 'configModify'}]);
+        expect(component.setAllowOtherUpdates).toHaveBeenCalledWith(false);
     });
 });
