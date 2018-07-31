@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Modification Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -23,11 +25,13 @@ limitations under the License.
 import { async, ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
 import { Http, HttpModule, ConnectionBackend, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/of';
+import { SimpleNotificationsModule, NotificationsService } from 'angular2-notifications';
+import { DialogService } from 'ng2-bootstrap-modal';
 
 import { AboutUsComponent } from './aboutus.component';
 
@@ -46,8 +50,8 @@ describe('ContacUsComponent', () => {
 
         TestBed.configureTestingModule({
             declarations: [AboutUsComponent],
-            imports: [HttpModule, NgbModule.forRoot()],
-            providers: [NgbModule, {
+            imports: [HttpModule, NgbModule.forRoot(), SimpleNotificationsModule.forRoot()],
+            providers: [NgbModule, DialogService, {
                 provide: Http, useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
                 return new Http(backend, defaultOptions);
                 }, deps: [MockBackend, BaseRequestOptions]
