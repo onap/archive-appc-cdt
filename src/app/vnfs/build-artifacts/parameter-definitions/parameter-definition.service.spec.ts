@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Modification Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -125,10 +127,17 @@ describe('ParameterDefinitionService', () => {
         service.downloadDataObject = {pd:{pdData:"", pdFileName:""}};
         service.destroy(displayParamObjects);
         expect(mappingEditorService.downloadDataObject.pd.pdData).toEqual(expectedPDdata);
-        //expect(mappingEditorService.appDataObject.pd).toEqual(expectedAppData);
-        
-
+        //expect(mappingEditorService.appDataObject.pd).toEqual(expectedAppData);        
+    
     }));
 
+    it('should test setValues method', inject([ParameterDefinitionService, ParamShareService, MappingEditorService], (service: ParameterDefinitionService, paramShareService: ParamShareService, mappingEditorService: MappingEditorService)=>{
+        service.setValues('vnfType-1', 'vnfcType-1', 'deviceProtocol', 'config', 'artifact-name');
+        expect(service.vnfType).toBe('vnfType-1');
+        expect(service.vnfcType).toBe('vnfcType-1');
+        expect(service.protocol).toBe('deviceProtocol');
+        expect(service.action).toBe('config');
+        expect(service.artifact_fileName).toBe('artifact-name');
+    }));
 
 });
