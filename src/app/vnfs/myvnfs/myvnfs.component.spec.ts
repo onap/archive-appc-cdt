@@ -167,5 +167,10 @@ describe('MyvnfsComponent', () => {
             console.log("code",block)
             expect(block).toBe(400);     
         });
-    }))
+    }));
+
+    it('should test navigateToReference', ()=>{
+        component.navigateToReference({paramData : 'data'});
+        expect(JSON.parse(sessionStorage.getItem('updateParams'))).toEqual({paramData : 'data'});
+    });
 });
