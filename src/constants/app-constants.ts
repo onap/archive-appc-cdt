@@ -31,7 +31,8 @@ export const appConstants = {
         "noDeviceProtocolError": "Select a valid Device Protocol",
         "noValidTemplateIdentifierError": "Select a valid Template Identifier",
         "noAction&VNFTypeInRDscreenError": "Please enter Action and VNF type in Reference Data screen",
-        "connectionError": "Error in connecting APPC Server"
+        "connectionError": "Error in connecting to APPC Server",
+        "multipleFileUploadError" : "Cannot upload multiple files on the entry"
     },
     "tabs": [
         {
@@ -75,7 +76,8 @@ export const appConstants = {
         "netconfXML": "NETCONF-XML",
         "rest": "REST",
         "cli": "CLI",
-        "restConf": "RESTCONF"
+        "restConf": "RESTCONF",
+        "openStack": "OpenStack"
     },
     "ruleTypeConfiguaration": {
         'vnf-name': [
@@ -176,7 +178,15 @@ export const appConstants = {
         "artifactRetrivalsuccessMessage" : 'Retrieved artifact successfully',
         "artifactRetrivalfailureMessage" : 'There is no artifact saved in APPC for the selected action!',
         "artifactUploadAction" : 'uploadArtifact',
-        "artifactgetAction" : 'getArtifact'
+        "artifactgetAction" : 'getArtifact',
+        "datafetched" : 'data fetched ',
+        "vmDataUploadSuccess" : 'Vm capabilities data uploaded successfully',
+        "emptyVmUpload" : 'Empty Vm capabilities file uploaded',
+        "incorrectVmUpload" : 'Incorrect VM capabilities file uploaded',
+        "artifactSaveError" : 'unable to save the artifact',
+        "referenceDataUplaodSuccess" : 'successfully uploaded the Reference Data',
+        "referenceDataUplaodFailure" : 'Error while saving Reference Data',
+        "incorrectFileFormat" : 'Incorrect file format'
     },
     "errorCode" : {
         "401" : '401',
@@ -186,7 +196,29 @@ export const appConstants = {
         "titles" : {
             "information" : 'Information',
             "success" : 'Success',
-            "error" : 'Error'
+            "error" : 'Error',
+            "status" : 'Status'
         }
+    },
+    "groupAnotationValue" : {
+        "blank" : '',
+        "pair" : 'Pair'
+    },
+    "groupAnotationType" : {
+        "blank" : '',
+        "firstVnfcName" : 'first-vnfc-name',
+        "fixedValue" : 'fixed-value',
+        "relativeValue" : 'relative-value',
+        "existingGroupName" : 'existing-group-name'
+    },
+    "deviceTemplates" : {
+        "blank" : '',
+        "y" : 'Y',
+        "n": 'N'
+    },
+    "sourceTypeColl" : {
+        "blank" : '',
+        "vnfType" : 'vnfType',
+        "vnfcType" : 'vnfcType'
     }
 };

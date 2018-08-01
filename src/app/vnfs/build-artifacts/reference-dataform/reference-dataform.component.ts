@@ -37,6 +37,7 @@ import { ParamShareService } from '../../..//shared/services/paramShare.service'
 import { environment } from '../../../../environments/environment';
 import { saveAs } from 'file-saver';
 import { UtilityService } from '../../../shared/services/utilityService/utility.service';
+import { appConstants } from '../../../../constants/app-constants';
 declare var $: any;
 type AOA = Array<Array<any>>;
 const REFERENCE_DATA:string= "reference_data";
@@ -112,12 +113,30 @@ export class ReferenceDataformComponent implements OnInit {
         'artifact-list': []
     };
     public refernceScopeObj = { sourceType: '', from: '', to: '' };
-    public actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
-    public groupAnotationValue = ['', 'Pair'];
-    public groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value'];
-    public deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'NETCONF-XML', 'REST', 'CLI', 'RESTCONF'];
-    public deviceTemplates = ['', 'Y', 'N'];
-    public sourceTypeColl = ['', 'vnfType', 'vnfcType'];
+    public actions = [ appConstants.Actions.blank, 
+                        appConstants.Actions.configure,
+                        appConstants.Actions.ConfigModify,
+                        appConstants.Actions.configBackup,
+                        appConstants.Actions.configRestore,
+                        appConstants.Actions.getRunningConfig,
+                        appConstants.Actions.healthCheck,
+                        appConstants.Actions.startApplication,
+                        appConstants.Actions.stopApplication,
+                        appConstants.Actions.quiesceTraffic,
+                        appConstants.Actions.resumeTraffic,
+                        appConstants.Actions.upgradeBackout,
+                        appConstants.Actions.upgradeBackup,
+                        appConstants.Actions.upgradePostCheck,
+                        appConstants.Actions.upgradePreCheck,
+                        appConstants.Actions.upgradeSoftware,
+                        appConstants.Actions.openStackActions,
+                        appConstants.Actions.configScaleOut
+                    ];
+    public groupAnotationValue = [appConstants.groupAnotationValue.blank, appConstants.groupAnotationValue.pair];
+    public groupAnotationType = [appConstants.groupAnotationType.blank, appConstants.groupAnotationType.firstVnfcName, appConstants.groupAnotationType.fixedValue, appConstants.groupAnotationType.relativeValue];
+    public deviceProtocols = [appConstants.DeviceProtocols.blank, appConstants.DeviceProtocols.ansible, appConstants.DeviceProtocols.chef, appConstants.DeviceProtocols.netconfXML, appConstants.DeviceProtocols.rest, appConstants.DeviceProtocols.cli, appConstants.DeviceProtocols.restConf];
+    public deviceTemplates = [appConstants.deviceTemplates.blank, appConstants.deviceTemplates.y, appConstants.deviceTemplates.n];
+    public sourceTypeColl = [appConstants.sourceTypeColl.blank, appConstants.sourceTypeColl.vnfType, appConstants.sourceTypeColl.vnfcType];
     public ipAddressBoolean = ['', 'Y', 'N'];
     public Sample: any = {
         'vnfc-instance': '1',
@@ -239,13 +258,13 @@ export class ReferenceDataformComponent implements OnInit {
                 data: data
             }).subscribe(resp => {
                 if (resp.output.data.block != undefined) {
-                    this.nService.success('Status', 'data fetched ');
+                    this.nService.success(appConstants.notifications.titles.status, appConstants.messages.datafetched);
                     let artifactInfo = JSON.parse(resp.output.data.block).artifactInfo[0];
                     let reference_data = JSON.parse(artifactInfo['artifact-content'])['reference_data'][0];
                     this.referenceDataObject = reference_data;
                     this.toggleIdentifier(this.referenceDataObject.action);
-                    if (this.referenceDataObject.action == 'ConfigScaleOut') {
-                        this.groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value', 'existing-group-name'];
+                    if (this.referenceDataObject.action == appConstants.Actions.configScaleOut) {
+                        this.groupAnotationType = [appConstants.groupAnotationType.blank, appConstants.groupAnotationType.firstVnfcName, appConstants.groupAnotationType.fixedValue, appConstants.groupAnotationType.relativeValue, appConstants.groupAnotationType.existingGroupName];
                     }
 
                     // Enable or Block Template and PD Tabs
@@ -254,8 +273,8 @@ export class ReferenceDataformComponent implements OnInit {
                     this.mappingEditorService.getReferenceList().push(JSON.parse(artifactInfo['artifact-content']));
                     this.tempAllData = JSON.parse(artifactInfo['artifact-content'])['reference_data'];
                     this.oldAction = this.referenceDataObject.action;
-                    if (this.referenceDataObject.action === 'OpenStack Actions') {
-                        this.deviceProtocols = ['', 'OpenStack'];
+                    if (this.referenceDataObject.action === appConstants.Actions.openStackActions) {
+                        this.deviceProtocols = [appConstants.DeviceProtocols.blank, appConstants.DeviceProtocols.openStack];
                         this.buildDesignComponent.tabs = [
                             {
 
@@ -449,7 +468,7 @@ export class ReferenceDataformComponent implements OnInit {
         this.uploadFileName = evt.target.files[0].name;
         var fileExtension = this.uploadFileName.substr(this.uploadFileName.lastIndexOf('.') + 1);
         if (target.files.length != 1) {
-            throw new Error('Cannot upload multiple files on the entry');
+            throw new Error(appConstants.errors.multipleFileUploadError);
         }
         if (fileExtension.toUpperCase() === 'XLS' || fileExtension.toUpperCase() === 'XLSX') {
             const reader = new FileReader();
@@ -474,17 +493,17 @@ export class ReferenceDataformComponent implements OnInit {
                 this.remUploadedDataArray = remUploadedDataArray;
                 if (arrData != null) {
                     this.getExcelUploadStatus = true;
-                    this.nService.success('Success', 'Vm capabilities data uploaded successfully');
+                    this.nService.success(appConstants.notifications.titles.success, appConstants.messages.vmDataUploadSuccess);
 
                 }
                 else {
-                    this.nService.success('Error', 'Empty Vm capabilities file uploaded');
+                    this.nService.success(appConstants.notifications.titles.error, appConstants.messages.emptyVmUpload);
                 }
             };
             reader.readAsBinaryString(target.files[0]);
         }
         else {
-            this.nService.error('Error', 'Incorrect VM capabilities file uploaded');
+            this.nService.error(appConstants.notifications.titles.error, appConstants.messages.incorrectVmUpload);
         }
 
     }
@@ -523,11 +542,11 @@ export class ReferenceDataformComponent implements OnInit {
     //download template
     save(form: any, isValid: boolean) {
         if (this.referenceDataObject.action === '') {
-            this.nService.error('Error', 'Select a valid Action');
+            this.nService.error(appConstants.notifications.titles.error, appConstants.errors.noActionError);
             return;
         }
         if (this.referenceDataObject['device-protocol'] === '') {
-            this.nService.error('Error', 'Select a valid Device protocol');
+            this.nService.error(appConstants.notifications.titles.error, appConstants.errors.noDeviceProtocolError);
             return;
         }
 
@@ -590,11 +609,11 @@ export class ReferenceDataformComponent implements OnInit {
 
     saveToAppc(valid, form, event) {
         if (this.referenceDataObject.action === '') {
-            this.nService.error('Error', 'Select a valid Action');
+            this.nService.error(appConstants.notifications.titles.error, appConstants.errors.noActionError);
             return;
         }
         if (this.referenceDataObject['device-protocol'] === '') {
-            this.nService.error('Error', 'Select a valid Device protocol');
+            this.nService.error(appConstants.notifications.titles.error, appConstants.errors.noDeviceProtocolError);
             return;
         }
 
@@ -625,7 +644,7 @@ export class ReferenceDataformComponent implements OnInit {
             }
         }
         catch (e) {
-            this.nService.warn('status', 'unable to save the artifact');
+            this.nService.warn(appConstants.notifications.titles.status, appConstants.messages.artifactSaveError);
         }
     }
 
@@ -654,17 +673,17 @@ export class ReferenceDataformComponent implements OnInit {
             url: environment.getDesigns,
             data: payload
         }).subscribe((resp) => {
-            if (resp != null && resp.output.status.code == '400') {
+            if (resp != null && resp.output.status.code == appConstants.errorCode["400"]) {
                 window.scrollTo(0, 0);
-                this.nService.success('Status', 'successfully uploaded the Reference Data');
+                this.nService.success(appConstants.notifications.titles.status, appConstants.messages.referenceDataUplaodSuccess);
             } else {
-                this.nService.warn('Status', 'Error while saving Reference Data');
+                this.nService.warn(appConstants.notifications.titles.status, appConstants.messages.referenceDataUplaodFailure);
             }
             this.uploadStatusError = false;
             this.getRefStatus = false;
             this.ngProgress.done();
         }, (err) => {
-            this.nService.error('Status', 'Error Connecting to the APPC Network');
+            this.nService.error(appConstants.notifications.titles.status, appConstants.errors.connectionError);
             window.scrollTo(0, 0);
         });
         this.appData.reference = payload;
@@ -759,7 +778,7 @@ export class ReferenceDataformComponent implements OnInit {
                         // Enable or Block Template and PD Tabs
                         this.buildDesignComponent.getRefData(this.referenceDataObject);
                     } catch (e) {
-                        this.nService.error('Error', 'Incorrect file format');
+                        this.nService.error(appConstants.notifications.titles.error, appConstants.messages.incorrectFileFormat);
                     }
                 }
                 this.hideModal = true;
