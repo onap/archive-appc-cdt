@@ -50,6 +50,7 @@ import { UtilityService } from '../shared/services/utilityService/utility.servic
 import { environment } from '../.././environments/environment';
 import { NgProgress } from 'ngx-progressbar';
 import { NgProgressModule } from 'ngx-progressbar';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 describe( 'TestComponent', () => {
     let component: TestComponent;
@@ -63,7 +64,8 @@ describe( 'TestComponent', () => {
             RouterTestingModule,
             SimpleNotificationsModule,
             HttpModule,
-            NgProgressModule
+            NgProgressModule,
+            NgxSpinnerModule
             ],
             providers: [
             NotificationService, 
