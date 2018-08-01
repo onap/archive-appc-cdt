@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_9cbd8905",
+        "filename": "src/app/about-us/aboutus.component.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-01T13:25:12Z",
+      "side": 1,
+      "message": "add IBM copyright",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 67
+      },
+      "revId": "14ac41e307ee180556e4ee7665dd6abee2e8460c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
