@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_9c0269b3",
+        "filename": "src/app/vnfs/userlogin-form/userlogin-form.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-01T13:43:47Z",
+      "side": 1,
+      "message": "sorry. should use\n\n\nModification Copyright (C) 2018 IBM.",
+      "range": {
+        "startLine": 6,
+        "startChar": 23,
+        "endLine": 6,
+        "endChar": 35
+      },
+      "revId": "f538c566f74ddb39364ecd38828eeff5e482de20",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
