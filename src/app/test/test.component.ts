@@ -20,8 +20,9 @@ limitations under the License.
 ============LICENSE_END============================================
 */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs/Subscription';
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -45,7 +46,7 @@ type AOA = Array<Array<any>>;
 declare var $: any;
 
 @Component({ selector: 'test', templateUrl: './test.component.html', styleUrls: ['./test.component.css'] })
-export class TestComponent implements OnInit {
+export class TestComponent implements OnInit, OnDestroy {
     public displayParamObjects;
     options = {
         timeOut: 1000,
@@ -102,6 +103,8 @@ export class TestComponent implements OnInit {
     public enableCounterDiv: boolean = false;
     public enableDownload: boolean = false;
     private userId = localStorage['userId'];
+    testVNFSubscription: Subscription;
+    pollTestStatusSubscription: Subscription;
     constructor (
     private location: Location, 
     private activeRoutes: ActivatedRoute, 
@@ -123,6 +126,10 @@ export class TestComponent implements OnInit {
 
     }
 
+    ngOnDestroy() {
+        if (this.testVNFSubscription) { this.testVNFSubscription.unsubscribe() };
+        if (this.pollTestStatusSubscription) { this.pollTestStatusSubscription.unsubscribe() };
+    }
 
     public download() {
         if (this.apiRequest) {
@@ -354,7 +361,7 @@ export class TestComponent implements OnInit {
         this.ngProgress.start();
         this.apiRequest = JSON.stringify(this.constructRequest());
 
-        this.httpUtil.post(
+        this.testVNFSubscription = this.httpUtil.post(
             {
                 url: environment.testVnf + "?urlAction=" + this.getUrlEndPoint(this.action.toLowerCase()),
                 data: this.apiRequest
@@ -406,7 +413,7 @@ export class TestComponent implements OnInit {
                     'payload': '{"request-id":' + this.requestId + '}'
                 }
             };
-            this.httpUtil.post(
+            this.pollTestStatusSubscription = this.httpUtil.post(
                 {
                     url: environment.checkTestStatus, data: data
 
