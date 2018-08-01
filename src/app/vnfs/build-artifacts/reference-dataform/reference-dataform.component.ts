@@ -37,6 +37,7 @@ import { ParamShareService } from '../../..//shared/services/paramShare.service'
 import { environment } from '../../../../environments/environment';
 import { saveAs } from 'file-saver';
 import { UtilityService } from '../../../shared/services/utilityService/utility.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $: any;
 type AOA = Array<Array<any>>;
 const REFERENCE_DATA:string= "reference_data";
@@ -167,7 +168,8 @@ export class ReferenceDataformComponent implements OnInit {
     private modalService: NgbModal, 
     private nService: NotificationsService, 
     private ngProgress: NgProgress,
-    private utilityService: UtilityService) {
+    private utilityService: UtilityService,
+    private spinner: NgxSpinnerService) {
     }
 
     ngOnInit() {
@@ -700,6 +702,7 @@ export class ReferenceDataformComponent implements OnInit {
         this.fileUploaded = true;
         this.disableRetrieve = true;
         if (input.target.files && input.target.files[0]) {
+            this.spinner.show();
             // Create the file reader
             let reader = new FileReader();
             this.readFile(input.target.files[0], reader, (result) => {
@@ -758,6 +761,10 @@ export class ReferenceDataformComponent implements OnInit {
                         }
                         // Enable or Block Template and PD Tabs
                         this.buildDesignComponent.getRefData(this.referenceDataObject);
+                        setTimeout(() => {
+                        /** spinner ends after 3.5 seconds */
+                        this.spinner.hide();
+          }, 3500);
                     } catch (e) {
                         this.nService.error('Error', 'Incorrect file format');
                     }
