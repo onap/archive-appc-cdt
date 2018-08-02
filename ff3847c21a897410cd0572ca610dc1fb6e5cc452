@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_42b06cf4",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-02T00:23:22Z",
+      "side": 1,
+      "message": "add IBM here",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 67
+      },
+      "revId": "ff3847c21a897410cd0572ca610dc1fb6e5cc452",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
