@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_5f87de0f",
+        "filename": "src/app/vnfs/build-artifacts/parameter-definitions/parameter-definition.service.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-02T13:50:11Z",
+      "side": 1,
+      "message": "pls add IBM",
+      "range": {
+        "startLine": 4,
+        "startChar": 66,
+        "endLine": 4,
+        "endChar": 67
+      },
+      "revId": "ac30d1bf8e6256ec4e5c04b665fe6ecd6c2187d3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
