@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_9fa6d6c0",
+        "filename": "src/app/test/test.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-02T13:44:48Z",
+      "side": 1,
+      "message": "should set private for two new variables?",
+      "range": {
+        "startLine": 107,
+        "startChar": 32,
+        "endLine": 107,
+        "endChar": 44
+      },
+      "revId": "92d7d81e99b7a19e54acf6550c9790f54ac15ae1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
