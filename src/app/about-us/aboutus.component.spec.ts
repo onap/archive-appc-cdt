@@ -39,12 +39,19 @@ class MockService {
     doStuff() {
         return this;
     }
+    get() {
+        return Observable.of(new Response(
+            new ResponseOptions({
+                body: "some data"
+              }
+            )));
+    }
 }
 
 describe('ContacUsComponent', () => {
     let component: AboutUsComponent;
     let fixture: ComponentFixture<AboutUsComponent>;
-   
+
     beforeEach(async(() => {
         let http = new MockService();
 
@@ -53,12 +60,12 @@ describe('ContacUsComponent', () => {
             imports: [HttpModule, NgbModule.forRoot(), SimpleNotificationsModule.forRoot()],
             providers: [NgbModule, DialogService, {
                 provide: Http, useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
-                return new Http(backend, defaultOptions);
+                    return new Http(backend, defaultOptions);
                 }, deps: [MockBackend, BaseRequestOptions]
             },
-            { provide: MockBackend, useClass: MockBackend },
-            { provide: BaseRequestOptions, useClass: BaseRequestOptions },
-            {provide: Http, useValue: http}]
+                { provide: MockBackend, useClass: MockBackend },
+                { provide: BaseRequestOptions, useClass: BaseRequestOptions },
+                { provide: Http, useValue: http }]
         }).compileComponents();
     }));
 
@@ -72,9 +79,12 @@ describe('ContacUsComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should open modal', inject([NgbModule],(ngbModule: NgbModule) => {
+    it('should open modal', inject([NgbModule, Http], (ngbModule: NgbModule, http: Http) => {
         let content = 'test';
-        component.open(content);
+        // component.open(content);
+        component.versionLogFile().subscribe((data) => {
+            expect(data).toBe('some Data');
+        });
     }));
 
     it('should download log file', () => {
@@ -83,4 +93,5 @@ describe('ContacUsComponent', () => {
         });
         component.downloadLogFile();
     });
+
 });
