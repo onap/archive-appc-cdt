@@ -95,11 +95,11 @@ describe('userloginFormComponent', () => {
         component.getData();
         const url = spy.calls.first().args[0];
 
-
-        expect(url.length).toBe(2);
-        expect(url[0]).toEqual('vnfs');
-
-        expect(url[1]).toEqual('list');
+        // return url is set to '/home' in mockActiveRoute.
+        expect(url.length).toBe(5);
+        expect(url[0]).toEqual('/');
+        expect(url[1]).toEqual('h');
+        expect(localStorage['userId']).toBe('test Usr');
     }));
 
 });
