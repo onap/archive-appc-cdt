@@ -1005,4 +1005,16 @@ describe('ReferenceDataformComponent', () => {
         let evnt = {target: {files: [file]}};
         component.upload(evnt);
     });
+
+    it('Should validatte fileChange method if file type is xml', async(() => {
+        let reader = new FileReader();
+        let content = "{data : 'Hello World'}";  
+        let data = new Blob([content], { type: 'text/plain' });  
+        let arrayOfBlob = new Array<Blob>();  
+        arrayOfBlob.push(data);  
+        let file = new File(arrayOfBlob, "Mock.XLS"); 
+        let input = {target: {files: [file]}};
+    
+        component.fileChange(input);
+      }));
 });
