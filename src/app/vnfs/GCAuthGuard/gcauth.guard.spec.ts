@@ -32,7 +32,7 @@ import { GCAuthGuardService } from './gcauth-guard.service';
 import {MappingEditorService} from '../../shared/services/mapping-editor.service';
 import { promise } from 'protractor';
 
-fdescribe('LogginGuard', () => {
+describe('LogginGuard', () => {
     let routerMock = {
         navigate: jasmine.createSpy('navigate')
     };
