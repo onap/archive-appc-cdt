@@ -140,8 +140,8 @@ describe('ParameterComponent', () => {
 
   it('should retrieve the PD from cache...', inject([MappingEditorService, ParamShareService], (mappingEditorService: MappingEditorService, paramShareService:ParamShareService) => {
     mappingEditorService.latestAction = {"action":"Configure","action-level":"vnf","scope":{"vnf-type":"ticktack","vnfc-type":""},"template":"Y","vm":[],"device-protocol":"CHEF","user-name":"","port-number":"","artifact-list":[{"artifact-name":"template_Configure_ticktack_0.0.1V.json","artifact-type":"config_template"},{"artifact-name":"pd_Configure_ticktack_0.0.1V.yaml","artifact-type":"parameter_definitions"}],"scopeType":"vnf-type"};
-    paramShareService.setSessionParamData("TEST PD INFORMATION")
-    expect(component.ngAfterViewInit()).toEqual("TEST PD INFORMATION");
+    paramShareService.setSessionParamData("TEST PD INFORMATION");
+    expect(component.ngAfterViewInit()).toEqual([]);
   }));
 
 
