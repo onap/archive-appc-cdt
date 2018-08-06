@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_ae311d0d",
+        "filename": "src/app/shared/directives/dropdownopen.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-06T12:49:12Z",
+      "side": 1,
+      "message": "no license header",
+      "range": {
+        "startLine": 1,
+        "startChar": 44,
+        "endLine": 1,
+        "endChar": 46
+      },
+      "revId": "1c00cbb1ffea8e78ec9639f4b47dcd39fc630a8e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
