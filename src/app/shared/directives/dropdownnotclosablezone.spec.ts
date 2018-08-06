@@ -16,8 +16,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -25,12 +23,16 @@ import { TestBed } from '@angular/core/testing';
 import { DropdownNotClosableZone } from './dropdownnotclosablezone';
 import { ElementRef } from '@angular/core';
 
+class MockElementRef implements ElementRef {
+    nativeElement = {};
+  }
 
 describe('DropdownNotClosableZone', () => {
     let directive;
     beforeEach(() => {
         TestBed.configureTestingModule({
-          declarations: [DropdownNotClosableZone]
+          declarations: [DropdownNotClosableZone],
+          providers: [{ provide: ElementRef, useClass: new MockElementRef() }]
         });
     });
 
@@ -49,4 +51,11 @@ describe('DropdownNotClosableZone', () => {
 
          
      });
+
+     it('should test contains method to return false', ()=>{
+        directive.dropdownNotClosabledZone = false;
+        let el: HTMLElement;
+        expect(directive.contains(el)).toBe(false);
+     });
+
 });
