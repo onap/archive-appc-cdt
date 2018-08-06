@@ -73,4 +73,14 @@ describe('UtilityService', () => {
         let result = { output: {status: {code: '400'}}};
         service.processApiSubscribe(result, 'getArtifact', '');
     }));
+
+    it('should set warning message on status 401 and artifact upload', inject([UtilityService], (service: UtilityService) => {
+        let result = { output: {status: {code: '401'}}};
+        service.processApiSubscribe(result, 'uploadArtifact', '');
+    }));
+
+    it('should set suceess message on status 400 and artifact upload', inject([UtilityService], (service: UtilityService) => {
+        let result = { output: {status: {code: '400'}}};
+        service.processApiSubscribe(result, 'uploadArtifact', '');
+    }));
 });
