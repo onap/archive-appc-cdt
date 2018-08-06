@@ -27,7 +27,7 @@ import {CommonModule} from '@angular/common';
 import 'rxjs/Rx';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GCAuthGuardService } from './gcauth-guard.service';
 import {MappingEditorService} from '../../shared/services/mapping-editor.service';
 import { promise } from 'protractor';
@@ -50,9 +50,20 @@ describe('LogginGuard', () => {
         loggedInGuard = TestBed.get(GCAuthGuardService);
     });
 
-    it('be able to hit route when user is logged in', inject([GCAuthGuardService, MappingEditorService], (service: GCAuthGuardService, mapService: MappingEditorService) => {
+    it('be able to return true when referenceNameObjects is defined', inject([GCAuthGuardService, MappingEditorService], (service: GCAuthGuardService, mapService: MappingEditorService) => {
         localStorage['userId'] = 'abc@xyz.com';
         mapService.referenceNameObjects = { data : 'data'};
+        let route : ActivatedRouteSnapshot;
+        let state: RouterStateSnapshot;
+        service.canActivate(route, state).then((value)=>{
+            expect(value).toBe(true);
+        })
+    }));
+
+    it('stop routing if referenceNameObjects is not defined', inject([GCAuthGuardService, MappingEditorService, NgbModal], (service: GCAuthGuardService, mapService: MappingEditorService, ngbModal: NgbModal) => {
+        localStorage['userId'] = 'abc@xyz.com';
+        mapService.referenceNameObjects = undefined;
+       let spy =  spyOn(NgbModal.prototype, 'open').and.returnValue(Promise.resolve(true));
         let route : ActivatedRouteSnapshot;
         let state: RouterStateSnapshot;
         service.canActivate(route, state).then((value)=>{
