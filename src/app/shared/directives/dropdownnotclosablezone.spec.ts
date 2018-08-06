@@ -25,12 +25,16 @@ import { TestBed } from '@angular/core/testing';
 import { DropdownNotClosableZone } from './dropdownnotclosablezone';
 import { ElementRef } from '@angular/core';
 
+class MockElementRef implements ElementRef {
+    nativeElement = {};
+  }
 
 describe('DropdownNotClosableZone', () => {
     let directive;
     beforeEach(() => {
         TestBed.configureTestingModule({
-          declarations: [DropdownNotClosableZone]
+          declarations: [DropdownNotClosableZone],
+          providers: [{ provide: ElementRef, useClass: new MockElementRef() }]
         });
     });
 
@@ -49,4 +53,11 @@ describe('DropdownNotClosableZone', () => {
 
          
      });
+
+     it('should test contains method to return false', ()=>{
+        directive.dropdownNotClosabledZone = false;
+        let el: HTMLElement;
+        expect(directive.contains(el)).toBe(false);
+     });
+
 });
