@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_2e5e6d46",
+        "filename": "src/app/shared/directives/dropdownnotclosablezone.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-06T12:48:26Z",
+      "side": 1,
+      "message": "add IBM",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 67
+      },
+      "revId": "32d10678635eeda8665f0d32ea69a0785c6b6c27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4e5ba954",
+        "filename": "src/app/shared/directives/dropdownnotclosablezone.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-06T12:48:26Z",
+      "side": 1,
+      "message": "remove ECOMP line",
+      "range": {
+        "startLine": 20,
+        "startChar": 45,
+        "endLine": 20,
+        "endChar": 46
+      },
+      "revId": "32d10678635eeda8665f0d32ea69a0785c6b6c27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
