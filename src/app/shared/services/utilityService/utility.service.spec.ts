@@ -18,8 +18,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -72,5 +70,15 @@ describe('UtilityService', () => {
     it('should set success message on status 400', inject([UtilityService], (service: UtilityService) => {
         let result = { output: {status: {code: '400'}}};
         service.processApiSubscribe(result, 'getArtifact', '');
+    }));
+
+    it('should set warning message on status 401 and artifact upload', inject([UtilityService], (service: UtilityService) => {
+        let result = { output: {status: {code: '401'}}};
+        service.processApiSubscribe(result, 'uploadArtifact', '');
+    }));
+
+    it('should set suceess message on status 400 and artifact upload', inject([UtilityService], (service: UtilityService) => {
+        let result = { output: {status: {code: '400'}}};
+        service.processApiSubscribe(result, 'uploadArtifact', '');
     }));
 });
