@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_8e40e157",
+        "filename": "src/app/shared/services/utilityService/utility.service.spec.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-06T12:49:42Z",
+      "side": 1,
+      "message": "remove ECOMP line",
+      "range": {
+        "startLine": 22,
+        "startChar": 67,
+        "endLine": 22,
+        "endChar": 68
+      },
+      "revId": "e719b85d6a9c2f4e71340448d63c1820720b05a1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
