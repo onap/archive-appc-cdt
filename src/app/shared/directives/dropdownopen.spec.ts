@@ -48,4 +48,20 @@ describe('DropdownOpen', () => {
         directive.onFocus();
 
     });
+
+    it('should test toggle function to call close function', ()=>{
+       spyOn(Dropdown.prototype, 'isOpened').and.returnValue(true);
+       let spy = spyOn(directive, 'close');
+       directive.toggle();
+       expect(spy).toHaveBeenCalled();
+
+    });
+
+    it('should test toggle function to call open function', ()=>{
+        spyOn(Dropdown.prototype, 'isOpened').and.returnValue(false);
+        let spy = spyOn(directive, 'open');
+        directive.toggle();
+        expect(spy).toHaveBeenCalled();
+ 
+     });
 });
