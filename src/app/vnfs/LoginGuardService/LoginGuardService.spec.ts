@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -16,8 +16,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -56,5 +54,12 @@ describe('LogginGuard', () => {
         let route : ActivatedRouteSnapshot;
         let state: RouterStateSnapshot;
         expect(service.canActivate(route, state)).toBe(true);
+    }));
+
+    it('be able to navigate to login page when user is not logged in', inject([LoginGuardService], (service: LoginGuardService) => {
+        localStorage['userId'] = '';
+        let route : ActivatedRouteSnapshot;
+        let mockSnapshot:any = jasmine.createSpyObj<RouterStateSnapshot>("RouterStateSnapshot", ['toString']);
+        expect(service.canActivate(route, mockSnapshot)).toBe(false);
     }));
 });
