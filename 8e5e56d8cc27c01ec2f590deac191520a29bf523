@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_6710034f",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-07T19:46:59Z",
+      "side": 1,
+      "message": "where is the setTimeout()? where 3.5 seconds is coming from? any reason?",
+      "range": {
+        "startLine": 784,
+        "startChar": 58,
+        "endLine": 784,
+        "endChar": 59
+      },
+      "revId": "8e5e56d8cc27c01ec2f590deac191520a29bf523",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
