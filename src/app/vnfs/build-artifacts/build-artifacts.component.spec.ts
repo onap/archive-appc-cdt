@@ -159,4 +159,13 @@ describe('BuildDesignComponent', () => {
         component.updateAccessUpdatePages('config', [{'action' : 'configModify'}]);
         expect(component.setAllowOtherUpdates).toHaveBeenCalledWith(false);
     });
+
+    it('Should notify error message if no valid template identifier', () => {
+        let spy = spyOn(NotificationsService.prototype, 'error');
+        component.refList = {"action": "ConfigScaleOut", "scope": {"vnf-type": "test 1"}, "device-protocol": ""};
+
+        component.checkRefDataReqFields();
+
+        expect(spy).toHaveBeenCalled();
+    });
 });
