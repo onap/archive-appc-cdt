@@ -81,4 +81,14 @@ describe('UtilityService', () => {
         let result = { output: {status: {code: '400'}}};
         service.processApiSubscribe(result, 'uploadArtifact', '');
     }));
+
+    it('should test checkNotNull function to return false on undefined object', inject([UtilityService], (service: UtilityService) => {
+        let obj;
+        expect(service.checkNotNull(obj)).toBe(false);
+    }));
+
+    it('should test checkNotNull function to return true on defined objects', inject([UtilityService], (service: UtilityService) => {
+        let obj = [{data : 'data'}];
+        expect(service.checkNotNull(obj)).toBe(true);
+    }));
 });
