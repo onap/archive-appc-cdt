@@ -1017,4 +1017,11 @@ describe('ReferenceDataformComponent', () => {
     
         component.fileChange(input);
       }));
+
+      it('Should test openModel function to set proper values', () => {
+         component.openModel(true, 'toShowMessage', 'title');
+         expect(component.modalComponent.isShow).toBe(true);
+         expect(component.modalComponent.message).toBe('toShowMessage');
+         expect(component.modalComponent.title).toBe('title');
+      });
 });
