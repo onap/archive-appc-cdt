@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -17,7 +19,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -41,5 +42,17 @@ describe('TableFilterPipe', () => {
         ]
         let filter = ['vnf-type', 'vnfc-type', 'artifact-name'];
         expect(pipe.transform(data,'vnf1',filter).length).toBe(1);
+    });
+
+    it('should return entire array when no query is passed..', () => {
+        const pipe = new TableFilterPipe();
+
+        let data =[
+            {'vnf-type':'vnf1','vnfc-type':'vnfc1','artifact-name':'artf1'},
+            {'vnf-type':'vnf2','vnfc-type':'vnfc2','artifact-name':'artf2'}
+          
+        ]
+        let filter = ['vnf-type', 'vnfc-type', 'artifact-name'];
+        expect(pipe.transform(data, null, filter).length).toBe(2);
     });
 });
