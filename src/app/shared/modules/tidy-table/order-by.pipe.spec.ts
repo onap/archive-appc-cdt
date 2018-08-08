@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -17,7 +19,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 import {OrderBy} from './order-by.pipe';
@@ -58,5 +59,16 @@ describe('OrderByPipe', () => {
           
         ]
         expect(pipe.transform(data,"vnf-type",false)[0]['vnf-type']).toBe('vnf2');
+    });
+
+    it('should return whole array when orderby paramater is not set', () => {
+        const pipe = new OrderBy();
+
+        let data =[
+            {'vnf-type':undefined,'vnfc-type':'vnfc1','artifact-name':'artf1'},
+            {'vnf-type':'vnf2','vnfc-type':'vnfc2','artifact-name':'artf2'}
+          
+        ]
+        expect(pipe.transform(data,undefined,false).length).toBe(2);
     });
 });
