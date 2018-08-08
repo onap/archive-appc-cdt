@@ -32,7 +32,9 @@ export const appConstants = {
         "noValidTemplateIdentifierError": "Select a valid Template Identifier",
         "noAction&VNFTypeInRDscreenError": "Please enter Action and VNF type in Reference Data screen",
         "connectionError": "Error in connecting to APPC Server",
-        "multipleFileUploadError" : "Cannot upload multiple files on the entry"
+        "multipleFileUploadError" : "Cannot upload multiple files on the entry",
+        "notTxtFileError" : "Uploaded file is not a TXT file",
+        "notYAMLFileError" : "Uploaded file is not a YAML file"
     },
     "tabs": [
         {

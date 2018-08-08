@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -16,8 +18,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -31,6 +31,7 @@ import {HttpUtilService} from '../../../shared/services/httpUtil/http-util.servi
 import {UtilityService} from '../../../shared/services/utilityService/utility.service';
 import {NotificationsService} from 'angular2-notifications';
 import 'rxjs/add/operator/map';
+import { appConstants } from '../../../../constants/app-constants';
 
 let YAML = require('yamljs');
 
@@ -429,7 +430,7 @@ export class ParameterDefinitionService {
     public processKeyFile(fileName, result) {
         this.myKeyFileName = fileName;
         if (!this.myKeyFileName.endsWith('.txt')) {
-            this.nService.error('Error', 'Uploaded file is not a TXT file');
+            this.nService.error(appConstants.notifications.titles.error, appConstants.errors.notTxtFileError);
         }
         this.parameterDefinitionMap = {};
         var rows = result.split(/\r\n|\r|\n/g);
@@ -463,7 +464,7 @@ export class ParameterDefinitionService {
     public processPDfile(fileName, result) {
         this.myPdFileName = fileName;
         if (!this.myPdFileName.endsWith('.yaml')) {
-            this.nService.error('Error', 'Uploaded file is not a YAML file');
+            this.nService.error(appConstants.notifications.titles.error, appConstants.errors.notYAMLFileError);
         }
         var pdObject = YAML.parse(result);
         let fileModel = pdObject['vnf-parameter-list'];
