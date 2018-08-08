@@ -22,6 +22,30 @@
       "revId": "8e5e56d8cc27c01ec2f590deac191520a29bf523",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3ddbf8ee",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-08T09:44:28Z",
+      "side": 1,
+      "message": "setTimeOut is an in built angular2 function. This will serve as a timeout for the progress spinner. The progress spinner will stop after 3.5 seconds. \nAlso, 3.5 seconds is the standard timeout duration that has been implemented at all places in CDT application.",
+      "parentUuid": "1a76adc5_6710034f",
+      "range": {
+        "startLine": 784,
+        "startChar": 58,
+        "endLine": 784,
+        "endChar": 59
+      },
+      "revId": "8e5e56d8cc27c01ec2f590deac191520a29bf523",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
