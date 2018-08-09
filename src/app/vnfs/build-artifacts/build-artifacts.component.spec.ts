@@ -168,4 +168,13 @@ describe('BuildDesignComponent', () => {
 
         expect(spy).toHaveBeenCalled();
     });
+
+    it('Should notify error message if action, deviceprotocol and scope are blank ', () => {
+        let spy = spyOn(NotificationsService.prototype, 'error');
+        component.refList = {"action": "", "scope": {"vnf-type": ""}, "device-protocol": ""};
+
+        component.checkRefDataReqFields();
+
+        expect(spy).toHaveBeenCalled();
+    });
 });
