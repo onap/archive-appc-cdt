@@ -302,5 +302,10 @@ describe('MappingEditorService', () => {
         service.getReferenceList();
     });
 
+    it('should test getKeysForValues function to return key value', ()=>{        
+        service.paramContent = '{"Value":"value","key":"key"}';
+        let value = service.getKeysForValues('value');
+        expect(value).toBe('Value');
+    });
 });
 
