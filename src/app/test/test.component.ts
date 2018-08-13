@@ -25,7 +25,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NotificationService } from '.././shared/services/notification.service';
 import { ParamShareService } from '.././shared/services/paramShare.service';
 import { MappingEditorService } from '.././shared/services/mapping-editor.service';
 import { NotificationsService } from 'angular2-notifications';
@@ -104,8 +103,7 @@ export class TestComponent implements OnInit {
     private userId = localStorage['userId'];
     constructor (
     private location: Location, 
-    private activeRoutes: ActivatedRoute, 
-    private notificationService: NotificationService, 
+    private activeRoutes: ActivatedRoute,
     private nService: NotificationsService, 
     private router: Router, 
     private paramShareService: ParamShareService, 
