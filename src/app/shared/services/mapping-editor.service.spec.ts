@@ -307,5 +307,11 @@ describe('MappingEditorService', () => {
         let value = service.getKeysForValues('value');
         expect(value).toBe('Value');
     });
+
+    it('should call refreshEditor() function', ()=> {
+        let spy = spyOn(MappingEditorService.prototype, 'refreshEditor');      
+        service.handlekeyCompletion();
+        expect(spy).toHaveBeenCalled();
+    });
 });
 
