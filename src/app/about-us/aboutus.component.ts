@@ -28,7 +28,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { NotificationsService } from 'angular2-notifications';
 import { saveAs } from 'file-saver';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../shared/confirmModal/confirm.component';
 import { appConstants } from '../../constants/app-constants';
@@ -54,7 +53,7 @@ export class AboutUsComponent implements OnInit, OnDestroy {
         maxLength: 200
     };
 
-    constructor(private http: Http, private modalService: NgbModal, private dialogService: DialogService, private notificationsService: NotificationsService) {
+    constructor(private http: Http, private dialogService: DialogService, private notificationsService: NotificationsService) {
     }
 
     ngOnInit() {
@@ -102,15 +101,4 @@ export class AboutUsComponent implements OnInit, OnDestroy {
         });
         saveAs(blob, 'versionLog.txt');
     }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
-        } else {
-            return `with: ${reason}`;
-        }
-    }
-
 }
