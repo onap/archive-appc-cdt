@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -21,7 +23,6 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================ */
 
 import {Component, OnInit} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-auth-guard-modal',
@@ -30,7 +31,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AuthGuardModalComponent implements OnInit {
 
-    constructor(public activeModal: NgbActiveModal) {
+    constructor() {
     }
 
     ngOnInit() {
