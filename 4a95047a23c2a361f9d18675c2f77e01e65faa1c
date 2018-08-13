@@ -1,0 +1,7 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Takamune Cho <tc012c@att.com>
+Submitted-by: Takamune Cho <tc012c@att.com>
+Submitted-at: Mon, 13 Aug 2018 23:52:43 +0000
+Reviewed-on: https://gerrit.onap.org/r/60241
+Project: appc/cdt
+Branch: refs/heads/master
