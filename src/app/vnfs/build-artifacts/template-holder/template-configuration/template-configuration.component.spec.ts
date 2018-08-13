@@ -378,6 +378,8 @@ describe('GoldenConfigurationComponent', () => {
 
   // fileChange method
   it('Should validatte fileChange method if file type is xml', async(() => {
+    fixture = TestBed.createComponent(GoldenConfigurationComponent);
+    component = fixture.componentInstance;
     let reader = new FileReader();
     let file = new File(["testing"], "foo.xml", { type: "text/xml" });
     let input = { files: [file] };
@@ -393,6 +395,8 @@ describe('GoldenConfigurationComponent', () => {
   }));
 
   it('Should validatte fileChange method if file type is json', async(() => {
+    fixture = TestBed.createComponent(GoldenConfigurationComponent);
+    component = fixture.componentInstance;
     let reader = new FileReader();
     let file = new File(["testing"], "foo.json", { type: "text/json" });
     let input = { files: [file] };
@@ -408,6 +412,8 @@ describe('GoldenConfigurationComponent', () => {
   }));
 
   it('Should validatte fileChange method if file type is none ', async(() => {
+    fixture = TestBed.createComponent(GoldenConfigurationComponent);
+    component = fixture.componentInstance;
     let reader = new FileReader();
     let file = new File(["testing"], "foo", { type: "" });
     let input = { files: [file] };
@@ -424,6 +430,8 @@ describe('GoldenConfigurationComponent', () => {
   }));
 
   it('Should validate if files is false', () => {
+   fixture = TestBed.createComponent(GoldenConfigurationComponent);
+   component = fixture.componentInstance;
     let spy = spyOn(NotificationsService.prototype, 'error');
     let reader = new FileReader();
     let input = { files: [] };
@@ -435,6 +443,8 @@ describe('GoldenConfigurationComponent', () => {
   });
 
   it('Should validate if refObj is undefined', () => {
+    fixture = TestBed.createComponent(GoldenConfigurationComponent);
+    component = fixture.componentInstance;
     let spy = spyOn(NotificationsService.prototype, 'error');
     let reader = new FileReader();
     let input = { files: [] };
