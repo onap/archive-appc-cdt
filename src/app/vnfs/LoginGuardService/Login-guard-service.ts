@@ -3,7 +3,7 @@
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 
-Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -24,12 +24,11 @@ limitations under the License.
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {Injectable} from '@angular/core';
-import {MappingEditorService} from '../../shared/services/mapping-editor.service';
 
 @Injectable()
 export class LoginGuardService implements CanActivate {
 
-    constructor(private mapService: MappingEditorService, private router: Router) {
+    constructor(private router: Router) {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
