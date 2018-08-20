@@ -1,9 +1,9 @@
-/* 
+/*
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 
-Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -33,7 +33,7 @@ export interface ConfirmModel {
 }
 
 @Component({
-    selector: 'confirm',
+    selector: 'app-confirm',
     template: `
         <div class="modal-dialog">
             <div class="modal-content">
@@ -45,8 +45,14 @@ export interface ConfirmModel {
                     <p>{{message}}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="confirm()">{{confirmButtonText}}</button>
-                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="cancel()">{{cancelButtonText}}</button>
+                    <button type="button"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                            (click)="confirm()">{{confirmButtonText}}
+                    </button>
+                    <button type="button"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary"
+                            (click)="cancel()">{{cancelButtonText}}
+                    </button>
                 </div>
             </div>
         </div>`
