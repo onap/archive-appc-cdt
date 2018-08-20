@@ -27,5 +27,5 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 // export * from './TemplateResponse';
 export * from './Notification';
 export * from './ArtifactRequest';
-//export * from './ArtifactResponse';
+// export * from './ArtifactResponse';
 export * from './ConfigMapping';
