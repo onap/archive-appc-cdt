@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -27,5 +29,5 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 // export * from './TemplateResponse';
 export * from './Notification';
 export * from './ArtifactRequest';
-//export * from './ArtifactResponse';
+// export * from './ArtifactResponse';
 export * from './ConfigMapping';
