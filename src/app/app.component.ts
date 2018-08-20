@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -21,15 +23,15 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
-import {Component} from '@angular/core';
-import {MappingEditorService} from './shared/services/mapping-editor.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MappingEditorService } from './shared/services/mapping-editor.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
     title = 'app works!';
     item: any = {};
     subscription: any;
