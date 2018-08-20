@@ -21,9 +21,9 @@ limitations under the License.
 ============LICENSE_END============================================
 */
 
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class LoginGuardService implements CanActivate {
@@ -33,11 +33,11 @@ export class LoginGuardService implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-        let userId = localStorage['userId'];
-        if (userId != null && userId != undefined && userId != '') {
+        const userId = localStorage['userId'];
+        if (userId !== null && userId !== undefined && userId !== '') {
             return true;
         } else {
-            this.router.navigate(['/vnfs/login'],{ queryParams: { returnUrl: state.url }});
+            this.router.navigate(['/vnfs/login'], { queryParams: { returnUrl: state.url } });
             return false;
         }
 
