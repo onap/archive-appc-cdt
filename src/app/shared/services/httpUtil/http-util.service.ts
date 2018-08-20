@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -27,7 +29,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 @Injectable()
 export class HttpUtilService {
     headers: Headers;
-    options: RequestOptions
+    options: RequestOptions;
     private username = require('../../../cdt.application.properties.json').username;
     private password = require('../../../cdt.application.properties.json').password;
     constructor(private http: Http) {
@@ -39,7 +41,7 @@ export class HttpUtilService {
         return this
             .http
             .get(req.url, this.options)
-            .map((res: Response) => res.json())
+            .map((res: Response) => res.json());
     }
 
     post(req) {
@@ -48,7 +50,7 @@ export class HttpUtilService {
         return this
             .http
             .post(req.url, req.data, this.options)
-            .map((res: Response) => res.json())
+            .map((res: Response) => res.json());
     }
 
 }
