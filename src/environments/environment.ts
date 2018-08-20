@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -27,7 +29,7 @@ limitations under the License.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
     production: false,
-    //Environment for PROD
+    // Environment for PROD
 
     /*  getDesigns: 'http://' + window.location.hostname + ':8282/restconf/operations/design-services:dbservice',
      validateTemplate: 'http://' + window.location.hostname + ':8282/restconf/operations/design-services:validator',
