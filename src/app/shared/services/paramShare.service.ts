@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -29,7 +31,7 @@ export class ParamShareService {
 
     public sharedData: { [index: string]: string; } = {};
 
-    //Stubbing Name-Value pairs for templateData->will come from Template Generation Component/Editor
+    // Stubbing Name-Value pairs for templateData->will come from Template Generation Component/Editor
     public templateData: {};
     public displayData: {};
     public paramData = [];
@@ -45,7 +47,7 @@ export class ParamShareService {
 
     setTemplateData1() {
         /* Stubbing **/
-        var paramData = [
+        const paramData = [
             {paramName: 'A-IP', paramValue: '234'},
             {paramName: 'B-IP', paramValue: '10.168.15.15'},
             {paramName: 'C-IP', paramValue: '100.168.150.15'},
