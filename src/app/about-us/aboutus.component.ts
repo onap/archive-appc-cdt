@@ -3,7 +3,7 @@
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 
-Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
+Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -83,20 +83,20 @@ export class AboutUsComponent implements OnInit, OnDestroy {
                     confirmButtonText: 'DOWNLOAD'
                 }).subscribe(isConfirmed => {
                     if (isConfirmed) {
-                        this.downloadLogFile()
+                        this.downloadLogFile();
                     } else {
                         // do nothing
                     }
                 });
 
             },
-        (error)=>{
-            this.notificationsService.error(appConstants.errors.error, 'unable to fetch change log details');
-        });
+                (error) => {
+                    this.notificationsService.error(appConstants.errors.error, 'unable to fetch change log details');
+                });
     }
 
     downloadLogFile() {
-        var blob = new Blob([this.data], {
+        const blob = new Blob([this.data], {
             type: 'text/plain;charset=utf-8'
         });
         saveAs(blob, 'versionLog.txt');
