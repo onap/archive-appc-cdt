@@ -12,7 +12,7 @@ You may obtain a copy of the License at
     http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
+distributed under the License is distributed on an 'AS IS' BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
@@ -23,20 +23,20 @@ limitations under the License.
 
 
 export const appConstants = {
-    "errors": {
-        "error": "Error",
-        "noActionVnfProtocolError": "Select Valid Action, VNF Type, Device Protocol",
-        "noActionError": "Select a valid Action",
-        "noVnfTypeError": "Select a valid VNF Type",
-        "noDeviceProtocolError": "Select a valid Device Protocol",
-        "noValidTemplateIdentifierError": "Select a valid Template Identifier",
-        "noAction&VNFTypeInRDscreenError": "Please enter Action and VNF type in Reference Data screen",
-        "connectionError": "Error in connecting to APPC Server",
-        "multipleFileUploadError" : "Cannot upload multiple files on the entry",
-        "notTxtFileError" : "Uploaded file is not a TXT file",
-        "notYAMLFileError" : "Uploaded file is not a YAML file"
+    'errors': {
+        'error': 'Error',
+        'noActionVnfProtocolError': 'Select Valid Action, VNF Type, Device Protocol',
+        'noActionError': 'Select a valid Action',
+        'noVnfTypeError': 'Select a valid VNF Type',
+        'noDeviceProtocolError': 'Select a valid Device Protocol',
+        'noValidTemplateIdentifierError': 'Select a valid Template Identifier',
+        'noAction&VNFTypeInRDscreenError': 'Please enter Action and VNF type in Reference Data screen',
+        'connectionError': 'Error in connecting to APPC Server',
+        'multipleFileUploadError' : 'Cannot upload multiple files on the entry',
+        'notTxtFileError' : 'Uploaded file is not a TXT file',
+        'notYAMLFileError' : 'Uploaded file is not a YAML file'
     },
-    "tabs": [
+    'tabs': [
         {
             type: 'dropdown',
             name: 'Reference Data',
@@ -51,37 +51,37 @@ export const appConstants = {
             url: 'parameterDefinitions/create'
         }
     ],
-    "Actions": {
-        "blank": '',
-        "configure": "Configure",
-        "ConfigModify": "ConfigModify",
-        "configBackup": "ConfigBackup",
-        "configRestore": "ConfigRestore",
-        "getRunningConfig": "GetRunningConfig",
-        "healthCheck": "HealthCheck",
-        "startApplication": "StartApplication",
-        "stopApplication": "StopApplication",
-        "quiesceTraffic": "QuiesceTraffic",
-        "resumeTraffic": "ResumeTraffic",
-        "upgradeBackout": "UpgradeBackout",
-        "upgradeBackup": "UpgradeBackup",
-        "upgradePostCheck": "UpgradePostCheck",
-        "upgradePreCheck": "UpgradePreCheck",
-        "upgradeSoftware": "UpgradeSoftware",
-        "openStackActions": "OpenStack Actions",
-        "configScaleOut": "ConfigScaleOut"
+    'Actions': {
+        'blank': '',
+        'configure': 'Configure',
+        'ConfigModify': 'ConfigModify',
+        'configBackup': 'ConfigBackup',
+        'configRestore': 'ConfigRestore',
+        'getRunningConfig': 'GetRunningConfig',
+        'healthCheck': 'HealthCheck',
+        'startApplication': 'StartApplication',
+        'stopApplication': 'StopApplication',
+        'quiesceTraffic': 'QuiesceTraffic',
+        'resumeTraffic': 'ResumeTraffic',
+        'upgradeBackout': 'UpgradeBackout',
+        'upgradeBackup': 'UpgradeBackup',
+        'upgradePostCheck': 'UpgradePostCheck',
+        'upgradePreCheck': 'UpgradePreCheck',
+        'upgradeSoftware': 'UpgradeSoftware',
+        'openStackActions': 'OpenStack Actions',
+        'configScaleOut': 'ConfigScaleOut'
     },
-    "DeviceProtocols": {
-        "blank": '',
-        "ansible": "ANSIBLE",
-        "chef": "CHEF",
-        "netconfXML": "NETCONF-XML",
-        "rest": "REST",
-        "cli": "CLI",
-        "restConf": "RESTCONF",
-        "openStack": "OpenStack"
+    'DeviceProtocols': {
+        'blank': '',
+        'ansible': 'ANSIBLE',
+        'chef': 'CHEF',
+        'netconfXML': 'NETCONF-XML',
+        'rest': 'REST',
+        'cli': 'CLI',
+        'restConf': 'RESTCONF',
+        'openStack': 'OpenStack'
     },
-    "ruleTypeConfiguaration": {
+    'ruleTypeConfiguaration': {
         'vnf-name': [
             {
                 'key-name': 'unique-key-name',
@@ -153,74 +153,74 @@ export const appConstants = {
             }
         ]
     },
-    "ruleTypeValues": [null, 'vnf-name', 'vm-name-list', 'vnfc-name-list', 'vnf-oam-ipv4-address', 'vnfc-oam-ipv4-address-list'],
-    "typeValues": [null, 'ipv4-address', 'ipv6-address', 'ipv4-prefix', 'ipv6-prefix'],
-    "responseKeyNameValues": ['', 'unique-key-name', 'unique-key-value', 'field-key-name'],
-    "responseKeyValues": ['(none)', 'addressfqdn', 'ipaddress-v4', 'ipaddress-v6'],
-    "requestKeyNameValues": [''],
-    "requestKeyValues": ['', '(none)'],
-    "sourceValues": ['Manual', 'A&AI'],
-    "filterByFieldvalues": [null, 'vm-number', 'vnfc-function-code'],
-    "requiredValues": [null, true, false],
-    "uploadTypes": [{ value: 'External Key File', display: 'KeyFile' },
+    'ruleTypeValues': [null, 'vnf-name', 'vm-name-list', 'vnfc-name-list', 'vnf-oam-ipv4-address', 'vnfc-oam-ipv4-address-list'],
+    'typeValues': [null, 'ipv4-address', 'ipv6-address', 'ipv4-prefix', 'ipv6-prefix'],
+    'responseKeyNameValues': ['', 'unique-key-name', 'unique-key-value', 'field-key-name'],
+    'responseKeyValues': ['(none)', 'addressfqdn', 'ipaddress-v4', 'ipaddress-v6'],
+    'requestKeyNameValues': [''],
+    'requestKeyValues': ['', '(none)'],
+    'sourceValues': ['Manual', 'A&AI'],
+    'filterByFieldvalues': [null, 'vm-number', 'vnfc-function-code'],
+    'requiredValues': [null, true, false],
+    'uploadTypes': [{ value: 'External Key File', display: 'KeyFile' },
     { value: 'Pd File', display: 'Pd File' }
     ],
-    "optionsToNotificationComponent": {
+    'optionsToNotificationComponent': {
         timeOut: 1000,
         showProgressBar: true,
         pauseOnHover: true,
         clickToClose: true,
         maxLength: 200
     },
-    "messages" : {
-        "retrievalSuccessMessage" : 'Retrieved artifact successfully',
-        "retrievalFailureMessage" : 'There is no artifact saved in APPC for the selected action',
-        "saveSuccessMessage" : 'Successfully uploaded the ',
-        "saveFailureMessage" : 'Error in saving the ',
-        "artifactRetrivalsuccessMessage" : 'Retrieved artifact successfully',
-        "artifactRetrivalfailureMessage" : 'There is no artifact saved in APPC for the selected action!',
-        "artifactUploadAction" : 'uploadArtifact',
-        "artifactgetAction" : 'getArtifact',
-        "datafetched" : 'data fetched ',
-        "vmDataUploadSuccess" : 'Vm capabilities data uploaded successfully',
-        "emptyVmUpload" : 'Empty Vm capabilities file uploaded',
-        "incorrectVmUpload" : 'Incorrect VM capabilities file uploaded',
-        "artifactSaveError" : 'unable to save the artifact',
-        "referenceDataUplaodSuccess" : 'successfully uploaded the Reference Data',
-        "referenceDataUplaodFailure" : 'Error while saving Reference Data',
-        "incorrectFileFormat" : 'Incorrect file format'
+    'messages' : {
+        'retrievalSuccessMessage' : 'Retrieved artifact successfully',
+        'retrievalFailureMessage' : 'There is no artifact saved in APPC for the selected action',
+        'saveSuccessMessage' : 'Successfully uploaded the ',
+        'saveFailureMessage' : 'Error in saving the ',
+        'artifactRetrivalsuccessMessage' : 'Retrieved artifact successfully',
+        'artifactRetrivalfailureMessage' : 'There is no artifact saved in APPC for the selected action!',
+        'artifactUploadAction' : 'uploadArtifact',
+        'artifactgetAction' : 'getArtifact',
+        'datafetched' : 'data fetched ',
+        'vmDataUploadSuccess' : 'Vm capabilities data uploaded successfully',
+        'emptyVmUpload' : 'Empty Vm capabilities file uploaded',
+        'incorrectVmUpload' : 'Incorrect VM capabilities file uploaded',
+        'artifactSaveError' : 'unable to save the artifact',
+        'referenceDataUplaodSuccess' : 'successfully uploaded the Reference Data',
+        'referenceDataUplaodFailure' : 'Error while saving Reference Data',
+        'incorrectFileFormat' : 'Incorrect file format'
     },
-    "errorCode" : {
-        "401" : '401',
-        "400" : '400'
+    'errorCode' : {
+        '401' : '401',
+        '400' : '400'
     },
-    "notifications" : {
-        "titles" : {
-            "information" : 'Information',
-            "success" : 'Success',
-            "error" : 'Error',
-            "status" : 'Status'
+    'notifications' : {
+        'titles' : {
+            'information' : 'Information',
+            'success' : 'Success',
+            'error' : 'Error',
+            'status' : 'Status'
         }
     },
-    "groupAnotationValue" : {
-        "blank" : '',
-        "pair" : 'Pair'
+    'groupAnotationValue' : {
+        'blank' : '',
+        'pair' : 'Pair'
     },
-    "groupAnotationType" : {
-        "blank" : '',
-        "firstVnfcName" : 'first-vnfc-name',
-        "fixedValue" : 'fixed-value',
-        "relativeValue" : 'relative-value',
-        "existingGroupName" : 'existing-group-name'
+    'groupAnotationType' : {
+        'blank' : '',
+        'firstVnfcName' : 'first-vnfc-name',
+        'fixedValue' : 'fixed-value',
+        'relativeValue' : 'relative-value',
+        'existingGroupName' : 'existing-group-name'
     },
-    "deviceTemplates" : {
-        "blank" : '',
-        "y" : 'Y',
-        "n": 'N'
+    'deviceTemplates' : {
+        'blank' : '',
+        'y' : 'Y',
+        'n': 'N'
     },
-    "sourceTypeColl" : {
-        "blank" : '',
-        "vnfType" : 'vnfType',
-        "vnfcType" : 'vnfcType'
+    'sourceTypeColl' : {
+        'blank' : '',
+        'vnfType' : 'vnfType',
+        'vnfcType' : 'vnfcType'
     }
 };
