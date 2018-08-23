@@ -31,6 +31,7 @@ import { saveAs } from 'file-saver';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../shared/confirmModal/confirm.component';
 import { appConstants } from '../../constants/app-constants';
+import {UtilityService} from '../shared/services/utilityService/utility.service';
 
 @Component({
     selector: 'app-help',
@@ -38,7 +39,7 @@ import { appConstants } from '../../constants/app-constants';
     styleUrls: ['./aboutus.component.css']
 })
 export class AboutUsComponent implements OnInit, OnDestroy {
-
+    clName= "AboutUsComponent";
     public releaseName: any;
     public versionNo: any;
     public contactUsMail: any;
@@ -53,7 +54,9 @@ export class AboutUsComponent implements OnInit, OnDestroy {
         maxLength: 200
     };
 
-    constructor(private http: Http, private dialogService: DialogService, private notificationsService: NotificationsService) {
+    constructor(
+      private http: Http, private dialogService: DialogService, private notificationsService: NotificationsService,
+      private utilSvc: UtilityService ) {
     }
 
     ngOnInit() {
@@ -100,5 +103,21 @@ export class AboutUsComponent implements OnInit, OnDestroy {
             type: 'text/plain;charset=utf-8'
         });
         saveAs(blob, 'versionLog.txt');
+    }
+
+    tlPlus() { //.. increase tracelvl - more tracing in console
+      let tracelvl= this.utilSvc.getTracelvl();
+      if( tracelvl < 2 ) {
+        tracelvl++; this.utilSvc.setTracelvl( tracelvl);
+      };
+      console.log( this.clName+": tlPlus: tracelvl="+this.utilSvc.getTracelvl() );
+    }
+
+    tlMinus() { //.. decrease tracelvl - less tracing in console
+      let tracelvl= this.utilSvc.getTracelvl();
+      if( tracelvl > 0 ) {
+        tracelvl--; this.utilSvc.setTracelvl( tracelvl);
+      };
+      console.log( this.clName+": tlMinus: tracelvl="+this.utilSvc.getTracelvl() );
     }
 }

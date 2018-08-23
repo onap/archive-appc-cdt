@@ -41,8 +41,11 @@ limitations under the License.
                     <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                         <label>Vnf Type</label><input class="form-control" type="text" disabled value="{{vnfType}}" />
                     </div>
-                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="vnfcType">
                         <label>Vnfc Type</label><input class="form-control" type="text" disabled value="{{vnfcType}}" />
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="!vnfcType">
+
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                         <label>Protocol</label><input class="form-control" type="text" disabled value="{{protocol}}" />
@@ -78,7 +81,7 @@ limitations under the License.
     <div><label for="textAreaGeneratedTemplate">
         <div class="mdl-card__title-text">File Editor</div>
     </label>
-        <ace-editor [(text)]="configMappingEditorContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" [options]="{maxLines: 'Infinity', fontSize: '13pt' }" style="min-height: 500px; width: 100%"></ace-editor>
+        <ace-editor [(text)]="configMappingEditorContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" [options]="{maxLines: '100', fontSize: '13pt' }" style="min-height: 200px; width: 100%; caret-color: white "></ace-editor>
     </div>
     <app-modal [title]="'Confirmation'" [isShow]="false" [message]="'Template is saved and ready for creating parameter definition'" #modalComponent>
     </app-modal>

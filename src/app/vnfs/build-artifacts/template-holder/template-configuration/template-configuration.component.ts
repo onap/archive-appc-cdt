@@ -45,6 +45,7 @@ const PARAM_DATA:string="param_data";
 const TEMPLATE_DATA:string="template_data";
 @Component({ selector: 'app-golden-configuration', templateUrl: './template-configuration.component.html', styleUrls: ['./template-configuration.component.css'] })
 export class GoldenConfigurationComponent implements OnInit {
+  clName= "TemplateConfigCompon";
   @ViewChild('templateeditor') templateeditor;
   @Input() configMappingEditorContent: string;
   @Input() isMappingComp: boolean;
@@ -154,7 +155,13 @@ export class GoldenConfigurationComponent implements OnInit {
 
   //======================================Start of ngOnInit() Method============================================
   ngOnInit() {
+    var methName= "ngOnInit";
+    if( this.utilityService.getTracelvl() > 0 )
+      console.log( this.clName+": "+methName+": start.");
     var refObj = this.refObj = this.prepareFileName();
+    if( this.utilityService.getTracelvl() > 0 )
+      console.log( this.clName+": "+methName+
+        ": refObj:["+JSON.stringify(refObj)+"]");
     if (refObj && refObj != undefined) {
       this.item = refObj;
 
@@ -162,6 +169,10 @@ export class GoldenConfigurationComponent implements OnInit {
       this.vnfcType = this.item.scope["vnfc-type"];
       this.protocol = this.item['device-protocol'];
       this.action = this.item.action;
+      if( this.utilityService.getTracelvl() > 0 )
+        console.log( this.clName+": "+methName+": vnfType:["+this.vnfType+
+          "] vnfcType:["+this.vnfcType+"] protocol:["+this.protocol+"] action:["+
+          this.action+"]");
       this.artifactRequest.action = this.item.action;
       this.artifactRequest.vnfType = this.vnfType;
       if (this.vnfcType != undefined && this.vnfcType.length != 0) {

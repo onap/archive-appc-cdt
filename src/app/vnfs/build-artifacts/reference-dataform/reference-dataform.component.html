@@ -29,7 +29,7 @@ limitations under the License.
             <div class="row" style="padding: 15px 25px">
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>Action*</label>
-                    <select class="form-control" required id="cmbAction" [(ngModel)]="referenceDataObject.action" (ngModelChange)="updateSessionValues($event,'action');actionChange($event,content,userForm);" #action="ngModel" name="action">
+                    <select class="form-control" required id="cmbAction" [(ngModel)]="referenceDataObject.action" (ngModelChange)="updateSessionValues($event,'action');actionChange($event,userForm);handleVMBlockDisplay()" #action="ngModel" name="action">
                         <option [value]="actionType"
                                 [ngClass]="{'selectedAction':selectedActions.indexOf(actionType)>-1}"
                                 [selected]="referenceDataObject.action===actionType"
@@ -43,9 +43,19 @@ limitations under the License.
                     <input type="text" readonly class="form-control" id="txtVnfType" required [(ngModel)]="referenceDataObject['scope']['vnf-type']" (ngModelChange)="updateSessionValues($event,'vnfType')" #vnftype="ngModel" name="vnftype">
                     <span class="error-message" [hidden]="vnfParams?.vnfType || vnftype.valid || (vnftype.pristine && !userForm.submitted)">Required Field</span>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="((displayVnfc=='true') || isVnfcType) && (referenceDataObject['action']=='Configure' || referenceDataObject['action']=='ConfigModify')">
                     <label>VNFC Type</label>
-                    <input type="text" class="form-control" readonly id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']" (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')" #vnfcType="ngModel" name="vnfcType">
+                    <input *ngIf="isVnfcType" type="text" class="form-control" readonly id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']" (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')" #vnfcType="ngModel"
+                        name="vnfcType">
+                    <select *ngIf="isVnfcTypeList" class="form-control" id="vnfcType" (ngModelChange)="vnfcChanged($event,content,userForm)" [ngModel]="vnfcIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
+                            <option [value]="val" *ngFor="let val of referenceDataObject.scope['vnfc-type-list']">{{val}}
+                            </option>
+                        </select>
+                    <a *ngIf="isVnfcTypeList" style="    color: blue;" href="javascript:void(0)" (click)="vnfcModal.open()">Add New VNFC Type</a>
+                </div>
+
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="displayVnfc!='true' || (referenceDataObject['action']!='Configure' && referenceDataObject['action']!='ConfigModify')">
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>Device Protocol*</label>
@@ -58,11 +68,11 @@ limitations under the License.
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="isConfigScaleOut">
                     <label>Template Identifier</label>
-                    <select class="form-control" required id="tempIdentifier" (ngModelChange)="dataModified();idChange($event,content,userForm)" [(ngModel)]="templateIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
+                    <select class="form-control" required id="tempIdentifier" (ngModelChange)="dataModified();idChange($event,userForm)" [(ngModel)]="templateIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
                         <option [value]="val" *ngFor="let val of referenceDataObject['template-id-list']">{{val}}
                         </option>
                     </select>
-                    <span class="error-message" [hidden]="deviceProtocol.valid || (deviceProtocol.pristine && !userForm.submitted)">Required Field</span>
+                   <!-- <span class="error-message" [hidden]="deviceProtocol.valid || (deviceProtocol.pristine && !userForm.submitted)">Required Field</span> -->
                 </div>
 
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="referenceDataObject['action']== 'ConfigScaleOut'" style="margin-top: 30px">
@@ -141,7 +151,7 @@ limitations under the License.
                             <div class="row" *ngIf="(( referenceDataObject.action =='ConfigScaleOut' ||referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ) && isCollapsedContent) ">
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
                                     <label style="font-size:12px;">VNFC Type</label>
-                                    <input type="text" class="form-control" id="txtVnfcTypeInColl" [(ngModel)]="Sample['vnfc-type']" #vnfcType="ngModel" name="samplevnfcType">
+                                    <input type="text" class="form-control" id="txtVnfcTypeInColl" [(ngModel)]="Sample['vnfc-type']" (blur)="checkVnfcTypeEqual(vnfcType.value)" #vnfcType="ngModel" name="samplevnfcType">
                                 </div>
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
                                     <label style="font-size:12px">VNFC Function Code</label>
@@ -201,7 +211,7 @@ limitations under the License.
                                             </div>
                                             <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
                                                 <label style="font-size:12px;">VNFC Type</label>
-                                                <input type="text" class="form-control" id="txtVnfcTypeInColl" required [(ngModel)]="item['vnfc-type']" #vnfcType{{j}}="ngModel" name="vnfcType{{j}}">
+                                                <input type="text" class="form-control" id="txtVnfcTypeInColl" required [(ngModel)]="item['vnfc-type']" #vnfcType="ngModel" name="vnfcType{{j}}">
                                                 <span class="error-message" [hidden]="vnfcType.valid || (vnfcType.pristine && !userForm.submitted)">Required Field</span>
                                             </div>
                                             <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
@@ -298,6 +308,26 @@ limitations under the License.
         </div>
     </div>
 </div>
+
+<!-- Modal for Vnfc Identifier -->
+<modal #vnfcModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Enter New VNFC Type</h4>
+    </modal-header>
+    <modal-body>
+        <div>
+            <input pattern=".*[^ ].*" name="test" type="text" class="" (ngModelChange)="validateVnfcName($event)" [(ngModel)]="newVnfcType" placeholder="vnfctype">
+            <span class="error-message">{{errorMessage}}</span>
+        </div>
+    </modal-body>
+    <modal-footer [show-default-buttons]="false">
+        <div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="templateId=''" data-dismiss="modal">cancel</button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" data-dismiss="modal" (click)="addVnfc()" [disabled]="invalid">Add</button>
+        </div>
+    </modal-footer>
+</modal>
+
 <div id="identifierModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->

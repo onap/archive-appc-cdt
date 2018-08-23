@@ -71,6 +71,7 @@ export class MappingEditorService {
     private _navItem = {};
     private _observer: Observer<any>;
     private referenceList = [];
+    newObject: any;
 
     constructor() {
         this.navChange$ = new Observable(observer =>
@@ -102,6 +103,9 @@ export class MappingEditorService {
 
     saveLatestAction(data) {
         this.latestAction = data;
+    }
+    selectedObj(data) {
+        this.newObject = data;
     }
 
     saveLatestIdentifier(identifier) {

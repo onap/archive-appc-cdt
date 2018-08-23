@@ -106,7 +106,7 @@ export class ParameterComponent implements OnInit {
     public appDataObject: any;
     public downloadDataObject: any;
     public artifact_fileName = "";
-    identifier: any;
+    template_id: any;
     private selectedActionReference: any;
 
     constructor(private httpService: HttpUtilService,
@@ -165,7 +165,7 @@ export class ParameterComponent implements OnInit {
             };
         }
 
-        this.identifier = this.mappingEditorService.identifier;
+        this.template_id = this.mappingEditorService.identifier;
     }
 
     ngAfterViewInit() {
