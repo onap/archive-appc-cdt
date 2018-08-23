@@ -83,7 +83,7 @@ describe('ContacUsComponent', () => {
         let content = 'test';
         // component.open(content);
         component.versionLogFile().subscribe((data) => {
-            expect(data).toBe('some Data');
+            expect(data.text()).toBe('some data');
         });
     }));
 
