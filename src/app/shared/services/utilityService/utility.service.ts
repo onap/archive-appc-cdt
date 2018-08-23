@@ -30,6 +30,7 @@ import { appConstants } from '../../../../constants/app-constants';
 
 @Injectable()
 export class UtilityService {
+    clName= "UtilityService";
     public putAction = appConstants.messages.artifactUploadAction;
     public getAction = appConstants.messages.artifactgetAction;
     private retrievalSuccessMessage = appConstants.messages.retrievalSuccessMessage;
@@ -43,6 +44,23 @@ export class UtilityService {
 
     constructor(private notificationService: NotificationsService) {
     }
+
+    public setTracelvl( tlvl: number ) {
+     // console.log( this.clName+": setTracelvl: arg="+tlvl );
+      let tracelvl= tlvl;
+      if( tracelvl == null || tracelvl == undefined ) tracelvl= 0;
+      localStorage["Tracelvl"]= tracelvl;
+    }
+
+    public getTracelvl() : number {
+      let tracelvl= localStorage["Tracelvl"];
+     // console.log( this.clName+": getTracelvl: locS: tracelvl="+tracelvl );
+      if( tracelvl == null || tracelvl == undefined ) {
+        tracelvl=0; localStorage["Tracelvl"]= tracelvl;
+      };
+     // console.log( this.clName+": getTracelvl: tracelvl="+tracelvl );
+      return tracelvl;
+    };
 
     public randomId() {
         let x = (new Date().getUTCMilliseconds()) * Math.random();

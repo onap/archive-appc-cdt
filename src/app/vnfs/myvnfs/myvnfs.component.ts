@@ -43,6 +43,9 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
     noDataMsg: string;
     vnfType: any;
     vnfcType: any;
+    vnfcRequired: boolean = false;
+    errorMessage = '';
+    invalid = true;
     options = {
         timeOut: 1000,
         showProgressBar: true,
@@ -84,32 +87,31 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
     }
 
     getArtifacts(data) {
+        let tempObj: any;
         this.ngProgress.start();
-        this.subscription = this.httpUtil.post({
+      //this.subscription = this.httpUtil.post({
+        this.httpUtil.post({
             url: environment.getDesigns,
             data: data
         })
-            .subscribe(resp => {
-                console.log("resp:", resp);
-                const tempObj = JSON.parse(resp.output.data.block);
-                this.vnfData = tempObj.designInfo;
+            .subscribe( resp => {
+                if (resp.output.data.block !== undefined && resp.output.data.block !== null && resp.output.data.block.length !== 0) {
+                  console.log("getArtifacts: resp:", resp.output.data.block);
+                  tempObj = JSON.parse(resp.output.data.block);
+                  this.vnfData = tempObj.designInfo;
+                }
                 if (this.vnfData == undefined || this.vnfData == null || this.vnfData.length == 0) {
                     this.noData = true;
-
-                    this.noDataMsg = resp.output.data.status.message;
+                    // this.noDataMsg = resp.output.data.status.message;
                 } else {
                     this.noData = false;
                 }
-                console.log(this.noData);
+                console.log("getArtifacts: noData:"+this.noData);
                 this.ngProgress.done();
-            }
-                ,
-                error => {
-
-                    this.nService.error(appConstants.errors.error, appConstants.errors.connectionError)
-                }
-
-            );
+            },
+            error => {
+              this.nService.error(appConstants.errors.error, appConstants.errors.connectionError)
+            });
 
         this.filter = ['vnf-type', 'vnfc-type', 'artifact-name'];
         setTimeout(() => {
@@ -122,25 +124,56 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
     getData() {
     }
 
-    buildNewDesign(content) {
+    buildNewDesign( response) {
+     // this.modalService.open(content).result.then(res => {
+     //     this.mappingEditorService.referenceNameObjects = undefined;
+     //     sessionStorage.setItem('vnfParams', JSON.stringify({ vnfType: this.vnfType, vnfcType: this.vnfcType }));
+     //     this.router.navigate([
+     //             'vnfs', 'design', 'references'
+     //         ]);
+     // });
+        if (response == 'yes') {
+            sessionStorage.setItem('vnfParams', JSON.stringify({ vnfType: this.vnfType }));
+            sessionStorage.setItem("vnfcSelectionFlag", '' + this.vnfcRequired + '')
+        } else {
+            sessionStorage.setItem('vnfParams', "")
+        }
 
-        this.modalService.open(content).result.then(res => {
-            this.mappingEditorService.referenceNameObjects = undefined;
-            sessionStorage.setItem('vnfParams', JSON.stringify({ vnfType: this.vnfType, vnfcType: this.vnfcType }));
-            this
-                .router
-                .navigate([
-                    'vnfs', 'design', 'references'
-                ]);
-        });
+        this.mappingEditorService.referenceNameObjects = undefined;
+        this.mappingEditorService.identifier = '';
+        //this.mappingEditorService.newObject = {};
+        this.router.navigate([
+            'vnfs', 'design', 'references'
+        ]);
+    }
 
-
+    validateVnfName(name) {
+        if (!name.trim() || name.length < 1) {
+            this.errorMessage = '';
+            this.invalid = true;
+        } else if (name.startsWith(' ') || name.endsWith(' ')) {
+            this.errorMessage = 'Leading and trailing spaces are not allowed';
+            this.invalid = true;
+        } else if (name.includes('  ')) {
+            this.errorMessage = 'More than one space is not allowed in VNF Type';
+            this.invalid = true;
+        } else if (name.length > 150) {
+            this.errorMessage = 'VNF Type should be of minimum one character and maximum 150 character';
+            this.invalid = true;
+        } else {
+            this.invalid = false;
+            this.errorMessage = '';
+        }
     }
 
     navigateToReference(item) {
         sessionStorage.setItem('updateParams', JSON.stringify(item));
         this.mappingEditorService.referenceNameObjects = undefined;
-
+        sessionStorage.setItem('vnfParams', JSON.stringify({ vnfType: item.vnfType, vnfcType: item.vnfcType }));
+        this.mappingEditorService.identifier = '';
+        if (this.mappingEditorService.newObject && this.mappingEditorService.newObject.vnfc != undefined) {
+            this.mappingEditorService.newObject.vnfc = '';
+        }
         this
             .router
             .navigate(['../design/references'], {
@@ -165,7 +198,7 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
 
     clearCache() {
         // get the value and save the userid and persist it.
-
+        sessionStorage.setItem("vnfcSelectionFlag", '' + this.vnfcRequired + '');
         this.mappingEditorService.setTemplateMappingDataFromStore(undefined);
         localStorage['paramsContent'] = '{}';
         this.mappingEditorService.setParamContent(undefined);
@@ -179,6 +212,4 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
         this.mappingEditorService.changeNavAppData(appData);
         this.mappingEditorService.changeNavDownloadData(downloadData);
     }
-
-
 }

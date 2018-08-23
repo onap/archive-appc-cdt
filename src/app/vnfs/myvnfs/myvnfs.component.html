@@ -84,13 +84,13 @@ limitations under the License.
         </div>
     </div>
     <div class="col-lg-12-ln2">
-        <button type="button" (click)="buildNewDesign(content)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">Create New
-            VNF Type or VNFC Type
+        <button type="button" (click)="createVnfcModal.open()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">
+            Create New VNF Type
         </button>
     </div>
 </div>
 
-<ng-template #content let-c="close" let-d="dismiss">
+<!-- <ng-template #content let-c="close" let-d="dismiss">
     <form ngNativeValidate (ngSubmit)="c('yes')">
         <div class="modal-header">
             <h4 class="modal-title">Enter VNF type and VNFC to proceed</h4>
@@ -130,4 +130,38 @@ limitations under the License.
 
         </div>
     </form>
-</ng-template>
+</ng-template> -->
+
+<!-- Modal for Create new Vnf -->
+<modal #createVnfcModal>
+    <form ngNativeValidate (ngSubmit)="buildNewDesign('yes')">
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">Enter VNF Type</h4>
+        </modal-header>
+        <modal-body>
+            <div class="form-group row">
+                <label for="example-text-input" class="col-12 col-form-label">Enter Vnf Type</label>
+                <div class="col-12">
+                    <input pattern=".*[^ ].*" required name="vnfType" class="form-control" (ngModelChange)="validateVnfName($event)" [(ngModel)]="vnfType" type="text" id="vnfType">
+                    <span class="error-message">{{errorMessage}}</span>
+                </div>
+
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input  name="vnfcRequired" class="form-check-input" [(ngModel)]="vnfcRequired" type="checkbox"
+                            id="vnfcRequired">
+                    This VNF has VNFC templates
+                </label>
+            </div>
+        </modal-body>
+        <modal-footer [show-default-buttons]="false">
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="buildNewDesign('no')">
+                Proceed To Upload
+            </button>
+            <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" [disabled]="invalid">
+                Next
+            </button>
+        </modal-footer>
+    </form>
+</modal>

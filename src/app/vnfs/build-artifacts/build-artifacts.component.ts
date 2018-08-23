@@ -28,6 +28,7 @@ import * as _ from 'underscore';
 import { NotificationsService } from 'angular2-notifications';
 import { appConstants } from '../../../constants/app-constants';
 
+export const ACTIONS_REQUIRED_DROPDOWN = ['Configure', 'ConfigModify', 'ConfigScaleOut'];
 
 @Component({ selector: 'app-build-design', templateUrl: './build-artifacts.component.html', styleUrls: ['./build-artifacts.component.css'] })
 export class BuildDesignComponent implements OnInit {
@@ -69,17 +70,33 @@ export class BuildDesignComponent implements OnInit {
         }
     }
 
-    public getRefData(referenceList) {
+    public getRefData( referenceList, reqObj?) {
+        console.log( "getRefData: start: referenceList.action:["+
+          referenceList.action+"]");
         this.refList = referenceList;
-        if (referenceList.action !== appConstants.Actions.blank && referenceList.scope['vnf-type'] !== '' && referenceList['device-protocol'] !== appConstants.DeviceProtocols.blank) {
-            if (referenceList.action === appConstants.Actions.configScaleOut) {
-                if (referenceList.hasOwnProperty('template-id') && referenceList['template-id'] !== undefined && referenceList['template-id'] != '')
-                    this.refDataRequiredFiels = true;
+        if( referenceList.action !== '' &&
+            referenceList.scope['vnf-type'] !== '' &&
+            referenceList['device-protocol'] !== '' )
+        {
+          if( ACTIONS_REQUIRED_DROPDOWN.indexOf(referenceList.action) > -1)
+          {
+            if( referenceList.action == 'ConfigScaleOut')
+            {
+              if( reqObj != undefined && reqObj.hasOwnProperty('reqField') &&
+                  reqObj.reqField != ''
+              )
+                this.refDataRequiredFiels = true;
+              else
+                this.refDataRequiredFiels = false;
             }
-            else this.refDataRequiredFiels = true;
+            else
+              this.refDataRequiredFiels = true;
+          }
+          else
+            this.refDataRequiredFiels = true;
         }
         else {
-            this.refDataRequiredFiels = false;
+          this.refDataRequiredFiels = false;
         }
     }
 
