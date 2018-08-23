@@ -27,7 +27,6 @@ import {saveAs} from 'file-saver';
 import {ParamShareService} from '../../../shared/services/paramShare.service';
 import {MappingEditorService} from '../../../shared/services/mapping-editor.service';
 import {ModalComponent} from '../../../shared/modal/modal.component';
-import {HttpUtilService} from '../../../shared/services/httpUtil/http-util.service';
 import {UtilityService} from '../../../shared/services/utilityService/utility.service';
 import {NotificationsService} from 'angular2-notifications';
 import 'rxjs/add/operator/map';
@@ -67,7 +66,6 @@ export class ParameterDefinitionService {
     constructor(private mappingEditorService: MappingEditorService,
                 private paramShareService: ParamShareService,
                 private nService: NotificationsService,
-                private httpService: HttpUtilService,
                 private utilService: UtilityService) {
     }
 
