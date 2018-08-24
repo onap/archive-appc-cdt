@@ -28,7 +28,6 @@ import { BuildDesignComponent } from '../build-artifacts.component';
 import { HttpUtilService } from '../../../shared/services/httpUtil/http-util.service';
 import { Location } from '@angular/common';
 import { MappingEditorService } from '../../..//shared/services/mapping-editor.service';
-import { ModalComponent } from '../../../shared/modal/modal.component';
 import { NgProgress } from 'ngx-progressbar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -47,7 +46,6 @@ const REFERENCE_DATA:string= "reference_data";
     styleUrls: ['./reference-dataform.component.css']
 })
 export class ReferenceDataformComponent implements OnInit {
-    @ViewChild(ModalComponent) modalComponent: ModalComponent;
     public showUploadStatus: boolean = false;
     public fileUploaded: boolean = false;
     public uploadedData: any;
@@ -1115,12 +1113,6 @@ export class ReferenceDataformComponent implements OnInit {
                     this.nService.error('Status', 'Error Connecting to the APPC Network');
                     return false;
                 });
-    }
-
-    openModel(toShow: any, message: any, title: any) {
-        this.modalComponent.isShow = toShow;
-        this.modalComponent.message = message;
-        this.modalComponent.title = title;
     }
 
     browseOption() {
