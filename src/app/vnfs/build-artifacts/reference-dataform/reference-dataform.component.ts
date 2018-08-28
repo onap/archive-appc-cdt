@@ -137,6 +137,7 @@ export class ReferenceDataformComponent implements OnInit {
                         appConstants.Actions.stopApplication,
                         appConstants.Actions.quiesceTraffic,
                         appConstants.Actions.resumeTraffic,
+                        appConstants.Actions.distributeTraffic,
                         appConstants.Actions.upgradeBackout,
                         appConstants.Actions.upgradeBackup,
                         appConstants.Actions.upgradePostCheck,
@@ -220,9 +221,9 @@ export class ReferenceDataformComponent implements OnInit {
       console.log( this.classNm+": ngOnInit: start.");
         this.displayVnfc = sessionStorage.getItem("vnfcSelectionFlag");
         if (this.configScaleOutExist) {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
+            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
         } else {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions'];
+            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions'];
         }
         this.self = this;
         let path = this.location.path;
@@ -1058,6 +1059,7 @@ export class ReferenceDataformComponent implements OnInit {
             case 'UpgradeBackout':
             case 'ResumeTraffic':
             case 'QuiesceTraffic':
+            case 'DistributeTraffic':
             case 'UpgradeBackup':
             case 'UpgradePostCheck':
             case 'UpgradePreCheck':
