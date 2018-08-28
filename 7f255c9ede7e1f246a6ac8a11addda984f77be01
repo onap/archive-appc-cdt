@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_693b96d1",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-28T20:00:02Z",
+      "side": 1,
+      "message": "shouldn\u0027t add DistributTraffic here?",
+      "range": {
+        "startLine": 1149,
+        "startChar": 112,
+        "endLine": 1149,
+        "endChar": 124
+      },
+      "revId": "7f255c9ede7e1f246a6ac8a11addda984f77be01",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_893632e6",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-28T20:00:02Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 1222,
+        "startChar": 44,
+        "endLine": 1222,
+        "endChar": 56
+      },
+      "revId": "7f255c9ede7e1f246a6ac8a11addda984f77be01",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_29359ed9",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-28T20:00:02Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 1473,
+        "startChar": 60,
+        "endLine": 1473,
+        "endChar": 72
+      },
+      "revId": "7f255c9ede7e1f246a6ac8a11addda984f77be01",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e94ec66e",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1534,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-28T20:00:02Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 1534,
+        "startChar": 102,
+        "endLine": 1534,
+        "endChar": 114
+      },
+      "revId": "7f255c9ede7e1f246a6ac8a11addda984f77be01",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_09522213",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-28T20:00:02Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 1687,
+        "startChar": 62,
+        "endLine": 1687,
+        "endChar": 74
+      },
+      "revId": "7f255c9ede7e1f246a6ac8a11addda984f77be01",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
