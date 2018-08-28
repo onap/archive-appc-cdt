@@ -137,6 +137,7 @@ export class ReferenceDataformComponent implements OnInit {
                         appConstants.Actions.stopApplication,
                         appConstants.Actions.quiesceTraffic,
                         appConstants.Actions.resumeTraffic,
+                        appConstants.Actions.distributeTraffic,
                         appConstants.Actions.upgradeBackout,
                         appConstants.Actions.upgradeBackup,
                         appConstants.Actions.upgradePostCheck,
@@ -185,7 +186,7 @@ export class ReferenceDataformComponent implements OnInit {
     public firstArrayElement = [];
     public remUploadedDataArray = [];
     isConfigScaleOut = false
-    isConfigOrConfigModify = false;
+    isConfigureAction = false;
     configScaleOutExist: boolean = true;
     displayVnfc = 'false';
     isVnfcType: boolean;
@@ -220,9 +221,9 @@ export class ReferenceDataformComponent implements OnInit {
       console.log( this.classNm+": ngOnInit: start.");
         this.displayVnfc = sessionStorage.getItem("vnfcSelectionFlag");
         if (this.configScaleOutExist) {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
+            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
         } else {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions'];
+            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions'];
         }
         this.self = this;
         let path = this.location.path;
@@ -1058,6 +1059,7 @@ export class ReferenceDataformComponent implements OnInit {
             case 'UpgradeBackout':
             case 'ResumeTraffic':
             case 'QuiesceTraffic':
+            case 'DistributeTraffic':
             case 'UpgradeBackup':
             case 'UpgradePostCheck':
             case 'UpgradePreCheck':
@@ -1144,10 +1146,10 @@ export class ReferenceDataformComponent implements OnInit {
                         this.refernceScopeObj.from = '';
                     }
 
-                    if (this.referenceDataObject.action === 'Configure' || this.referenceDataObject.action === 'ConfigModify') {
-                        this.isConfigOrConfigModify = true;
+                    if (this.referenceDataObject.action === 'Configure' || this.referenceDataObject.action === 'ConfigModify' || this.referenceDataObject.action === 'DistributeTraffic') {
+                        this.isConfigureAction = true;
                     } else {
-                        this.isConfigOrConfigModify = false;
+                        this.isConfigureAction = false;
                         delete this.mappingEditorService.newObject['vnfc'];
                     }
 
@@ -1217,7 +1219,7 @@ export class ReferenceDataformComponent implements OnInit {
                 }*/
             ];
         }
-        if (data == 'Configure' || data == 'ConfigModify') {
+        if (data == 'Configure' || data == 'ConfigModify' || data == 'DistributeTraffic') {
             this.nonConfigureAction = false;
         } else {
             this.nonConfigureAction = true;
@@ -1468,7 +1470,7 @@ export class ReferenceDataformComponent implements OnInit {
             this.referenceDataObject.scope['vnfc-type-list'].push(newVnfcTypeV);
         }
         this.tempAllData.forEach(obj => {
-            if (obj.action == "Configure" || obj.action == "ConfigModify") {
+            if (obj.action == "Configure" || obj.action == "ConfigModify" || obj.action == "DistributeTraffic") {
                 obj.scope['vnfc-type-list'] = this.referenceDataObject.scope['vnfc-type-list']
             }
             this.resetArtifactList(obj);
@@ -1529,7 +1531,7 @@ export class ReferenceDataformComponent implements OnInit {
         //if VNFC is entered set action level & Scope type to VNFC for configure and configure modify, and default the values to vnf and vnf type for all other actions  
         else {
             scopeName = this.referenceDataObject.scope['vnfc-type'];
-            if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify') {
+            if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic') {
                 this.referenceDataObject['action-level'] = 'vnfc';
                 this.referenceDataObject['scopeType'] = 'vnfc-type';
             } else {
@@ -1682,7 +1684,7 @@ export class ReferenceDataformComponent implements OnInit {
         if (newObj.action != 'HealthCheck') {
             delete newObj['url'];
         }
-        if (newObj.action != "Configure" && newObj.action != "ConfigModify") {
+        if (newObj.action != "Configure" && newObj.action != "ConfigModify" && newObj.action != "DistributeTraffic") {
             newObj.scope['vnfc-type-list'] = [];
         }
         return newObj
