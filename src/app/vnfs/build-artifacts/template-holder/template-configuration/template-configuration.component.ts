@@ -92,7 +92,8 @@ export class GoldenConfigurationComponent implements OnInit {
     { action: "GetRunningConfig", value: "GetRunningConfig" },
     { action: "HealthCheck", value: "HealthCheck" },
     { action: "StartApplication", value: "StartApplication" },
-    { action: "StopApplication", value: "StopApplication" }
+    { action: "StopApplication", value: "StopApplication" },
+    { action: "DistributeTraffic", value: "DistributeTraffic" }
   ];
   options = {
     timeOut: 1000,
