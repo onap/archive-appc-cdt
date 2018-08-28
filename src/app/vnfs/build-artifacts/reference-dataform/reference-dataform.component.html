@@ -44,7 +44,7 @@ limitations under the License.
                     <span class="error-message" [hidden]="vnfParams?.vnfType || vnftype.valid || (vnftype.pristine && !userForm.submitted)">Required Field</span>
                 </div>
 
-                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="((displayVnfc=='true') || isVnfcType) && (referenceDataObject['action']=='Configure' || referenceDataObject['action']=='ConfigModify')">
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="((displayVnfc=='true') || isVnfcType) && (referenceDataObject['action']=='Configure' || referenceDataObject['action']=='ConfigModify' || referenceDataObject['action']=='DistributeTraffic')">
                     <label>VNFC Type</label>
                     <input *ngIf="isVnfcType" type="text" class="form-control" readonly id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']" (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')" #vnfcType="ngModel"
                         name="vnfcType">
@@ -55,7 +55,7 @@ limitations under the License.
                     <a *ngIf="isVnfcTypeList" style="    color: blue;" href="javascript:void(0)" (click)="vnfcModal.open()">Add New VNFC Type</a>
                 </div>
 
-                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="displayVnfc!='true' || (referenceDataObject['action']!='Configure' && referenceDataObject['action']!='ConfigModify')">
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="displayVnfc!='true' || (referenceDataObject['action']!='Configure' && referenceDataObject['action']!='ConfigModify' && referenceDataObject['action']!='DistributeTraffic')">
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>Device Protocol*</label>
