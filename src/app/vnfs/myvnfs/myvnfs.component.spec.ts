@@ -173,4 +173,34 @@ describe('MyvnfsComponent', () => {
         component.navigateToReference({paramData : 'data'});
         expect(JSON.parse(sessionStorage.getItem('updateParams'))).toEqual({paramData : 'data'});
     });
+
+    it('should test validateVnfName function with empty name value', ()=>{
+        component.validateVnfName('');
+        expect(component.errorMessage).toBe('');
+        expect(component.invalid).toBe(true);
+    });
+
+    it('should test validateVnfName function with name value leading and trailing white spaces', ()=>{
+        component.validateVnfName(' name ');
+        expect(component.errorMessage).toBe('Leading and trailing spaces are not allowed');
+        expect(component.invalid).toBe(true);
+    });
+
+    it('should test validateVnfName function with name including more than one space', ()=>{
+        component.validateVnfName('na  me');
+        expect(component.errorMessage).toBe('More than one space is not allowed in VNF Type');
+        expect(component.invalid).toBe(true);
+    });
+
+    it('should test validateVnfName function with name length greated than 150', ()=>{
+        component.validateVnfName('namenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenanamenamnamenamename');
+        expect(component.errorMessage).toBe('VNF Type should be of minimum one character and maximum 150 character');
+        expect(component.invalid).toBe(true);
+    });
+
+    it('should test validateVnfName function with valid name value', ()=>{
+        component.validateVnfName('name');
+        expect(component.errorMessage).toBe('');
+        expect(component.invalid).toBe(false);
+    });
 });
