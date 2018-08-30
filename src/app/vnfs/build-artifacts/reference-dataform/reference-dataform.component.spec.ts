@@ -196,7 +196,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '',
-                'vnfc-type': ''
+                'vnfc-type-list': []
             },
             'template': 'Y',
             vm: [],
@@ -216,7 +216,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '123',
-                'vnfc-type': '346'
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [],
@@ -237,7 +237,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '123',
-                'vnfc-type': '346'
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [],
@@ -258,7 +258,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '123',
-                'vnfc-type': '346'
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [],
@@ -279,7 +279,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '123',
-                'vnfc-type': '346'
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [],
@@ -303,7 +303,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnfc',
             scope: {
                 'vnf-type': '',
-                'vnfc-type': ''
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [],
@@ -322,7 +322,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '',
-                'vnfc-type': ''
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [],
@@ -372,7 +372,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '',
-                'vnfc-type': ''
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [
@@ -402,7 +402,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '',
-                'vnfc-type': ''
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [
@@ -473,7 +473,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '',
-                'vnfc-type': ''
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [
@@ -503,7 +503,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '',
-                'vnfc-type': ''
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             vm: [
@@ -540,7 +540,7 @@ describe('ReferenceDataformComponent', () => {
             'action-level': 'vnf',
             scope: {
                 'vnf-type': '',
-                'vnfc-type': ''
+                'vnfc-type-list': ['346']
             },
             'template': 'Y',
             "vm": [
@@ -773,13 +773,13 @@ describe('ReferenceDataformComponent', () => {
 
     it('Save to appc file - should not process if action is null ', () => {
         component.referenceDataObject.action = ""
-        let fileSaved = component.saveToAppc(true, {}, onclick)
+        let fileSaved = component.saveToAppc();
         expect(fileSaved).toBe(undefined)
     })
     it('Save to app cfile - should not process if device protocol is null ', () => {
         component.referenceDataObject['device-protocol'] = ""
         component.referenceDataObject.action = "Configure"
-        let fileSaved = component.saveToAppc(true, {}, onclick)
+        let fileSaved = component.saveToAppc();
         expect(fileSaved).toBe(undefined)
     })
     it('Save to appc file - should not process if device protocol is null ', () => {
@@ -790,7 +790,7 @@ describe('ReferenceDataformComponent', () => {
         component.appData.pd = { "test": "test" }
         component.actionChanged = true
         component.currentAction = "COnfigure"
-        let fileSaved = component.saveToAppc(true, {}, onclick)
+        let fileSaved = component.saveToAppc();
         //expect(fileSaved).toBe(undefined)
     })
 
@@ -885,12 +885,12 @@ describe('ReferenceDataformComponent', () => {
     })
 
     it("should set values on action change ConfigScaleOut", () => {
-        component.actionChange("ConfigScaleOut", "", {})
+        component.actionChange(null, { valid: true });
 
         expect(component.groupAnotationType.length).toBe(5)
     })
     it("shpukd return false if its very first action", () => {
-        component.actionChange(null, "", "")
+        component.actionChange(null,{ valid: true });
 
         expect(component.disableGrpNotationValue).toBe(false)
     })
@@ -903,7 +903,7 @@ describe('ReferenceDataformComponent', () => {
                 }
             }
         ]
-        component.actionChange("Configure", "", "")
+        component.actionChange(null, { valid: true });
 
         expect(component.nonConfigureAction).toBe(false)
     })
@@ -970,15 +970,15 @@ describe('ReferenceDataformComponent', () => {
 
     })
     it("set vnfc type", () => {
-        component.setVnfcType("test")
-        expect(component.Sample['vnfc-type']).toBe("test")
+       // component.setVnfcType("test")
+        expect(component.Sample['vnfc-type']).toBe("test");
     })
     it("getChange", () => {
-        component.getChange("vnfType")
-        expect(component.referenceDataObject.scope['vnfc-type']).toBe("")
+       // component.getChange("vnfType")
+        expect(component.referenceDataObject.scope['vnfc-type']).toBe("");
     })
     it("idChange", () => {
-        component.idChange(null, "", { valid: true })
+        component.idChange(null, { valid: true })
         component.oldAction = "Configure"
         expect(component.actionChanged).toBeFalsy()
     })
@@ -986,7 +986,7 @@ describe('ReferenceDataformComponent', () => {
         component.oldAction = "Configure"
         component.oldtemplateIdentifier = "id1"
         component.templateIdentifier = "id1"
-        component.idChange("test", "", { valid: true })
+        component.idChange(null, { valid: true })
         expect(component.actionChanged).toBe(true)
     })
     it('Should test deviceProtocolChange method', () => {
