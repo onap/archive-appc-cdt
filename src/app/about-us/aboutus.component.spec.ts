@@ -32,6 +32,8 @@ import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/of';
 import { SimpleNotificationsModule, NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'ng2-bootstrap-modal';
+import {UtilityService} from '../shared/services/utilityService/utility.service';
+
 
 import { AboutUsComponent } from './aboutus.component';
 
@@ -58,7 +60,7 @@ describe('ContacUsComponent', () => {
         TestBed.configureTestingModule({
             declarations: [AboutUsComponent],
             imports: [HttpModule, NgbModule.forRoot(), SimpleNotificationsModule.forRoot()],
-            providers: [NgbModule, DialogService, {
+            providers: [NgbModule, DialogService, UtilityService, {
                 provide: Http, useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
                     return new Http(backend, defaultOptions);
                 }, deps: [MockBackend, BaseRequestOptions]
