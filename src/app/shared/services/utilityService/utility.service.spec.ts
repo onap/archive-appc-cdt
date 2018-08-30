@@ -91,4 +91,16 @@ describe('UtilityService', () => {
         let obj = [{data : 'data'}];
         expect(service.checkNotNull(obj)).toBe(true);
     }));
+
+    it('should test setTracelvl function with proper trace value', inject([UtilityService], (service: UtilityService) => {
+        service.setTracelvl(1);
+        let traceValue = localStorage.getItem("Tracelvl");
+        expect(traceValue).toBe("1")
+    }));
+
+    it('should test setTracelvl function with no tracevalue', inject([UtilityService], (service: UtilityService) => {
+        service.setTracelvl(null);
+        let traceValue = localStorage.getItem("Tracelvl");
+        expect(traceValue).toBe("0")
+    }));
 });
