@@ -313,5 +313,10 @@ describe('MappingEditorService', () => {
         service.handlekeyCompletion();
         expect(spy).toHaveBeenCalled();
     });
-});
 
+    it('should test setTemplateDataForStore function', ()=>{
+        service.setTemplateDataForStore('data');
+        let tmpDaa = service.getTemplateDataFromStore();
+        expect(service.storedTemplateData).toBe('data');
+    });
+});
