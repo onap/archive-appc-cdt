@@ -203,4 +203,22 @@ describe('MyvnfsComponent', () => {
         expect(component.errorMessage).toBe('');
         expect(component.invalid).toBe(false);
     });
+
+    it('should test buildNewDesign method with respons yes', ()=> {        
+        component.vnfType = 'ABC';
+        component.vnfcRequired = true;
+        component.buildNewDesign('yes');
+        let vnfparams = sessionStorage.getItem('vnfParams');
+        let vnfcSelectionFlag = sessionStorage.getItem('vnfcSelectionFlag');
+        expect(vnfparams).toBe('{"vnfType":"ABC"}');
+        expect(vnfcSelectionFlag).toBe("true");
+    });
+
+    it('should test buildNewDesign method with response other than yes', ()=> {        
+        component.vnfType = 'ABC';
+        component.vnfcRequired = true;
+        component.buildNewDesign('No');
+        let vnfparams = sessionStorage.getItem('vnfParams');
+        expect(vnfparams).toBe("");
+    });
 });
