@@ -162,7 +162,7 @@ describe('BuildDesignComponent', () => {
 
     it('Should notify error message if no valid template identifier', () => {
         let spy = spyOn(NotificationsService.prototype, 'error');
-        component.refList = {"action": "ConfigScaleOut", "scope": {"vnf-type": "test 1"}, "device-protocol": ""};
+        component.refList = {"action": "ConfigScaleOut", "scope": {"vnf-type": "test 1"}, "device-protocol": "ANSIBLE"};
 
         component.checkRefDataReqFields();
 
@@ -176,5 +176,9 @@ describe('BuildDesignComponent', () => {
         component.checkRefDataReqFields();
 
         expect(spy).toHaveBeenCalled();
+    });
+
+    it('Should test setAllowOtherUpdates method', ()=> {                
+        component.setAllowOtherUpdates(true);
     });
 });
