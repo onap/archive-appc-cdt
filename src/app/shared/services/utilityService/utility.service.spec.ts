@@ -103,4 +103,11 @@ describe('UtilityService', () => {
         let traceValue = localStorage.getItem("Tracelvl");
         expect(traceValue).toBe("0")
     }));
+
+    it('should test processApiError function', inject([UtilityService], (service: UtilityService) => {
+        let spy = spyOn(NotificationsService.prototype, 'error');
+        service.processApiError();
+        expect(spy).toHaveBeenCalled();
+
+    }));
 });
