@@ -245,7 +245,8 @@ describe('ReferenceDataformComponent', () => {
             'user-name': '',
             'port-number': '',
             'artifact-list': []
-        }
+        };
+        component.vnfcIdentifier = '346';
         component.prepareReferenceObject();
 
         expect(component.referenceDataObject['action-level']).toBe("vnf")
