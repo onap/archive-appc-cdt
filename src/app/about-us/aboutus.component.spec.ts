@@ -95,4 +95,16 @@ describe('ContacUsComponent', () => {
         });
         component.downloadLogFile();
     });
+
+    it('should test tlPlus function', inject([UtilityService], (utilService: UtilityService) => {
+        let spy1 = spyOn(UtilityService.prototype, 'getTracelvl');
+        component.tlPlus();
+        expect(spy1).toHaveBeenCalled();
+    }));
+
+    it('should test tlMinus function', inject([UtilityService], (utilService: UtilityService) => {
+        let spy1 = spyOn(UtilityService.prototype, 'getTracelvl');
+        component.tlMinus();
+        expect(spy1).toHaveBeenCalled();
+    }));
 });
