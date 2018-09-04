@@ -71,4 +71,14 @@ describe('OrderByPipe', () => {
         ]
         expect(pipe.transform(data,undefined,false).length).toBe(2);
     });
+
+    it('should test orderByComparator when orderby parmeter is number ', () => {
+        const pipe = new OrderBy();
+
+        let data =[
+            {'vnf-type': '311','vnfc-type':'vnfc1','artifact-name':'artf1'},
+            {'vnf-type':'316','vnfc-type':'vnfc2','artifact-name':'artf2'}
+        ]
+        pipe.transform(data,"vnf-type",false);
+    });
 });
