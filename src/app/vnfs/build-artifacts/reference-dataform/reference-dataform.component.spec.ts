@@ -204,7 +204,8 @@ describe('ReferenceDataformComponent', () => {
             'user-name': '',
             'port-number': '',
             'artifact-list': []
-        }
+        };
+        component.vnfcIdentifier = '346';
         component.prepareReferenceObject();
         expect(component.referenceDataObject['action-level']).toBe("vnf")
     })
@@ -225,7 +226,7 @@ describe('ReferenceDataformComponent', () => {
             'port-number': '',
             'artifact-list': []
         }
-
+        component.vnfcIdentifier = '346';
         component.prepareReferenceObject();
         expect(component.referenceDataObject['action-level']).toBe("vnfc")
     })
@@ -331,7 +332,8 @@ describe('ReferenceDataformComponent', () => {
             'user-name': '',
             'port-number': '',
             'artifact-list': []
-        }
+        };
+        component.vnfcIdentifier = '346';
         component.prepareReferenceObject();
         expect(component.referenceDataObject['action-level']).toBe("vnf")
     })
@@ -784,6 +786,14 @@ describe('ReferenceDataformComponent', () => {
         expect(fileSaved).toBe(undefined)
     })
     it('Save to appc file - should not process if device protocol is null ', () => {
+        component.tempAllData = [
+            {
+                action: "Configure",
+                scope: {
+                    'vnf-type': "testVnf"
+                }
+            }
+        ]
         component.referenceDataObject.action = "Configure"
         component.referenceDataObject['device-protocol'] = "test"
         component.appData.template.templateData = { "test": "test" }
@@ -792,7 +802,7 @@ describe('ReferenceDataformComponent', () => {
         component.actionChanged = true
         component.currentAction = "COnfigure"
         let fileSaved = component.saveToAppc();
-        //expect(fileSaved).toBe(undefined)
+        expect(fileSaved).toBe(undefined)
     })
 
     //   it('uploadfile  ', () => {  let    files = { 0: {name:'foo.XLS', size:
