@@ -43,7 +43,7 @@ describe('VmFilteringPipe', () => {
             {action:"Configure","template-id":2,"type":"con"},
             {action:"ConfigScaleout","template-id":1,"type":"conScale"}
         ]
-        expect(pipe.transform(objArray,"ConfigScaleOut",2)[0].type).toBe("con")
+        expect(pipe.transform(objArray,"Config",2)[0].type).toBe("con")
 
     });
 });
