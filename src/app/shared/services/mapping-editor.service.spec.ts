@@ -319,4 +319,9 @@ describe('MappingEditorService', () => {
         let tmpDaa = service.getTemplateDataFromStore();
         expect(service.storedTemplateData).toBe('data');
     });
+
+    it('should test selectedObj function', ()=>{
+        service.selectedObj('data');
+        expect(service.newObject).toBe('data');
+    });
 });
