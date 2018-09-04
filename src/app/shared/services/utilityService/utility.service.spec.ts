@@ -110,4 +110,28 @@ describe('UtilityService', () => {
         expect(spy).toHaveBeenCalled();
 
     }));
+
+    it('should test createPayLoadForSave function', inject([UtilityService], (service: UtilityService) => {
+        let artifactContent = {data: 'data'};
+        let artifactType = 'reference_data';
+        let vnfType = 'vnf-type';
+        let action = 'config';
+        let fileName = 'referencedata.json';
+        let versionNo = 180;
+        localStorage.setItem('apiToken', 'dshagsa'); 
+        localStorage.setItem('userId', 'abc');         
+        let newPayload='{"userID": "' + 'abc' + '","vnf-type" : "' + vnfType + '","action" : "AllAction","artifact-name" : "' + fileName.replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '","artifact-type" : "APPC-CONFIG","artifact-version" : "0.1","artifact-contents" :" ' + artifactContent + '"}';
+        let data =
+        {
+          "input": {
+            "design-request": {
+              "request-id": 'dshagsa',
+              "action": "uploadArtifact",
+              "payload": newPayload
+
+            }
+          }
+        }
+        let payload = service.createPayLoadForSave(artifactType, vnfType, action, fileName, versionNo, artifactContent);
+    }));
 });
