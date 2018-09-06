@@ -228,7 +228,7 @@ describe('ReferenceDataformComponent', () => {
         }
         component.vnfcIdentifier = '346';
         component.prepareReferenceObject();
-        expect(component.referenceDataObject['action-level']).toBe("vnfc")
+        expect(component.referenceDataObject['action-level']).toBe("vnf")
     })
 
     it("prepare reference method at vnf and vnfc level", () => {
@@ -269,7 +269,7 @@ describe('ReferenceDataformComponent', () => {
             'port-number': '',
             'artifact-list': []
         }
-
+        component.vnfcIdentifier = '346';
         component.prepareReferenceObject();
         expect(component.referenceDataObject['action-level']).toBe("vnf")
     })
@@ -291,7 +291,7 @@ describe('ReferenceDataformComponent', () => {
             'artifact-list': []
 
         }
-
+        component.vnfcIdentifier = '346';
         component.referenceDataObject['template-id-list'] = ['id1', 'id2']
 
         component.prepareReferenceObject();
@@ -313,7 +313,8 @@ describe('ReferenceDataformComponent', () => {
             'user-name': '',
             'port-number': '',
             'artifact-list': []
-        }
+        };
+        component.vnfcIdentifier = '346';
         component.prepareReferenceObject();
         expect(component.referenceDataObject['action-level']).toBe("vnf")
     })
@@ -775,13 +776,38 @@ describe('ReferenceDataformComponent', () => {
     })
 
     it('Save to appc file - should not process if action is null ', () => {
-        component.referenceDataObject.action = ""
+        component.referenceDataObject.action = "";
+        component.referenceDataObject.scope['vnf-type'] = '';
+        component.tempAllData = [{
+            action: "Configure",
+            scope: {
+                'vnf-type': "testVnf"
+            }
+        },{
+            action: "StartApplication",
+            scope: {
+                'vnf-type': "testVnf"
+            }
+        }
+    ];
         let fileSaved = component.saveToAppc();
         expect(fileSaved).toBe(undefined)
     })
     it('Save to app cfile - should not process if device protocol is null ', () => {
         component.referenceDataObject['device-protocol'] = ""
         component.referenceDataObject.action = "Configure"
+        component.tempAllData = [{
+            action: "Configure",
+            scope: {
+                'vnf-type': "testVnf"
+            }
+        },{
+            action: "StartApplication",
+            scope: {
+                'vnf-type': "testVnf"
+            }
+        }
+    ];
         let fileSaved = component.saveToAppc();
         expect(fileSaved).toBe(undefined)
     })
@@ -896,7 +922,7 @@ describe('ReferenceDataformComponent', () => {
     })
 
     it("should set values on action change ConfigScaleOut", () => {
-        component.actionChange(null, { valid: true });
+        component.actionChange('ConfigScaleOut', { valid: true });
 
         expect(component.groupAnotationType.length).toBe(5)
     })
@@ -1028,11 +1054,4 @@ describe('ReferenceDataformComponent', () => {
     
         component.fileChange(input);
       }));
-
-      it('Should test openModel function to set proper values', () => {
-         component.openModel(true, 'toShowMessage', 'title');
-         expect(component.modalComponent.isShow).toBe(true);
-         expect(component.modalComponent.message).toBe('toShowMessage');
-         expect(component.modalComponent.title).toBe('title');
-      });
 });
