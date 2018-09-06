@@ -181,4 +181,27 @@ describe('BuildDesignComponent', () => {
     it('Should test setAllowOtherUpdates method', ()=> {                
         component.setAllowOtherUpdates(true);
     });
+
+    it('Should test setAllowOtherUpdates method', ()=> {
+        let refData = {"action":"ConfigScaleOut",
+        "action-level":"vnf",
+        "scope": {
+            "vnf-type":"ticktack",
+            "vnfc-type":""
+                },
+         "template":"Y",
+         "vm":[],
+         "device-protocol":"CHEF",
+         "user-name":"",
+         "port-number":"",
+         "artifact-list":[
+             {"artifact-name":"template_Configure_ticktack_0.0.1V.json","artifact-type":"config_template"},
+             {"artifact-name":"pd_Configure_ticktack_0.0.1V.yaml","artifact-type":"parameter_definitions"}],
+        "scopeType":"vnf-type"
+        };
+        
+        let reqObj = {'reqField': true}
+        component.getRefData(refData, reqObj);
+        expect(component.refDataRequiredFiels).toBe(true);
+    });
 });
