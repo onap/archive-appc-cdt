@@ -29,7 +29,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { UtilityService } from '../../../shared/services/utilityService/utility.service';
 import { HttpUtilService } from '../../../shared/services/httpUtil/http-util.service';
 
-fdescribe('ReferenceDataFormUtil', () => {
+describe('ReferenceDataFormUtil', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientModule],
@@ -46,5 +46,13 @@ fdescribe('ReferenceDataFormUtil', () => {
 
     it('should ...', inject([ReferenceDataFormUtil], (service: ReferenceDataFormUtil) => {
         expect(service).toBeTruthy();
+    }));
+
+    it('should test checkResult function when status is 401', inject([ReferenceDataFormUtil], (service: ReferenceDataFormUtil) => {
+        let spy = spyOn(NotificationsService.prototype, 'info');
+        let result = {output: {status: { code: '401'}}};
+        let returnValue = service.checkResult(result);
+        expect(spy).toHaveBeenCalled();
+        expect(returnValue).toBe(false);
     }));
 });
