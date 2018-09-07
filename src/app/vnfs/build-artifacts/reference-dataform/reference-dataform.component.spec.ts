@@ -1054,4 +1054,34 @@ describe('ReferenceDataformComponent', () => {
     
         component.fileChange(input);
       }));
+
+      it('should test validateVnfcName function with empty name value', ()=>{
+        component.validateVnfcName('');
+        expect(component.errorMessage).toBe('');
+        expect(component.invalid).toBe(true);
+    });
+
+    it('should test validateVnfcName function with name value leading and trailing white spaces', ()=>{
+        component.validateVnfcName(' name ');
+        expect(component.errorMessage).toBe('Leading and trailing spaces are not allowed');
+        expect(component.invalid).toBe(true);
+    });
+
+    it('should test validateVnfcName function with name including more than one space', ()=>{
+        component.validateVnfcName('na  me');
+        expect(component.errorMessage).toBe('More than one space is not allowed in VNFC Type');
+        expect(component.invalid).toBe(true);
+    });
+
+    it('should test validateVnfcName function with name length greated than 150', ()=>{
+        component.validateVnfcName('namenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenanamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenamenanamenamnamenamename');
+        expect(component.errorMessage).toBe('VNFC Type should be of minimum one character and maximum 50 character');
+        expect(component.invalid).toBe(true);
+    });
+
+    it('should test validateVnfcName function with valid name value', ()=>{
+        component.validateVnfcName('name');
+        expect(component.errorMessage).toBe('');
+        expect(component.invalid).toBe(false);
+    });
 });
