@@ -47,6 +47,7 @@ describe('ReferenceDataformComponent', () => {
     let component: ReferenceDataformComponent;
     let fixture: ComponentFixture<ReferenceDataformComponent>;
     let service: MockMappingService;
+    let originalTimeout;
 
     let httpMock: HttpUtilService
     //mockingthe data for mappingEditorService
@@ -121,6 +122,8 @@ describe('ReferenceDataformComponent', () => {
     }
     class MockreferenceDataObject { }
     beforeEach(async(() => {
+        //  originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        //  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
         TestBed.configureTestingModule({
             declarations: [ReferenceDataformComponent],
             schemas: [NO_ERRORS_SCHEMA],
@@ -1084,4 +1087,28 @@ describe('ReferenceDataformComponent', () => {
         expect(component.errorMessage).toBe('');
         expect(component.invalid).toBe(false);
     });
+
+    it('should test displayHideVnfc function', inject([MappingEditorService], (service: MappingEditorService) => {
+        component.referenceDataObject = {
+            action: 'ConfigScaleOut',
+            'action-level': 'vnf',
+            scope: {
+                'vnf-type': '',
+                'vnfc-type-list': ['346']
+            },
+            'template': 'Y',
+            vm: [],
+            'device-protocol': '',
+            'user-name': '',
+            'port-number': '',
+            'artifact-list': []
+        };
+        service.newObject = { vnfc: false};
+        component.displayHideVnfc();
+        expect(component.vnfcIdentifier).toBe('346');
+    }));
+
+    // afterEach(function() {
+    //     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    // });
 });
