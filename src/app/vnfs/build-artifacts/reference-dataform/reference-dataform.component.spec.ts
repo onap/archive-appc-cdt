@@ -1108,6 +1108,26 @@ describe('ReferenceDataformComponent', () => {
         expect(component.vnfcIdentifier).toBe('346');
     }));
 
+    it('should test displayHideVnfc function vnfc is true', inject([MappingEditorService], (service: MappingEditorService) => {
+        component.referenceDataObject = {
+            action: 'ConfigScaleOut',
+            'action-level': 'vnf',
+            scope: {
+                'vnf-type': '',
+                'vnfc-type-list': ['346']
+            },
+            'template': 'Y',
+            vm: [],
+            'device-protocol': '',
+            'user-name': '',
+            'port-number': '',
+            'artifact-list': []
+        };
+        service.newObject = { vnfc: true};
+        component.displayHideVnfc();
+        expect(component.vnfcIdentifier).toBe(true);
+    }));
+
     // afterEach(function() {
     //     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     // });
