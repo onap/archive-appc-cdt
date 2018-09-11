@@ -55,4 +55,12 @@ describe('ReferenceDataFormUtil', () => {
         expect(spy).toHaveBeenCalled();
         expect(returnValue).toBe(false);
     }));
+
+    it('should test checkResult function when status is 400', inject([ReferenceDataFormUtil], (service: ReferenceDataFormUtil) => {
+        let spy = spyOn(NotificationsService.prototype, 'success');
+        let result = {output: {status: { code: '400'}}};
+        let returnValue = service.checkResult(result);
+        expect(spy).toHaveBeenCalled();
+        expect(returnValue).toBe(true);
+    }));
 });
