@@ -63,4 +63,12 @@ describe('ReferenceDataFormUtil', () => {
         expect(spy).toHaveBeenCalled();
         expect(returnValue).toBe(true);
     }));
+
+
+    it('should test nullCheckForVnfcType and nullCheckForVnfcTypeList function', inject([ReferenceDataFormUtil], (service: ReferenceDataFormUtil) => {
+        let returnValueVnfcType = service.nullCheckForVnfcType(false);
+        let returnValueVnfcTypeList = service.nullCheckForVnfcTypeList('null');
+        expect(returnValueVnfcType).toBe(true);
+        expect(returnValueVnfcTypeList).toBe(true);
+    }));
 });
