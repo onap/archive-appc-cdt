@@ -1128,6 +1128,28 @@ describe('ReferenceDataformComponent', () => {
         expect(component.vnfcIdentifier).toBe(true);
     }));
 
+    it('should test validateDataAndSaveToAppc function', ()=>{
+        component.tempAllData = [{
+            action: "Configure",
+            scope: {
+                'vnf-type': "testVnf"
+            }
+        },{
+            action: "StartApplication",
+            scope: {
+                'vnf-type': "testVnf"
+            }
+        }
+    ];
+        component.actionChanged = true;
+        component.currentAction = 'Config';
+        let spy = spyOn(ReferenceDataformComponent.prototype, 'populateExistinAction');
+        component.validateDataAndSaveToAppc(true, {}, {});
+        expect(spy).toHaveBeenCalled();
+        expect(component.referenceDataObject.action).toBe('Config')
+    });
+
+
     // afterEach(function() {
     //     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     // });
