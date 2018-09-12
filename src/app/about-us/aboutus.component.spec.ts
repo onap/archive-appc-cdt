@@ -107,4 +107,18 @@ describe('ContacUsComponent', () => {
         component.tlMinus();
         expect(spy1).toHaveBeenCalled();
     }));
+
+    it('should test tlPlus function to call setTracelvl ', inject([UtilityService], (utilService: UtilityService) => {
+        let spy1 = spyOn(UtilityService.prototype, 'setTracelvl');
+        component.tlPlus();
+        expect(spy1).toHaveBeenCalled();
+    }));
+
+    it('should test tlMinus function to call setTracelvl', inject([UtilityService], (utilService: UtilityService) => {
+        let spy1 = spyOn(UtilityService.prototype, 'setTracelvl');
+        let trv = 4;
+        localStorage["Tracelvl"] = trv;
+        component.tlMinus();
+        expect(spy1).toHaveBeenCalled();
+    }));
 });
