@@ -86,7 +86,7 @@ export class ReferenceDataformComponent implements OnInit {
     errorMessage = '';
     invalid = true;
     fileName: any;
-    vnfcIdentifier;
+    vnfcIdentifier = '';
     oldVnfcIdentifier: any;
     public uploadFileName: any;
     public addVmClickedFlag: boolean = false;
@@ -217,7 +217,8 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     ngOnInit() {
-      console.log( this.classNm+": ngOnInit: start.");
+      if( this.utilityService.getTracelvl() > 0 )
+        console.log( this.classNm+": ngOnInit: start.");
         this.displayVnfc = sessionStorage.getItem("vnfcSelectionFlag");
         if (this.configScaleOutExist) {
             this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
@@ -260,14 +261,16 @@ export class ReferenceDataformComponent implements OnInit {
         if (sessionStorage.getItem('vnfParams')) {
             this.vnfParams = JSON.parse(sessionStorage.getItem('vnfParams'));
         }
-        if (this.vnfParams && this.vnfParams.vnfType) {
-          console.log( this.classNm+": ngOnInit: vnfParams.vnfType:["+
-            this.vnfParams.vnfType+"]");
+        if( this.vnfParams && this.vnfParams.vnfType) {
+          if( this.utilityService.getTracelvl() > 0 )
+            console.log( this.classNm+": ngOnInit: vnfParams.vnfType:["+
+              this.vnfParams.vnfType+"]");
             this.referenceDataObject['scope']['vnf-type']= this.vnfParams.vnfType;
         }
-        if (this.vnfParams && this.vnfParams.vnfcType) {
-          console.log( this.classNm+": ngOnInit: vnfParams.vnfcType:["+
-            this.vnfParams.vnfcType+"]");
+        if( this.vnfParams && this.vnfParams.vnfcType) {
+          if( this.utilityService.getTracelvl() > 0 )
+            console.log( this.classNm+": ngOnInit: vnfParams.vnfcType:["+
+              this.vnfParams.vnfcType+"]");
            this.referenceDataObject['scope']['vnfc-type']= this.vnfParams.vnfcType;
         }
         this.uploadedDataArray = [];
@@ -276,7 +279,9 @@ export class ReferenceDataformComponent implements OnInit {
         this.uploadFileName = '';
         this.templateIdentifier = this.mappingEditorService.identifier
         this.oldVnfcIdentifier = this.vnfcIdentifier;
+        if( this.utilityService.getTracelvl() > 1 )
           console.log( this.classNm+": ngOnInit: displayVnfc:["+this.displayVnfc+"]");
+        if( this.utilityService.getTracelvl() > 1 )
           console.log( this.classNm+": ngOnInit: templateIdentifier:["+
             this.templateIdentifier+"]");
         // Enable or Block Template and PD Tabs
@@ -297,6 +302,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     //to retrive the data from appc and assign it to the vaiables, if no data display the message reterived from the API
     getArtifact() {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": getArtifact: start.");
         try {
             let data = this.utilityService.createPayloadForRetrieve(true, '', '', '');
@@ -305,8 +311,10 @@ export class ReferenceDataformComponent implements OnInit {
                 url: environment.getDesigns,
                 data: data
             }).subscribe(resp => {
-                console.log( this.classNm+": getArtifact: got response ...");
+                if( this.utilityService.getTracelvl() > 1 )
+                  console.log( this.classNm+": getArtifact: got response ...");
                 if (resp.output.data.block != undefined) {
+                  if( this.utilityService.getTracelvl() > 1 )
                     console.log( this.classNm+
                       ": getArtifact: output.data.block not empty.");
                     this.nService.success(appConstants.notifications.titles.status, appConstants.messages.datafetched);
@@ -419,7 +427,7 @@ export class ReferenceDataformComponent implements OnInit {
             this.displayVnfc = 'false'
             this.isVnfcTypeList = false
         }
-      if( this.utilityService.getTracelvl() > 0 )
+      if( this.utilityService.getTracelvl() > 1 )
         console.log(this.classNm+": displayHideVnfc: finish. isVnfcType:["+
           this.isVnfcType+" displayVnfc:["+this.displayVnfc+"] isVnfcTypeList:["+
           this.isVnfcTypeList+"]");
@@ -427,6 +435,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     //reinitializing the required values
     ngOnDestroy() {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": ngOnDestroy: start:"+
             " vnfcIdentifier:["+this.vnfcIdentifier+"]");
         let referenceObject = this.prepareReferenceObject();
@@ -470,6 +479,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     //validating the vnf and vnfc data in the pop up
     validateVnfcName(name) {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": validateVnfcName: start: name:["+name+"]");
         if (!name.trim() || name.length < 1) {
             this.errorMessage = '';
@@ -556,6 +566,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     //Reference object to create reference data
     prepareReferenceObject(isSaving?: any) {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": prepareReferenceObject: start.");
         let scopeName = this.resetParamsOnVnfcType();
         let extension = this.decideExtension(this.referenceDataObject);
@@ -597,6 +608,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     upload(evt: any) {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": upload: start.");
        /* wire up file reader */
         const target: DataTransfer = <DataTransfer>(evt.target);
@@ -646,6 +658,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     addVmCapabilitiesData() {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": addVmCapabilitiesData: start.");
         for (var i = 0; i < this.uploadedDataArray.length; i++) {
             var vnfcFuncCodeArray = [];
@@ -679,6 +692,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     //download template
     save(form: any, isValid: boolean) {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": save: start: referenceDataObject.action:["+
           this.referenceDataObject.action+"]");
         if (this.referenceDataObject.action === '') {
@@ -710,6 +724,7 @@ export class ReferenceDataformComponent implements OnInit {
         }
     }
     downloadFile(blob, fileName, delay) {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": downloadFile: start.");
         setTimeout(() => {
             saveAs(blob, fileName);
@@ -717,6 +732,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     downloadTemplate() {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": downloadTemplate: start.");
         var fileName = this.downloadData.template.templateFileName;
         console.log( this.classNm+": downloadTemplate: fileName:["+fileName+"]");
@@ -752,6 +768,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     // save the values to the cache, on action change without download
     validateDataAndSaveToAppc( valid, form, event) {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": validateDataAndSaveToAppc: start: valid:"+valid);
         // will show error message
         this.showValidationErrors(this.referenceDataObject);
@@ -787,11 +804,13 @@ export class ReferenceDataformComponent implements OnInit {
 
     //this method saves reference, template, param and PD data to APPC
     saveToAppc() {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": saveToAppc: start: vnf-type:["+
           this.referenceDataObject.scope['vnf-type']+"]");
         let theJSON = JSON.stringify(this.tempAllData, null, '\t');
         let fileName = 'reference_AllAction_' + this.referenceDataObject.scope['vnf-type'].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '_' + '0.0.1V.json';
-        this.saveReferenceDataToAppc(JSON.stringify({ reference_data: this.tempAllData }), this.tempAllData[this.tempAllData.length - 1], fileName);
+        this.saveReferenceDataToAppc(
+          JSON.stringify({ reference_data: this.tempAllData }), this.referenceDataObject.scope['vnf-type'], fileName);
 
         var templateData = JSON.stringify(this.appData.template.templateData);
         var nameValueData = JSON.stringify(this.appData.template.nameValueData);
@@ -803,6 +822,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     // valaidation of template data
     validateTempAllData() {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": validateTempAllData: start.");
         if (this.tempAllData) {
             var updatedData = [];
@@ -816,11 +836,13 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     //.. prepare and send the data to the API.
-    saveReferenceDataToAppc(artifactData, dataJson, fileName) {
-        console.log( this.classNm+": saveReferenceDataToAppc: start.");
+    saveReferenceDataToAppc(artifactData, vnf_type, fileName) {
+      if( this.utilityService.getTracelvl() > 0 )
+        console.log( this.classNm+": saveReferenceDataToAppc: start: vnf_type:["+
+          vnf_type+"]");
         let data = [];
         let slashedPayload = this.referenceDataFormUtil.appendSlashes(artifactData);
-        let payload = this.utilityService.createPayLoadForSave("reference_data", dataJson['scope']['vnf-type'], "AllAction", fileName, this.versionNoForApiCall, slashedPayload);
+        let payload = this.utilityService.createPayLoadForSave("reference_data", vnf_type, "AllAction", fileName, this.versionNoForApiCall, slashedPayload);
         this.ngProgress.start();
         this.httpUtils.post({
             url: environment.getDesigns,
@@ -1633,7 +1655,9 @@ export class ReferenceDataformComponent implements OnInit {
         {
           console.log( this.classNm+": pushOrReplaceTempData: scope vnfc-type"+
             " is empty.\n vnfcIdentifier:["+this.vnfcIdentifier+"]");
-          if( this.vnfcIdentifier.length > 0 ) {
+          if( this.vnfcIdentifier != null && this.vnfcIdentifier != undefined &&
+              this.vnfcIdentifier.length > 0 )
+          {
             newObj.scope['vnfc-type']= this.vnfcIdentifier;
           }
         };
