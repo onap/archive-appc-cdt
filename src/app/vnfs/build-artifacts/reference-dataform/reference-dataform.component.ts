@@ -217,8 +217,9 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     ngOnInit() {
+      let methName= "ngOnInit";
       if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": ngOnInit: start.");
+        console.log( this.classNm+": "+methName+": start.");
         this.displayVnfc = sessionStorage.getItem("vnfcSelectionFlag");
         if (this.configScaleOutExist) {
             this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
@@ -241,7 +242,9 @@ export class ReferenceDataformComponent implements OnInit {
         };
         this.updateParams = sessionStorage.getItem('updateParams');
         let cacheData = this.mappingEditorService.referenceNameObjects;
-        if (cacheData != undefined && cacheData != null && cacheData.length > 0) {
+        if( cacheData != undefined && cacheData != null && cacheData.length > 0) {
+          if( this.utilityService.getTracelvl() > 0 )
+            console.log( this.classNm+": ngOnInit: have cacheData.");
             this.tempAllData = cacheData;
             if (this.mappingEditorService.latestAction != undefined) {
                 this.referenceDataObject = this.mappingEditorService.latestAction;
@@ -263,13 +266,13 @@ export class ReferenceDataformComponent implements OnInit {
         }
         if( this.vnfParams && this.vnfParams.vnfType) {
           if( this.utilityService.getTracelvl() > 0 )
-            console.log( this.classNm+": ngOnInit: vnfParams.vnfType:["+
+            console.log( this.classNm+": "+methName+": vnfParams.vnfType:["+
               this.vnfParams.vnfType+"]");
             this.referenceDataObject['scope']['vnf-type']= this.vnfParams.vnfType;
         }
         if( this.vnfParams && this.vnfParams.vnfcType) {
           if( this.utilityService.getTracelvl() > 0 )
-            console.log( this.classNm+": ngOnInit: vnfParams.vnfcType:["+
+            console.log( this.classNm+": "+methName+": vnfParams.vnfcType:["+
               this.vnfParams.vnfcType+"]");
            this.referenceDataObject['scope']['vnfc-type']= this.vnfParams.vnfcType;
         }
@@ -280,15 +283,19 @@ export class ReferenceDataformComponent implements OnInit {
         this.templateIdentifier = this.mappingEditorService.identifier
         this.oldVnfcIdentifier = this.vnfcIdentifier;
         if( this.utilityService.getTracelvl() > 1 )
-          console.log( this.classNm+": ngOnInit: displayVnfc:["+this.displayVnfc+"]");
+          console.log( this.classNm+": "+methName+": displayVnfc:["+
+            this.displayVnfc+"]");
         if( this.utilityService.getTracelvl() > 1 )
-          console.log( this.classNm+": ngOnInit: templateIdentifier:["+
+          console.log( this.classNm+": "+methName+": templateIdentifier:["+
             this.templateIdentifier+"]");
         // Enable or Block Template and PD Tabs
         this.buildDesignComponent.getRefData(
           { ...this.referenceDataObject,  displayVnfc: this.displayVnfc },
           { reqField: this.templateIdentifier });
+        //.. configure some drop-downs
         this.configDrp(this.referenceDataObject.action)
+        if( this.utilityService.getTracelvl() > 0 )
+          console.log( this.classNm+": "+methName+": finish.");
     }
 
     toggleIdentifier(data) {
@@ -457,6 +464,8 @@ export class ReferenceDataformComponent implements OnInit {
     }
     // update my vnf pop up session values
     updateSessionValues(event: any, type: string) {
+      if( this.utilityService.getTracelvl() > 0 )
+        console.log(this.classNm+": updateSessionValues: type:["+type+"]");
         if (type === 'action') {
             sessionStorage.setItem('action', event);
         }
@@ -807,7 +816,9 @@ export class ReferenceDataformComponent implements OnInit {
       if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": saveToAppc: start: vnf-type:["+
           this.referenceDataObject.scope['vnf-type']+"]");
-        let theJSON = JSON.stringify(this.tempAllData, null, '\t');
+      let theJSON = JSON.stringify( this.tempAllData);
+      if( this.utilityService.getTracelvl() > 0 )
+        console.log( this.classNm+": saveToAppc: tempAllData:["+theJSON+"]");
         let fileName = 'reference_AllAction_' + this.referenceDataObject.scope['vnf-type'].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '_' + '0.0.1V.json';
         this.saveReferenceDataToAppc(
           JSON.stringify({ reference_data: this.tempAllData }), this.referenceDataObject.scope['vnf-type'], fileName);
@@ -1040,6 +1051,7 @@ export class ReferenceDataformComponent implements OnInit {
    // }
 
     resetForm() {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": resetForm: start.");
         this.referenceDataObject['action-level'] = 'vnf';
         this.referenceDataObject.template = 'Y';
@@ -1052,6 +1064,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     // this method gets called with the action as parameter and the respective action details are fetched and assigned to the current page
     populateExistinAction(data) {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": populateExistinAction: start.");
         let existAction = this.tempAllData.findIndex(obj => {
             return obj.action == data;
@@ -1067,6 +1080,7 @@ export class ReferenceDataformComponent implements OnInit {
                 this.referenceDataObject['vnfcIdentifier'] = obj['scope']['vnfc-type-list'][0];
             }
         } else {
+          if( this.utilityService.getTracelvl() > 0 )
             console.log( this.classNm+": populateExistinAction: action not found");
             this.resetForm();
             this.referenceDataObject.action = data;
@@ -1108,7 +1122,9 @@ export class ReferenceDataformComponent implements OnInit {
     //Modal pop up for action change with values entered.
     actionChange(data, userForm) {
       var methName= "actionChange";
-        console.log( this.classNm+": "+methName+": start: data:["+data+"]");
+      if( this.utilityService.getTracelvl() > 0 )
+        console.log( this.classNm+": "+methName+": start: data:["+data+"]"+
+          " userForm.valid:["+userForm.valid+"]");
         this.disableGrpNotationValue = false
         if (data == null) {
             console.log( this.classNm+": "+methName+": data == null");
@@ -1713,6 +1729,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     addAllActionObj(newObj, scopeName) {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": addAllActionObj: start.");
         //Creating all action block to allow mulitple actions at once
         let allAction = {
@@ -1735,6 +1752,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     resetTempData() {
+      if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": resetTempData: start.");
         if (this.uploadedDataArray && this.uploadedDataArray != undefined && this.uploadedDataArray.length != 0) {
             if (this.tempAllData && this.tempAllData != undefined) {
