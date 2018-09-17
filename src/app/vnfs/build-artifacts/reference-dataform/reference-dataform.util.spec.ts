@@ -71,4 +71,14 @@ describe('ReferenceDataFormUtil', () => {
         expect(returnValueVnfcType).toBe(true);
         expect(returnValueVnfcTypeList).toBe(true);
     }));
+
+    it('should test decideExtension function when device-protocol is CLI', inject([ReferenceDataFormUtil], (service: ReferenceDataFormUtil) => {
+        let extension = service.decideExtension({'device-protocol': 'CLI'});
+        expect(extension).toBe('.json');
+    }));
+
+    it('should test decideExtension function when device-protocol is NETCONF-XML', inject([ReferenceDataFormUtil], (service: ReferenceDataFormUtil) => {
+        let extension = service.decideExtension({'device-protocol': 'NETCONF-XML'});
+        expect(extension).toBe('.xml');
+    }));
 });
