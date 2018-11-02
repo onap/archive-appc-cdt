@@ -45,7 +45,7 @@ import { ConfirmComponent } from "../../../shared/confirmModal/confirm.component
 
 declare var $: any;
 type AOA = Array<Array<any>>;
-const REFERENCE_DATA:string= "reference_data";
+const REFERENCE_DATA: string = "reference_data";
 
 @Component({
     selector: 'reference-dataform',
@@ -54,7 +54,7 @@ const REFERENCE_DATA:string= "reference_data";
     providers: [ReferenceDataFormUtil]
 })
 export class ReferenceDataformComponent implements OnInit {
-    public classNm= "ReferenceDataformCompon";
+    public classNm = "ReferenceDataformCompon";
     @ViewChild(ModalComponent) modalComponent: ModalComponent;
     public showUploadStatus: boolean = false;
     public fileUploaded: boolean = false;
@@ -126,26 +126,26 @@ export class ReferenceDataformComponent implements OnInit {
         'artifact-list': []
     };
     public refernceScopeObj = { sourceType: '', from: '', to: '' };
-    public actions = [ appConstants.Actions.blank, 
-                        appConstants.Actions.configure,
-                        appConstants.Actions.ConfigModify,
-                        appConstants.Actions.configBackup,
-                        appConstants.Actions.configRestore,
-                        appConstants.Actions.getRunningConfig,
-                        appConstants.Actions.healthCheck,
-                        appConstants.Actions.startApplication,
-                        appConstants.Actions.stopApplication,
-                        appConstants.Actions.quiesceTraffic,
-                        appConstants.Actions.resumeTraffic,
-                        appConstants.Actions.distributeTraffic,
-                        appConstants.Actions.upgradeBackout,
-                        appConstants.Actions.upgradeBackup,
-                        appConstants.Actions.upgradePostCheck,
-                        appConstants.Actions.upgradePreCheck,
-                        appConstants.Actions.upgradeSoftware,
-                        appConstants.Actions.openStackActions,
-                        appConstants.Actions.configScaleOut
-                    ];
+    public actions = [appConstants.Actions.blank,
+    appConstants.Actions.configure,
+    appConstants.Actions.ConfigModify,
+    appConstants.Actions.configBackup,
+    appConstants.Actions.configRestore,
+    appConstants.Actions.getRunningConfig,
+    appConstants.Actions.healthCheck,
+    appConstants.Actions.startApplication,
+    appConstants.Actions.stopApplication,
+    appConstants.Actions.quiesceTraffic,
+    appConstants.Actions.resumeTraffic,
+    appConstants.Actions.distributeTraffic,
+    appConstants.Actions.upgradeBackout,
+    appConstants.Actions.upgradeBackup,
+    appConstants.Actions.upgradePostCheck,
+    appConstants.Actions.upgradePreCheck,
+    appConstants.Actions.upgradeSoftware,
+    appConstants.Actions.openStackActions,
+    appConstants.Actions.configScaleOut
+    ];
     public groupAnotationValue = [appConstants.groupAnotationValue.blank, appConstants.groupAnotationValue.pair];
     public groupAnotationType = [appConstants.groupAnotationType.blank, appConstants.groupAnotationType.firstVnfcName, appConstants.groupAnotationType.fixedValue, appConstants.groupAnotationType.relativeValue];
     public deviceProtocols = [appConstants.DeviceProtocols.blank, appConstants.DeviceProtocols.ansible, appConstants.DeviceProtocols.chef, appConstants.DeviceProtocols.netconfXML, appConstants.DeviceProtocols.rest, appConstants.DeviceProtocols.cli, appConstants.DeviceProtocols.restConf];
@@ -193,34 +193,33 @@ export class ReferenceDataformComponent implements OnInit {
     isVnfcTypeList: boolean = true;
     public actionList = {
         "ConfigScaleOut": "ConfigScaleOut",
-        "Configure": "Configure" 
+        "Configure": "Configure"
     };
     public versionNoForApiCall = "0.0.1";
     private displayVMBlock: boolean = true;
 
-    constructor(
-      private buildDesignComponent: BuildDesignComponent,
-      private httpUtils: HttpUtilService, 
-      private route: Router, 
-      private location: Location, 
-      private activeRoutes: ActivatedRoute, 
-      private notificationService: NotificationService,
-      private paramShareService: ParamShareService, 
-      private mappingEditorService: MappingEditorService, 
-      private modalService: NgbModal, 
-      private nService: NotificationsService, 
-      private ngProgress: NgProgress,
-      private utilityService: UtilityService,
-      private dialogService: DialogService,
-      private referenceDataFormUtil: ReferenceDataFormUtil )
-    {
-      console.log( this.classNm+": new: start.");
+    constructor (
+        private buildDesignComponent: BuildDesignComponent,
+        private httpUtils: HttpUtilService,
+        private route: Router,
+        private location: Location,
+        private activeRoutes: ActivatedRoute,
+        private notificationService: NotificationService,
+        private paramShareService: ParamShareService,
+        private mappingEditorService: MappingEditorService,
+        private modalService: NgbModal,
+        private nService: NotificationsService,
+        private ngProgress: NgProgress,
+        private utilityService: UtilityService,
+        private dialogService: DialogService,
+        private referenceDataFormUtil: ReferenceDataFormUtil) {
+        console.log(this.classNm + ": new: start.");
     }
 
     ngOnInit() {
-      let methName= "ngOnInit";
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": "+methName+": start.");
+        let methName = "ngOnInit";
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": " + methName + ": start.");
         this.displayVnfc = sessionStorage.getItem("vnfcSelectionFlag");
         if (this.configScaleOutExist) {
             this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
@@ -243,9 +242,9 @@ export class ReferenceDataformComponent implements OnInit {
         };
         this.updateParams = sessionStorage.getItem('updateParams');
         let cacheData = this.mappingEditorService.referenceNameObjects;
-        if( cacheData != undefined && cacheData != null && cacheData.length > 0) {
-          if( this.utilityService.getTracelvl() > 0 )
-            console.log( this.classNm+": ngOnInit: have cacheData.");
+        if (cacheData != undefined && cacheData != null && cacheData.length > 0) {
+            if (this.utilityService.getTracelvl() > 0)
+                console.log(this.classNm + ": ngOnInit: have cacheData.");
             this.tempAllData = cacheData;
             if (this.mappingEditorService.latestAction != undefined) {
                 this.referenceDataObject = this.mappingEditorService.latestAction;
@@ -265,17 +264,17 @@ export class ReferenceDataformComponent implements OnInit {
         if (sessionStorage.getItem('vnfParams')) {
             this.vnfParams = JSON.parse(sessionStorage.getItem('vnfParams'));
         }
-        if( this.vnfParams && this.vnfParams.vnfType) {
-          if( this.utilityService.getTracelvl() > 0 )
-            console.log( this.classNm+": "+methName+": vnfParams.vnfType:["+
-              this.vnfParams.vnfType+"]");
-            this.referenceDataObject['scope']['vnf-type']= this.vnfParams.vnfType;
+        if (this.vnfParams && this.vnfParams.vnfType) {
+            if (this.utilityService.getTracelvl() > 0)
+                console.log(this.classNm + ": " + methName + ": vnfParams.vnfType:[" +
+                    this.vnfParams.vnfType + "]");
+            this.referenceDataObject['scope']['vnf-type'] = this.vnfParams.vnfType;
         }
-        if( this.vnfParams && this.vnfParams.vnfcType) {
-          if( this.utilityService.getTracelvl() > 0 )
-            console.log( this.classNm+": "+methName+": vnfParams.vnfcType:["+
-              this.vnfParams.vnfcType+"]");
-           this.referenceDataObject['scope']['vnfc-type']= this.vnfParams.vnfcType;
+        if (this.vnfParams && this.vnfParams.vnfcType) {
+            if (this.utilityService.getTracelvl() > 0)
+                console.log(this.classNm + ": " + methName + ": vnfParams.vnfcType:[" +
+                    this.vnfParams.vnfcType + "]");
+            this.referenceDataObject['scope']['vnfc-type'] = this.vnfParams.vnfcType;
         }
         this.uploadedDataArray = [];
         this.remUploadedDataArray = [];
@@ -283,20 +282,20 @@ export class ReferenceDataformComponent implements OnInit {
         this.uploadFileName = '';
         this.templateIdentifier = this.mappingEditorService.identifier
         this.oldVnfcIdentifier = this.vnfcIdentifier;
-        if( this.utilityService.getTracelvl() > 1 )
-          console.log( this.classNm+": "+methName+": displayVnfc:["+
-            this.displayVnfc+"]");
-        if( this.utilityService.getTracelvl() > 1 )
-          console.log( this.classNm+": "+methName+": templateIdentifier:["+
-            this.templateIdentifier+"]");
+        if (this.utilityService.getTracelvl() > 1)
+            console.log(this.classNm + ": " + methName + ": displayVnfc:[" +
+                this.displayVnfc + "]");
+        if (this.utilityService.getTracelvl() > 1)
+            console.log(this.classNm + ": " + methName + ": templateIdentifier:[" +
+                this.templateIdentifier + "]");
         // Enable or Block Template and PD Tabs
         this.buildDesignComponent.getRefData(
-          { ...this.referenceDataObject,  displayVnfc: this.displayVnfc },
-          { reqField: this.templateIdentifier });
+            { ...this.referenceDataObject, displayVnfc: this.displayVnfc },
+            { reqField: this.templateIdentifier });
         //.. configure some drop-downs
         this.configDrp(this.referenceDataObject.action)
-        if( this.utilityService.getTracelvl() > 0 )
-          console.log( this.classNm+": "+methName+": finish.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": " + methName + ": finish.");
     }
 
     toggleIdentifier(data) {
@@ -310,8 +309,8 @@ export class ReferenceDataformComponent implements OnInit {
 
     //to retrive the data from appc and assign it to the vaiables, if no data display the message reterived from the API
     getArtifact() {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": getArtifact: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": getArtifact: start.");
         try {
             let data = this.utilityService.createPayloadForRetrieve(true, '', '', '');
             this.ngProgress.start();
@@ -319,12 +318,12 @@ export class ReferenceDataformComponent implements OnInit {
                 url: environment.getDesigns,
                 data: data
             }).subscribe(resp => {
-                if( this.utilityService.getTracelvl() > 1 )
-                  console.log( this.classNm+": getArtifact: got response ...");
+                if (this.utilityService.getTracelvl() > 1)
+                    console.log(this.classNm + ": getArtifact: got response ...");
                 if (resp.output.data.block != undefined) {
-                  if( this.utilityService.getTracelvl() > 1 )
-                    console.log( this.classNm+
-                      ": getArtifact: output.data.block not empty.");
+                    if (this.utilityService.getTracelvl() > 1)
+                        console.log(this.classNm +
+                            ": getArtifact: output.data.block not empty.");
                     this.nService.success(appConstants.notifications.titles.status, appConstants.messages.datafetched);
                     let artifactInfo = JSON.parse(resp.output.data.block).artifactInfo[0];
                     let reference_data = JSON.parse(artifactInfo['artifact-content'])['reference_data'][0];
@@ -337,7 +336,7 @@ export class ReferenceDataformComponent implements OnInit {
                     this.displayHideVnfc();
                     // Enable or Block Template and PD Tabs
                     this.buildDesignComponent.getRefData(
-                      {...this.referenceDataObject, displayVnfc: this.displayVnfc } );
+                        { ...this.referenceDataObject, displayVnfc: this.displayVnfc });
                     this.refernceScopeObj.sourceType = this.referenceDataObject['scopeType'];
                     this.mappingEditorService.getReferenceList().push(JSON.parse(artifactInfo['artifact-content']));
                     this.tempAllData = JSON.parse(artifactInfo['artifact-content'])['reference_data'];
@@ -384,19 +383,19 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     displayHideVnfc() {
-        if( this.utilityService.getTracelvl() > 0 )
-          console.log(this.classNm+": displayHideVnfc: start...");
-        if( this.utilityService.getTracelvl() > 1 ) {
-          if( this.referenceDataObject.scope['vnfc-type-list'] ) {
-            console.log( this.classNm+
-              ": displayHideVnfc: refDataObj.scope.vnfc-type-list.length="+
-              this.referenceDataObject.scope['vnfc-type-list'].length );
-          } else {
-            console.log( this.classNm+
-              ": displayHideVnfc: refDataObj.scope.vnfc-type-list not defined");
-          };
-          console.log( this.classNm+": displayHideVnfc: scope.vnfc-type:["+
-            this.referenceDataObject.scope['vnfc-type']+"]");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": displayHideVnfc: start...");
+        if (this.utilityService.getTracelvl() > 1) {
+            if (this.referenceDataObject.scope['vnfc-type-list']) {
+                console.log(this.classNm +
+                    ": displayHideVnfc: refDataObj.scope.vnfc-type-list.length=" +
+                    this.referenceDataObject.scope['vnfc-type-list'].length);
+            } else {
+                console.log(this.classNm +
+                    ": displayHideVnfc: refDataObj.scope.vnfc-type-list not defined");
+            };
+            console.log(this.classNm + ": displayHideVnfc: scope.vnfc-type:[" +
+                this.referenceDataObject.scope['vnfc-type'] + "]");
         };
         if (this.referenceDataObject.scope['vnfc-type-list'] == undefined && (this.referenceDataObject.scope['vnfc-type'] != undefined || this.referenceDataObject.scope['vnfc-type'] != "")) {
             this.isVnfcType = true
@@ -407,7 +406,7 @@ export class ReferenceDataformComponent implements OnInit {
             this.isVnfcType = false
             this.displayVnfc = 'true'
             this.isVnfcTypeList = true
-            if(!this.mappingEditorService.newObject.vnfc) {
+            if (!this.mappingEditorService.newObject.vnfc) {
                 this.vnfcIdentifier = this.referenceDataObject.scope['vnfc-type-list'][0];
                 // this.mappingEditorService.newObject.vnfc = this.vnfcIdentifier;
                 // this.referenceDataObject['vnfcIdentifier'] = this.vnfcIdentifier;
@@ -415,12 +414,12 @@ export class ReferenceDataformComponent implements OnInit {
             } else {
                 this.vnfcIdentifier = this.mappingEditorService.newObject.vnfc;
             }
-            if( this.utilityService.getTracelvl() > 0 )
-              console.log(this.classNm+": displayHideVnfc: vnfcIdentifier:["+
-                this.vnfcIdentifier+"]");
+            if (this.utilityService.getTracelvl() > 0)
+                console.log(this.classNm + ": displayHideVnfc: vnfcIdentifier:[" +
+                    this.vnfcIdentifier + "]");
         }
         if (this.referenceDataObject.scope['vnfc-type-list'] != undefined && this.referenceDataObject.scope['vnfc-type-list'].length == 0 && this.referenceDataObject.scope['vnfc-type'] != undefined && this.referenceDataObject.scope['vnfc-type'].length == 0) {
-            if(this.displayVnfc == 'true') {
+            if (this.displayVnfc == 'true') {
                 this.isVnfcType = false
                 this.displayVnfc = 'true'
                 this.isVnfcTypeList = true
@@ -435,17 +434,17 @@ export class ReferenceDataformComponent implements OnInit {
             this.displayVnfc = 'false'
             this.isVnfcTypeList = false
         }
-      if( this.utilityService.getTracelvl() > 1 )
-        console.log(this.classNm+": displayHideVnfc: finish. isVnfcType:["+
-          this.isVnfcType+" displayVnfc:["+this.displayVnfc+"] isVnfcTypeList:["+
-          this.isVnfcTypeList+"]");
+        if (this.utilityService.getTracelvl() > 1)
+            console.log(this.classNm + ": displayHideVnfc: finish. isVnfcType:[" +
+                this.isVnfcType + " displayVnfc:[" + this.displayVnfc + "] isVnfcTypeList:[" +
+                this.isVnfcTypeList + "]");
     }
 
     //reinitializing the required values
     ngOnDestroy() {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": ngOnDestroy: start:"+
-            " vnfcIdentifier:["+this.vnfcIdentifier+"]");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": ngOnDestroy: start:" +
+                " vnfcIdentifier:[" + this.vnfcIdentifier + "]");
         let referenceObject = this.prepareReferenceObject();
         this.mappingEditorService.changeNavAppData(this.appData);
         this.mappingEditorService.changeNavDownloadData(this.downloadData);
@@ -465,8 +464,8 @@ export class ReferenceDataformComponent implements OnInit {
     }
     // update my vnf pop up session values
     updateSessionValues(event: any, type: string) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log(this.classNm+": updateSessionValues: type:["+type+"]");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": updateSessionValues: type:[" + type + "]");
         if (type === 'action') {
             sessionStorage.setItem('action', event);
         }
@@ -489,8 +488,8 @@ export class ReferenceDataformComponent implements OnInit {
 
     //validating the vnf and vnfc data in the pop up
     validateVnfcName(name) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": validateVnfcName: start: name:["+name+"]");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": validateVnfcName: start: name:[" + name + "]");
         if (!name.trim() || name.length < 1) {
             this.errorMessage = '';
             this.invalid = true;
@@ -576,15 +575,15 @@ export class ReferenceDataformComponent implements OnInit {
 
     //Reference object to create reference data
     prepareReferenceObject(isSaving?: any) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": prepareReferenceObject: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": prepareReferenceObject: start.");
         let scopeName = this.resetParamsOnVnfcType();
         let extension = this.decideExtension(this.referenceDataObject);
         this.prepareArtifactList(scopeName, extension);
         if (this.referenceDataObject.action === 'OpenStack Actions') {
             this.referenceDataObject['template'] = 'N';
             this.referenceDataObject['artifact-list'] = [];
-            this.referenceDataObject['firstRowVmSpreadSheet']=this.firstArrayElement;
+            this.referenceDataObject['firstRowVmSpreadSheet'] = this.firstArrayElement;
         }
         //detaching the object from the form and processing further
         let newObj = $.extend(true, {}, this.referenceDataObject);
@@ -618,17 +617,17 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     upload(evt: any) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": upload: start.");
-       /* wire up file reader */
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": upload: start.");
+        /* wire up file reader */
         const target: DataTransfer = <DataTransfer>(evt.target);
         this.uploadFileName = evt.target.files[0].name;
         var fileExtension = this.uploadFileName.substr(this.uploadFileName.lastIndexOf('.') + 1);
         if (target.files.length != 1) {
-          console.log( this.classNm+": upload: Error: got no file !");
+            console.log(this.classNm + ": upload: Error: got no file !");
             throw new Error(appConstants.errors.multipleFileUploadError);
         }
-        console.log( this.classNm+": upload: filename:["+evt.target.files[0].name+"]");
+        console.log(this.classNm + ": upload: filename:[" + evt.target.files[0].name + "]");
         if (fileExtension.toUpperCase() === 'XLS' || fileExtension.toUpperCase() === 'XLSX') {
             const reader = new FileReader();
             reader.onload = (e: any) => {
@@ -668,8 +667,8 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     addVmCapabilitiesData() {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": addVmCapabilitiesData: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": addVmCapabilitiesData: start.");
         for (var i = 0; i < this.uploadedDataArray.length; i++) {
             var vnfcFuncCodeArray = [];
             var data = this.uploadedDataArray[i];
@@ -702,9 +701,9 @@ export class ReferenceDataformComponent implements OnInit {
 
     //download template
     save(form: any, isValid: boolean) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": save: start: referenceDataObject.action:["+
-          this.referenceDataObject.action+"]");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": save: start: referenceDataObject.action:[" +
+                this.referenceDataObject.action + "]");
         if (this.referenceDataObject.action === '') {
             this.nService.error(appConstants.notifications.titles.error, appConstants.errors.noActionError);
             return;
@@ -734,18 +733,18 @@ export class ReferenceDataformComponent implements OnInit {
         }
     }
     downloadFile(blob, fileName, delay) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": downloadFile: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": downloadFile: start.");
         setTimeout(() => {
             saveAs(blob, fileName);
         }, delay)
     }
 
     downloadTemplate() {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": downloadTemplate: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": downloadTemplate: start.");
         var fileName = this.downloadData.template.templateFileName;
-        console.log( this.classNm+": downloadTemplate: fileName:["+fileName+"]");
+        console.log(this.classNm + ": downloadTemplate: fileName:[" + fileName + "]");
         var theJSON = this.downloadData.template.templateData;
         if (fileName != null || fileName != '') {
             var fileExtensionArr = fileName.split('.');
@@ -777,9 +776,9 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     // save the values to the cache, on action change without download
-    validateDataAndSaveToAppc( valid, form, event) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": validateDataAndSaveToAppc: start: valid:"+valid);
+    validateDataAndSaveToAppc(valid, form, event) {
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": validateDataAndSaveToAppc: start: valid:" + valid);
         // will show error message
         this.showValidationErrors(this.referenceDataObject);
         try {
@@ -788,9 +787,9 @@ export class ReferenceDataformComponent implements OnInit {
                 let referenceObject = this.prepareReferenceObject(true);
                 let removedKeysArray = []
                 this.tempAllData.forEach((data, index) => {
-                  if (data.action) {
-                    removedKeysArray.push(JSON.parse(JSON.stringify(this.deleteUnwantedKeys(data))))
-                  }
+                    if (data.action) {
+                        removedKeysArray.push(JSON.parse(JSON.stringify(this.deleteUnwantedKeys(data))))
+                    }
                 });
                 this.tempAllData = removedKeysArray;
 
@@ -814,15 +813,15 @@ export class ReferenceDataformComponent implements OnInit {
 
     //this method saves reference, template, param and PD data to APPC
     saveToAppc() {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": saveToAppc: start: vnf-type:["+
-          this.referenceDataObject.scope['vnf-type']+"]");
-      let theJSON = JSON.stringify( this.tempAllData);
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": saveToAppc: tempAllData:["+theJSON+"]");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": saveToAppc: start: vnf-type:[" +
+                this.referenceDataObject.scope['vnf-type'] + "]");
+        let theJSON = JSON.stringify(this.tempAllData);
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": saveToAppc: tempAllData:[" + theJSON + "]");
         let fileName = 'reference_AllAction_' + this.referenceDataObject.scope['vnf-type'].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '_' + '0.0.1V.json';
         this.saveReferenceDataToAppc(
-          JSON.stringify({ reference_data: this.tempAllData }), this.referenceDataObject.scope['vnf-type'], fileName);
+            JSON.stringify({ reference_data: this.tempAllData }), this.referenceDataObject.scope['vnf-type'], fileName);
 
         var templateData = JSON.stringify(this.appData.template.templateData);
         var nameValueData = JSON.stringify(this.appData.template.nameValueData);
@@ -834,8 +833,8 @@ export class ReferenceDataformComponent implements OnInit {
 
     // valaidation of template data
     validateTempAllData() {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": validateTempAllData: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": validateTempAllData: start.");
         if (this.tempAllData) {
             var updatedData = [];
             this.tempAllData.forEach(data => {
@@ -849,9 +848,9 @@ export class ReferenceDataformComponent implements OnInit {
 
     //.. prepare and send the data to the API.
     saveReferenceDataToAppc(artifactData, vnf_type, fileName) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": saveReferenceDataToAppc: start: vnf_type:["+
-          vnf_type+"]");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": saveReferenceDataToAppc: start: vnf_type:[" +
+                vnf_type + "]");
         let data = [];
         let slashedPayload = this.referenceDataFormUtil.appendSlashes(artifactData);
         let payload = this.utilityService.createPayLoadForSave("reference_data", vnf_type, "AllAction", fileName, this.versionNoForApiCall, slashedPayload);
@@ -880,7 +879,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     retriveFromAppc() {
-        console.log( this.classNm+": retriveFromAppc: start.");
+        console.log(this.classNm + ": retriveFromAppc: start.");
         if (sessionStorage.getItem('updateParams') != 'undefined') {
             this.getArtifact();
             this.noCacheData = false;
@@ -903,8 +902,8 @@ export class ReferenceDataformComponent implements OnInit {
     };
 
     public fileChange(input) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": fileChange: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": fileChange: start.");
         this.fileName = input.target.files[0].name.replace(/C:\\fakepath\\/i, '');
         this.fileUploaded = true;
         this.disableRetrieve = true;
@@ -937,10 +936,10 @@ export class ReferenceDataformComponent implements OnInit {
                                 this.vnfcIdentifier = obj.scope['vnfc-type-list'][0];
                             }
                         }
-                        this.oldAction=obj.action;
+                        this.oldAction = obj.action;
                         this.tempAllData = JSON.parse(JSON.stringify(jsonObject));
-                      if( this.utilityService.getTracelvl() > 0 )
-                        console.log( this.classNm+": fileChange: read & parsed.");
+                        if (this.utilityService.getTracelvl() > 0)
+                            console.log(this.classNm + ": fileChange: read & parsed.");
                         this.notificationService.notifySuccessMessage('Reference Data file successfully uploaded..');
                         if (jsonObject instanceof Array) {
                             this.referenceDataObject = jsonObject[0];
@@ -952,10 +951,10 @@ export class ReferenceDataformComponent implements OnInit {
 
                             this.selectedActions.push(jsonObject.action);
                         }
-                      if( this.utilityService.getTracelvl() > 0 )
-                        console.log( this.classNm+": fileChange: "+
-                          "referenceDataObject.action:["+
-                          this.referenceDataObject.action+"]");
+                        if (this.utilityService.getTracelvl() > 0)
+                            console.log(this.classNm + ": fileChange: " +
+                                "referenceDataObject.action:[" +
+                                this.referenceDataObject.action + "]");
                         this.toggleIdentifier(this.referenceDataObject.action)
                         this.configDrp(this.referenceDataObject.action)
                         if (this.referenceDataObject.action === 'OpenStack Actions') {
@@ -991,12 +990,12 @@ export class ReferenceDataformComponent implements OnInit {
                         if (this.referenceDataObject['action-level'] == null) {
                             this.referenceDataObject['action-level'] = 'VNF';
                         }
-                      if( this.utilityService.getTracelvl() > 0 )
-                        console.log( this.classNm+": fileChange: displayVnfc:["+
-                          this.displayVnfc+"]");
+                        if (this.utilityService.getTracelvl() > 0)
+                            console.log(this.classNm + ": fileChange: displayVnfc:[" +
+                                this.displayVnfc + "]");
                         // Enable or Block Template and PD Tabs
                         this.buildDesignComponent.getRefData(
-                          { ...this.referenceDataObject, displayVnfc: this.displayVnfc });
+                            { ...this.referenceDataObject, displayVnfc: this.displayVnfc });
                     } catch (e) {
                         this.nService.error(appConstants.notifications.titles.error, appConstants.messages.incorrectFileFormat);
                     }
@@ -1004,14 +1003,14 @@ export class ReferenceDataformComponent implements OnInit {
                 this.hideModal = true;
             });
         } else {
-          if( this.utilityService.getTracelvl() > 0 )
-            console.log( this.classNm+": fileChange: Error: Failed to read file!");
+            if (this.utilityService.getTracelvl() > 0)
+                console.log(this.classNm + ": fileChange: Error: Failed to read file!");
             this.notificationService.notifyErrorMessage('Failed to read file..');
         }
     }
 
     public readFile(file, reader, callback) {
-        console.log( this.classNm+": readFile: start.");
+        console.log(this.classNm + ": readFile: start.");
         // Set a callback funtion to fire after the file is fully loaded
         reader.onload = () => {
             // callback with the results
@@ -1027,7 +1026,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     clearVnfcData() {
-        console.log( this.classNm+": clearVnfcData: start.");
+        console.log(this.classNm + ": clearVnfcData: start.");
         this.Sample = {
             'vnfc-instance': '1',
             'vnfc-function-code': '',
@@ -1041,19 +1040,19 @@ export class ReferenceDataformComponent implements OnInit {
         this.referenceDataObject.vm[index]['vm-instance'] = index + 1;
     }
 
-   // setVnfcType(str: String) {
-   //     this.Sample['vnfc-type'] = str;
-   // }
+    // setVnfcType(str: String) {
+    //     this.Sample['vnfc-type'] = str;
+    // }
 
-   // getChange(value: String) {
-   //     if (value === 'vnfType') {
-   //         this.referenceDataObject.scope['vnfc-type'] = '';
-   //     }
-   // }
+    // getChange(value: String) {
+    //     if (value === 'vnfType') {
+    //         this.referenceDataObject.scope['vnfc-type'] = '';
+    //     }
+    // }
 
     resetForm() {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": resetForm: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": resetForm: start.");
         this.referenceDataObject['action-level'] = 'vnf';
         this.referenceDataObject.template = 'Y';
         this.referenceDataObject['device-protocol'] = '';
@@ -1065,8 +1064,8 @@ export class ReferenceDataformComponent implements OnInit {
 
     // this method gets called with the action as parameter and the respective action details are fetched and assigned to the current page
     populateExistinAction(data) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": populateExistinAction: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": populateExistinAction: start.");
         let existAction = this.tempAllData.findIndex(obj => {
             return obj.action == data;
         });
@@ -1077,12 +1076,12 @@ export class ReferenceDataformComponent implements OnInit {
             this.referenceDataObject.scope['vnfc-type-list'] = obj['scope']['vnfc-type-list'];
             this.referenceDataObject['device-protocol'] = obj['device-protocol'];
             this.refernceScopeObj['sourceType'] = obj['scopeType'];
-            if(obj['scope']['vnfc-type-list'] != undefined && obj['scope']['vnfc-type-list'].length >0) {
+            if (obj['scope']['vnfc-type-list'] != undefined && obj['scope']['vnfc-type-list'].length > 0) {
                 this.referenceDataObject['vnfcIdentifier'] = obj['scope']['vnfc-type-list'][0];
             }
         } else {
-          if( this.utilityService.getTracelvl() > 0 )
-            console.log( this.classNm+": populateExistinAction: action not found");
+            if (this.utilityService.getTracelvl() > 0)
+                console.log(this.classNm + ": populateExistinAction: action not found");
             this.resetForm();
             this.referenceDataObject.action = data;
         }
@@ -1123,31 +1122,31 @@ export class ReferenceDataformComponent implements OnInit {
 
     //Modal pop up for action change with values entered.
     actionChange(data, userForm) {
-      var methName= "actionChange";
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": "+methName+": start: data:["+data+"]"+
-          " userForm.valid:["+userForm.valid+"]");
+        var methName = "actionChange";
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": " + methName + ": start: data:[" + data + "]" +
+                " userForm.valid:[" + userForm.valid + "]");
         this.disableGrpNotationValue = false
         if (data == null) {
-            console.log( this.classNm+": "+methName+": data == null");
+            console.log(this.classNm + ": " + methName + ": data == null");
             return;
         }
         if ((userForm.valid) && this.oldAction != '' && this.oldAction != undefined) {
             this.actionChanged = true;
-            console.log( this.classNm+": "+methName+
-              ": userForm valid and oldAction defined");
+            console.log(this.classNm + ": " + methName +
+                ": userForm valid and oldAction defined");
             // Calling common Confirmation Modal
             let disposable = this.dialogService.addDialog(ConfirmComponent)
-                .subscribe((isConfirmed)=>{
+                .subscribe((isConfirmed) => {
                     //We get dialog result
-                    console.log( this.classNm+": "+methName+":  isConfirmed:["+
-                      isConfirmed+"]");
-                    if(isConfirmed) {
+                    console.log(this.classNm + ": " + methName + ":  isConfirmed:[" +
+                        isConfirmed + "]");
+                    if (isConfirmed) {
                         // User clicked on Yes
                         this.currentAction = this.referenceDataObject.action;
-                        console.log( this.classNm+": "+methName+
-                          ": clicked on Yes: currentAction:["+this.currentAction+
-                          "] oldAction:["+this.oldAction+"]");
+                        console.log(this.classNm + ": " + methName +
+                            ": clicked on Yes: currentAction:[" + this.currentAction +
+                            "] oldAction:[" + this.oldAction + "]");
                         this.referenceDataObject.action = this.oldAction;
                         $('#saveToAppc').click();//make sure the save all is done before the tempall obj is saved form the API
                         this.toggleIdentifier(data)
@@ -1174,8 +1173,8 @@ export class ReferenceDataformComponent implements OnInit {
                         // User clicked on No
                         this.toggleIdentifier(data)
                         this.currentAction = this.referenceDataObject.action;
-                        console.log( this.classNm+": "+methName+
-                          ": clicked on No: currentAction:["+this.currentAction+"]");
+                        console.log(this.classNm + ": " + methName +
+                            ": clicked on No: currentAction:[" + this.currentAction + "]");
                         this.populateExistinAction(data);
                         this.resetVmsForScaleout(data);
                         this.oldAction = this.referenceDataObject.action + '';
@@ -1203,8 +1202,8 @@ export class ReferenceDataformComponent implements OnInit {
                     }
                 });
         } else {
-            console.log( this.classNm+": "+methName+
-              ": userForm Not valid or oldAction not defined");
+            console.log(this.classNm + ": " + methName +
+                ": userForm Not valid or oldAction not defined");
             this.actionChanged = true;
             this.currentAction = this.referenceDataObject.action;
             this.oldAction = this.referenceDataObject.action + '';
@@ -1226,7 +1225,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     configDrp(data) {
-        console.log( this.classNm+": configDrp: start: data:["+data+"]");
+        console.log(this.classNm + ": configDrp: start: data:[" + data + "]");
         if (data == 'ConfigScaleOut') {
             this.groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value', 'existing-group-name'];
         } else {
@@ -1265,7 +1264,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     deviceProtocolChange() {
-        console.log( this.classNm+": deviceProtocolChange: start.");
+        console.log(this.classNm + ": deviceProtocolChange: start.");
         if (this.referenceDataObject['device-protocol'] == 'REST') {
 
         } else {
@@ -1273,13 +1272,13 @@ export class ReferenceDataformComponent implements OnInit {
         }
         // Enable or Block Template and PD Tabs
         this.buildDesignComponent.getRefData(
-          {...this.referenceDataObject,displayVnfc: this.displayVnfc },
-          {reqField: this.templateIdentifier});
+            { ...this.referenceDataObject, displayVnfc: this.displayVnfc },
+            { reqField: this.templateIdentifier });
     }
 
     // used to call or trigger save object on template Identifier changes
     idChange(data, userForm) {
-        console.log( this.classNm+": idChange: start: data:["+data+"]");
+        console.log(this.classNm + ": idChange: start: data:[" + data + "]");
         if (data == null) {
             return;
         }
@@ -1288,8 +1287,8 @@ export class ReferenceDataformComponent implements OnInit {
         // referenceDataObjectTemp['template-id'] = data;
         // this.buildDesignComponent.getRefData(referenceDataObjectTemp);
         this.buildDesignComponent.getRefData(
-          {...this.referenceDataObject, displayVnfc: this.displayVnfc },
-          { reqField: data });
+            { ...this.referenceDataObject, displayVnfc: this.displayVnfc },
+            { reqField: data });
 
         if ((userForm.valid)) {
             this.currentAction = "ConfigScaleOut"
@@ -1297,24 +1296,24 @@ export class ReferenceDataformComponent implements OnInit {
             let referenceObject = this.prepareReferenceObject();
             this.actionChanged = true;
             if (this.templateIdentifier) {
-                 // Calling common Confirmation Modal
-                 let disposable = this.dialogService.addDialog(ConfirmComponent)
-                 .subscribe((isConfirmed)=>{
-                     //We get dialog result
-                     if(isConfirmed) {
-                         // User clicked on Yes
-                         this.validateTempAllData();
-                         this.saveToAppc();
-                         this.clearCache();
-                         this.clearVnfcData();
-                         this.refernceScopeObj.from = '';
-                     }
-                     else {
-                         // User clicked on No
-                         this.clearCache();
-                         this.refernceScopeObj.from = '';
-                     }
-                 });
+                // Calling common Confirmation Modal
+                let disposable = this.dialogService.addDialog(ConfirmComponent)
+                    .subscribe((isConfirmed) => {
+                        //We get dialog result
+                        if (isConfirmed) {
+                            // User clicked on Yes
+                            this.validateTempAllData();
+                            this.saveToAppc();
+                            this.clearCache();
+                            this.clearVnfcData();
+                            this.refernceScopeObj.from = '';
+                        }
+                        else {
+                            // User clicked on No
+                            this.clearCache();
+                            this.refernceScopeObj.from = '';
+                        }
+                    });
             }
         } else {
             this.oldtemplateIdentifier = this.templateIdentifier;
@@ -1322,53 +1321,53 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     // used to call or trigger save object on multiple VNFC's changes
-    vnfcChanged( data, userForm) {
-        console.log( this.classNm+": vnfcChanged: new vnfcIdentifier:["+data+"]");
-        console.log( this.classNm+": vnfcChanged: oldVnfcIdentifier:["+
-          this.oldVnfcIdentifier+"]");
-        console.log(this.classNm+": vnfcChanged:  scope.vnfc-type:["+
-          this.referenceDataObject.scope['vnfc-type']+"]");
+    vnfcChanged(data, userForm) {
+        console.log(this.classNm + ": vnfcChanged: new vnfcIdentifier:[" + data + "]");
+        console.log(this.classNm + ": vnfcChanged: oldVnfcIdentifier:[" +
+            this.oldVnfcIdentifier + "]");
+        console.log(this.classNm + ": vnfcChanged:  scope.vnfc-type:[" +
+            this.referenceDataObject.scope['vnfc-type'] + "]");
         this.vnfcIdentifier = data;
         this.clearCache();
         if (data == null) {
             return;
         }
-      //.. populate VNFC Type in Sample field
-      this.setVnfcTypeInSample( this.vnfcIdentifier );
+        //.. populate VNFC Type in Sample field
+        this.setVnfcTypeInSample(this.vnfcIdentifier);
         // Enable or Block Template and PD Tabs
         let referenceDataObjectTemp = this.referenceDataObject;
         referenceDataObjectTemp['vnfcIdentifier'] = data;
-        console.log( this.classNm+
-          ": vnfcChanged: displayVnfc:["+this.displayVnfc+"]");
+        console.log(this.classNm +
+            ": vnfcChanged: displayVnfc:[" + this.displayVnfc + "]");
         this.buildDesignComponent.getRefData(
-          {...this.referenceDataObject, displayVnfc: this.displayVnfc },
-          { reqField: data });
-        console.log( this.classNm+
-          ": vnfcChanged: userForm.valid:["+userForm.valid+"]");
+            { ...this.referenceDataObject, displayVnfc: this.displayVnfc },
+            { reqField: data });
+        console.log(this.classNm +
+            ": vnfcChanged: userForm.valid:[" + userForm.valid + "]");
         if ((userForm.valid) && this.oldVnfcIdentifier != '' && this.oldVnfcIdentifier != undefined) {
             this.currentAction = this.referenceDataObject.action
             this.oldVnfcIdentifier = this.vnfcIdentifier
             let referenceObject = this.prepareReferenceObject();
             this.actionChanged = true;
             if (this.vnfcIdentifier) {
-                 // Calling common Confirmation Modal
-                 let disposable = this.dialogService.addDialog(ConfirmComponent)
-                 .subscribe((isConfirmed)=>{
-                     //We get dialog result
-                     if(isConfirmed) {
-                         // User clicked on Yes
-                         this.validateTempAllData();
-                         this.saveToAppc();
-                         this.clearCache();
-                         this.clearVnfcData()
-                         this.refernceScopeObj.from = '';
-                     }
-                     else {
-                         // User clicked on No
-                         this.clearCache();
-                         this.refernceScopeObj.from = '';
-                     }
-                 });
+                // Calling common Confirmation Modal
+                let disposable = this.dialogService.addDialog(ConfirmComponent)
+                    .subscribe((isConfirmed) => {
+                        //We get dialog result
+                        if (isConfirmed) {
+                            // User clicked on Yes
+                            this.validateTempAllData();
+                            this.saveToAppc();
+                            this.clearCache();
+                            this.clearVnfcData()
+                            this.refernceScopeObj.from = '';
+                        }
+                        else {
+                            // User clicked on No
+                            this.clearCache();
+                            this.refernceScopeObj.from = '';
+                        }
+                    });
             }
         } else {
             if (data != null) {
@@ -1378,7 +1377,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     clearCache() {
-        console.log( this.classNm+": clearCache: start.");
+        console.log(this.classNm + ": clearCache: start.");
         // get the value and save the userid and persist it.
         this.clearTemplateCache();
         this.clearPdCache();
@@ -1400,7 +1399,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     saveTemp() {
-        console.log( this.classNm+": saveTemp: start.");
+        console.log(this.classNm + ": saveTemp: start.");
         this
             .httpUtils
             .post(
@@ -1418,7 +1417,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     saveNameValue() {
-        console.log( this.classNm+": saveNameValue: start.");
+        console.log(this.classNm + ": saveNameValue: start.");
         this
             .httpUtils
             .post(
@@ -1461,7 +1460,7 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     openModel(toShow: any, message: any, title: any) {
-        console.log( this.classNm+": openModel: start: title:["+title+"]");
+        console.log(this.classNm + ": openModel: start: title:[" + title + "]");
         this.modalComponent.isShow = toShow;
         this.modalComponent.message = message;
         this.modalComponent.title = title;
@@ -1492,18 +1491,18 @@ export class ReferenceDataformComponent implements OnInit {
 
     // adds the vnfc to the vnfc dropdown list
     addVnfc() {
-      var newVnfcTypeV= this.newVnfcType.trim();
-        console.log(this.classNm+
-          ": addVnfc: start: newVnfcTypeV:["+newVnfcTypeV+"]");
+        var newVnfcTypeV = this.newVnfcType.trim();
+        console.log(this.classNm +
+            ": addVnfc: start: newVnfcTypeV:[" + newVnfcTypeV + "]");
         if (!(this.referenceDataObject.scope['vnfc-type-list'])) {
             this.referenceDataObject.scope['vnfc-type-list'] = [];
-        //  this.vnfcIdentifier = newVnfcTypeV;
-        } else if (this.referenceDataObject.scope['vnfc-type-list'].length == 0){
-        //  this.vnfcIdentifier = newVnfcTypeV;
+            //  this.vnfcIdentifier = newVnfcTypeV;
+        } else if (this.referenceDataObject.scope['vnfc-type-list'].length == 0) {
+            //  this.vnfcIdentifier = newVnfcTypeV;
         }
         this.vnfcIdentifier = newVnfcTypeV;
-        console.log(this.classNm+
-          ": addVnfc: vnfcIdentifier:["+this.vnfcIdentifier+"]");
+        console.log(this.classNm +
+            ": addVnfc: vnfcIdentifier:[" + this.vnfcIdentifier + "]");
         if (!(this.referenceDataObject.scope['vnfc-type-list'].indexOf(newVnfcTypeV) > -1)) {
             this.referenceDataObject.scope['vnfc-type-list'].push(newVnfcTypeV);
         }
@@ -1513,15 +1512,15 @@ export class ReferenceDataformComponent implements OnInit {
             }
             this.resetArtifactList(obj);
         });
-        console.log(this.classNm+": addVnfc: scope vnfc-type:["+
-          this.referenceDataObject.scope['vnfc-type']+"]");
-      this.setVnfcTypeInSample( newVnfcTypeV );
+        console.log(this.classNm + ": addVnfc: scope vnfc-type:[" +
+            this.referenceDataObject.scope['vnfc-type'] + "]");
+        this.setVnfcTypeInSample(newVnfcTypeV);
         // Changing newVnfcType value to blank otherwise it will show previous value in text box of popup
         this.newVnfcType = ''
     }
 
     resetVms() {
-        console.log( this.classNm+": resetVms: start.");
+        console.log(this.classNm + ": resetVms: start.");
         this.referenceDataObject.vm = [];
     }
 
@@ -1555,9 +1554,9 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     resetParamsOnVnfcType() {
-        console.log( this.classNm+": resetParamsOnVnfcType: start:\n "+
-          "ref.DataObject.scope vnfc-type:["+
-          this.referenceDataObject.scope['vnfc-type']+"]");
+        console.log(this.classNm + ": resetParamsOnVnfcType: start:\n " +
+            "ref.DataObject.scope vnfc-type:[" +
+            this.referenceDataObject.scope['vnfc-type'] + "]");
         let scopeName = '';
         //if only vnf is there
         if (this.referenceDataObject.scope['vnfc-type'] == '' || this.referenceDataObject.scope['vnfc-type'] == null || this.referenceDataObject.scope['vnfc-type'] == 'null') {
@@ -1581,8 +1580,8 @@ export class ReferenceDataformComponent implements OnInit {
         if (scopeName) {
             scopeName = scopeName.replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '');
         }
-        console.log( this.classNm+": resetParamsOnVnfcType: return scopeName:["+
-          scopeName+"]");
+        console.log(this.classNm + ": resetParamsOnVnfcType: return scopeName:[" +
+            scopeName + "]");
         return scopeName
     }
 
@@ -1603,11 +1602,11 @@ export class ReferenceDataformComponent implements OnInit {
         return extension;
     }
     prepareArtifactList(scopeName, extension) {
-        console.log( this.classNm+": prepareArtifactList: start: scopeName:["+
-          scopeName+"] extension:["+extension+"]");
+        console.log(this.classNm + ": prepareArtifactList: start: scopeName:[" +
+            scopeName + "] extension:[" + extension + "]");
         this.referenceDataObject['artifact-list'] = [];
         //preparing the artifact list array file names along with extension
-        let config_template_fileName = this.referenceDataObject.action + '_' + scopeName + '_' + '0.0.1V.' + extension;
+        let config_template_fileName = this.referenceDataObject.action + '_' + scopeName + '_' + '0.0.1V' + extension;
         let pd_fileName = this.referenceDataObject.action + '_' + scopeName + '_' + '0.0.1V.yaml';
         let reference_fileName = this.referenceDataObject.action + '_' + scopeName + '_' + '0.0.1V.json';
         let configTemplate = {
@@ -1665,19 +1664,17 @@ export class ReferenceDataformComponent implements OnInit {
         return newObj
     }
     pushOrReplaceTempData(newObj, action) {
-        console.log( this.classNm+": pushOrReplaceTempData: start: action:["+
-          action+"]\n newObj.scope vnfc-type:["+newObj.scope['vnfc-type']+"]");
-        if( newObj.scope['vnfc-type'] == undefined ||
+        console.log(this.classNm + ": pushOrReplaceTempData: start: action:[" +
+            action + "]\n newObj.scope vnfc-type:[" + newObj.scope['vnfc-type'] + "]");
+        if (newObj.scope['vnfc-type'] == undefined ||
             newObj.scope['vnfc-type'] == null ||
-            newObj.scope['vnfc-type'].length < 1 )
-        {
-          console.log( this.classNm+": pushOrReplaceTempData: scope vnfc-type"+
-            " is empty.\n vnfcIdentifier:["+this.vnfcIdentifier+"]");
-          if( this.vnfcIdentifier != null && this.vnfcIdentifier != undefined &&
-              this.vnfcIdentifier.length > 0 )
-          {
-            newObj.scope['vnfc-type']= this.vnfcIdentifier;
-          }
+            newObj.scope['vnfc-type'].length < 1) {
+            console.log(this.classNm + ": pushOrReplaceTempData: scope vnfc-type" +
+                " is empty.\n vnfcIdentifier:[" + this.vnfcIdentifier + "]");
+            if (this.vnfcIdentifier != null && this.vnfcIdentifier != undefined &&
+                this.vnfcIdentifier.length > 0) {
+                newObj.scope['vnfc-type'] = this.vnfcIdentifier;
+            }
         };
         let actionObjIndex = this.tempAllData.findIndex(obj => {
             return obj['action'] == action;
@@ -1714,7 +1711,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     // removes the unwanted keys added in the artifact for vnfc level actions
     deleteUnwantedKeys(newObj) {
-        console.log( this.classNm+": deleteUnwantedKeys: start.");
+        console.log(this.classNm + ": deleteUnwantedKeys: start.");
         newObj = JSON.parse(JSON.stringify(newObj))
         delete newObj['template-id']
         delete newObj['vnfcIdentifier']
@@ -1731,8 +1728,8 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     addAllActionObj(newObj, scopeName) {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": addAllActionObj: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": addAllActionObj: start.");
         //Creating all action block to allow mulitple actions at once
         let allAction = {
             action: 'AllAction',
@@ -1754,8 +1751,8 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     resetTempData() {
-      if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": resetTempData: start.");
+        if (this.utilityService.getTracelvl() > 0)
+            console.log(this.classNm + ": resetTempData: start.");
         if (this.uploadedDataArray && this.uploadedDataArray != undefined && this.uploadedDataArray.length != 0) {
             if (this.tempAllData && this.tempAllData != undefined) {
                 for (var i = 0; i < this.tempAllData.length; i++) {
@@ -1782,44 +1779,42 @@ export class ReferenceDataformComponent implements OnInit {
     }
 
     getArtifactsOpenStack() {
-      console.log( this.classNm+": getArtifactsOpenStack: start: "+
-        "tempAllData length="+this.tempAllData.length );
+        console.log(this.classNm + ": getArtifactsOpenStack: start: " +
+            "tempAllData length=" + this.tempAllData.length);
         var array = []
         var vnfcFunctionCodeArrayList = [];
-        var vnfcSetArray=[];
+        var vnfcSetArray = [];
         for (var i = 0; i < this.tempAllData.length; i++) {
             if (!this.checkIfelementExistsInArray(this.tempAllData[i].action, this.actions) && (this.tempAllData[i].action != 'AllAction')) {
                 var vnfcFunctionCodeArray = this.tempAllData[i]["vnfc-function-code-list"]
                 vnfcFunctionCodeArrayList.push([this.tempAllData[i].action].concat(this.tempAllData[i]["vnfc-function-code-list"]))
             }
-            if(this.tempAllData[i].action==='OpenStack Actions')
-            {
-                vnfcSetArray=this.tempAllData[i]['firstRowVmSpreadSheet']
+            if (this.tempAllData[i].action === 'OpenStack Actions') {
+                vnfcSetArray = this.tempAllData[i]['firstRowVmSpreadSheet']
             }
         }
-      console.log( this.classNm+": getArtifactsOpenStack: vnfcSetArray length="+
-       vnfcSetArray.length );
-       if(vnfcSetArray)
-       {
-        let vnfcSetArrayLen = vnfcSetArray.length;
+        console.log(this.classNm + ": getArtifactsOpenStack: vnfcSetArray length=" +
+            vnfcSetArray.length);
+        if (vnfcSetArray) {
+            let vnfcSetArrayLen = vnfcSetArray.length;
 
-        for (let i = 0; i < vnfcFunctionCodeArrayList.length; i++) {
-            let element = vnfcFunctionCodeArrayList[i];
-            for (let j = 1; j < element.length; j++) {
-                for (let k = j; k < vnfcSetArrayLen; k++) {
-                    if (element[j] === vnfcSetArray[k]) {
-                        element[j] = 'Y';
+            for (let i = 0; i < vnfcFunctionCodeArrayList.length; i++) {
+                let element = vnfcFunctionCodeArrayList[i];
+                for (let j = 1; j < element.length; j++) {
+                    for (let k = j; k < vnfcSetArrayLen; k++) {
+                        if (element[j] === vnfcSetArray[k]) {
+                            element[j] = 'Y';
+                        }
+                        else {
+                            element.splice(j, 0, '');
+                        }
+                        break;
                     }
-                    else {
-                        element.splice(j, 0, '');
-                    }
-                    break;
                 }
             }
+            this.firstArrayElement = vnfcSetArray;
+            this.remUploadedDataArray = vnfcFunctionCodeArrayList;
         }
-        this.firstArrayElement = vnfcSetArray;
-        this.remUploadedDataArray = vnfcFunctionCodeArrayList;
-       }
     }
 
     /**
@@ -1838,37 +1833,37 @@ export class ReferenceDataformComponent implements OnInit {
         }
     }
 
-  //.. check VNFC Type equality in Upper Selection vs entered in Sample field
-  checkVnfcTypeEqual( vnfctp: string ) {
-    var methName= "checkVnfcTypeEqual";
-      console.log(this.classNm+": "+methName+": vnfctp:["+vnfctp+"]");
-      console.log( this.classNm+": "+methName+": vnfcIdentifier:["+
-        this.vnfcIdentifier+"]");
-      console.log( this.classNm+": "+methName+":  Sample[vnfc-type]:["+
-        this.Sample['vnfc-type']+"]");
-    if( vnfctp != null && vnfctp.length > 0 ) {
-      if( this.vnfcIdentifier != null && this.vnfcIdentifier.length > 0 ) {
-        console.log(
-          this.classNm+": "+methName+": compare non empty VNFC Types...");
-        if( vnfctp != this.vnfcIdentifier ) {
-            console.log( this.classNm+": "+methName+": Non-match WARNING !");
-          //.. display in pop-up
-          this.nService.warn( 'WARNING',
-            "The specified VNFC Types don't match."+
-            " Can cause discrepancy in the artifacts.", this.options );
-        } else {
-            console.log(this.classNm+": checkVnfcTypeEqual: VNFC Types're equal.");
+    //.. check VNFC Type equality in Upper Selection vs entered in Sample field
+    checkVnfcTypeEqual(vnfctp: string) {
+        var methName = "checkVnfcTypeEqual";
+        console.log(this.classNm + ": " + methName + ": vnfctp:[" + vnfctp + "]");
+        console.log(this.classNm + ": " + methName + ": vnfcIdentifier:[" +
+            this.vnfcIdentifier + "]");
+        console.log(this.classNm + ": " + methName + ":  Sample[vnfc-type]:[" +
+            this.Sample['vnfc-type'] + "]");
+        if (vnfctp != null && vnfctp.length > 0) {
+            if (this.vnfcIdentifier != null && this.vnfcIdentifier.length > 0) {
+                console.log(
+                    this.classNm + ": " + methName + ": compare non empty VNFC Types...");
+                if (vnfctp != this.vnfcIdentifier) {
+                    console.log(this.classNm + ": " + methName + ": Non-match WARNING !");
+                    //.. display in pop-up
+                    this.nService.warn('WARNING',
+                        "The specified VNFC Types don't match." +
+                        " Can cause discrepancy in the artifacts.", this.options);
+                } else {
+                    console.log(this.classNm + ": checkVnfcTypeEqual: VNFC Types're equal.");
+                };
+            };
         };
-      };
     };
-  };
 
-  //.. populating VNFC Type in Sample fields
-  setVnfcTypeInSample( vnfctp: string ) {
-   // if( this.utilityService.getTracelvl() > 0 )
-      console.log( this.classNm+": setVnfcTypeInSample: vnfctp:["+vnfctp+"]");
-    this.Sample['vnfc-type']= vnfctp;
-  };
+    //.. populating VNFC Type in Sample fields
+    setVnfcTypeInSample(vnfctp: string) {
+        // if( this.utilityService.getTracelvl() > 0 )
+        console.log(this.classNm + ": setVnfcTypeInSample: vnfctp:[" + vnfctp + "]");
+        this.Sample['vnfc-type'] = vnfctp;
+    };
 
     // Common method to show validation errors
     private showValidationErrors(referenceDataObject) {
@@ -1886,8 +1881,8 @@ export class ReferenceDataformComponent implements OnInit {
         }
     }
 
-    resetArtifactList( obj) {
-        console.log( this.classNm+": resetArtifactList: start...");
+    resetArtifactList(obj) {
+        console.log(this.classNm + ": resetArtifactList: start...");
         let vnfcTypeList = obj.scope['vnfc-type-list'];
         let vnf = this.referenceDataObject.scope['vnf-type']
         let pd_fileName
