@@ -1628,7 +1628,7 @@ export class ReferenceDataformComponent implements OnInit {
                     //for replacing spaces and "/" with "_"
                     identifiers[x] = identifiers[x].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '');
                     pd_fileName = this.referenceDataObject.action + '_' + scopeName + '_' + '0.0.1V_' + identifiers[x] + '.yaml';
-                    config_template_fileName = this.referenceDataObject.action + '_' + scopeName + '_' + '0.0.1V_' + identifiers[x] + '.' + extension;
+                    config_template_fileName = this.referenceDataObject.action + '_' + scopeName + '_' + '0.0.1V_' + identifiers[x] + extension;
 
                     configTemplate = {
                         'artifact-name': 'template_' + config_template_fileName,
