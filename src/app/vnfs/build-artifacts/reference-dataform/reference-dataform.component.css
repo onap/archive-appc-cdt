@@ -135,3 +135,6 @@ td {
     visibility: hidden;
     position: absolute;
 }
+
+.col-md-1point5 {width: 12%}
+.col-md-2point5 {width: 21%;}
