@@ -31,6 +31,8 @@ export class userloginFormComponent implements OnInit {
 
     userId: string = '';
     returnUrl:string
+    invalid = true;
+    errorMessage = '';
 
     constructor(private router: Router, private utiltiy: UtilityService, private route: ActivatedRoute
         ) {
@@ -48,6 +50,25 @@ export class userloginFormComponent implements OnInit {
             .get('userLogin')
             .emit(this.userId);
        this.router.navigateByUrl(this.returnUrl);
+    }
+
+    validateUserName(){
+        if (!this.userId.trim() || this.userId.length < 1) {
+            this.errorMessage = '';
+            this.invalid = true;
+        }else if(this.userId.startsWith(' ') || this.userId.endsWith(' ')){
+            this.errorMessage = 'Leading and trailing space is not allowed';
+            this.invalid = true;
+        } else if(this.userId.includes('  ')){
+            this.errorMessage = 'More than one space is not allowed in username';
+             this.invalid = true;
+        } else if(this.userId.length > 50) {
+            this.errorMessage = 'Username should be of minimum one character and maximum 50 character';
+             this.invalid = true;
+        }else {
+            this.invalid = false;
+            this.errorMessage = '';
+        }
     }
 
 }
