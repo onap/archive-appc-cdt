@@ -38,6 +38,7 @@ import 'rxjs/add/operator/map';
 import { NgProgress } from 'ngx-progressbar';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { appConstants } from '../../../../constants/app-constants';
+import { APIService } from "../../../shared/services/cdt.apicall";
 
 let YAML = require('yamljs');
 
@@ -50,9 +51,11 @@ declare var $: any;
     providers: [ParameterDefinitionService]
 })
 export class ParameterComponent implements OnInit {
+    clName= "ParameterCompon";
     public paramForm: any;
     public actionType: any;
     public showFilterFields: boolean;
+    
     public filterByFieldvalues = appConstants.filterByFieldvalues;
     public ruleTypeConfiguaration = appConstants.ruleTypeConfiguaration;
     public requiredValues: boolean[] = appConstants.requiredValues;
@@ -106,11 +109,12 @@ export class ParameterComponent implements OnInit {
     public artifactName;
     public appDataObject: any;
     public downloadDataObject: any;
-    public artifact_fileName = "";
+    public artifact_fileName="";
     template_id: any;
     private selectedActionReference: any;
 
     constructor(private httpService: HttpUtilService,
+        private apiService:APIService,
         private parameterDefinitionService: ParameterDefinitionService,
         private paramShareService: ParamShareService,
         private mappingEditorService: MappingEditorService,
@@ -122,33 +126,26 @@ export class ParameterComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.selectedActionReference = this.parameterDefinitionService.prepareFileName();
+      var methName= "ngOnInit";
+        this.selectedActionReference = this.mappingEditorService.newObject;
         if (this.selectedActionReference && this.selectedActionReference != undefined) {
-
-            this.vnfType = this.selectedActionReference.scope['vnf-type'];
-            this.vnfcType = this.selectedActionReference.scope['vnfc-type'];
-            this.protocol = this.selectedActionReference['device-protocol'];
-            this.action = this.selectedActionReference.action;
-
-            for (let i = 0; i < this.selectedActionReference['artifact-list'].length; i++) {
-                let artifactList = this.selectedActionReference['artifact-list'];
-                if (artifactList[i]['artifact-type'] === 'parameter_definitions') {
-                    var artifactName = artifactList[i]['artifact-name'];
-                    var artifactNameWithoutExtension = '';
-                    if (artifactName) {
-                        artifactNameWithoutExtension = artifactName.substring(0, artifactName.lastIndexOf("."));
-                    }
-                    if (this.mappingEditorService.identifier) {
-                        if (artifactNameWithoutExtension.endsWith(this.mappingEditorService.identifier)) {
-                            this.artifact_fileName = artifactName;
-                        }
-
-                    }
-                    else {
-                        this.artifact_fileName = artifactName;
-                    }
-                }
+          this.vnfType = this.selectedActionReference.vnf;
+          this.protocol = this.selectedActionReference.protocol;
+          this.action = this.selectedActionReference.action;
+          if( this.utilService.getTracelvl() > 0 )
+            console.log( this.clName+": "+methName+": vnfType:["+this.vnfType+
+              "] action:["+this.action+"] protocol:["+this.protocol+"]");
+            if(this.selectedActionReference.vnfc) {
+                this.vnfcType = this.selectedActionReference.vnfc;
+              if( this.utilService.getTracelvl() > 0 )
+                console.log( this.clName+": "+methName+": have vnfcType:["+
+                  this.vnfcType+"]");
             }
+            if( this.action === 'ConfigScaleOut'){
+                // this.template_id = this.selectedActionReference.templateId;
+                this.template_id = this.mappingEditorService.identifier;
+            }
+            this.artifact_fileName = this.selectedActionReference.pd_artifact;
             this.parameterDefinitionService.setValues(this.vnfType, this.vnfcType, this.protocol, this.action, this.artifact_fileName);
         }
         else {
@@ -165,22 +162,26 @@ export class ParameterComponent implements OnInit {
                 'scopeType': ''
             };
         }
-
-        this.template_id = this.mappingEditorService.identifier;
+        //let path = this.location.path
+        /* this.activeRoutes.url.subscribe(UrlSegment => {
+             this.actionType = UrlSegment[0].path
+         })
+         */
     }
 
     ngAfterViewInit() {
-        if (this.mappingEditorService.latestAction) {
+        if( this.mappingEditorService.latestAction) {
             this.displayParamObjects = [];
             this.modelParamDefinitionObjects = [];
-            if (this.paramShareService.getSessionParamData() != undefined && this.paramShareService.getSessionParamData().length > 0) {
-                this.getPDFromSession();
+            this.displayParamObjects= this.paramShareService.getSessionParamData();
+         // if( this.paramShareService.getSessionParamData() != undefined &&
+         //     this.paramShareService.getSessionParamData().length > 0)
+            if( this.displayParamObjects != undefined &&
+                this.displayParamObjects.length > 0 )
+            {
+              this.parameterDefinitionService.populateDataUponSource( this.displayParamObjects);
             } else {
-                this.ngProgress.start();
-                this.getPD();
-                setTimeout(() => {
-                this.ngProgress.done();
-            }, 3500);
+              this.getPD();
             }
         } else {
             this.nService.error(appConstants.errors.error, appConstants.errors["noAction&VNFTypeInRDscreenError"]);
@@ -191,19 +192,20 @@ export class ParameterComponent implements OnInit {
 
     public getPD() {
         let result: any;
-        let input=this.utilService.createPayloadForRetrieve(false, this.action, this.vnfType,this.artifact_fileName);
+        let input=
+          this.utilService.createPayloadForRetrieve( false, this.action, this.vnfType,this.artifact_fileName);
         let artifactContent: any;
-        return this.httpService.post({
-            url: environment.getDesigns,
-            data: input
-        }).subscribe(data => {
-            if (this.utilService.checkResult(data)) {
-                let result: any = JSON.parse(data.output.data.block).artifactInfo[0];
+        this.ngProgress.start();
+        return this.apiService.callGetArtifactsApi(input).subscribe( data => {
+            if( this.utilService.checkResult(data)) {
+              let result: any = JSON.parse(data.output.data.block).artifactInfo[0];
                 var pdObject = YAML.parse(result['artifact-content']);
                 let fileModel = pdObject['vnf-parameter-list'];
                 this.displayParamObjects = this.parameterDefinitionService.populatePD(fileModel);
             }
-                       
+            else {
+            }
+            this.ngProgress.done();
         },
 
             error => this.nService.error(appConstants.errors.error, appConstants.errors.connectionError));
@@ -212,20 +214,19 @@ export class ParameterComponent implements OnInit {
 
     public getPDFromSession() {
 
-        this.ngProgress.start();
+      this.ngProgress.start();
         return this.httpService.get({
             url: 'testurl',
-        }).subscribe(data => {
-            this.displayParamObjects = this.paramShareService.getSessionParamData();
-            this.ngProgress.done();
+        }).subscribe( data => {
+           this.displayParamObjects = this.paramShareService.getSessionParamData();
+           this.ngProgress.done();
         },
-            error => {
-                this.displayParamObjects = this.paramShareService.getSessionParamData();
-                this.ngProgress.done();
-            });
+        error => {
+          this.displayParamObjects = this.paramShareService.getSessionParamData();
+          this.ngProgress.done();
+        });
     }
 
-    //========================== End of NGInit() Method============================================
     selectedNavItem(item: any) {
         this.item = item;
     }
@@ -266,6 +267,10 @@ export class ParameterComponent implements OnInit {
             // Create the file reader
             let reader = new FileReader();
             this.readFile(input.files[0], reader, (result) => {
+                if ('keyfile' === uploadType) {
+                    this.myKeyFileName = input.files[0].name;
+                    this.displayParamObjects = this.parameterDefinitionService.processKeyFile(this.myKeyFileName, result);
+                }
                 if ('pdfile' === uploadType) {
                     this.myPdFileName = input.files[0].name;
                     this.displayParamObjects = this.parameterDefinitionService.processPDfile(this.myPdFileName, result);
@@ -294,8 +299,7 @@ export class ParameterComponent implements OnInit {
         let obj: any = fileInput.target.files;
     }
 
-
-    sourceChanged(data, obj) {
+    sourceChanged( data, obj) {
         if (data == 'A&AI') {
             obj.ruleTypeValues = appConstants.ruleTypeValues;
             for (let x = 0; x < 5; x++) {
@@ -317,7 +321,7 @@ export class ParameterComponent implements OnInit {
     }
 
     //========================== End of sourceChanged() Method============================================
-    ruleTypeChanged(data, obj) {
+    ruleTypeChanged( data, obj) {
         if (data == null || data == undefined || data == 'null') {
             obj.showFilterFields = false;
             obj['rule-type'] = null;
@@ -340,7 +344,7 @@ export class ParameterComponent implements OnInit {
             }
             for (let x = 0; x < sourceObject.length; x++) {
                 obj['response-keys'][x]['key-name'] = sourceObject[x]['key-name'];
-                obj['response-keys'][x]['key-value'] = sourceObject[x]['key-value'];
+               obj['response-keys'][x]['key-value'] = sourceObject[x]['key-value'];
             }
         }
 

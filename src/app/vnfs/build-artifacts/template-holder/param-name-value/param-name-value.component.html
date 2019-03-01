@@ -69,13 +69,12 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                         <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                             <label>Vnf Type</label><input class="form-control" type="text" disabled value="{{vnfType}}" />
                         </div>
-                        <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="
-vnfcType"
->
-                            <label>Vnfc Type</label><input class="form-control" type="text" disabled value="{{vnfcType}}" />
+                        <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="vnfcType">
+                            <label>Vnfc Type</label>  <label style="font-size:12px;">(NFC Function)</label>
+                            <input class="form-control" type="text" disabled value="{{vnfcType}}" />
                         </div>
                         <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="!vnfcType">
-
+                
                         </div>
                         <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                             <label>Protocol</label><input class="form-control" type="text" disabled value="{{protocol}}" />
@@ -108,12 +107,22 @@ vnfcType"
             </div>
         </div>
         <hr>
-      
+        <!--Commenting out 1712 changes here-->
+        <!--<div class="col-md-12" [hidden]="!showMappingDownloadDiv"><label>Download Name/Value pair as : </label>
+ <select class="form-control col-md-3" [(ngModel)]="mapppingDownloadType" (ngModelChange)="onDownloadParameter()"> 
+                <option value="">Select</option> 
+                <option value="Json">JSON</option> 
+                <option value="Xls">XLS</option> 
+            </select>
+</div>-->
+
         <div class="col-md-12"></div>
         <div><label for="textAreaGeneratedTemplate">
             <div class="mdl-card__title-text">Param Name Value List</div>
             <div><font size="1">(Please click anywhere on the editor to see the synced name value pairs)</font></div>
         </label>
+            <!-- <ace-editor [(text)]="this.artifactRequest.paramsContent" [theme]="'chrome'" [mode]="'velocity'" (textChanged)="onParamChanges($event)" [options]="{maxLines: 'Infinity', fontSize: '13pt'}"
+                style="min-height: 500px; width: fit-content;"></ace-editor> -->
             <ace-editor [(text)]="this.artifactRequest.paramsContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" (textChanged)="onParamChanges($event)" [options]="{maxLines: '100', fontSize: '13pt' }" style="min-height: 200px; width: 100%"></ace-editor>
         </div>
 

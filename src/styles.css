@@ -69,6 +69,7 @@ body {
     margin: 0;
 }
 
+
 /* Disable ugly boxes around images in IE10 */
 
 a img {
@@ -147,16 +148,34 @@ a img {
     z-index: 20
 }
 
+.undoMarker {
+    position: absolute;
+    background: #272822;
+    z-index: 30
+}
+
 .noKeyedMarker {
     position: absolute;
     background: orange;
     z-index: 20
 }
 
+.ace_editor .ace_marker-layer .ace_selection {
+    background:blue !important;
+}
+
 .defaultMarker {
     position: absolute;
     background: lightgreen;
     z-index: 20;
+}
+.ace_cursor{
+    background-color: transparent;
+    
+}
+.ace-monokai{
+    color: greenyellow;
+    
 }
 
 .android-header {
@@ -198,7 +217,7 @@ a img {
     width: 800px;
 }
 
-.android-search-box.is-focused + .android-navigation-container {
+.android-search-box.is-focused+.android-navigation-container {
     opacity: 0;
     width: 100px;
 }
@@ -436,9 +455,6 @@ a img {
     padding-bottom: 24px;
 }
 
-.android-card-container {
-}
-
 .android-card-container .mdl-card__media {
     overflow: hidden;
     background: transparent;
@@ -508,17 +524,16 @@ a img {
     cursor: pointer;
 }
 
+
 /**** Mobile layout ****/
 
 @media (max-width: 900px) {
     .android-navigation-container {
         display: none;
     }
-
     .android-title {
         display: none !important;
     }
-
     .android-mobile-title {
         display: block !important;
         position: absolute;
@@ -526,66 +541,77 @@ a img {
         top: 12px;
         transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
     /* WebViews in iOS 9 break the "~" operator, and WebViews in OS X 10.10 break
      consecutive "+" operators in some cases. Therefore, we need to use both
      here to cover all the bases. */
-    .android.android-search-box.is-focused ~ .android-mobile-title,
-    .android-search-box.is-focused + .android-navigation-container + .android-mobile-title {
+    .android.android-search-box.is-focused~.android-mobile-title,
+    .android-search-box.is-focused+.android-navigation-container+.android-mobile-title {
         opacity: 0;
     }
-
     .android-more-button {
         display: none;
     }
-
     .android-search-box.is-focused {
         width: calc(100% - 48px);
     }
-
     .android-search-box .mdl-textfield__expandable-holder {
         width: 100%;
     }
-
     .android-be-together-section {
         height: 350px;
     }
-
     .android-slogan {
         font-size: 26px;
         margin: 0 16px;
         padding-top: 24px;
     }
-
     .android-sub-slogan {
         font-size: 16px;
         margin: 0 16px;
         padding-top: 8px;
     }
-
     .android-create-character {
         padding-top: 200px;
         font-size: 16px;
     }
-
     .android-create-character img {
         height: 12px;
     }
-
     .android-fab {
         display: none;
     }
-
     .android-wear-band-text {
         margin-left: 0;
         padding: 16px;
     }
-
     .android-footer .mdl-mega-footer--bottom-section {
         display: none;
     }
 }
 
-input[type=text]:readonly {
-    background: #e0dada;
+input[type=text]:read-only {
+    background: #d8d4d4;
+}
+
+.nav-tabs .nav-item .nav-link {
+    color: #000000;
+}
+
+#versionLog .modal-dialog {
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Overriding Ng2-Bs3-Modal css */
+.modal-header {
+    flex-direction: row-reverse;
+}
+
+/* Overriding ng2-bootstrap-modal css ( Confirmation Modal ) */
+dialog-wrapper .modal {
+    background-color: rgba(0, 0, 0, 0.288);
+}
+
+dialog-wrapper .modal-dialog .modal-content {
+    box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
 }
