@@ -28,7 +28,7 @@ import * as _ from 'underscore';
 import { NotificationsService } from 'angular2-notifications';
 import { appConstants } from '../../../constants/app-constants';
 
-export const ACTIONS_REQUIRED_DROPDOWN = ['Configure', 'ConfigModify', 'ConfigScaleOut', 'DistributeTraffic'];
+export const ACTIONS_REQUIRED_DROPDOWN = ['Configure', 'ConfigModify', 'ConfigScaleOut']
 
 @Component({ selector: 'app-build-design', templateUrl: './build-artifacts.component.html', styleUrls: ['./build-artifacts.component.css'] })
 export class BuildDesignComponent implements OnInit {
@@ -37,7 +37,7 @@ export class BuildDesignComponent implements OnInit {
     public refDataRequiredFiels: boolean = false;
     public refList;
 
-    constructor(private router: Router, private notificationsService: NotificationsService) {
+    constructor (private router: Router, private notificationsService: NotificationsService) {
     }
 
     ngOnInit() {
@@ -70,33 +70,31 @@ export class BuildDesignComponent implements OnInit {
         }
     }
 
-    public getRefData( referenceList, reqObj?) {
-        console.log( "getRefData: start: referenceList.action:["+
-          referenceList.action+"]");
+    public getRefData(referenceList, reqObj?) {
         this.refList = referenceList;
-        if( referenceList.action !== '' &&
-            referenceList.scope['vnf-type'] !== '' &&
-            referenceList['device-protocol'] !== '' )
-        {
-          if( ACTIONS_REQUIRED_DROPDOWN.indexOf(referenceList.action) > -1)
-          {
-            if( referenceList.action == 'ConfigScaleOut')
-            {
-              if( reqObj != undefined && reqObj.hasOwnProperty('reqField') &&
-                  reqObj.reqField != ''
-              )
-                this.refDataRequiredFiels = true;
-              else
-                this.refDataRequiredFiels = false;
+        if (referenceList.action !== '' && referenceList.scope['vnf-type'] !== '' && referenceList['device-protocol'] !== '') {
+            if(ACTIONS_REQUIRED_DROPDOWN.indexOf(referenceList.action) > -1) {
+            //if (referenceList.action === 'ConfigScaleOut') {
+                //console.log(typeof reqObj, selectedIdentifier)
+                // if (referenceList.hasOwnProperty('template-id') && referenceList['template-id'] !== undefined && referenceList['template-id'] != '')
+                //     this.refDataRequiredFiels = true;
+                // else this.refDataRequiredFiels = false;
+                if(referenceList.action == 'ConfigScaleOut') {
+                    if(reqObj != undefined && reqObj.hasOwnProperty('reqField') && reqObj.reqField != '') this.refDataRequiredFiels = true;
+                    else this.refDataRequiredFiels = false;
+                }
+
+                // else if( referenceList.action == 'Configure' || referenceList.action == 'ConfigModify' ) {
+                //     if(referenceList.displayVnfc == 'false') this.refDataRequiredFiels = true;
+                //     else if( referenceList.displayVnfc != 'false' && referenceList.vnfcIdentifier ) this.refDataRequiredFiels = true;
+                // }
+                
+                else this.refDataRequiredFiels = true;
             }
-            else
-              this.refDataRequiredFiels = true;
-          }
-          else
-            this.refDataRequiredFiels = true;
+            else this.refDataRequiredFiels = true;
         }
         else {
-          this.refDataRequiredFiels = false;
+            this.refDataRequiredFiels = false;
         }
     }
 
