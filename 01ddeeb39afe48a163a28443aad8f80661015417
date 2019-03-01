@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf17bb87_935f12e1",
+        "filename": "src/cdt.application.properties.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-03-01T23:28:40Z",
+      "side": 1,
+      "message": "can we change to \"appc@list.onap.org\"?",
+      "range": {
+        "startLine": 4,
+        "startChar": 29,
+        "endLine": 4,
+        "endChar": 53
+      },
+      "revId": "01ddeeb39afe48a163a28443aad8f80661015417",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
