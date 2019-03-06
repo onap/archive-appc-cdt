@@ -30,12 +30,10 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <form #userForm="ngForm" (ngSubmit)="getData()">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input placeholder="Enter user Id" class="mdl-textfield__input" id="userId" required
-                               [(ngModel)]="userId" name="userId" value="" #user="ngModel" (ngModelChange)="validateUserName()">
-                            <span class="error-message">{{errorMessage}}</span>  
+                               [(ngModel)]="userId" name="userId" value="" #user="ngModel">
                     </div>
-                    
                     <div class="form-group text-right">
-                        <button type="submit" [disabled]="invalid"
+                        <button type="submit" [disabled]="!userForm.form.valid"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">
                             Submit
                         </button>

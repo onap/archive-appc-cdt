@@ -42,17 +42,17 @@ limitations under the License.
                         <label>Vnf Type</label><input class="form-control" type="text" disabled value="{{vnfType}}" />
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="vnfcType">
-                            <label>Vnfc Type</label>  <label style="font-size:12px;">(NFC Function)</label>
-                            <input class="form-control" type="text" disabled value="{{vnfcType}}" />
+                        <label>Vnfc Type</label><input class="form-control" type="text" disabled value="{{vnfcType}}" />
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="!vnfcType">
-                
+
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                         <label>Protocol</label><input class="form-control" type="text" disabled value="{{protocol}}" />
                     </div>
                     <div *ngIf="(action === 'ConfigScaleOut')" class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                         <label>Template Identifier</label><input class="form-control" type="text" [(ngModel)]="identifier" disabled />
+
                     </div>
                 </div>
             </div>
@@ -62,8 +62,7 @@ limitations under the License.
             <div class="input-group">
                 <input id="inputFile" class="file" #myInput type='file' (change)='fileChange(myInput)'>
                 <input [(ngModel)]="fileName" type="text" class="input-lg" disabled placeholder="Upload template from PC" style="width:80%">
-                <button (click)="browseOption($event)" [disabled]="!enableBrowse" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg"
-                    type="button">Upload Template File
+                <button (click)="browseOption($event)" [disabled]="!enableBrowse" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg" type="button">Upload Template File
                 </button>
             </div>
         </div>
@@ -71,7 +70,7 @@ limitations under the License.
         <br>
         <div class="row" style="margin-bottom: 20px;">
             <div class="col-md-12 text-right">
-                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="syncTemplate(0)">Synchronize Template Parameters
+                <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="syncTemplate()">Synchronize Template Parameters
                 </button>
                 <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="mergeParams()"> Merge from Param
                 </button>
@@ -82,15 +81,17 @@ limitations under the License.
     <div><label for="textAreaGeneratedTemplate">
         <div class="mdl-card__title-text">File Editor</div>
     </label>
-        <!-- <ace-editor [(text)]="configMappingEditorContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" [options]="{maxLines: 'Infinity', fontSize: '13pt'}"
-            style="min-height: 500px; width: fit-content;scroll-snap-coordinate: 3%"></ace-editor> -->
-        <ace-editor [(text)]="configMappingEditorContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" [options]="{maxLines: '100', fontSize: '13pt' }"
-            style="min-height: 200px; width: 100%; caret-color: white "></ace-editor>
+        <ace-editor [(text)]="configMappingEditorContent" #templateeditor [theme]="'chrome'" [mode]="'velocity'" [options]="{maxLines: '100', fontSize: '13pt' }" style="min-height: 200px; width: 100%; caret-color: white "></ace-editor>
     </div>
-
+    <app-modal [title]="'Confirmation'" [isShow]="false" [message]="'Template is saved and ready for creating parameter definition'" #modalComponent>
+    </app-modal>
     <modal #myModal>
-        <modal-header [show-close]="true">
-            <h4 class="modal-title">Enter Name for <b>"{{selectedWord}}"</b></h4>
+        <modal-header style="height:65px">
+            <h4 class="modal-title" style="position:absolute;">Enter Name for <b>"{{selectedWord}}"</b></h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.close()" style="margin-left:auto">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            
         </modal-header>
         <modal-body>
             <div class="form-group row">
@@ -98,16 +99,14 @@ limitations under the License.
                 <div class="col-12">
                     <input class="form-control" [(ngModel)]="tempName" name="templateName" type="text" id="tempName">
                     <span class="error-message" [hidden]="checkNameEntered" style="color: red;">Required Field</span>
-                    <span class="error-message" [hidden]="checkSpace" style="color: red;">Name can't start or end with space(s)</span>
                 </div>
             </div>
         </modal-body>
         <modal-footer [show-default-buttons]="false">
-            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent
-                    
-                   " (click)="modal.close();checkNameEntered=true;checkSpace=true;tempName=''">Cancel</button>
             <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="submitNameValues()">Submit
             </button>
-
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent
+    
+    " (click)="modal.close()">Cancel</button>
         </modal-footer>
     </modal>

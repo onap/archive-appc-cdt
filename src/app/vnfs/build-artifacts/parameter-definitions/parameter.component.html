@@ -40,11 +40,10 @@ limitations under the License.
                 <label>Vnf Type</label><input class="form-control" type="text" disabled value="{{vnfType}}" />
             </div>
             <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="vnfcType">
-                    <label>Vnfc Type</label>  <label style="font-size:12px;">(NFC Function)</label>
-                    <input class="form-control" type="text" disabled value="{{vnfcType}}" />
+                <label>Vnfc Type</label><input class="form-control" type="text" disabled value="{{vnfcType}}" />
             </div>
             <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="!vnfcType">
-                
+
             </div>
             <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                 <label>Protocol</label><input class="form-control" type="text" disabled value="{{protocol}}" />
@@ -143,7 +142,7 @@ limitations under the License.
                                 <option *ngFor="let src of sourceValues"
                                         [value]="src"
                                         [selected]="src === obj.source"
-                                        [disabled]="(obj.name == 'NodeList-DD' && src != 'DataDictionary')||(obj.name == 'vnfName-DD' && src == 'DataDictionary')||(obj.name != 'NodeList-DD' && obj.name != 'vnfName-DD' && src == 'INSTAR')">
+                                        >
                                     {{src}}
                                 </option>
 

@@ -25,7 +25,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NotificationService } from '.././shared/services/notification.service';
 import { ParamShareService } from '.././shared/services/paramShare.service';
 import { MappingEditorService } from '.././shared/services/mapping-editor.service';
 import { NotificationsService } from 'angular2-notifications';
@@ -62,7 +61,7 @@ export class TestComponent implements OnInit {
     vnfcType: any;
     protocol: any;
     mode: any = 'NORMAL';
-    public force = 'TRUE';
+    force: any = 'True';
     ttl: any;
     public formattedNameValuePairs = {};
     public requestId = '';
@@ -88,11 +87,10 @@ export class TestComponent implements OnInit {
     public apiRequest = '';
     public apiResponse = '';
     public statusResponse;
-    public appcTimestampResponse;
     public outputTimeStamp;
     public status;
     public statusReason;
-    public errorResponse;
+    public errorResponse; 
     public timer;
     public subscribe;
     public enableTestButton: boolean = false;
@@ -103,39 +101,30 @@ export class TestComponent implements OnInit {
     public enableCounterDiv: boolean = false;
     public enableDownload: boolean = false;
     private userId = localStorage['userId'];
-    timeStampInt: number;
-    AppcTimeStampInt: number;
-    AppcTimeDiff: number;
-    isAppcTimestampReceived: boolean = false;
-
-    constructor (private location: Location, private activeRoutes: ActivatedRoute, private notificationService: NotificationService, private nService: NotificationsService, private router: Router, private paramShareService: ParamShareService, private mappingEditorService: MappingEditorService, private httpUtil: HttpUtilService,
-        private utiltiy: UtilityService, private ngProgress: NgProgress, private spinner: NgxSpinnerService) {
+    constructor (
+    private location: Location, 
+    private activeRoutes: ActivatedRoute,
+    private nService: NotificationsService, 
+    private router: Router, 
+    private paramShareService: ParamShareService, 
+    private mappingEditorService: MappingEditorService, 
+    private httpUtil: HttpUtilService,
+    private utiltiy: UtilityService, 
+    private ngProgress: NgProgress,
+    private spinner: NgxSpinnerService
+    ) {
 
     }
 
     ngOnInit() {
-        let timeStampI = new Date();
-        console.log("ngOnInit: local timeStamp:[" + timeStampI + "]");
-        let timeStampS = timeStampI.toISOString();
-        console.log("ngOnInit: local ISO timestamp:[" + timeStampS + "]");
-        //.. send HTTP request to APPC
-        this.getAppcTimestamp();
+
+
     }
 
 
-    /*public download() {
-      let stringData: any;
-      stringData = JSON.stringify(this.paramShareService.getSessionParamData());
-      let paramsKeyValueFromEditor: JSON;
-      paramsKeyValueFromEditor = JSON.parse(stringData);
-      let fileName = 'param_' + this.action + '_' + this.type + '_' + "0.0.1" + 'V';
-      this.JSONToCSVConvertor([paramsKeyValueFromEditor], fileName, true);
-
-    }*/
-
     public download() {
         if (this.apiRequest) {
-            var fileName = 'test_' + this.action + '_' + this.actionIdentifiers['vnf-id'] + '_request.json';
+            var fileName = 'test_' + this.action + '_' + this.actionIdentifiers['vnf-id'] + '_request';
             var theJSON = this.apiRequest;
             if (fileName != null || fileName != '') {
                 var blob = new Blob([theJSON], {
@@ -149,7 +138,7 @@ export class TestComponent implements OnInit {
         }
 
         if (this.apiResponse) {
-            var fileName = 'test_' + this.action + '_' + this.actionIdentifiers['vnf-id'] + '_response.json';
+            var fileName = 'test_' + this.action + '_' + this.actionIdentifiers['vnf-id'] + '_response';
             var theJSON = this.apiResponse;
             if (fileName != null || fileName != '') {
                 var blob = new Blob([theJSON], {
@@ -168,7 +157,6 @@ export class TestComponent implements OnInit {
         this.enableTestButton = true;
         this.enablePollButton = true;
         if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
-        this.apiResponse="Test has been abandoned and polling stopped";
         this.nService.info("Information", "Test has been abandoned and polling stopped");
     }
 
@@ -302,7 +290,7 @@ export class TestComponent implements OnInit {
 
 
     constructTestPayload(listName2, listName3, key, value) {
-        if ((listName2 == undefined || listName2 == '') && (listName3 == undefined || listName3 == '')) {
+        if (listName2 == undefined && listName3 == undefined) {
             this.subPayload[key] = value;
         }
         if (listName2) {
@@ -317,7 +305,7 @@ export class TestComponent implements OnInit {
             }
             else {
                 this.vnfcJson[key] = value;
-                this.vmJson['vnfc'] = [this.vnfcJson];
+                this.vmJson['vnfc'] = this.vnfcJson;
                 this.flag = 1;
             }
             if (this.vmJson) this.lastvmJson = this.vmJson;
@@ -329,22 +317,7 @@ export class TestComponent implements OnInit {
     }
 
     constructRequest() {
-        this.timeStampInt = Date.now(); //.. milliseconds
-        let timeStamp;
-        console.log("constructRequest: isAppcTimestampReceived:" +
-            (this.isAppcTimestampReceived ? "true" : "false"));
-        if (this.isAppcTimestampReceived) {
-            console.log("constructRequest: AppcTimeDiff:[" + this.AppcTimeDiff + "]");
-            this.timeStampInt += this.AppcTimeDiff;
-            timeStamp = new Date(this.timeStampInt).toISOString();
-            console.log("constructRequest: got timeStamp from APPC:[" + timeStamp + "]");
-        }
-        else { //.. still not received
-            console.log('constructRequest: Appc Timestamp is not ready (use local)');
-            this.timeStampInt -= 100000;
-            timeStamp = new Date(this.timeStampInt).toISOString();
-        };
-        console.log('constructRequest: timeStamp:[' + timeStamp + ']');
+        let timeStamp = new Date().toISOString();
         let reqId;
         this.requestId = reqId = new Date().getTime().toString();
         let data = {
@@ -357,7 +330,7 @@ export class TestComponent implements OnInit {
                     'sub-request-id': this.requestId,
                     'flags': {
                         'mode': 'NORMAL',
-                        'force': this.force.toString().toUpperCase(),
+                        'force': 'TRUE',
                         'ttl': 3600
                     }
                 },
@@ -366,15 +339,6 @@ export class TestComponent implements OnInit {
                 'payload': JSON.stringify(this.payload)
             }
         };
-        if (this.action == 'Unlock') {
-            let payload = JSON.parse(data.input['payload']);
-            data.input['common-header']['request-id'] = payload['request-id'];
-            data.input['common-header']['sub-request-id'] = payload['request-id'];
-        }
-
-        if(this.action == 'Unlock' || this.action == 'Lock' || this.action == 'CheckLock') {
-            delete data.input['payload'];
-        }
 
         return data;
     }
@@ -384,20 +348,13 @@ export class TestComponent implements OnInit {
         this.enableTestButton = false;
         this.enablePollButton = false;
         this.timer = Observable.interval(10000);
-        if(this.action == 'Unlock' || this.action == 'Lock' || this.action == 'CheckLock') {
-            this.enablePollButton = true;
-            this.enableBrowse = true;
-            this.enableTestButton = true;
-            this.requestId = '';
-        } else {
-            this.subscribe = this.timer.subscribe((t) => this.pollTestStatus());
-        }
+        this.subscribe = this.timer.subscribe((t) => this.pollTestStatus());
         this.ngProgress.start();
         this.apiRequest = JSON.stringify(this.constructRequest());
 
         this.httpUtil.post(
             {
-                url: environment.testVnf + "?urlAction=" + this.getUrlEndPoint(this.action),
+                url: environment.testVnf + "?urlAction=" + this.getUrlEndPoint(this.action.toLowerCase()),
                 data: this.apiRequest
             })
             .subscribe(resp => {
@@ -408,11 +365,10 @@ export class TestComponent implements OnInit {
             },
                 error => {
                     this.nService.error('Error', 'Error in connecting to APPC Server');
-                    // this.enableBrowse = true;
+                    this.enableBrowse = true;
                     this.enableTestButton = true;
                     this.enablePollButton = true;
                     this.enableCounterDiv = false;
-                    this.enableBrowse = true;
                     if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
 
                 });
@@ -422,98 +378,10 @@ export class TestComponent implements OnInit {
         }, 3500);
     }
 
-    getAppcTimestamp() {
-        this.timeStampInt = Date.now(); //.. milliseconds
-        console.log("getAppcTimestamp: timeStampInt:[" + this.timeStampInt + "]");
-        let timeStampP = new Date(this.timeStampInt).toISOString();
-        console.log("getAppcTimestamp: from int timestamp:[" + timeStampP + "]");
-        this.isAppcTimestampReceived = false;
-        let reqId = new Date().getTime().toString();
-        try {
-            let data = {
-                'input': {
-                    'design-request': {
-                        'request-id': reqId,
-                        'action': 'getAppcTimestampUTC',
-                        'payload': '{}'
-                    }
-                }
-            };
-            console.log('getAppcTimestamp: sending httpUtil.post...');
-            this.httpUtil.post(
-                {
-                    url: environment.getDesigns, data: data
-                })
-                .subscribe(resp => {
-                    this.appcTimestampResponse = resp;
-                    // this.appcTimestampResponse = JSON.stringify(resp);
-                    console.log('appcTimestampResponse:[' + resp + ']');
-                    this.parseAppcTimestamp(this.appcTimestampResponse);
-                });
-        }
-        catch (e) {
-            this.nService.warn('status',
-                'Error while retrieving APPC Timestamp(using local by default)!');
-        }
-    }
-
-    parseAppcTimestamp(tstampStr: string) {
-        //.. parse the response to get timestamp as milliseconds
-        // input format: YYYY-MM-DDTHH:mm:ss.sssZ (24 chars)
-        var rexp =
-            new RegExp(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})Z/);
-        var mresult = rexp.exec(tstampStr);
-        if (mresult[0]) {
-            console.log("parseAppcTimestamp: response format is OK...");
-            var aYearS = mresult[1];
-            var aYear = parseInt(aYearS, 10);
-            var aMonS = mresult[2];
-            var aMon = parseInt(aMonS, 10) - 1;
-            var aDayS = mresult[3];
-            var aDay = parseInt(aDayS, 10);
-            var aHrS = mresult[4];
-            var aHr = parseInt(aHrS, 10);
-            var aMntS = mresult[5];
-            var aMnt = parseInt(aMntS, 10);
-            var aSecS = mresult[6];
-            var aSec = parseInt(aSecS, 10);
-            var aMsecS = mresult[7];
-            var aMsec = parseInt(aMsecS, 10);
-            this.AppcTimeStampInt =
-                Date.UTC(aYear, aMon, aDay, aHr, aMnt, aSec, aMsec);
-            console.log(
-                "parseAppcTimestamp: AppcTimeStampInt:[" + this.AppcTimeStampInt + "]");
-            let timeStampP = new Date(this.AppcTimeStampInt).toISOString();
-            console.log("parseAppcTimestamp: from int timestamp:[" + timeStampP + "]");
-            //.. AppcTimeDiff - time difference in milliseconds
-            this.AppcTimeDiff = this.AppcTimeStampInt - this.timeStampInt;
-            console.log("parseAppcTimestamp: AppcTimeDiff:[" + this.AppcTimeDiff + "]");
-            this.isAppcTimestampReceived = true;
-        }
-        else {
-            throw new Error(
-                'The received APPC Timestamp is not matching expected format: YYYY-MM-DDTHH:mm:ss.sssZ !');
-        }
-    }
 
     pollTestStatus() {
         if (this.requestId && this.actionIdentifiers['vnf-id']) {
-            // console.log("payload==" + JSON.stringify(this.payload))
-            this.timeStampInt = Date.now(); //.. milliseconds
-            let timeStamp;
-            console.log("pollTestStatus: isAppcTimestampReceived:" +
-                (this.isAppcTimestampReceived ? "true" : "false"));
-            if (this.isAppcTimestampReceived) {
-                this.timeStampInt += this.AppcTimeDiff;
-                timeStamp = new Date(this.timeStampInt).toISOString();
-                console.log("pollTestStatus: got timeStamp from APPC:[" + timeStamp + "]");
-            }
-            else { //.. still not received
-                console.log('pollTestStatus: Appc Timestamp is not ready (use local)');
-                this.timeStampInt -= 100000;
-                timeStamp = new Date(this.timeStampInt).toISOString();
-            };
-            console.log("pollTestStatus: timestamp:[" + timeStamp + "]");
+            let timeStamp = new Date().toISOString();
             let reqId = new Date().getTime().toString();
             let data = {
                 'input': {
@@ -525,7 +393,7 @@ export class TestComponent implements OnInit {
                         'sub-request-id': reqId,
                         'flags': {
                             'mode': 'NORMAL',
-                            'force': this.force.toString().toUpperCase(),
+                            'force': 'TRUE',
                             'ttl': 3600
                         }
                     },
@@ -567,14 +435,10 @@ export class TestComponent implements OnInit {
                         if (status.toUpperCase() === 'SUCCESS' || status.toUpperCase() === 'SUCCESSFUL') {
                             if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
                             this.enablePollButton = true;
-                            this.enableBrowse = true;
-                            this.enableTestButton = true;
                         }
                         if (status.toUpperCase() === 'FAILED') {
                             if (this.subscribe && this.subscribe != undefined) this.subscribe.unsubscribe();
                             this.enablePollButton = true;
-                            this.enableBrowse = true;
-                            this.enableTestButton = true;
                         }
                     }
                     else {
@@ -592,14 +456,11 @@ export class TestComponent implements OnInit {
                         this.showStatusResponseDiv = false;
                         this.errorResponse = 'Error Connecting to APPC server';
                         this.enableCounterDiv = false;
-                        this.enableBrowse = true;
-                        this.enableTestButton = true;
                         if (this.subscribe && this.subscribe != undefined) {
                             this.subscribe.unsubscribe();
                             this.enablePollButton = true;
                         }
                     });
-
         }
         else {
             this.nService.error("Error", "Please enter vnf Id & request Id");
@@ -608,16 +469,43 @@ export class TestComponent implements OnInit {
     }
 
     getUrlEndPoint(action) {
-        let charArray = action.split('');
-        let url = '';
-        for (let i = 0; i < charArray.length; i++) {
-            if (charArray[i] == charArray[i].toUpperCase() && i != 0) {
-                url = url + '-';
-            }
-            url = url + charArray[i];
+        switch (action) {
+            case 'configmodify':
+                return 'config-modify';
+            case 'configbackup':
+                return 'config-backup';
+            case 'configrestore':
+                return 'config-restore';
+            case 'healthcheck':
+                return 'health-check';
+            case 'quiescetraffic':
+                return 'quiesce-traffic';
+            case 'resumetraffic':
+                return 'resume-traffic';
+            case 'distributetraffic':
+                return 'distribute-traffic';
+            case 'startapplication':
+                return 'start-application';
+            case 'stopapplication':
+                return 'stop-application';
+            case 'upgradebackout':
+                return 'upgrade-backout';
+            case 'upgradepostcheck':
+                return 'upgrade-post-check';
+            case 'upgradeprecheck':
+                return 'upgrade-pre-check';
+            case 'upgradesoftware':
+                return 'upgrade-software';
+            case 'upgradebackup':
+                return 'upgrade-backup';
+            case 'attachvolume':
+                return 'attach-volume';
+            case 'detachvolume':
+                return 'detach-volume';
+            default:
+                return action.toLowerCase();
         }
 
-        return url.toLowerCase();
     }
 
     setValuesOnFileUploadFailure() {        

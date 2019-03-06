@@ -43,44 +43,31 @@ import {NotificationService} from './services/notification.service';
 import {ParamShareService} from './services/paramShare.service';
 import {TidyTableModule} from './modules/tidy-table/tidy-table.module';
 import {UtilityService} from './services/utilityService/utility.service';
-import {ProcOnSrvSideSvc} from './services/procOnSrvSide.service';
-
+import {VmFilteringPipe} from '../pipes/vm-filtering.pipe';
 import {SimpleNotificationsModule} from 'angular2-notifications';
 import { NgProgressModule } from 'ngx-progressbar';
 import {FormsModule} from '@angular/forms';
-import { VmFilteringPipe } from './pipes/vm-filtering.pipe';
-import {APIService} from './services/cdt.apicall'
-
 
 @NgModule({
     imports: [
         FormsModule,
-        CommonModule, HttpModule, RouterModule, TidyTableModule,
-       // HttpClient, HttpHeaders,
-        NgProgressModule, NgbModule, SimpleNotificationsModule.forRoot()],
+        CommonModule, HttpModule, RouterModule, TidyTableModule, NgProgressModule, NgbModule, SimpleNotificationsModule.forRoot()],
 
     declarations: [VmFilteringPipe,
+
         HelpComponent,
-        HeaderComponent, NavigationComponent, LogoutComponent, Collapse,
-        Dropdown, DropdownNotClosableZone, DropdownOpen, DropDownToggleDirective
+        HeaderComponent, NavigationComponent, LogoutComponent, Collapse, Dropdown, DropdownNotClosableZone, DropdownOpen, DropDownToggleDirective
     ],
-    exports: [
-      VmFilteringPipe, NgProgressModule, NgbModule, HelpComponent,
-      DropDownToggleDirective, HeaderComponent, NavigationComponent,
-      LogoutComponent, TidyTableModule, Collapse, Dropdown,
-      DropdownNotClosableZone, DropdownOpen
-    ]
+    exports: [VmFilteringPipe, NgProgressModule, NgbModule, HelpComponent, DropDownToggleDirective, HeaderComponent, NavigationComponent, LogoutComponent, TidyTableModule, Collapse, Dropdown, DropdownNotClosableZone, DropdownOpen]
 })
 export class SharedModule {
 
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: SharedModule,
-            providers: [
-                HttpUtilService, EmitterService, NotificationService,
-                UtilityService,APIService, ProcOnSrvSideSvc,
-                ParamShareService, MappingEditorService
-            ]
+            providers: [HttpUtilService, EmitterService, NotificationService,
+                UtilityService,
+                ParamShareService, MappingEditorService]
         };
     }
 }

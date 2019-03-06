@@ -33,15 +33,3 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 .options-menu {
     padding: 3px 20px;
 }
-.ace_cursor{
-    background-color: greenyellow;
-    
-}
-.ace-monokai{
-    color: greenyellow;
-    
-}
-.ace_scroller{
-    color: white;
-    background-color: wheat;
-}

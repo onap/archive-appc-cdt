@@ -22,31 +22,33 @@ limitations under the License.
 ============LICENSE_END============================================
 */
 
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {SimpleNotificationsModule} from 'angular2-notifications';
-import {HomeModule} from './home/home.module';
-import {AppComponent} from './app.component';
-import {AppRoutingModule} from './app.routing';
-import {SharedModule} from './shared/shared.module';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {RouterModule} from '@angular/router';
-import {TestComponent} from './test/test.component';
-import {AboutUsComponent} from './about-us/aboutus.component';
-import {NgProgressModule} from 'ngx-progressbar';
-import {LoginGuardService} from './vnfs/LoginGuardService/Login-guard-service';
-import {Ng2Bs3ModalModule} from 'ng2-bs3-modal/ng2-bs3-modal';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+import { HomeModule } from './home/home.module';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing';
+import { SharedModule } from './shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { TestComponent } from './test/test.component';
+import { AboutUsComponent } from './about-us/aboutus.component';
+import { NgProgressModule } from 'ngx-progressbar';
+import { LoginGuardService } from './vnfs/LoginGuardService/Login-guard-service';
+import { ConfirmComponent } from './shared/confirmModal/confirm.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
-    declarations: [AppComponent, TestComponent, AboutUsComponent],
+    declarations: [AppComponent, TestComponent, AboutUsComponent, ConfirmComponent],
     imports: [BrowserModule, FormsModule, HomeModule, SharedModule.forRoot(),
-        NgbModule.forRoot(), NoopAnimationsModule, AppRoutingModule, SimpleNotificationsModule, NgProgressModule, Ng2Bs3ModalModule, NgxSpinnerModule],
+        NgbModule.forRoot(), NoopAnimationsModule, AppRoutingModule, SimpleNotificationsModule, NgProgressModule, BootstrapModalModule, NgxSpinnerModule],
     exports: [RouterModule],
-    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, LoginGuardService],
+    providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, LoginGuardService],
+    entryComponents: [ConfirmComponent],
 
     bootstrap: [AppComponent]
 })

@@ -28,22 +28,23 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 export class HttpUtilService {
     headers: Headers;
     options: RequestOptions
-    private username = require('../../../../cdt.application.properties.json').username;
-    private password = require('../../../../cdt.application.properties.json').password;
+    private username = require('../../../cdt.application.properties.json').username;
+    private password = require('../../../cdt.application.properties.json').password;
     constructor(private http: Http) {
         this.headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+        this.options = new RequestOptions({headers: this.headers}); //
     }
-    get(req) {
 
+    get(req) {
         return this
             .http
             .get(req.url, this.options)
             .map((res: Response) => res.json())
     }
+
     post(req) {
         this.headers.append('Authorization', 'Basic ' + btoa(this.username + ':' + this.password));
         this.options = new RequestOptions({ headers: this.headers });
-
         return this
             .http
             .post(req.url, req.data, this.options)

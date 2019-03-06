@@ -30,8 +30,7 @@ limitations under the License.
                 <div class="mdl-card__title">
                     <div class="text-center">
                         Contact us @:
-                        <a href="mailto:{{contactUsMail.CONTACT_US_EMAIL}}?Subject={{contactUsMail.CONTACT_US_SUBJECT}}">
-                        CDT DEVELOPMENT TEAM </a>
+                        <a href="mailto:{{contactUsMail.CONTACT_US_EMAIL}}?Subject={{contactUsMail.CONTACT_US_SUBJECT}}">APPC DEVELOPMENT TEAM</a>
                     </div>
                 </div>
             </div>&emsp;&emsp;&emsp;&emsp;
@@ -62,7 +61,7 @@ limitations under the License.
                 </div>
                 <div class="text-right">
                     <div class="mdl-dialog__content">
-                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary"  (click)="versionLogFile(); versionLog.open();">VIEW CHANGE LOG</a>
+                        <a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="open(content)">VIEW CHANGE LOG</a>
                     </div>
                 </div>
 
@@ -71,19 +70,3 @@ limitations under the License.
         </div>
     </div>
 </div>
-
-<!-- Modal for version Log and download file -->
-<modal #versionLog id="versionLog">
-    <modal-header [show-close]="true">
-        <h4 class="modal-title">VERSION CHANGE LOG</h4>
-    </modal-header>
-    <modal-body>
-        <textarea class="textarea">{{this.data}}</textarea>
-    </modal-body>
-    <modal-footer [show-default-buttons]="false">
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="downloadLogFile()">
-            Download
-        </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" data-dismiss="modal">cancel</button>
-    </modal-footer>
-</modal>

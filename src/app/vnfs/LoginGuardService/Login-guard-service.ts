@@ -24,13 +24,11 @@ limitations under the License.
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {Injectable} from '@angular/core';
-import {MappingEditorService} from '../../shared/services/mapping-editor.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class LoginGuardService implements CanActivate {
 
-    constructor(private ngbModal: NgbModal, private mapService: MappingEditorService, private router: Router) {
+    constructor(private router: Router) {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {

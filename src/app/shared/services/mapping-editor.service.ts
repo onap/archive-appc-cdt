@@ -68,11 +68,11 @@ export class MappingEditorService {
     public latestAction: any;
     public selectedWord: any;
     identifier: any;
-    private selectedVNFCType;
     private _navItem = {};
     private _observer: Observer<any>;
     private referenceList = [];
-    newObject: any
+    newObject: any;
+
     constructor() {
         this.navChange$ = new Observable(observer =>
             this._observer = observer).share();
@@ -106,18 +106,10 @@ export class MappingEditorService {
     }
     selectedObj(data) {
         this.newObject = data;
-        
     }
+
     saveLatestIdentifier(identifier) {
         this.identifier = identifier;
-    }
-
-    setSelectedVNFCType(vnfcType) {
-        this.selectedVNFCType = vnfcType;
-    }
-
-    getSelectedVNFCType() {
-        return this.selectedVNFCType;
     }
 
     public getParamContent() {
@@ -137,15 +129,15 @@ export class MappingEditorService {
         
     }
 
-    public initialise(editor: any, editorContent: string): void {
+    public initialise(editor: any, editorContent: string, modal: any): void {
         this.editor = editor;
         this.editor.session = editor.session;
         this.editor.selection.session.$backMarkers = {};
         this.editorContent = editorContent;
         this.editor.$blockScrolling = Infinity;
         this.editor.$blockSelectEnabled = false;
-        //this.initialiseCommands(modal);
-        //this.editor.setValue(this.editorContent);
+        this.initialiseCommands(modal);
+        this.editor.setValue(this.editorContent);
         this.refreshEditor();
     }
 
@@ -206,7 +198,7 @@ export class MappingEditorService {
             for (var prop in paramJson) {
                 let value: string = paramJson[prop];
                 if (value) {
-                    var occurances = this.editor.findAll(value, { regExp: false });
+                    var occurances = this.editor.findAll(value, {regExp: false});
                     var ranges = this.editor.getSelection().getAllRanges();
                     if (ranges && occurances && occurances > 0) {
 
@@ -269,8 +261,8 @@ export class MappingEditorService {
         selectedRange.start.column = selectedRange.start.column - 1;
         selectedRange.end.column = selectedRange.end.column + 1;
         if ((this.editor.session.getTextRange(selectedRange).startsWith(' ')
-            || this.editor.session.getTextRange(selectedRange).startsWith('"')
-            || this.editor.session.getTextRange(selectedRange).startsWith('>'))
+                || this.editor.session.getTextRange(selectedRange).startsWith('"')
+                || this.editor.session.getTextRange(selectedRange).startsWith('>'))
             && (this.editor.session.getTextRange(selectedRange).endsWith(' ')
                 || this.editor.session.getTextRange(selectedRange).endsWith('"')
                 || this.editor.session.getTextRange(selectedRange).endsWith(',')
@@ -321,7 +313,7 @@ export class MappingEditorService {
     }
 
     public autoAnnotateTemplateForParam(): void {
-        var occurances = this.editor.findAll(this.T_KEY_EXPRESSION, { regExp: true });
+        var occurances = this.editor.findAll(this.T_KEY_EXPRESSION, {regExp: true});
         var ranges = this.editor.getSelection().getAllRanges();
         if (ranges) {
             for (var r = 0; r < ranges.length; r++) {
@@ -370,25 +362,19 @@ export class MappingEditorService {
     }
 
     replaceNamesWithBlankValues() {
-        var occurances = this.editor.findAll(this.SYNC_T_KEY_EXPRESSION, { regExp: true });
+        var occurances = this.editor.findAll(this.SYNC_T_KEY_EXPRESSION, {regExp: true});
         var ranges = this.editor.getSelection().getAllRanges();
         if (occurances > 0) {
             if (ranges) {
                 for (var r = 0; r < ranges.length; r++) {
                     let selectedRange: any = ranges[r];
-                    // console.log("Selected range == " + selectedRange)
                     let selectedWord: string = this.editor.session.getTextRange(selectedRange);
                     let specialKeys = (selectedWord.substring(2, selectedWord.length - 1)).match(this.checkSpecialCharsReg);
-                    // console.log("Selected word == " + selectedWord.length)
-                    //if (!selectedWord.startsWith('<') || !selectedWord.startsWith('{')) {
-                    if (specialKeys && specialKeys.length) {
-                    }
-
-                    else if (selectedWord && this.checkAppliedForNamesOnly(selectedRange) && !specialKeys && this.checkComments(selectedRange)) {
+                    if (selectedWord && this.checkAppliedForNamesOnly(selectedRange) && !specialKeys) {
                         let replaceWord: any = this.KEY_START + '' + this.KEY_MID + selectedWord.substring(2, selectedWord.length - 1) + this.KEY_END;
                         this.editor.session.replace(selectedRange, replaceWord);
                     }
-                    // }
+                   
                 }
             }
         }
@@ -402,8 +388,7 @@ export class MappingEditorService {
             this.hasErrorCode = false;
             for (var r = 0; r < ranges.length; r++) {
                 let keyValue: string = this.editor.session.getTextRange(ranges[r]);
-                //console.log("keyValues==="+keyValue)
-                if (this.checkComments(ranges[r]) && keyValue && keyValue.startsWith(this.KEY_START) && keyValue.endsWith(this.KEY_END) && keyValue.includes(this.KEY_MID)) {
+                if (keyValue && keyValue.startsWith(this.KEY_START) && keyValue.endsWith(this.KEY_END) && keyValue.includes(this.KEY_MID)) {
                     let key: string = keyValue.substring(keyValue.indexOf(this.KEY_MID) + this.KEY_MID_LENGTH, keyValue.indexOf(this.KEY_END));
                     let value: string = keyValue.substring(this.KEY_START_LENGTH, keyValue.indexOf(this.KEY_MID));
                     let specialKeys = key.match(this.checkSpecialCharsReg);
@@ -413,7 +398,7 @@ export class MappingEditorService {
                         if (this.fromScreen === 'TemplateScreen') {
                             if (key) {
                                 paramJson[key] = value;
-                                var obj: any = { 'paramName': '', 'paramValue': '' };
+                                var obj: any = {'paramName': '', 'paramValue': ''};
                                 obj.paramName = key;
                                 obj.paramValue = value;
                                 paramData.push(obj);
@@ -423,7 +408,7 @@ export class MappingEditorService {
                         else if (this.fromScreen === 'MappingScreen') {
                             if (key) {
                                 paramJson[key] = value;
-                                var obj: any = { 'paramName': '', 'paramValue': '' };
+                                var obj: any = {'paramName': '', 'paramValue': ''};
                                 obj.paramName = key;
                                 obj.paramValue = value;
 
@@ -464,13 +449,13 @@ export class MappingEditorService {
     public refreshMarker(): void {
         if (this.editor) {
             this.hasErrorCode = false;
-            var occurances = this.editor.findAll(this.KEY_EXPRESSION, { regExp: true });
+            var occurances = this.editor.findAll(this.KEY_EXPRESSION, {regExp: true});
             var ranges = this.editor.getSelection().getAllRanges();
             var keysList = [];
             // Populate missing keys
             for (var r = 0; r < ranges.length; r++) {
                 let keyValue: string = this.editor.session.getTextRange(ranges[r]);
-                if (this.checkComments(ranges[r]) && keyValue && keyValue.startsWith(this.KEY_START) && keyValue.endsWith(this.KEY_END) && keyValue.includes(this.KEY_MID)) {
+                if (keyValue && keyValue.startsWith(this.KEY_START) && keyValue.endsWith(this.KEY_END) && keyValue.includes(this.KEY_MID)) {
                     let key: string = keyValue.substring(keyValue.indexOf(this.KEY_MID) + this.KEY_MID_LENGTH, keyValue.indexOf(this.KEY_END));
                     let value: string = keyValue.substring(this.KEY_START_LENGTH, keyValue.indexOf(this.KEY_MID));
                     let specialKeys = key.match(this.checkSpecialCharsReg);
@@ -523,7 +508,7 @@ export class MappingEditorService {
     public generateTemplate(templateEditor: any): void {
         if (templateEditor) {
             templateEditor.setValue(this.editor.getValue());
-            var occurances = templateEditor.findAll(this.KEY_EXPRESSION, { regExp: true });
+            var occurances = templateEditor.findAll(this.KEY_EXPRESSION, {regExp: true});
             var ranges = templateEditor.getSelection().getAllRanges();
             if (ranges) {
                 for (var r = 0; r < ranges.length; r++) {
@@ -547,7 +532,7 @@ export class MappingEditorService {
 
     public generateParams(paramsEditor: any, paramsKeyValueEditor: any): JSON {
         if (paramsEditor && paramsKeyValueEditor) {
-            var occurances = this.editor.findAll(this.KEY_EXPRESSION, { regExp: true });
+            var occurances = this.editor.findAll(this.KEY_EXPRESSION, {regExp: true});
             var ranges = this.editor.getSelection().getAllRanges();
             if (ranges) {
                 let paramsJSON: JSON = JSON.parse('{}');

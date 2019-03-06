@@ -55,8 +55,8 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
     }
     subscription: Subscription;
 
-    constructor (private paramShareService: ParamShareService, private ngProgress: NgProgress, private httpUtil: HttpUtilService, private router: Router, private activeROute: ActivatedRoute,
-        private mappingEditorService: MappingEditorService, private modalService: NgbModal) {
+    constructor(private paramShareService: ParamShareService, private ngProgress: NgProgress, private httpUtil: HttpUtilService, private router: Router, private activeROute: ActivatedRoute,
+        private mappingEditorService: MappingEditorService, private modalService: NgbModal, private nService: NotificationsService) {
     }
 
     ngOnInit() {
@@ -89,22 +89,28 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
     getArtifacts(data) {
         let tempObj: any;
         this.ngProgress.start();
+      //this.subscription = this.httpUtil.post({
         this.httpUtil.post({
             url: environment.getDesigns,
             data: data
         })
-            .subscribe(resp => {
+            .subscribe( resp => {
                 if (resp.output.data.block !== undefined && resp.output.data.block !== null && resp.output.data.block.length !== 0) {
-                    tempObj = JSON.parse(resp.output.data.block);
-                    this.vnfData = tempObj.designInfo;
+                  console.log("getArtifacts: resp:", resp.output.data.block);
+                  tempObj = JSON.parse(resp.output.data.block);
+                  this.vnfData = tempObj.designInfo;
                 }
-                if (this.vnfData === undefined || this.vnfData === null || this.vnfData.length === 0) {
+                if (this.vnfData == undefined || this.vnfData == null || this.vnfData.length == 0) {
                     this.noData = true;
-                    // this.noDataMsg = resp.output.status.message;
+                    // this.noDataMsg = resp.output.data.status.message;
                 } else {
                     this.noData = false;
                 }
+                console.log("getArtifacts: noData:"+this.noData);
                 this.ngProgress.done();
+            },
+            error => {
+              this.nService.error(appConstants.errors.error, appConstants.errors.connectionError)
             });
 
         this.filter = ['vnf-type', 'vnfc-type', 'artifact-name'];
@@ -118,25 +124,14 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
     getData() {
     }
 
-    buildNewDesign(response) {
-
-        // this.modalService.open(content).result.then(res => {
-        //     if(res=='yes'){
-        //         sessionStorage.setItem('vnfParams', JSON.stringify({ vnfType: this.vnfType}));
-        //         sessionStorage.setItem("vnfcSelectionFlag",''+this.vnfcRequired+'')
-        //     } else{
-        //         sessionStorage.setItem('vnfParams',"")
-        //     }
-
-        //     this.mappingEditorService.referenceNameObjects = undefined;
-        //     this.mappingEditorService.identifier = '';
-        //     //this.mappingEditorService.newObject = {};
-        //     this.router.navigate([
-        //             'vnfs', 'design', 'references'
-        //     ]);
-
-        // });
-
+    buildNewDesign( response) {
+     // this.modalService.open(content).result.then(res => {
+     //     this.mappingEditorService.referenceNameObjects = undefined;
+     //     sessionStorage.setItem('vnfParams', JSON.stringify({ vnfType: this.vnfType, vnfcType: this.vnfcType }));
+     //     this.router.navigate([
+     //             'vnfs', 'design', 'references'
+     //         ]);
+     // });
         if (response == 'yes') {
             sessionStorage.setItem('vnfParams', JSON.stringify({ vnfType: this.vnfType }));
             sessionStorage.setItem("vnfcSelectionFlag", '' + this.vnfcRequired + '')
@@ -203,7 +198,7 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
 
     clearCache() {
         // get the value and save the userid and persist it.
-        sessionStorage.setItem("vnfcSelectionFlag", '' + this.vnfcRequired + '')
+        sessionStorage.setItem("vnfcSelectionFlag", '' + this.vnfcRequired + '');
         this.mappingEditorService.setTemplateMappingDataFromStore(undefined);
         localStorage['paramsContent'] = '{}';
         this.mappingEditorService.setParamContent(undefined);
@@ -217,20 +212,4 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
         this.mappingEditorService.changeNavAppData(appData);
         this.mappingEditorService.changeNavDownloadData(downloadData);
     }
-    defineData(item) {
-        let artVnfc = item['artifact-name'].substring(this.lastIndexofEnd("AllAction_", item['artifact-name']), item['artifact-name'].lastIndexOf("_"))
-        if (item['vnf-type'] == artVnfc && item['vnfc-type'] == 'null') {
-
-            return item['vnfc-type']
-        } else {
-            return ""
-        }
-
-    }
-    lastIndexofEnd(str, originlStr) {
-        var io = originlStr.lastIndexOf(str);
-        return io == -1 ? -1 : io + str.length;
-    }
-
-
 }
