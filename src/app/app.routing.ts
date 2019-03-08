@@ -29,6 +29,9 @@ import { LoginGuardService } from './vnfs/LoginGuardService/Login-guard-service'
 import {LogoutComponent} from './shared/components/logout/logout.component';
 import {NgModule} from '@angular/core';
 import {TestComponent} from './test/test.component';
+import {AdminComponent} from './admin/admin.component';
+import {AnsibleServerComponent} from './admin/view-edit/ansible-server.component';
+
 
 const routes: Routes = [
     {
@@ -40,6 +43,16 @@ const routes: Routes = [
     }, {
         path: 'test',
         component: TestComponent,
+        canActivate:[LoginGuardService]
+    },
+    {
+        path: 'admin',
+        component: AdminComponent,
+        canActivate:[LoginGuardService]
+    },
+    {
+        path: 'ansible-server',
+        component: AnsibleServerComponent,
         canActivate:[LoginGuardService]
     },
     {

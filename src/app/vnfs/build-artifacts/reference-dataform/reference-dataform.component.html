@@ -44,18 +44,19 @@ limitations under the License.
                     <span class="error-message" [hidden]="vnfParams?.vnfType || vnftype.valid || (vnftype.pristine && !userForm.submitted)">Required Field</span>
                 </div>
 
-                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="((displayVnfc=='true') || isVnfcType) && (referenceDataObject['action']=='Configure' || referenceDataObject['action']=='ConfigModify' || referenceDataObject['action']=='DistributeTraffic')">
-                    <label>VNFC Type</label>
+                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="((displayVnfc=='true') || isVnfcType) && (referenceDataObject['action']=='Configure' || referenceDataObject['action']=='ConfigModify' || referenceDataObject['action']=='DistributeTraffic')">
+                    <label>VNFC Type</label>  <label style="font-size:12px;">(NFC Function)</label>
                     <input *ngIf="isVnfcType" type="text" class="form-control" readonly id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']" (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')" #vnfcType="ngModel"
                         name="vnfcType">
-                    <select *ngIf="isVnfcTypeList" class="form-control" id="vnfcType" (ngModelChange)="vnfcChanged($event,content,userForm)" [ngModel]="vnfcIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
+                    <select *ngIf="isVnfcTypeList" class="form-control" id="vnfcType" (ngModelChange)="vnfcChanged($event,userForm)" [ngModel]="vnfcIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
                             <option [value]="val" *ngFor="let val of referenceDataObject.scope['vnfc-type-list']">{{val}}
                             </option>
                         </select>
                     <a *ngIf="isVnfcTypeList" style="    color: blue;" href="javascript:void(0)" (click)="vnfcModal.open()">Add New VNFC Type</a>
                 </div>
+                
 
-                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="displayVnfc!='true' || (referenceDataObject['action']!='Configure' && referenceDataObject['action']!='ConfigModify' && referenceDataObject['action']!='DistributeTraffic')">
+                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="displayVnfc!='true' || (referenceDataObject['action']!='Configure' && referenceDataObject['action']!='ConfigModify' || referenceDataObject['action']=='DistributeTraffic')">
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>Device Protocol*</label>
@@ -72,16 +73,19 @@ limitations under the License.
                         <option [value]="val" *ngFor="let val of referenceDataObject['template-id-list']">{{val}}
                         </option>
                     </select>
-                   <!-- <span class="error-message" [hidden]="deviceProtocol.valid || (deviceProtocol.pristine && !userForm.submitted)">Required Field</span> -->
+                    <!-- <span class="error-message" [hidden]="deviceProtocol.valid || (deviceProtocol.pristine && !userForm.submitted)">Required Field</span> -->
                 </div>
 
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="referenceDataObject['action']== 'ConfigScaleOut'" style="margin-top: 30px">
                     <span *ngIf="referenceDataObject.action === 'ConfigScaleOut'">   <a style="    color: blue;"
                     href="javascript:void(0)"
-                    (click)="showIdentifier()">Assign New Template Identifier</a></span>
+                    (click)="identifierModal.open()">Assign New Template Identifier</a></span>
 
                 </div>
+
+
             </div>
+
             <div class="col-12" *ngIf="!(referenceDataObject.action === 'OpenStack Actions')">
                 <div class="input-group">
                     <input id="inputFile" class="file" #myInput type='file' (change)="fileChange($event)">
@@ -137,6 +141,7 @@ limitations under the License.
                                     <input type="text" class="form-control" id="txtIpaddress" [(ngModel)]="referenceDataObject['url']" name="contextUrl">
                                 </div>
                             </div>
+                            <br/>
                             <div class="card-block" *ngIf="(referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action ==''  || referenceDataObject.action ==undefined)" style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
                                 <div class="col-12">
                                     <h5 style="margin-top: 0.5rem;font-family: Roboto"> VNFC Information
@@ -150,15 +155,15 @@ limitations under the License.
                             </div>
                             <div class="row" *ngIf="(( referenceDataObject.action =='ConfigScaleOut' ||referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ) && isCollapsedContent) ">
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                    <label style="font-size:12px;">VNFC Type</label>
+                                    <label style="font-size:12px;">VNFC Type (NFC Function)</label>
                                     <input type="text" class="form-control" id="txtVnfcTypeInColl" [(ngModel)]="Sample['vnfc-type']" (blur)="checkVnfcTypeEqual(vnfcType.value)" #vnfcType="ngModel" name="samplevnfcType">
                                 </div>
-                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                    <label style="font-size:12px">VNFC Function Code</label>
+                                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                                    <label style="font-size:12px">VNFC Function Code (NFC Naming Code)</label>
                                     <input type="text" class="form-control" id="txtVnfcFunctionCode" [(ngModel)]="Sample['vnfc-function-code']" #vnfcFunctionCode="ngModel" name="samplevnfcFunctionCode">
                                 </div>
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                    <label style="font-size:12px;">IPAddress V4</label>
+                                    <label style="font-size:12px;">IPAddress V4 OAM VIP</label>
                                     <select class="form-control" id="cmbIpAddedBoo" [(ngModel)]="Sample['ipaddress-v4-oam-vip']" name="sampleIpaddress">
                                         <option [value]="hasIp" *ngFor="let hasIp of ipAddressBoolean">{{hasIp}}
                                         </option>
@@ -174,7 +179,7 @@ limitations under the License.
                                     <label style="font-size:12px;">Group Notation Value</label>
                                     <input type="text" class="form-control" [readonly]="disableGrpNotationValue" id="txtGroupValue" [(ngModel)]="Sample['group-notation-value']" name="sampleGroupValue">
                                 </div>
-                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                <div class="col-lg-1 col-sm-6 col-md-1 col-xs-12">
                                     <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent clear-btn" (click)="clearVnfcData()">Clear VNFC Info
                                     </button>
                                 </div>
@@ -198,29 +203,29 @@ limitations under the License.
                                 </div>
                             </div>
                             <div *ngIf="referenceDataObject.vm?.length>0">
-                                <div class="row" *ngFor="let noOfvm of referenceDataObject.vm  | vmFiltering:referenceDataObject?.action:templateIdentifier; trackBy:trackByFn;let j=index">
-                                    <div *ngIf="((referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ))" class="col-12">
+                                <div class="row" *ngFor="let noOfvm of referenceDataObject.vm  | vmFiltering:referenceDataObject?.action:templateIdentifier:vnfcIdentifier; trackBy:trackByFn;let j=index">
+                                   <div *ngIf="((referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ))" class="col-12">
                                         <div class="row" *ngFor="let item of noOfvm.vnfc;trackBy:trackByFn, let i=index">
                                             <div class="col-md-12" *ngIf="i==0">
                                                 <h5 class="headlinesInBold">VM Number: {{j+1}}</h5>
 
                                             </div>
-                                            <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                            <div class="col-md-1point5">
                                                 <label style="font-size:12px;">VNFC Instance No.</label>
                                                 <input type="text" class="form-control" id="txtVmnumber" disabled='true' [(ngModel)]="item['vnfc-instance']" name="vmNumber{{j}}">
                                             </div>
                                             <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                                <label style="font-size:12px;">VNFC Type</label>
+                                                <label style="font-size:12px;">VNFC Type  (NFC Function)</label>
                                                 <input type="text" class="form-control" id="txtVnfcTypeInColl" required [(ngModel)]="item['vnfc-type']" #vnfcType="ngModel" name="vnfcType{{j}}">
                                                 <span class="error-message" [hidden]="vnfcType.valid || (vnfcType.pristine && !userForm.submitted)">Required Field</span>
                                             </div>
-                                            <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                                <label style="font-size:12px;">VNFC Function Code</label>
+                                            <div class="col-md-2point5">
+                                                <label style="font-size:12px;">VNFC Function Code (NFC Naming Code)</label>
                                                 <input type="text" class="form-control" id="txtVnfcFunctionCode" required [(ngModel)]="item['vnfc-function-code']" #vnfcFunctionCode="ngModel" name="vnfcFunctionCode{{j}}">
                                                 <span class="error-message" [hidden]="vnfcFunctionCode.valid || (vnfcFunctionCode.pristine && !userForm.submitted)">Required Field</span>
                                             </div>
                                             <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
-                                                <label style="font-size:12px;">IPAddress V4</label>
+                                                <label style="font-size:12px;">IPAddress V4 OAM VIP</label>
                                                 <select class="form-control" id="cmbIpAddress" [(ngModel)]="item['ipaddress-v4-oam-vip']" name="ipaddress{{j}}">
                                                     <option [value]="hasIP" [selected]="item.ipAddressBoolean===hasIP"
                                                             *ngFor="let hasIP of ipAddressBoolean">{{hasIP}}
@@ -317,7 +322,7 @@ limitations under the License.
     <modal-body>
         <div>
             <input pattern=".*[^ ].*" name="test" type="text" class="" (ngModelChange)="validateVnfcName($event)" [(ngModel)]="newVnfcType" placeholder="vnfctype">
-            <span class="error-message">{{errorMessage}}</span>
+            <span class="error-message">{{errorMessage}}</span>  
         </div>
     </modal-body>
     <modal-footer [show-default-buttons]="false">
@@ -328,45 +333,20 @@ limitations under the License.
     </modal-footer>
 </modal>
 
-<div id="identifierModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="android-more-button mdl-button mdl-js-button mdl-button--accent" data-dismiss="modal">&times;
-                </button>
-                <h4 class="modal-title">Enter New Template Identifier</h4>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <div>
-                        <input pattern=".*[^ ].*" name="test" type="text" class="" [(ngModel)]="templateId" placeholder="identifier">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-dismiss="modal" (click)="addToIdentDrp()">Add</button>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="templateId=''" data-dismiss="modal">cancel</button>
-                </div>
-            </div>
+<!-- Modal for Template Identifier -->
+<modal #identifierModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Enter New Template Identifier</h4>
+    </modal-header>
+    <modal-body>
+        <div>
+            <input pattern=".*[^ ].*" name="test" type="text" class="" [(ngModel)]="templateId" placeholder="identifier"> 
         </div>
-    </div>
-</div>
-<ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h6 class="modal-title">Save all changes for current action to APPC database.</h6>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <p>Do you want to save the changes?</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="c('no')">No
-        </button>
-        <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="c('yes')">Yes
-        </button>
-    </div>
-</ng-template>
+    </modal-body>
+    <modal-footer [show-default-buttons]="false">
+        <div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="templateId=''" data-dismiss="modal">cancel</button>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" data-dismiss="modal" (click)="addToIdentDrp()">Add</button>
+        </div>
+    </modal-footer>
+</modal>
