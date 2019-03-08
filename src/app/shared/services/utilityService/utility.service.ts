@@ -73,6 +73,15 @@ export class UtilityService {
         return artifactData.replace(/"/g, '\\"');
     }
 
+        // get current date in "mm/dd/yyyy"
+    getDate() {
+        let toDay = new Date();
+        return (toDay.getMonth()+1) +"/"+ toDay.getDate() +"/"+ toDay.getFullYear();
+    }
+
+
+
+
     public checkResult(result: any) {
 
         if (result.output.status.code == appConstants.errorCode["401"]) {

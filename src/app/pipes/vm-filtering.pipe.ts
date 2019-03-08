@@ -19,20 +19,33 @@ limitations under the License.
 
 ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================ */
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'vmFiltering', pure: false})
+@Pipe({ name: 'vmFiltering', pure: false })
 export class VmFilteringPipe implements PipeTransform {
 
-    transform(value: any, action: any, templateId): any {
-
+    transform(value: any, action: any, templateId, newVnfc): any {
+        let filterValue
+        if(action == 'ConfigScaleOut'){
+            filterValue= templateId
+        } else if(action == 'Configure' || action == 'ConfigModify'){
+            filterValue= newVnfc
+        }
         if (action == 'ConfigScaleOut') {
             let x = value.filter(obj => {
                 //return value
-                return obj['template-id'] == templateId;
+                return obj['template-id'] == filterValue;
             });
 
-            console.log(x);
+
+            return x;
+        } else if( action == 'Configure' || action == 'ConfigModify'){
+            let x = value.filter(obj => {
+                //return value
+                return ( obj['vnfcType-id'] == filterValue || obj['vnfcType-id'] == undefined);
+            });
+
+
             return x;
         } else {
             return value;

@@ -21,16 +21,13 @@ limitations under the License.
 ============LICENSE_END============================================
 */
 
-
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { NotificationsService } from 'angular2-notifications';
 import { saveAs } from 'file-saver';
-import { DialogService } from 'ng2-bootstrap-modal';
-import { ConfirmComponent } from '../shared/confirmModal/confirm.component';
-import { appConstants } from '../../constants/app-constants';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {UtilityService} from '../shared/services/utilityService/utility.service';
 
 @Component({
@@ -38,11 +35,13 @@ import {UtilityService} from '../shared/services/utilityService/utility.service'
     templateUrl: './aboutus.component.html',
     styleUrls: ['./aboutus.component.css']
 })
-export class AboutUsComponent implements OnInit, OnDestroy {
+export class AboutUsComponent implements OnInit {
+
     clName= "AboutUsComponent";
     public releaseName: any;
     public versionNo: any;
     public contactUsMail: any;
+
     public data: any;
     closeResult: string;
     versionLogSubscription: Subscription;
@@ -55,48 +54,30 @@ export class AboutUsComponent implements OnInit, OnDestroy {
     };
 
     constructor(
-      private http: Http, private dialogService: DialogService, private notificationsService: NotificationsService,
+      private http: Http, private modalService: NgbModal,
       private utilSvc: UtilityService ) {
     }
 
     ngOnInit() {
         this.versionNo = require('./appVersion.json').versionNo;
         this.releaseName = require('./appVersion.json').releaseName;
-        this.contactUsMail = require('../cdt.application.properties.json').CONTACT_US;
+        this.contactUsMail = require('../../cdt.application.properties.json').CONTACT_US;
     }
 
-    ngOnDestroy() {
-        if (this.versionLogSubscription) {
-            this.versionLogSubscription.unsubscribe();
-        }
+    versionLogFile() {
+        this.http.get('app/about-us/versionLog.txt')
+            .subscribe(res => this.data = res.text());
     }
 
-    versionLogFile(): Observable<any> {
-        return this.http.get('app/about-us/versionLog.txt');
-    }
-
-    open(content) {
-        this.versionLogSubscription = this.versionLogFile()
-            .subscribe((res) => {
-                this.data = res.text();
-                this.dialogService.addDialog(ConfirmComponent, {
-                    title: 'VERSION CHANGE LOG',
-                    message: this.data,
-                    cancelButtonText: 'CLOSE',
-                    confirmButtonText: 'DOWNLOAD'
-                }).subscribe(isConfirmed => {
-                    if (isConfirmed) {
-                        this.downloadLogFile()
-                    } else {
-                        // do nothing
-                    }
-                });
-
-            },
-        (error)=>{
-            this.notificationsService.error(appConstants.errors.error, 'unable to fetch change log details');
-        });
-    }
+    // open(content) {
+    //     this.modalService.open(content).result.then((result) => {
+    //         console.log('result', result)
+    //         this.closeResult = `Closed with: ${ result }`;
+    //     }, (reason) => {
+    //         console.log('reson', reason)
+    //         this.closeResult = `Dismissed ${ this.getDismissReason(reason) }`;
+    //     });
+    // }
 
     downloadLogFile() {
         var blob = new Blob([this.data], {

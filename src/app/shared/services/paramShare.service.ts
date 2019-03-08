@@ -33,6 +33,8 @@ export class ParamShareService {
     public templateData: {};
     public displayData: {};
     public paramData = [];
+    public ansibleServerData : {};
+
 
 
     setData(data) {

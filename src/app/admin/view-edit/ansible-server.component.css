@@ -55,6 +55,10 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
     color: red;
 }
 
+.warning-message {
+    color: rgb(255,191,0);
+}
+
 .create-wrapper {
     text-align: left;
 }
