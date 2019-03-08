@@ -31,6 +31,8 @@ import {UtilityService} from '../../../shared/services/utilityService/utility.se
 import {NotificationsService} from 'angular2-notifications';
 import 'rxjs/add/operator/map';
 import { appConstants } from '../../../../constants/app-constants';
+import { HttpUtilService } from '../../../shared/services/httpUtil/http-util.service';
+
 
 let YAML = require('yamljs');
 
@@ -38,7 +40,7 @@ declare var $: any;
 
 @Injectable()
 export class ParameterDefinitionService {
-
+    clName= "ParameterDefinitionSvc";
     public vnfcTypeData: string = '';
     public selectedUploadType: string;
     @ViewChild(ModalComponent) modalComponent: ModalComponent;
@@ -63,9 +65,12 @@ export class ParameterDefinitionService {
     private selectedActionReference: any;
     private apiToken = localStorage['apiToken'];
     private userId = localStorage['userId'];
+    public versionNoForApiCall=require('../../../../cdt.application.properties.json').versionNoForApiCall;
+
     constructor(private mappingEditorService: MappingEditorService,
                 private paramShareService: ParamShareService,
                 private nService: NotificationsService,
+                private httpService: HttpUtilService,
                 private utilService: UtilityService) {
     }
 
@@ -79,6 +84,8 @@ export class ParameterDefinitionService {
         this.protocol = protocol;
         this.action = action;
         this.artifact_fileName = artifactName;
+        this.appDataObject = this.mappingEditorService.appDataObject;
+        this.downloadDataObject = this.mappingEditorService.downloadDataObject;
     }
 
     public afterInit(artifactName, displayParamObjects) {
@@ -89,7 +96,8 @@ export class ParameterDefinitionService {
     /* Saves pd to appc */
     public sendPD(yamlString: String) {
         let result: any;
-        let payload = '{"userID": "' + this.userId + '","vnf-type" : "' + this.vnfType + '","action" : "' + this.action + '","artifact-name" : "' + this.artifact_fileName + '","artifact-type" : "APPC-CONFIG","artifact-version" : "0.0.1","artifact-contents" : ' + yamlString + '}';
+        let input = this.utilService.createPayLoadForSave("pd_data",this.vnfType,this.action,this.artifact_fileName, this.versionNoForApiCall, yamlString);
+        /*let payload = '{"userID": "' + this.userId + '","vnf-type" : "' + this.vnfType + '","action" : "' + this.action + '","artifact-name" : "' + this.artifact_fileName + '","artifact-type" : "APPC-CONFIG","artifact-version" : "0.0.1","artifact-contents" : ' + yamlString + '}';
         let input = {
             'input': {
                 'design-request': {
@@ -98,7 +106,7 @@ export class ParameterDefinitionService {
                     'payload': payload
                 }
             }
-        };
+        };*/
         this.appDataObject.pd = input;
     }
 
@@ -114,26 +122,78 @@ export class ParameterDefinitionService {
         return result;
     }
 
-    //========================== End of removeUnwantedvalues() Method============================================
-    populateDataUponSource(displayParamObjects) {
-        displayParamObjects.forEach(parameter => {
-            if (parameter.source == 'A&AI') {
-                parameter.ruleTypeValues = [null, 'vnf-name', 'vm-name-list', 'vnfc-name-list', 'vnf-oam-ipv4-address', 'vnfc-oam-ipv4-address-list'];
-                if (parameter['rule-type'] == 'vm-name-list' || parameter['rule-type'] == 'vnfc-name-list' || parameter['rule-type'] == 'vnfc-oam-ipv4-address-list') {
-                    parameter.showFilterFields = true;
-                    parameter.enableFilterByValue = false;
-                } else {
-                    parameter.showFilterFields = false;
-                }
-
-            } else if (parameter.source == 'Manual') {
+    //.. setup display of each parameter row depending on the paramater name,
+    //   pre-set values of source and rule-type fields (columns)
+    populateDataUponSource( displayParamObjects) {
+      var methName= "populateDataUponSource";
+      if( this.utilService.getTracelvl() > 0 )
+        console.log( this.clName+": "+methName+": start: displayParamObjects "+
+          "length="+displayParamObjects.length );
+        displayParamObjects.forEach( parameter => {
+          if( this.utilService.getTracelvl() > 0 )
+            console.log( this.clName+": "+methName+": param: name:["+
+              parameter.name+"] source:["+
+              parameter.source+"] rule-type:["+parameter['rule-type']+"]");
+            if( parameter.name == 'NodeList-DD') {
+              if( this.utilService.getTracelvl() > 0 )
+                console.log( this.clName+": "+methName+": the Param is NodeList");
+              parameter.source= "DataDictionary";
+            }
+            else if( parameter.name == 'vnfName-DD' ) {
+              if( this.utilService.getTracelvl() > 0 )
+                console.log( this.clName+": "+methName+": the Param's vnfName-DD");
+              parameter.source= "A&AI";
+              parameter['rule-type']= "vnf-name";
+            };
+            if( parameter.source == 'A&AI') {
+              parameter.ruleTypeValues = [null, 'vnf-name', 'vm-name-list', 'vnfc-name-list', 'vnf-oam-ipv4-address', 'vnfc-oam-ipv4-address-list'];
+              if( parameter['rule-type'] == 'vm-name-list' ||
+                  parameter['rule-type'] == 'vnfc-name-list' ||
+                  parameter['rule-type'] == 'vnfc-oam-ipv4-address-list')
+              {
+                 parameter.showFilterFields = true;
+                 parameter.enableFilterByValue = false;
+              } else {
+                 parameter.showFilterFields = false;
+              }
+            }
+            else if( parameter.source == 'Manual') {
                 parameter.ruleTypeValues = [null];
+            }
+            else if( parameter.source == 'DataDictionary') {
+                parameter.sourceValues = ['DataDictionary'];
+                parameter.ruleTypeValues = ['NodeList'];
+                parameter['rule-type']= 'NodeList';
             }
             else {
                 parameter.ruleTypeValues = [parameter['rule-type']];
             }
+          //.. print-out the parameter's drop-downs for source and rule-type
+          if( this.utilService.getTracelvl() > 1 ) {
+            if( parameter.sourceValues != null &&
+                parameter.sourceValues != undefined )
+            {
+              console.log( this.clName+": "+methName+": sourceValues length="+
+                parameter.sourceValues.length );
+              if( parameter.sourceValues.length > 0 ) {
+                for( var i0=0; i0 < parameter.sourceValues.length; i0++ )
+                  console.log( methName+": sourceValues["+i0+"]:["+
+                    parameter.sourceValues[i0]+"]");
+              };
+            };
+            if( parameter.ruleTypeValues != null &&
+                parameter.ruleTypeValues != undefined )
+            {
+              console.log( this.clName+": "+methName+": ruleTypeValues length="+
+                parameter.ruleTypeValues.length );
+              if( parameter.ruleTypeValues.length > 0 ) {
+                for( var i0=0; i0 < parameter.ruleTypeValues.length; i0++ )
+                  console.log( methName+": ruleTypeValues["+i0+"]:["+
+                    parameter.ruleTypeValues[i0]+"]");
+              };
+            };
+          };
         });
-
     }
 
     //========================== End of getPD() Method============================================
@@ -142,7 +202,7 @@ export class ParameterDefinitionService {
         //Added code to deserialize, serialize and format the response keys for display purposes ??May be unneessary?? To Do: - Check 
         let fileObj = JSON.parse(fileContent);
         this.displayParamObjects = this.formatFileContentForDisplay(fileObj);
-        this.populateDataUponSource(this.displayParamObjects);
+        this.populateDataUponSource( this.displayParamObjects);
         this.formatResponseForKey(this.displayParamObjects);
         if (undefined !== this.displayParamObjects)
             this.modelParamDefinitionObjects = this.displayParamObjects;
@@ -152,7 +212,6 @@ export class ParameterDefinitionService {
         return this.displayParamObjects;
     }
 
-    //========================== End of populatePD() Method============================================
     /* Formats each object read from YAML file as per page expectations */
     formatResponseForKey(param: any[]) {
         for (var i = 0; i < param.length; i++) {
@@ -200,8 +259,8 @@ export class ParameterDefinitionService {
             }
         }
     }
-
     //========================== End of formatKeys() Method============================================
+
     //Send null if there are no keys present - Check with key names being absent
     formatKeysForFileGeneration() {
         for (var i = 0; i < this.modelParamDefinitionObjects.length; i++) {
@@ -269,7 +328,7 @@ export class ParameterDefinitionService {
                 }
                 delete fileModel[i]['response-keys'];
                 fileModel[i]['response-keys'] = fileModel[i]['response-keys-new'];
-                delete fileModel[i]['response-keys=new'];
+                delete fileModel[i]['response-keys-new'];
             }
         }
         return fileModel;
@@ -305,14 +364,22 @@ export class ParameterDefinitionService {
         return result;
     }
 
-   
-    public prepareFileName(): any {
-        let fileNameObject: any = this.mappingEditorService.latestAction;
-        this.appDataObject = this.mappingEditorService.appDataObject;
-        this.downloadDataObject = this.mappingEditorService.downloadDataObject;
-        return fileNameObject;
+    //========================== End of clearSessionStorageForParam() Method============================================
+    isValidateSourceAndResponseKeys(objs: any[]) {
+        let isValid = true;
+        if (undefined != objs || null != objs) {
+            for (var i = 0; i < objs.length; i++) {
+                if (objs[i].source == 'INSTAR' && (null == objs[i]['response-keys'] || undefined == objs[i]['response-keys'])) {
+                    isValid = false;
+                    return isValid;
+                }
+            }
+        }
+        return isValid;
     }
 
+
+    
     public destroy(displayParamObjects) {
         this.displayParamObjects = displayParamObjects;
         if (this.mappingEditorService.referenceNameObjects) {
@@ -338,6 +405,8 @@ export class ParameterDefinitionService {
             jsonString = jsonString.replace(/"null"/g, 'null');
             let saveModel = JSON.parse(jsonString);
             let pdFileObject = this.processResponseKeys(saveModel);
+            //Validate for Source =INSTAR and responsekeys present
+            if (this.isValidateSourceAndResponseKeys(pdFileObject)) {
                 let yamlObject = {
                     'kind': 'Property Definition',
                     'version': 'V1',
@@ -362,7 +431,14 @@ export class ParameterDefinitionService {
                 else {
                     this.sendPD(JSON.stringify(yamlString));
                 }
-            
+            }
+            else {
+                for (var i = 0; i < this.modelParamDefinitionObjects.length; i++) {
+                    this.formatKeys(this.modelParamDefinitionObjects[i]);
+                }
+                this.nService.error('Error', 'Response Keys cannot be empty if source is INSTAR');
+                return;
+            }
             //Restore Keys for display
             for (var i = 0; i < this.modelParamDefinitionObjects.length; i++) {
                 this.formatKeys(this.modelParamDefinitionObjects[i]);
@@ -410,7 +486,18 @@ export class ParameterDefinitionService {
                 }
                 parameterDefinitionObject['source'] = fields[0];
                 parameterDefinitionObject['rule-type'] = fields[1];
-            } 
+            } else {
+                if (parameterDefinitionObject['source'] === 'INSTAR') {
+                    parameterDefinitionObject['source'] = 'Manual';
+                    parameterDefinitionObject['ruleTypeValues'] = [null];
+                    parameterDefinitionObject['rule-type'] = null;
+                    parameterDefinitionObject['showFilterFields'] = false;
+                    for (let x = 0; x < 5; x++) {
+                        parameterDefinitionObject['response-keys'][x]['key-name'] = null;
+                        parameterDefinitionObject['response-keys'][x]['key-value'] = null;
+                    }
+                }
+            }
             this.formatKeys(parameterDefinitionObject); //Ensure there are 3 elements for response-keys, request-keys for display purposes
             if (!result.present) { //only push if not present
                 this.modelParamDefinitionObjects.push(parameterDefinitionObject);

@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -43,31 +42,44 @@ import {NotificationService} from './services/notification.service';
 import {ParamShareService} from './services/paramShare.service';
 import {TidyTableModule} from './modules/tidy-table/tidy-table.module';
 import {UtilityService} from './services/utilityService/utility.service';
-import {VmFilteringPipe} from '../pipes/vm-filtering.pipe';
+import {ProcOnSrvSideSvc} from './services/procOnSrvSide.service';
+
 import {SimpleNotificationsModule} from 'angular2-notifications';
 import { NgProgressModule } from 'ngx-progressbar';
 import {FormsModule} from '@angular/forms';
+import { VmFilteringPipe } from './pipes/vm-filtering.pipe';
+import {APIService} from './services/cdt.apicall'
+
 
 @NgModule({
     imports: [
         FormsModule,
-        CommonModule, HttpModule, RouterModule, TidyTableModule, NgProgressModule, NgbModule, SimpleNotificationsModule.forRoot()],
+        CommonModule, HttpModule, RouterModule, TidyTableModule,
+       // HttpClient, HttpHeaders,
+        NgProgressModule, NgbModule, SimpleNotificationsModule.forRoot()],
 
     declarations: [VmFilteringPipe,
-
         HelpComponent,
-        HeaderComponent, NavigationComponent, LogoutComponent, Collapse, Dropdown, DropdownNotClosableZone, DropdownOpen, DropDownToggleDirective
+        HeaderComponent, NavigationComponent, LogoutComponent, Collapse,
+        Dropdown, DropdownNotClosableZone, DropdownOpen, DropDownToggleDirective
     ],
-    exports: [VmFilteringPipe, NgProgressModule, NgbModule, HelpComponent, DropDownToggleDirective, HeaderComponent, NavigationComponent, LogoutComponent, TidyTableModule, Collapse, Dropdown, DropdownNotClosableZone, DropdownOpen]
+    exports: [
+      VmFilteringPipe, NgProgressModule, NgbModule, HelpComponent,
+      DropDownToggleDirective, HeaderComponent, NavigationComponent,
+      LogoutComponent, TidyTableModule, Collapse, Dropdown,
+      DropdownNotClosableZone, DropdownOpen
+    ]
 })
 export class SharedModule {
 
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: SharedModule,
-            providers: [HttpUtilService, EmitterService, NotificationService,
-                UtilityService,
-                ParamShareService, MappingEditorService]
+            providers: [
+                HttpUtilService, EmitterService, NotificationService,
+                UtilityService,APIService, ProcOnSrvSideSvc,
+                ParamShareService, MappingEditorService
+            ]
         };
     }
 }

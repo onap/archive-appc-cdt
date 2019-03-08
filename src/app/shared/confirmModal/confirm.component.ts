@@ -19,7 +19,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================ */
 
 import { Component } from '@angular/core';
@@ -28,8 +27,6 @@ import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 export interface ConfirmModel {
     title: string;
     message: string;
-    cancelButtonText: string;
-    confirmButtonText: string;
 }
 
 @Component({
@@ -38,15 +35,15 @@ export interface ConfirmModel {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">{{title}}</h4>
-                    <button type="button" class="close" (click)="cancel()">&times;</button>
+                    <button type="button" class="close" (click)="close()">&times;</button>
+                    <h6 class="modal-title">{{title || 'Save all changes for current action to APPC database.'}}</h6>
                 </div>
                 <div class="modal-body">
-                    <p>{{message}}</p>
+                    <p>{{message || 'Do you want to save the changes?'}}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="confirm()">{{confirmButtonText}}</button>
-                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="cancel()">{{cancelButtonText}}</button>
+                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="onCancel()">No</button>
+                    <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" (click)="onConfirm()">Yes</button>
                 </div>
             </div>
         </div>`
@@ -54,22 +51,20 @@ export interface ConfirmModel {
 export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> implements ConfirmModel {
     title: string;
     message: string;
-    cancelButtonText: string;
-    confirmButtonText: string;
 
     constructor(dialogService: DialogService) {
         super(dialogService);
     }
 
-    confirm() {
-        // we set dialog result as true on click on confirm button,
+    onConfirm() {
+        // we set dialog result as true on click on Yes button,
         // then we can get dialog result from caller code
         this.result = true;
         this.close();
     }
 
-    cancel() {
-        // we set dialog result as false on click on cancel/close button,
+    onCancel() {
+        // we set dialog result as false on click on Yes button,
         // then we can get dialog result from caller code
         this.result = false;
         this.close();

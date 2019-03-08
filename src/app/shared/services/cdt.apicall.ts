@@ -2,8 +2,6 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
-
-Copyright (C) 2018 IBM.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -18,30 +16,36 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
 ============LICENSE_END============================================
 */
 
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {Injectable} from '@angular/core';
-import {MappingEditorService} from '../../shared/services/mapping-editor.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NotificationsService} from 'angular2-notifications';
+import { HttpUtilService } from './httpUtil/http-util.service';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable()
-export class LoginGuardService implements CanActivate {
+export class APIService {
 
-    constructor(private ngbModal: NgbModal, private mapService: MappingEditorService, private router: Router) {
+    constructor(private notificationService: NotificationsService, private httpUtils: HttpUtilService) {
     }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
-        let userId = localStorage['userId'];
-        if (userId != null && userId != undefined && userId != '') {
-            return true;
-        } else {
-            this.router.navigate(['/vnfs/login'],{ queryParams: { returnUrl: state.url }});
-            return false;
-        }
-
+    public callGetArtifactsApi(payloadData){
+        console.log("APIService: PAYLOAD====>"+JSON.stringify(payloadData));
+       return this.httpUtils.post({
+            url: environment.getDesigns,
+            data: payloadData
+            })/*.subscribe(response => {
+                if (this.checkResult(response, action, artifactType)) {
+                    //Call the respective response handler.
+                }
+            },
+            error => this.notificationService.error('Error', this.connectionErrorMessage))*/
     }
+
+    
+
 }

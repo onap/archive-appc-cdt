@@ -1,0 +1,139 @@
+<!--
+============LICENSE_START==========================================
+===================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+===================================================================
+
+Unless otherwise specified, all software contained herein is licensed
+under the Apache License, Version 2.0 (the License);
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+============LICENSE_END============================================
+-->
+
+<simple-notifications [options]="options"></simple-notifications>
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'" [color]="'#6ab344'" [trickleSpeed]="250" [thick]="true" [ease]="'linear'"></ng-progress>
+    <div class="card">
+
+        <div class="card-block" style="    border-top: 5px solid #6ab344; border-top-right-radius: 7px;border-top-left-radius: 7px;">
+            <div class="row" style="padding: 15px 25px">
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>Configuration Server FQDN *</label>
+                    <input type="text" value={{item.server}} class="form-control" id="txtServer" [(ngModel)]="item.server" name="server" (ngModelChange)="validateFdqn($event)">
+                    <span class="error-message">{{errorMessage}}</span><span class="warning-message">{{warningMessage}}</span>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>Port *</label>
+                    <input type="text" value={{item.port}} class="form-control" id="txtPort" [(ngModel)]="item.port" name="port" (ngModelChange)="validatePort($event)">
+                    <span class="error-message">{{porterrorMessage}}</span><span class="warning-message">{{portwarningMessage}}</span>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>Description </label>
+                    <input type="text" class="form-control" id="txtDescr" [(ngModel)]="item.descr"  #descr="ngModel" name="descr">
+                </div>
+            </div>    
+            <div class="row" style="padding: 15px 25px">
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>Creator </label>
+                    <input type="text" readonly class="form-control" id="txtCreator" [(ngModel)]="item.creator"  #creator="ngModel" name="creator">
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>Date Created</label>
+                    <input type="text" readonly class="form-control" id="txtCreatedDate" name="created-date" value="{{item['created-date'].toString()}}">
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>Modifier </label>
+                    <input type="text" readonly class="form-control" id="txtModifier" [(ngModel)]="item.modifier"  #modifier="ngModel" name="modifier">
+                </div>
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                    <label>Date Modified </label>
+                    <input type="text" readonly class="form-control" id="txtModifiedDate" name="modified-date" value="{{item['modified-date'].toString()}}">
+                </div>
+                
+            </div>
+
+           </div>
+        <div class="card-block" style="padding: 10px">
+            <div>
+                <div class="create-wrapper" style="padding: 0px 25px">
+                   
+                    <div class="row">
+                        <div class="col-12">
+                            
+                            
+                            <div class="row" >
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label style="font-size:12px;">Cloud-Owner</label>
+                                    <input type="text" class="form-control" id="sampleowner" [(ngModel)]="sample['ownerid']"  #sampleOwner="ngModel" name="sampleowner">
+                                    <span class="error-message">{{ownerIdErrMsg}}</span>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                                    <label style="font-size:12px">Cloud-Region-ID</label>
+                                    <input type="text" class="form-control" id="sampleregionid" [(ngModel)]="sample['regionid']" #sampleRegionId="ngModel" name="sampleregionid">
+                                    <span class="error-message">{{regionIdErrMsg}}</span>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                                    <label style="font-size:12px">Tenant ID</label>
+                                    <input type="text" class="form-control" id="sampletenantid" [(ngModel)]="sample['tenantid']" #sampleTenantId="ngModel" name="sampletenantid">
+                                    <span class="error-message">{{tenantIdErrMsg}}</span>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                                    <label style="font-size:12px"></label>
+                                    <div class="form-group">
+                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" type="button" (click)="addInfo()">Add                                         </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <span class="error-message">{{zeroTenantIdsErrorMsg}}</span>
+                            </div>
+
+                            <div *ngIf="item.info?.length>0">
+                            <div class="row" *ngFor="let info of item.info;trackBy:trackByFn; let j=index">
+                                <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
+                                    <label style="font-size:12px;">Cloud-Owner</label>
+                                    <input type="text" class="form-control" id="ownerid{{j}}" [(ngModel)]="info['ownerid']" name="ownerid{{j}}">
+                                    <div *ngIf="info['ownerid'].length==0"><span class="error-message">Enter Owner ID</span></div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                                    <label style="font-size:12px">Cloud-Region-ID</label>
+                                    <input type="text" class="form-control" id="regionid{{j}}" [(ngModel)]="info['regionid']" name="regionid{{j}}">
+                                    <div *ngIf="info['regionid'].length==0"><span class="error-message">Enter Region ID</span></div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                                    <label style="font-size:12px">Tenant ID</label>
+                                    <input type="text" class="form-control" id="tenantid{{j}}" [(ngModel)]="info['tenantid']"  name="tenantid{{j}}">
+                                    <div *ngIf="info['tenantid'].length==0"><span class="error-message">Enter Tenant ID</span></div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                                    <label style="font-size:12px">       </label>
+                                    <div class="form-group">
+                                        <a role="button" style="color: white" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="removeInfo(j)">Remove</a>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-end" style="padding: 15px 25px">
+                        <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
+                            <a role="button" style="color: white" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" (click)="cancel()">Cancel</a>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary"  (click)="validate()" >Return</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>

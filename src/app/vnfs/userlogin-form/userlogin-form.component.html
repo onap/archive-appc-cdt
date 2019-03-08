@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 -->
 
@@ -30,10 +29,12 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <form #userForm="ngForm" (ngSubmit)="getData()">
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input placeholder="Enter user Id" class="mdl-textfield__input" id="userId" required
-                               [(ngModel)]="userId" name="userId" value="" #user="ngModel">
+                               [(ngModel)]="userId" name="userId" value="" #user="ngModel" (ngModelChange)="validateUserName()">
+                            <span class="error-message">{{errorMessage}}</span>  
                     </div>
+                    
                     <div class="form-group text-right">
-                        <button type="submit" [disabled]="!userForm.form.valid"
+                        <button type="submit" [disabled]="invalid"
                                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">
                             Submit
                         </button>

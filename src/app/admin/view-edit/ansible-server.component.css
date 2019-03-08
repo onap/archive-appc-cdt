@@ -54,6 +54,10 @@ limitations under the License.
     color: red;
 }
 
+.warning-message {
+    color: rgb(255,191,0);
+}
+
 .create-wrapper {
     text-align: left;
 }

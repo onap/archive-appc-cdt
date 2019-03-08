@@ -19,19 +19,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
 
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {EmitterService} from '../../services/emitter.service';
 import { Subscription } from 'rxjs/Subscription';
-import { EmitterService } from '../../services/emitter.service';
 
 
-@Component({ selector: 'app-navigation', templateUrl: './navigation.component.html', styleUrls: ['./navigation.component.css'] })
-export class NavigationComponent implements OnInit, OnDestroy {
+
+@Component({selector: 'app-navigation', templateUrl: './navigation.component.html', styleUrls: ['./navigation.component.css']})
+export class NavigationComponent implements OnInit {
     navigationTabs: Array<Object> = [];
     //@ViewChild(GoldenConfigurationComponent) goldenConfig: GoldenConfigurationComponent;
     @Input() id: string;
@@ -76,6 +76,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
                 name: 'Test',
                 url: 'test',
             },
+            {
+                name: 'Admin',
+                url: 'admin'
+            },
+
             {
                 name: 'About us',
                 url: 'aboutUs'

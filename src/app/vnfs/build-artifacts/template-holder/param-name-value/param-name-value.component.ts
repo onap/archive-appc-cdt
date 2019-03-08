@@ -19,7 +19,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 */
 
@@ -44,6 +43,7 @@ import { NgProgress } from 'ngx-progressbar';
 import * as XLSX from 'xlsx';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {UtilityService} from '../../../../shared/services/utilityService/utility.service';
+import { APIService } from "../../../../shared/services/cdt.apicall";
 
 declare var $: any;
 
@@ -101,14 +101,13 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
     @ViewChild('myInputParam') myInputParam: any;
     @ViewChild(ModalComponent) modalComponent: ModalComponent;
     @ContentChildren(Tab) tabs: QueryList<Tab>;
-    public subscription: Subscription;
+    public subscription: any;
     public item: any = {};
     vnfType: any = '';
     vnfcType: any = '';
     protocol: any = '';
     refObj: any;
-    public paramsContent = localStorage['paramsContent'];
-    nameValueSubscription: Subscription;
+    public paramsContent:any;
 
     constructor(
         private buildDesignComponent: BuildDesignComponent,
@@ -122,7 +121,9 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
         private nService: NotificationsService,
         private ngProgress: NgProgress,
         private spinner: NgxSpinnerService,
-        private utilityService: UtilityService,
+        private apiService:APIService, 
+        private utilityService: UtilityService
+        
     ) {
         this.artifactRequest.action = '';
         this.artifactRequest.version = '';
@@ -132,29 +133,27 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
     ngOnInit() {
         var refObj = this.refObj = this.prepareFileName();
         if (refObj && refObj != undefined) {
+            try{
+                this.paramsContent=JSON.stringify(JSON.parse(localStorage['paramsContent']))
+            }
+            catch(e)
+            {
+                console.log("error parsing param values");
+            }
             if (this.paramsContent && this.paramsContent != undefined && this.paramsContent !== '{}') {
                 this.artifactRequest.paramsContent = this.formatNameValuePairs(this.paramsContent);
-                // this.artifactRequest.paramsContent = this.paramsContent;
-
+                
             }
             else {
                 this.artifactRequest.paramsContent = '{}';
             }
 
-            //  refObj = refObj[refObj.length - 1];
             this.item = refObj;
-            this.vnfType = this.item.scope['vnf-type'];
-            this.vnfcType = this.item.scope['vnfc-type'];
-            this.protocol = this.item['device-protocol'];
+            this.vnfType = this.item.vnf;
+            this.vnfcType = this.item.vnfc;
+            this.protocol = this.item.protocol;
             this.action = this.item.action;
             var artifactList = this.item['artifact-list'];
-            for (var i = 0; i < artifactList.length; i++) {
-                var artifactName = artifactList[i]['artifact-name'];
-                var array = artifactName.split('_');
-                if (array[0].toUpperCase() === 'TEMPLATE') {
-                    this.artifactName = artifactName;
-                }
-            }
         }
         else {
             this.item = {
@@ -170,17 +169,8 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
                 'scopeType': ''
             };
         }
-        this.initialAction = this.item.action;
-        this.subscription = this.activeRoutes.url.subscribe(UrlSegment => {
-            this.actionType = UrlSegment[0].path;
-        });
-
-        if (this.actionType === 'myTemplates') {
-            this.mappingEditorService.fromScreen = 'MappingScreen';
-        }
         this.mappingEditorService.paramData = [];
         this.identifier = this.mappingEditorService.identifier;
-
 
     }
 
@@ -190,25 +180,20 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
     }
 
     //========================== End of browseOption() Method============================================
-
     ngOnDestroy() {
         this.prepareFileName();
         if( this.subscription ) { this.subscription.unsubscribe(); }
-        if( this.nameValueSubscription ) { this.nameValueSubscription.unsubscribe(); }
+       // if( this.nameValueSubscription ) { this.nameValueSubscription.unsubscribe(); }
     }
 
     //========================== End of ngOnDestroy() Method============================================
     ngAfterViewInit() {
-        if (this.mappingEditorService.fromScreen === 'MappingScreen') {
-            this.configMappingEditorContent = this.mappingEditorService.getTemplateMappingDataFromStore();
-            this.fileType = sessionStorage.getItem('fileType');
-            if (this.configMappingEditorContent)
-                this.mappingEditorService.initialise(this.mappingComponent.templateeditor.getEditor(), this.configMappingEditorContent, this.modal);
-        }
+        this.configMappingEditorContent = this.mappingEditorService.getTemplateMappingDataFromStore();
+        this.fileType = sessionStorage.getItem('fileType');
+        if (this.configMappingEditorContent)
+          this.mappingEditorService.initialise(this.mappingComponent.templateeditor.getEditor(), this.configMappingEditorContent);
+        
         if (this.refObj) {
-
-            this.artifactRequest.action = this.item.action;
-            this.artifactRequest.vnfType = this.vnfType;
             if (this.vnfcType && this.vnfcType.length != 0) {
                 this.scopeName = this.vnfcType;
             }
@@ -234,13 +219,11 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
                 // Create the file reader
                 let reader = new FileReader();
                 this.readFile(input.files[0], reader, (result) => {
-                    if ('Mapping Data' === this.selectedUploadType) {
-                        var jsonObject = JSON.parse(result);
-                        this.artifactRequest.paramsContent = JSON.stringify(jsonObject, null, 1);
-                        this.notificationService.notifySuccessMessage('Configuration Template file successfully uploaded..');
-                        this.mappingEditorService.setParamContent(this.artifactRequest.paramsContent);
-                        localStorage['paramsContent'] = this.artifactRequest.paramsContent;
-                    }
+                    var jsonObject = JSON.parse(result);
+                    this.artifactRequest.paramsContent = JSON.stringify(jsonObject, null, 1);
+                    this.notificationService.notifySuccessMessage('Configuration Template file successfully uploaded..');
+                    this.mappingEditorService.setParamContent(this.artifactRequest.paramsContent);
+                    localStorage['paramsContent'] = this.artifactRequest.paramsContent;
                     this.enableMerge = true;
                     this.initialData = result;
                     setTimeout(() => {
@@ -278,7 +261,6 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
             // callback with the results
             callback(reader.result);
         };
-        this.notificationService.notifySuccessMessage('Uploading File ' + file.name + ':' + file.type + ':' + file.size);
         // Read the file
         reader.readAsText(file, 'UTF-8');
     }
@@ -290,44 +272,23 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
     }
 
     //========================== End of onParamChanges() Method============================================
-
-    updateFileName(action: any, scopeName: any, versionNo: any) {
-        let fileName = 'param_' + action + '_' + scopeName + '_' + versionNo + 'V.json';
-        this.downloadedFileName = fileName;
-        return fileName;
-    }
-
-    //========================== End of updateFileName() Method============================================
-    updateFileNameForConfigScaleOut(action: any, scopeName: any, versionNo: any, id: any) {
-        let fileName = 'param_' + action + '_' + scopeName + '_' + versionNo + 'V_' + id + '.json';
-        this.downloadedFileName = fileName;
-        return fileName;
-    }
-    //========================== End of updateFileNameForConfigScaleOut() Method============================================
     prepareFileName(): any {
-        let fileNameObject: any = this.mappingEditorService.latestAction;
+        let fileNameObject: any = this.mappingEditorService.newObject;
         return fileNameObject;
     }
 
     //========================== End of prepareFileName() Method============================================
-
     retrieveNameValueFromAppc() {
         let refObj = this.refObj;
         if (refObj && refObj != undefined) {
             this.enableMerge = true;
             var scopeName = this.scopeName.replace(/ /g, '').replace(new RegExp('/', "g"), '_').replace(/ /g, '');
             let fileName = '';
-            let id = this.mappingEditorService.identifier;
-            if (id) fileName = this.updateFileNameForConfigScaleOut(this.item.action, scopeName, this.versionNo, id);
-            else fileName = this.updateFileName(this.item.action, scopeName, this.versionNo);
-
+            fileName=refObj["param_artifact"]
             let input=this.utilityService.createPayloadForRetrieve(false, this.item.action, this.vnfType, fileName);
             let artifactContent: any;
             this.ngProgress.start();
-            this.nameValueSubscription = this.httpUtil.post({
-                url: environment.getDesigns,
-                data: input
-            }).subscribe(resp => {
+            this.apiService.callGetArtifactsApi(input).subscribe(resp => {
                 if (resp.output.status.code === '400' && resp.output.status.message === 'success') {
                     this.nService.success('Success', 'Name/value pairs retrieved successfully from APPC');
                     this.enableMerge = true;
@@ -362,7 +323,6 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
     }
 
     //========================== End of retrieveNameValueFromAppc() Method============================================
-
     formatNameValuePairs(namevaluePairs: string) {
         var string = namevaluePairs.substring(1, namevaluePairs.length - 1);
         var stringArr = string.split(',');
@@ -456,7 +416,7 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
                                     'ruleTypeValues': arr2item.ruleTypeValues
                                 };
                                 pdDataArrayForSession.splice(i, 1, json);
-
+                                
                             }
 
                         });
@@ -471,7 +431,6 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
             }
         }
         catch (error) {
-            console.log('Error occured in syncing param names' + JSON.stringify(error));
             this.nService.error('Error', 'Error synchronising with name values. Please check the format of json uploaded/ retrieved');
         }
     }
