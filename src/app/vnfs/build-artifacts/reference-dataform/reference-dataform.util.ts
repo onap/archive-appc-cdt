@@ -26,7 +26,7 @@ import {Observable} from 'rxjs';
 import {UtilityService} from '../../../shared/services/utilityService/utility.service';
 import { environment } from '../../../../environments/environment';
 import { HttpUtilService } from '../../../shared/services/httpUtil/http-util.service';
-//import {APIService} from "../../../shared/services/cdt.apicall";
+import {APIService} from "../../../shared/services/cdt.apicall";
 
 @Injectable()
 export class ReferenceDataFormUtil {
@@ -35,9 +35,7 @@ export class ReferenceDataFormUtil {
     private failureMessage = 'There is no artifact saved in APPC for the selected action!';
     private response: Observable<Object>;
 
-    constructor(
-      private notificationService: NotificationsService, private utilityService:UtilityService, private httpUtils: HttpUtilService
-    ) {
+    constructor(private notificationService: NotificationsService, private utilityService:UtilityService, private apiService: APIService) {
     }
 
     checkResult(result: any) {
@@ -154,13 +152,10 @@ export class ReferenceDataFormUtil {
         return paramValue;
     }
 
-    handleApiData(payloadData,artifactType)
+    handleApiData(data,artifactType)
     {
-        this.response =
-        this.httpUtils.post({
-            url: environment.getDesigns,
-            data: payloadData });
-        this.response.subscribe( response => {
+        this.response = this.apiService.callGetArtifactsApi(data);
+        this.response.subscribe(response => {
           this.utilityService.processApiSubscribe(response, this.utilityService.putAction, artifactType)
         },
         error => this.utilityService.processApiError());
