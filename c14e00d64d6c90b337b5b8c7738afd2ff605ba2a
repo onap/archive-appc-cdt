@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2f1fbd2_0e3d7da9",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1645,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-03-13T20:18:24Z",
+      "side": 1,
+      "message": "Can you indicate where this logic (if-else-fi) was coming from originally?",
+      "range": {
+        "startLine": 1645,
+        "startChar": 10,
+        "endLine": 1645,
+        "endChar": 11
+      },
+      "revId": "c14e00d64d6c90b337b5b8c7738afd2ff605ba2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "184fb123_aa405e9f",
+        "filename": "src/cdt.application.properties.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-03-13T20:18:24Z",
+      "side": 1,
+      "message": "we should remove this MechID",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "c14e00d64d6c90b337b5b8c7738afd2ff605ba2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a1893bd_9db766b2",
+        "filename": "src/environments/environment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-03-13T20:18:24Z",
+      "side": 1,
+      "message": "keep 30290 as it is.",
+      "range": {
+        "startLine": 38,
+        "startChar": 61,
+        "endLine": 38,
+        "endChar": 62
+      },
+      "revId": "c14e00d64d6c90b337b5b8c7738afd2ff605ba2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
