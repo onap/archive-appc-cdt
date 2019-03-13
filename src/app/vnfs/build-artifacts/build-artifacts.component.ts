@@ -28,7 +28,7 @@ import * as _ from 'underscore';
 import { NotificationsService } from 'angular2-notifications';
 import { appConstants } from '../../../constants/app-constants';
 
-export const ACTIONS_REQUIRED_DROPDOWN = ['Configure', 'ConfigModify', 'ConfigScaleOut', 'DistributeTraffic'];
+export const ACTIONS_REQUIRED_DROPDOWN = ['Configure', 'ConfigModify', 'ConfigScaleOut', 'DistributeTraffic', 'DistributeTrafficCheck'];
 
 @Component({ selector: 'app-build-design', templateUrl: './build-artifacts.component.html', styleUrls: ['./build-artifacts.component.css'] })
 export class BuildDesignComponent implements OnInit {

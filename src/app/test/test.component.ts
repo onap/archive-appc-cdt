@@ -484,6 +484,8 @@ export class TestComponent implements OnInit {
                 return 'resume-traffic';
             case 'distributetraffic':
                 return 'distribute-traffic';
+            case 'distributetrafficcheck':
+                return 'distribute-traffic-check';
             case 'startapplication':
                 return 'start-application';
             case 'stopapplication':

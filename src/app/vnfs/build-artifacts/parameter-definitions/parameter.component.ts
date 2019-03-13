@@ -85,7 +85,8 @@ export class ParameterComponent implements OnInit {
         { action: appConstants.Actions.healthCheck, value: appConstants.Actions.healthCheck },
         { action: appConstants.Actions.startApplication, value: appConstants.Actions.startApplication },
         { action: appConstants.Actions.stopApplication, value: appConstants.Actions.stopApplication },
-        { action: appConstants.Actions.distributeTraffic, value: appConstants.Actions.distributeTraffic }
+        { action: appConstants.Actions.distributeTraffic, value: appConstants.Actions.distributeTraffic },
+        { action: appConstants.Actions.distributeTrafficCheck, value: appConstants.Actions.distributeTrafficCheck }
     ];
     public uploadTypes = appConstants.uploadTypes;
 
