@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb13f22f_e8f4c04f",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1645,
+      "author": {
+        "id": 3403
+      },
+      "writtenOn": "2019-03-14T09:35:09Z",
+      "side": 1,
+      "message": "This is a new logic of naming the artifact with vnfc name.",
+      "parentUuid": "b2f1fbd2_0e3d7da9",
+      "range": {
+        "startLine": 1645,
+        "startChar": 10,
+        "endLine": 1645,
+        "endChar": 11
+      },
+      "revId": "c14e00d64d6c90b337b5b8c7738afd2ff605ba2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "184fb123_aa405e9f",
         "filename": "src/cdt.application.properties.json",
         "patchSetId": 2
