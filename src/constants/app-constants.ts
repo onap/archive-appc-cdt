@@ -64,6 +64,7 @@ export const appConstants = {
         "quiesceTraffic": "QuiesceTraffic",
         "resumeTraffic": "ResumeTraffic",
         "distributeTraffic": "DistributeTraffic",
+        "distributeTrafficCheck": "DistributeTrafficCheck",
         "upgradeBackout": "UpgradeBackout",
         "upgradeBackup": "UpgradeBackup",
         "upgradePostCheck": "UpgradePostCheck",

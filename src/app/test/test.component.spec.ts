@@ -427,6 +427,7 @@ describe( 'TestComponent', () => {
             expect(component.getUrlEndPoint('quiescetraffic')).toEqual('quiesce-traffic');
             expect(component.getUrlEndPoint('resumetraffic')).toEqual('resume-traffic');
             expect(component.getUrlEndPoint('distributetraffic')).toEqual('distribute-traffic');
+            expect(component.getUrlEndPoint('distributetrafficcheck')).toEqual('distribute-traffic-check');
             expect(component.getUrlEndPoint('startapplication')).toEqual('start-application');
             expect(component.getUrlEndPoint('stopapplication')).toEqual('stop-application');
             expect(component.getUrlEndPoint('upgradebackout')).toEqual('upgrade-backout');

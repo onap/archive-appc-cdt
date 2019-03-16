@@ -27,7 +27,7 @@ export class VmFilteringPipe implements PipeTransform {
         let filterValue
         if(action == 'ConfigScaleOut'){
             filterValue= templateId
-        } else if(action == 'Configure' || action == 'ConfigModify'){
+        } else if(action == 'Configure' || action == 'ConfigModify' || action == 'DistributeTraffic' || action == 'DistributeTrafficCheck'){
             filterValue= newVnfc
         }
         if (action == 'ConfigScaleOut') {
@@ -38,7 +38,7 @@ export class VmFilteringPipe implements PipeTransform {
 
 
             return x;
-        } else if( action == 'Configure' || action == 'ConfigModify'){
+        } else if( action == 'Configure' || action == 'ConfigModify' || action == 'DistributeTraffic' || action == 'DistributeTrafficCheck'){
             let x = value.filter(obj => {
                 //return value
                 return ( obj['vnfcType-id'] == filterValue || obj['vnfcType-id'] == undefined);

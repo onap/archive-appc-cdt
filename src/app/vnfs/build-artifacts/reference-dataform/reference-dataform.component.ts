@@ -128,7 +128,7 @@ export class ReferenceDataformComponent implements OnInit {
         'artifact-list': []
     };
     public refernceScopeObj = { sourceType: '', from: '', to: '' };
-    public actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
+    public actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'DistributeTrafficCheck', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
     public groupAnotationValue = ['', 'Pair'];
     public groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value'];
     public deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'NETCONF-XML', 'REST', 'CLI', 'RESTCONF'];
@@ -219,9 +219,9 @@ export class ReferenceDataformComponent implements OnInit {
         this.configScaleOutExist = require('../../../../cdt.application.properties.json').displayConfigScaleout;
         this.displayVnfc = sessionStorage.getItem("vnfcSelectionFlag");
         if (this.configScaleOutExist) {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
+            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'DistributeTrafficCheck', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
         } else {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions'];
+            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'DistributeTrafficCheck', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions'];
         }
         this.self = this;
         let path = this.location.path;
@@ -556,14 +556,14 @@ export class ReferenceDataformComponent implements OnInit {
 
         let mberOFVm = Number(this.refernceScopeObj.from);
         let key
-        if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic') {
+        if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
             key = "vnfcType-id"
         } else if (this.referenceDataObject.action == 'ConfigScaleOut') {
             key = "template-id"
         }
-        if (this.referenceDataObject.action == 'ConfigScaleOut' || this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic') {
+        if (this.referenceDataObject.action == 'ConfigScaleOut' || this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
             let existingVmsLength = this.referenceDataObject.vm.map(obj => {
-                if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic') {
+                if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
                     return obj["vnfcType-id"] == this.templateIdentifier
                 } else if (this.referenceDataObject.action == 'ConfigScaleOut') {
                     return obj["template-id"] == this.templateIdentifier
@@ -574,12 +574,12 @@ export class ReferenceDataformComponent implements OnInit {
             let identifierValue
             if (this.referenceDataObject.action == 'ConfigScaleOut') {
                 identifierValue = this.templateIdentifier
-            } else if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify'  || this.referenceDataObject.action == 'DistributeTraffic') {
+            } else if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify'  || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
                 identifierValue = this.vnfcIdentifier
             }
 
             for (var i = 0; i < mberOFVm; i++) {
-                if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic') {
+                if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
 
                     if (identifierValue && identifierValue != "") {
                         this.referenceDataObject.vm.push({ 'vnfcType-id': identifierValue, 'vm-instance': (existingVmsLength + index + 1), vnfc: [Object.assign({}, this.Sample)] });
@@ -1107,6 +1107,7 @@ export class ReferenceDataformComponent implements OnInit {
             case 'UpgradeBackout':
             case 'ResumeTraffic':
             case 'DistributeTraffic':
+            case 'DistributeTrafficCheck':
             case 'QuiesceTraffic':
             case 'UpgradeBackup':
             case 'UpgradePostCheck':
@@ -1194,7 +1195,7 @@ export class ReferenceDataformComponent implements OnInit {
                         this.refernceScopeObj.from = '';
                     }
 
-                    if (this.referenceDataObject.action === 'Configure' || this.referenceDataObject.action === 'ConfigModify' || this.referenceDataObject.action === 'DistributeTraffic') {
+                    if (this.referenceDataObject.action === 'Configure' || this.referenceDataObject.action === 'ConfigModify' || this.referenceDataObject.action === 'DistributeTraffic' || this.referenceDataObject.action === 'DistributeTrafficCheck') {
                         this.isConfigOrConfigModify = true;
                     } else {
                         this.isConfigOrConfigModify = false;
@@ -1251,7 +1252,7 @@ export class ReferenceDataformComponent implements OnInit {
         else {
             this.buildDesignComponent.tabs = this.allTabs;
         }
-        if (data == 'Configure' || data == 'ConfigModify' || data == 'DistributeTraffic') {
+        if (data == 'Configure' || data == 'ConfigModify' || data == 'DistributeTraffic' || data == 'DistributeTrafficCheck') {
             this.nonConfigureAction = false;
         } else {
             this.nonConfigureAction = true;
@@ -1458,7 +1459,7 @@ export class ReferenceDataformComponent implements OnInit {
             this.referenceDataObject.scope['vnfc-type-list'].push(newVnfcTypeV);
         }
         this.tempAllData.forEach(obj => {
-            if (obj.action == "Configure" || obj.action == "ConfigModify"  || obj.action == "DistributeTraffic") {
+            if (obj.action == "Configure" || obj.action == "ConfigModify" || obj.action == "DistributeTraffic" || obj.action == "DistributeTrafficCheck") {
                 obj.scope['vnfc-type-list'] = this.referenceDataObject.scope['vnfc-type-list']
             }
             this.resetArtifactList(obj);
@@ -1526,7 +1527,7 @@ export class ReferenceDataformComponent implements OnInit {
                 //    scopeName = this.referenceDataObject.scope['vnfc-type-list'];
             }
 
-            if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic') {
+            if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
                 this.referenceDataObject['action-level'] = 'vnf';
                 this.referenceDataObject['scopeType'] = 'vnfc-type';
             } else {
@@ -1545,7 +1546,7 @@ export class ReferenceDataformComponent implements OnInit {
         let pdTemplate
         let paramValue
         let vnf = this.referenceDataObject.scope['vnf-type']
-        if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic') {
+        if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
             let vnfcTypeList = this.referenceDataObject.scope['vnfc-type-list'];
             let pd_fileName
             let config_template_fileName
@@ -1642,7 +1643,7 @@ export class ReferenceDataformComponent implements OnInit {
         let configTemplate
         let pdTemplate
         let paramValue
-        if (newObj.action == "Configure" || newObj.action == "ConfigModify" || newObj.action == "DistributeTraffic") {
+        if (newObj.action == "Configure" || newObj.action == "ConfigModify" || newObj.action == "DistributeTraffic" || newObj.action == "DistributeTrafficCheck") {
             let extension = this.referenceDataFormUtil.decideExtension(this.referenceDataObject);
             let pd_fileName = this.referenceDataObject.action + '_' + newObj.scope['vnf-type'].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '_' + (newObj['vnfcIdentifier'] ? (newObj['vnfcIdentifier'].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '_') : "") + '0.0.1V.yaml';
             let config_template_fileName = this.referenceDataObject.action + '_' + newObj.scope['vnf-type'].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '_' + (newObj['vnfcIdentifier'] ? (newObj['vnfcIdentifier'].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '_') : "") + '0.0.1V' + extension;
@@ -1746,7 +1747,7 @@ export class ReferenceDataformComponent implements OnInit {
         if (newObj.action != 'HealthCheck') {
             delete newObj['url'];
         }
-        if (newObj.action != "Configure" && newObj.action != "ConfigModify" && newObj.action == "DistributeTraffic") {
+        if (newObj.action != "Configure" && newObj.action != "ConfigModify" && newObj.action != "DistributeTraffic" && newObj.action != "DistributeTrafficCheck") {
             newObj.scope['vnfc-type-list'] = [];
         }
         return newObj

@@ -44,7 +44,7 @@ limitations under the License.
                     <span class="error-message" [hidden]="vnfParams?.vnfType || vnftype.valid || (vnftype.pristine && !userForm.submitted)">Required Field</span>
                 </div>
 
-                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="((displayVnfc=='true') || isVnfcType) && (referenceDataObject['action']=='Configure' || referenceDataObject['action']=='ConfigModify' || referenceDataObject['action']=='DistributeTraffic')">
+                    <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="((displayVnfc=='true') || isVnfcType) && (referenceDataObject['action']=='Configure' || referenceDataObject['action']=='ConfigModify' || referenceDataObject['action']=='DistributeTraffic' || referenceDataObject['action']=='DistributeTrafficCheck')">
                     <label>VNFC Type</label>  <label style="font-size:12px;">(NFC Function)</label>
                     <input *ngIf="isVnfcType" type="text" class="form-control" readonly id="txtVnfcType" [(ngModel)]="referenceDataObject.scope['vnfc-type']" (blur)="setVnfcType($event.target.value)" (ngModelChange)="updateSessionValues($event,'vnfcType')" #vnfcType="ngModel"
                         name="vnfcType">
@@ -56,7 +56,7 @@ limitations under the License.
                 </div>
                 
 
-                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="displayVnfc!='true' || (referenceDataObject['action']!='Configure' && referenceDataObject['action']!='ConfigModify' || referenceDataObject['action']=='DistributeTraffic')">
+                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="displayVnfc!='true' || (referenceDataObject['action']!='Configure' && referenceDataObject['action']!='ConfigModify' && referenceDataObject['action']!='DistributeTraffic' && referenceDataObject['action']!='DistributeTrafficCheck')">
                 </div>
                 <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12">
                     <label>Device Protocol*</label>

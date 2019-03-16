@@ -89,7 +89,8 @@ export class GoldenConfigurationComponent implements OnInit {
     { action: "HealthCheck", value: "HealthCheck" },
     { action: "StartApplication", value: "StartApplication" },
     { action: "StopApplication", value: "StopApplication" },
-    { action: "DistributeTraffic", value: "DistributeTraffic" }
+    { action: "DistributeTraffic", value: "DistributeTraffic" },
+    { action: "DistributeTrafficCheck", value: "DistributeTrafficCheck" }
 
   ];
   options = {
