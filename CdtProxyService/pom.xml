@@ -120,18 +120,6 @@
     </dependencies>
     <build>
         <plugins>
-            <!--maven staging plugin --> 
-            <plugin> 
-                <groupId>org.sonatype.plugins</groupId> 
-                <artifactId>nexus-staging-maven-plugin</artifactId> 
-                <version>1.6.7</version> 
-                <extensions>true</extensions> 
-                <configuration> 
-                    <nexusUrl>${onap.nexus.url}</nexusUrl> 
-                    <stagingProfileId>176c31dfe190a</stagingProfileId> 
-                    <serverId>ecomp-staging</serverId> 
-                </configuration> 
-            </plugin>
             <!-- Spring Boot Maven Support -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
