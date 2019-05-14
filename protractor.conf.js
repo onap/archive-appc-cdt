@@ -17,7 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================ */
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
