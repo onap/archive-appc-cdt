@@ -31,8 +31,6 @@ const options = {
 var bodyParser = require('body-parser');
 var textParser = bodyParser.text({ type: 'text/*' });
 
-const fs = require('fs');
-
 const path = require('path');
 
 const PORT = process.env.PORT || 8080;
