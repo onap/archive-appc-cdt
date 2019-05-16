@@ -66,14 +66,6 @@ limitations under the License.
                     </button>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="input-group">
-                    <input id="inputFile2" class="file" hidden #myInput2 type='file' (change)="fileChange(myInput2, 'keyfile')">
-                    <input [(ngModel)]="myKeyFileName" type="text" class="input-lg" disabled placeholder="Upload key file from PC. You can upload a key file only if you have some parameters." style="width:85%;">
-                    <button [disabled]="(!(undefined !== displayParamObjects && displayParamObjects.length>0))" (click)="browseKeyFile($event)" class="browse mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary input-lg" type="button">UPLOAD KEY FILE
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
     <br>
