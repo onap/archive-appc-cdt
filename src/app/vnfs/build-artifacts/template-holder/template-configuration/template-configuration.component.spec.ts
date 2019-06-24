@@ -179,7 +179,7 @@ describe('GoldenConfigurationComponent', () => {
     component = fixture.componentInstance;
     mappingEditorService.fromScreen === 'MappingScreen'
     component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\n            <version>15.1X49-D50.3</version>\n            <groups>\n                <name>node0</name>\n                <system>\n                   <tacplus-server>\n                        <name>${sync_auto-pop_name1}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                    <tacplus-server>\n                        <name>${node0_tacplus_server_name2}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                </system>         \n           </groups>\n    </configuration>"
-    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
+    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent);
 
     var pdData = [{ "name": "sync_auto-pop_name1", "type": null, "description": null, "required": null, "default": null, "source": "A&AI", "rule-type": "vnfc-oam-ipv4-address-list", "request-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "response-keys": [{ "key-name": "unique-key-name", "key-value": "parent-name" }, { "key-name": "unique-key-value", "key-value": "vnfc" }, { "key-name": "field-key-name", "key-value": "ipaddress-v4-oam-vip" }, { "key-name": null, "key-value": "vm-number" }, { "key-name": null, "key-value": "test" }], "ruleTypeValues": [null, "vnf-name", "vm-name-list", "vnfc-name-list", "vnf-oam-ipv4-address", "vnfc-oam-ipv4-address-list"], "showFilterFields": true, "enableFilterByValue": true }, { "name": "sync_auto-pop_address1", "type": null, "description": null, "required": null, "default": null, "source": "A&AI", "rule-type": "vm-name-list", "request-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "response-keys": [{ "key-name": "unique-key-name", "key-value": "parent-name" }, { "key-name": "unique-key-value", "key-value": "vserver" }, { "key-name": "field-key-name", "key-value": "vserver-name" }, { "key-name": null, "key-value": "vnfc-function-code" }, { "key-name": null, "key-value": null }], "ruleTypeValues": [null, "vnf-name", "vm-name-list", "vnfc-name-list", "vnf-oam-ipv4-address", "vnfc-oam-ipv4-address-list"], "showFilterFields": true, "enableFilterByValue": true }, { "name": "node0_tacplus_server_name2", "type": null, "description": null, "required": null, "default": null, "source": "Manual", "rule-type": null, "request-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "response-keys": [{ "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }, { "key-name": null, "key-value": null }], "ruleTypeValues": [null] }];
     paramShareService.setSessionParamData([pdData]);
@@ -188,7 +188,7 @@ describe('GoldenConfigurationComponent', () => {
       "sync_auto-pop_address1": "",
       "node0_tacplus_server_name2": "192.34.45.5"
     };
-    expect(component.syncTemplate());
+    expect(component.syncTemplate("1"));
 
 
   }));
@@ -198,12 +198,12 @@ describe('GoldenConfigurationComponent', () => {
     component = fixture.componentInstance;
     mappingEditorService.fromScreen === 'MappingScreen'
     component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\n            <version>15.1X49-D50.3</version>\n            <groups>\n                <name>node0</name>\n                <system>\n                   <tacplus-server>\n                        <name>${sync_auto-pop_name1}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                    <tacplus-server>\n                        <name>${node0_tacplus_server_name2}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                </system>         \n           </groups>\n    </configuration>"
-    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
+    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent);
 
     var pdData = [];
     paramShareService.setSessionParamData([pdData]);
     localStorage["paramsContent"] = {};
-    expect(component.syncTemplate());
+    expect(component.syncTemplate("0"));
 
 
   }));
@@ -216,7 +216,7 @@ describe('GoldenConfigurationComponent', () => {
     component.ngAfterViewInit();
     component.appDataObject = { reference: {}, template: { templateData: {}, nameValueData: {} }, pd: {} };
     component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\n            <version>15.1X49-D50.3</version>\n            <groups>\n                <name>node0</name>\n                <system>\n                   <tacplus-server>\n                        <name>${sync_auto-pop_name1}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                    <tacplus-server>\n                        <name>${node0_tacplus_server_name2}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                </system>         \n           </groups>\n    </configuration>"
-    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
+    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent);
     localStorage["paramsContent"] = JSON.stringify({ "sync_auto-pop_name1": "10.0.1.34", "sync_auto-pop_address1": "", "node0_tacplus_server_name2": "192.34.45.5" });
 
     component.userId = "sj108s";
@@ -291,7 +291,7 @@ describe('GoldenConfigurationComponent', () => {
       pd: { pdData: '', pdFileName: '' }
     };
     component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \r\n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\r\n            <version>15.1X49-D50.3</version>\r\n            <groups>\r\n                <name>node0</name>\r\n                <system>\r\n                   <tacplus-server>\r\n                        <name>199.37.184.211</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                    <tacplus-server>\r\n                        <name>199.37.184.242</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                </system>         \r\n            </groups>\r\n     </configuration>";
-    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
+    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent);
     localStorage["paramsContent"] = JSON.stringify({
       "node0_tacplus_server_name1": "199.37.184.211",
       "node0_tacplus_server_source_address1": "135.144.3.125",
@@ -301,7 +301,7 @@ describe('GoldenConfigurationComponent', () => {
     expect(component.mergeStatus).toBe(true);
 
     component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\n            <version>15.1X49-D50.3</version>\n            <groups>\n                <name>node0</name>\n                <system>\n                   <tacplus-server>\n                        <name>${sync_auto-pop_name1}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                    <tacplus-server>\n                        <name>${node0_tacplus_server_name2}</name>\n                        <source-address>${sync_auto-pop_address1}</source-address>\n                    </tacplus-server>\n                </system>         \n           </groups>\n    </configuration>"
-    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
+    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent);
     component.mergeParams();
     expect(component.mergeStatus).toBe(false);
 
@@ -315,7 +315,7 @@ describe('GoldenConfigurationComponent', () => {
     component.ngAfterViewInit();
 
     component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \r\n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\r\n            <version>15.1X49-D50.3</version>\r\n            <groups>\r\n                <name>node0</name>\r\n                <system>\r\n                   <tacplus-server>\r\n                        <name>199.37.184.211</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                    <tacplus-server>\r\n                        <name>199.37.184.242</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                </system>         \r\n            </groups>\r\n     </configuration>";
-    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
+    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent);
     component.selectedWord = "node0";
     expect(component.handleAnnotation(component.modal));
   }));
@@ -328,7 +328,7 @@ describe('GoldenConfigurationComponent', () => {
     component.ngAfterViewInit();
 
     component.configMappingEditorContent = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" \r\n    xmlns:a=\"http://xml.juniper.net/junos/15.1X49/junos\" >\r\n            <version>15.1X49-D50.3</version>\r\n            <groups>\r\n                <name>node0</name>\r\n                <system>\r\n                   <tacplus-server>\r\n                        <name>{(node1)=(name1)}</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                    <tacplus-server>\r\n                        <name>199.37.184.242</name>\r\n                        <source-address>135.144.3.125</source-address>\r\n                    </tacplus-server>\r\n                </system>         \r\n            </groups>\r\n     </configuration>";
-    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent, component.modal);
+    mappingEditorService.initialise(component.templateeditor.getEditor(), component.configMappingEditorContent);
     component.selectedWord = "node0";
     component.tempName = "name0";
     component.submitNameValues()
