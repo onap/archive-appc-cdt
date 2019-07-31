@@ -838,17 +838,6 @@ describe('ReferenceDataformComponent', () => {
     // 500001} };     var mockEVet = {         target:{files:files}     }
     // component.upload(mockEVet)     //expect(fileSaved).toBe(undefined) })
 
-    it('downloadTemplate() of reference dataform', () => {
-        component.downloadTemplate()
-        expect
-    })
-    it('downloadNameValue() of reference dataform', () => {
-        component.downloadNameValue()
-    })
-
-    it('downloadPd() of reference dataform', () => {
-        component.downloadPd()
-    })
     it('validateTempAllData() of reference dataform', () => {
         component.validateTempAllData()
     })
@@ -861,12 +850,6 @@ describe('ReferenceDataformComponent', () => {
         sessionStorage.setItem('updateParams', 'undefined')
         component.retriveFromAppc()
         expect(component.noCacheData).toBeTruthy()
-    })
-    it(' cloneMessage(servermessage) of reference dataform', () => {
-        let servermessage = {
-            test: "test"
-        }
-        component.cloneMessage(servermessage)
     })
 
     it('resetGroupNotation() of reference dataform for false case', () => {
