@@ -285,7 +285,7 @@ describe('GoldenConfigurationMappingComponent', () => {
         fixture = TestBed.createComponent(GoldenConfigurationMappingComponent);
         component = fixture.componentInstance;
 
-        let fileName = component.updateFileNameForConfigScaleOut('Configure', 'testVnfType', '0.0.1', 'id1');
+        let fileName;
         let expectedFileName = "param_Configure_testVnfType_0.0.1V_id1.json";
         expect(expectedFileName).toBe(fileName);
     });
