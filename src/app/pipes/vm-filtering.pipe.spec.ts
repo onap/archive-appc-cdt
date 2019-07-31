@@ -31,11 +31,11 @@ describe('VmFilteringPipe', () => {
 
     it('should return empty list', () => {
         const pipe = new VmFilteringPipe();
-        expect(pipe.transform([{ 'template-id': '321' }], 'ConfigScaleOut', '234')).toEqual([]);
+        expect(pipe.transform([{ 'template-id': '321' }], 'ConfigScaleOut', '234', {})).toEqual([]);
     });
 
     it('should return original list', () => {
         const pipe = new VmFilteringPipe();
-        expect(pipe.transform([{ 'template-id': '321' }], 'Config', '234')).toEqual([{ 'template-id': '321' }]);
+        expect(pipe.transform([{ 'template-id': '321' }], 'Config', '234', {})).toEqual([{ 'template-id': '321' }]);
     });
 });
