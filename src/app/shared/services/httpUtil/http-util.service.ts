@@ -32,8 +32,11 @@ export class HttpUtilService {
     private password = require('../../../../cdt.application.properties.json').password;
     constructor(private http: Http) {
         this.headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+        this.headers.append('Authorization', 'Basic ' + btoa(this.username + ':' + this.password));
     }
     get(req) {
+
+        this.options = new RequestOptions({ headers: this.headers });
 
         return this
             .http
@@ -41,7 +44,7 @@ export class HttpUtilService {
             .map((res: Response) => res.json())
     }
     post(req) {
-        this.headers.append('Authorization', 'Basic ' + btoa(this.username + ':' + this.password));
+
         this.options = new RequestOptions({ headers: this.headers });
 
         return this
