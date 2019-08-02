@@ -26,14 +26,19 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class HttpUtilService {
-    headers: Headers;
+    headersGET: Headers;
+    headersPOST: Headers;
     options: RequestOptions
     private username = require('../../../../cdt.application.properties.json').username;
     private password = require('../../../../cdt.application.properties.json').password;
     constructor(private http: Http) {
-        this.headers = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+        this.headersGET = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+        this.headersPOST = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+        this.headersPOST.append('Authorization', 'Basic ' + btoa(this.username + ':' + this.password));
     }
     get(req) {
+
+        this.options = new RequestOptions({ headers: this.headersGET });
 
         return this
             .http
@@ -41,8 +46,8 @@ export class HttpUtilService {
             .map((res: Response) => res.json())
     }
     post(req) {
-        this.headers.append('Authorization', 'Basic ' + btoa(this.username + ':' + this.password));
-        this.options = new RequestOptions({ headers: this.headers });
+
+        this.options = new RequestOptions({ headers: this.headersPOST });
 
         return this
             .http
