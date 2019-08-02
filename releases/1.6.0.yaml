@@ -1,0 +1,4 @@
+distribution_type: 'maven'
+version: '1.6.0'
+project: 'appc-cdt'
+log_dir: 'appc-cdt-maven-stage-master/154/'
