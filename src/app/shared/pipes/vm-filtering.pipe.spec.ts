@@ -2,6 +2,8 @@
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+
+Modifications Copyright (C) 2019 IBM
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -33,7 +35,7 @@ describe('VmFilteringPipe', () => {
             {action:"Configure","template-id":2,"type":"con"},
             {action:"ConfigScaleout","template-id":1,"type":"conScale"}
         ]
-        expect(pipe.transform(objArray,"ConfigScaleOut",1)[0].type).toBe("conScale")
+        expect(pipe.transform(objArray,"ConfigScaleOut",1, {})[0].type,).toBe("conScale")
 
     });
     it('should return configure calues',()=>{
@@ -43,7 +45,7 @@ describe('VmFilteringPipe', () => {
             {action:"Configure","template-id":2,"type":"con"},
             {action:"ConfigScaleout","template-id":1,"type":"conScale"}
         ]
-        expect(pipe.transform(objArray,"Config",2)[0].type).toBe("con")
+        expect(pipe.transform(objArray,"Config",2, {})[0].type).toBe("con")
 
     });
 });
