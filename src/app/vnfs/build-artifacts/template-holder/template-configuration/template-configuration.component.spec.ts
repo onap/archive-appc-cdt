@@ -57,6 +57,8 @@ import { NgProgress } from 'ngx-progressbar';
 import { BaseRequestOptions, Response, ResponseOptions, Http } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { UtilityService } from '../../../../shared/services/utilityService/utility.service';
+import { APIService } from "../../../../shared/services/cdt.apicall";
+import { ProcOnSrvSideSvc } from "../../../../shared/services/procOnSrvSide.service";
 
 describe('GoldenConfigurationComponent', () => {
   let component: GoldenConfigurationComponent;
@@ -101,7 +103,7 @@ describe('GoldenConfigurationComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, BrowserModule, RouterTestingModule.withRoutes(routes), HttpModule, Ng2Bs3ModalModule, SimpleNotificationsModule.forRoot()],
       declarations: [GoldenConfigurationComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent, AceEditorComponent],
-      providers: [BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService, NgxSpinnerService, MockBackend,
+      providers: [ProcOnSrvSideSvc, APIService, BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService, NgxSpinnerService, MockBackend,
         BaseRequestOptions, UtilityService,
         {
           provide: Http,
@@ -132,10 +134,33 @@ describe('GoldenConfigurationComponent', () => {
   });
 
 
-  it('validate initialisation of variables in ngOnit() function', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
+  fit('validate initialisation of variables in ngOnit() function', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
     fixture = TestBed.createComponent(GoldenConfigurationComponent);
     component = fixture.componentInstance;
-    mappingEditorService.latestAction = { "action": "Configure", "action-level": "vnf", "scope": { "vnf-type": "testVnf", "vnfc-type": "" }, "template": "Y", "vm": [], "device-protocol": "CHEF", "user-name": "", "port-number": "", "artifact-list": [{ "artifact-name": "template_Configure_test_0.0.1V.json", "artifact-type": "config_template" }, { "artifact-name": "pd_Configure_test_0.0.1V.yaml", "artifact-type": "parameter_definitions" }], "scopeType": "vnf-type" }
+    mappingEditorService.newObject = {
+      "action": "Configure",
+      "action-level": "vnf",
+      "scope": { "vnf-type": "testVnf", "vnfc-type": "" },
+      "template": "Y",
+      "vm": [],
+      "device-protocol":
+        "CHEF",
+      "user-name": "",
+      "port-number": "",
+      "artifact-list": [{
+        "artifact-name": "template_Configure_test_0.0.1V.json",
+        "artifact-type": "config_template"
+      },
+      {
+        "artifact-name": "pd_Configure_test_0.0.1V.yaml",
+        "artifact-type": "parameter_definitions"
+      }],
+      "scopeType": "vnf-type",
+      "vnf": "testVnf",
+      "vnfc": "",
+      "protocol": "CHEF",
+      "template_artifact": "template_Configure_test_0.0.1V.json"
+    }
 
     expect(component.ngOnInit());
     expect(component.ngAfterViewInit());
@@ -143,14 +168,7 @@ describe('GoldenConfigurationComponent', () => {
     expect(component.vnfType).toEqual('testVnf');
     expect(component.vnfcType).toEqual('');
     expect(component.protocol).toEqual('CHEF');
-
     expect(component.artifactName).toEqual('template_Configure_test_0.0.1V.json');
-
-    mappingEditorService.latestAction = { "action": "Configure", "action-level": "vnf", "scope": { "vnf-type": "testVnf", "vnfc-type": "testVnfc" }, "template": "Y", "vm": [], "device-protocol": "CHEF", "user-name": "", "port-number": "", "artifact-list": [{ "artifact-name": "template_Configure_test_0.0.1V.json", "artifact-type": "config_template" }, { "artifact-name": "pd_Configure_test_0.0.1V.yaml", "artifact-type": "parameter_definitions" }], "scopeType": "vnf-type" }
-    expect(component.ngOnInit());
-    expect(component.vnfcType).toEqual('testVnfc');
-
-
   }));
 
   it('check if variables are empty when reference data object is empty', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
