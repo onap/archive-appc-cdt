@@ -420,7 +420,7 @@ describe( 'TestComponent', () => {
         });
 
         it('getUrlEndPoint Should return value', () => {
-            expect(component.getUrlEndPoint('configmodify')).toEqual('config-modify');
+            expect(component.getUrlEndPoint('configmodify')).toEqual('Config-Modify');
             expect(component.getUrlEndPoint('configbackup')).toEqual('config-backup');
             expect(component.getUrlEndPoint('configrestore')).toEqual('config-restore');
             expect(component.getUrlEndPoint('healthcheck')).toEqual('health-check');
@@ -438,6 +438,32 @@ describe( 'TestComponent', () => {
             expect(component.getUrlEndPoint('upgradebackup')).toEqual('upgrade-backup');
             expect(component.getUrlEndPoint('attachvolume')).toEqual('attach-volume');
             expect(component.getUrlEndPoint('detachvolume')).toEqual('detach-volume');
+        });
+    });
+
+    fdescribe('Test setValuesOnFileUploadFailure Method', () => {
+        fit('Should have setValuesOnFileUploadFailure method', () => {
+            expect(component.setValuesOnFileUploadFailure).toBeDefined();
+        });
+
+        fit('getUrlEndPoint setValuesOnFileUploadFailure set value', () => {
+            component.setValuesOnFileUploadFailure();
+            expect(component.flag).toEqual(1);
+            expect(component.oldListName1).toEqual('');
+            expect(component.vmJson).toEqual({});
+            expect(component.vnfcJson).toEqual({});
+            expect(component.subPayload).toEqual({});
+            expect(component.vmPayload).toEqual([]);
+            expect(component.payload).toEqual({});
+            expect(component.action).toEqual('');
+            expect(component.actionIdentifiers).toEqual({});
+            expect(component.apiRequest).toEqual('');
+            expect(component.apiResponse).toEqual('');
+            expect(component.enableCounterDiv).toEqual(false);
+            expect(component.enableAbort).toEqual(false);
+            expect(component.enableTestButton).toEqual(false);
+            expect(component.enableDownload).toEqual(false);
+
         });
     });
 })
