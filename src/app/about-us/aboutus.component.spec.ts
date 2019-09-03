@@ -25,8 +25,9 @@ limitations under the License.
 import { async, ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
 import { Http, HttpModule, ConnectionBackend, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { ModalDismissReasons, NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
+import { NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/of';
@@ -40,7 +41,7 @@ import { AboutUsComponent } from './aboutus.component';
 class MockService {
     doStuff() {
         return this;
-    }
+    }NoopAnimationsModule
     get() {
         return Observable.of(new Response(
             new ResponseOptions({
@@ -50,7 +51,7 @@ class MockService {
     }
 }
 
-describe('ContacUsComponent', () => {
+fdescribe('ContacUsComponent', () => {
     let component: AboutUsComponent;
     let fixture: ComponentFixture<AboutUsComponent>;
 
@@ -58,6 +59,10 @@ describe('ContacUsComponent', () => {
         let http = new MockService();
 
         TestBed.configureTestingModule({
+            schemas: [
+                CUSTOM_ELEMENTS_SCHEMA,
+                NO_ERRORS_SCHEMA
+            ],
             declarations: [AboutUsComponent],
             imports: [HttpModule, NgbModule.forRoot(), SimpleNotificationsModule.forRoot()],
             providers: [NgbModule, DialogService, UtilityService, {
