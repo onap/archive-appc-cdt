@@ -28,12 +28,13 @@ import { ReferenceDataFormUtil } from './reference-dataform.util';
 import { NotificationsService } from 'angular2-notifications';
 import { UtilityService } from '../../../shared/services/utilityService/utility.service';
 import { HttpUtilService } from '../../../shared/services/httpUtil/http-util.service';
+import { APIService } from "../../../shared/services/cdt.apicall";
 
 describe('ReferenceDataFormUtil', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientModule],
-            providers: [ReferenceDataFormUtil, HttpUtilService, NotificationsService, UtilityService, BaseRequestOptions, MockBackend,
+            providers: [ReferenceDataFormUtil, HttpUtilService, NotificationsService, UtilityService, BaseRequestOptions, MockBackend, APIService,
                 {
                     provide: Http,
                     useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
@@ -67,7 +68,7 @@ describe('ReferenceDataFormUtil', () => {
 
     it('should test nullCheckForVnfcType and nullCheckForVnfcTypeList function', inject([ReferenceDataFormUtil], (service: ReferenceDataFormUtil) => {
         let returnValueVnfcType = service.nullCheckForVnfcType(false);
-        let returnValueVnfcTypeList = service.nullCheckForVnfcTypeList('null');
+        let returnValueVnfcTypeList = service.nullCheckForVnfcTypeList(null);
         expect(returnValueVnfcType).toBe(true);
         expect(returnValueVnfcTypeList).toBe(true);
     }));
