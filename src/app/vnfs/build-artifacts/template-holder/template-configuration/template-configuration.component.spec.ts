@@ -134,7 +134,7 @@ describe('GoldenConfigurationComponent', () => {
   });
 
 
-  fit('validate initialisation of variables in ngOnit() function', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
+  it('validate initialisation of variables in ngOnit() function', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
     fixture = TestBed.createComponent(GoldenConfigurationComponent);
     component = fixture.componentInstance;
     mappingEditorService.newObject = {
@@ -476,10 +476,34 @@ describe('GoldenConfigurationComponent', () => {
   // End fileChange method
 
   it('should give the correct template artifact name when multiple template identifiers are provided from reference page', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
+    mappingEditorService.newObject = {
+      "action": "Configure",
+      "action-level": "vnf",
+      "scope": { "vnf-type": "testVnf", "vnfc-type": "" },
+      "template": "Y",
+      "vm": [],
+      "device-protocol":
+        "CHEF",
+      "user-name": "",
+      "port-number": "",
+      "artifact-list": [{
+        "artifact-name": "template_ConfigScaleOut_test_0.0.1V_id1.json",
+        "artifact-type": "config_template"
+      },
+      {
+        "artifact-name": "pd_Configure_test_0.0.1V.yaml",
+        "artifact-type": "parameter_definitions"
+      }],
+      "scopeType": "vnf-type",
+      "vnf": "testVnf",
+      "vnfc": "",
+      "protocol": "CHEF",
+      "template_artifact": "template_ConfigScaleOut_test_0.0.1V_id1.json"
+    }
     fixture = TestBed.createComponent(GoldenConfigurationComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
     mappingEditorService.identifier = "id1";
-    mappingEditorService.latestAction = { "action": "ConfigScaleOut", "action-level": "vnf", "scope": { "vnf-type": "test", "vnfc-type": "" }, "template": "Y", "vm": [], "device-protocol": "CHEF", "user-name": "", "port-number": "", "artifact-list": [{ "artifact-name": "template_ConfigScaleOut_test_0.0.1V_id1.json", "artifact-type": "config_template" }, { "artifact-name": "pd_ConfigScaleOut_test_0.0.1V_id1.yaml", "artifact-type": "parameter_definitions" }, { "artifact-name": "template_ConfigScaleOut_test_0.0.1V_id2.json", "artifact-type": "config_template" }, { "artifact-name": "pd_ConfigScaleOut_test_0.0.1V_id2.yaml", "artifact-type": "parameter_definitions" }], "template-id-list": ["id1", "id2"], "scopeType": "vnf-type" };
     component.ngAfterViewInit();
     expect(component.artifactName).toBe("template_ConfigScaleOut_test_0.0.1V_id1.json");
   }));
