@@ -102,5 +102,12 @@ describe('userloginFormComponent', () => {
         expect(localStorage['userId']).toBe('test Usr');
     }));
 
+    it('test validateUserName function', () => {
+        component.userId = '';
+        component.validateUserName();
+        expect(component.errorMessage).toEqual('');
+        expect(component.invalid).toEqual(true);
+    });
+
 });
 
