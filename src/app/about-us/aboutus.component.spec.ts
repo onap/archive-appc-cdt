@@ -89,7 +89,7 @@ fdescribe('ContacUsComponent', () => {
     it('should open modal', inject([NgbModule, Http], (ngbModule: NgbModule, http: Http) => {
         let content = 'test';
         component.versionLogFile();
-        expect(component.data.text()).toBe('some data');
+        expect(component.data).toBe('some data');
     }));
 
     it('should download log file', () => {
