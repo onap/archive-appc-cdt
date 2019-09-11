@@ -62,6 +62,7 @@ fdescribe('AnsibleServerComponent', () => {
 
     it('should create', () => {
         component.item = {};
+        sessionStorage.setItem("ansibleserver", "{\"server\":\"\",\"info\":[{\"ownerid\":\"\",\"regionid\":\"\",\"tenantid\":\"\"}]}");
         expect(component).toBeTruthy();
     });
 });
