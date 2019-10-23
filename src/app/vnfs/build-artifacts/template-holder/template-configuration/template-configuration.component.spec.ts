@@ -395,7 +395,7 @@ describe('GoldenConfigurationComponent', () => {
   }));
 
   // fileChange method
-  it('Should validatte fileChange method if file type is xml', async(() => {
+  fit('Should validatte fileChange method if file type is xml', (() => {
     fixture = TestBed.createComponent(GoldenConfigurationComponent);
     component = fixture.componentInstance;
     let reader = new FileReader();
