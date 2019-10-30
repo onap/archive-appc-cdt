@@ -36,7 +36,7 @@ import { UtilityService } from '../../shared/services/utilityService/utility.ser
 fdescribe('AnsibleServerComponent', () => {
     let component: AnsibleServerComponent;
     let fixture: ComponentFixture<AnsibleServerComponent>;
-    beforeEach(async(() => {
+    beforeEach((() => {
         TestBed.configureTestingModule({
             schemas: [
                 CUSTOM_ELEMENTS_SCHEMA,
