@@ -1,4 +1,4 @@
-/*
+11/*
 ============LICENSE_START==========================================
 ===================================================================
 Copyright (C) 2018 IBM.
@@ -24,6 +24,7 @@ import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/ro
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {CommonModule} from '@angular/common';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/Rx';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
@@ -39,7 +40,7 @@ describe('LogginGuard', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule, CommonModule, HttpModule],
+            imports: [FormsModule, CommonModule, HttpModule, NgbModule.forRoot()],
             providers: [LoginGuardService, NgbModal, MappingEditorService, {provide: Router, useValue: routerMock}]
         });
         TestBed.compileComponents();
