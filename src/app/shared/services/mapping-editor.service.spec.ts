@@ -52,9 +52,11 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { NgProgress } from 'ngx-progressbar';
 import { BaseRequestOptions, Response, ResponseOptions, Http } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
+import { APIService } from '../../shared/services/cdt.apicall';
+import { ProcOnSrvSideSvc } from '../../shared/services/procOnSrvSide.service'
 
 
-describe('MappingEditorService', () => {
+fdescribe('MappingEditorService', () => {
     let service;
     let component: GoldenConfigurationComponent;
     let fixture: ComponentFixture<GoldenConfigurationComponent>;
@@ -90,7 +92,7 @@ describe('MappingEditorService', () => {
             imports: [FormsModule, BrowserModule, RouterTestingModule.withRoutes(routes), HttpModule, Ng2Bs3ModalModule, SimpleNotificationsModule.forRoot()],
             declarations: [GoldenConfigurationComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent, AceEditorComponent],
             providers: [MappingEditorService, BuildDesignComponent, NgProgress, ParamShareService, DialogService, NotificationService, NgxSpinnerService, MockBackend,
-                BaseRequestOptions, UtilityService,
+                BaseRequestOptions, UtilityService, APIService, ProcOnSrvSideSvc,
                 {
                     provide: Http,
                     useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
