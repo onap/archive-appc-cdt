@@ -46,14 +46,14 @@ describe('ConfirmComponent', () => {
     it('should test confirm method with proper return value', async(() => {
         const fixture = TestBed.createComponent(ConfirmComponent);
         const comp = fixture.debugElement.componentInstance;
-        comp.confirm();
+        comp.onConfirm();
         expect(comp.result).toBe(true);
     }));
 
     it('should test cancel method with proper return value', async(() => {
         const fixture = TestBed.createComponent(ConfirmComponent);
         const comp = fixture.debugElement.componentInstance;
-        comp.cancel();
+        comp.onCancel();
         expect(comp.result).toBe(false);
     }));
 });
