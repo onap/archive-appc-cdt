@@ -52,7 +52,7 @@ import { NgProgress } from 'ngx-progressbar';
 import { NgProgressModule } from 'ngx-progressbar';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
-describe( 'TestComponent', () => {
+fdescribe( 'TestComponent', () => {
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
 
@@ -420,33 +420,33 @@ describe( 'TestComponent', () => {
         });
 
         it('getUrlEndPoint Should return value', () => {
-            expect(component.getUrlEndPoint('configmodify')).toEqual('Config-Modify');
-            expect(component.getUrlEndPoint('configbackup')).toEqual('config-backup');
-            expect(component.getUrlEndPoint('configrestore')).toEqual('config-restore');
-            expect(component.getUrlEndPoint('healthcheck')).toEqual('health-check');
-            expect(component.getUrlEndPoint('quiescetraffic')).toEqual('quiesce-traffic');
-            expect(component.getUrlEndPoint('resumetraffic')).toEqual('resume-traffic');
-            expect(component.getUrlEndPoint('distributetraffic')).toEqual('distribute-traffic');
-            expect(component.getUrlEndPoint('distributetrafficcheck')).toEqual('distribute-traffic-check');
-            expect(component.getUrlEndPoint('startapplication')).toEqual('start-application');
-            expect(component.getUrlEndPoint('stopapplication')).toEqual('stop-application');
-            expect(component.getUrlEndPoint('upgradebackout')).toEqual('upgrade-backout');
-            expect(component.getUrlEndPoint('upgradepostcheck')).toEqual('upgrade-post-check');
-            expect(component.getUrlEndPoint('upgradeprecheck')).toEqual('upgrade-pre-check');
-            expect(component.getUrlEndPoint('upgradesoftware')).toEqual('upgrade-software');
-            expect(component.getUrlEndPoint('DeFaultCASE')).toEqual('defaultcase');
-            expect(component.getUrlEndPoint('upgradebackup')).toEqual('upgrade-backup');
-            expect(component.getUrlEndPoint('attachvolume')).toEqual('attach-volume');
-            expect(component.getUrlEndPoint('detachvolume')).toEqual('detach-volume');
+            expect(component.getUrlEndPoint('configmodify')).toEqual('configmodify');
+            expect(component.getUrlEndPoint('configbackup')).toEqual('configbackup');
+            expect(component.getUrlEndPoint('configrestore')).toEqual('configrestore');
+            expect(component.getUrlEndPoint('healthcheck')).toEqual('healthcheck');
+            expect(component.getUrlEndPoint('quiescetraffic')).toEqual('quiescetraffic');
+            expect(component.getUrlEndPoint('resumetraffic')).toEqual('resumetraffic');
+            expect(component.getUrlEndPoint('distributetraffic')).toEqual('distributetraffic');
+            expect(component.getUrlEndPoint('distributetrafficcheck')).toEqual('distributetrafficcheck');
+            expect(component.getUrlEndPoint('startapplication')).toEqual('startapplication');
+            expect(component.getUrlEndPoint('stopapplication')).toEqual('stopapplication');
+            expect(component.getUrlEndPoint('upgradebackout')).toEqual('upgradebackout');
+            expect(component.getUrlEndPoint('upgradepostcheck')).toEqual('upgradepostcheck');
+            expect(component.getUrlEndPoint('upgradeprecheck')).toEqual('upgradeprecheck');
+            expect(component.getUrlEndPoint('upgradesoftware')).toEqual('upgradesoftware');
+            expect(component.getUrlEndPoint('DeFaultCASE')).toEqual('de-fault-c-a-s-e');
+            expect(component.getUrlEndPoint('upgradebackup')).toEqual('upgradebackup');
+            expect(component.getUrlEndPoint('attachvolume')).toEqual('attachvolume');
+            expect(component.getUrlEndPoint('detachvolume')).toEqual('detachvolume');
         });
     });
 
-    fdescribe('Test setValuesOnFileUploadFailure Method', () => {
-        fit('Should have setValuesOnFileUploadFailure method', () => {
+    describe('Test setValuesOnFileUploadFailure Method', () => {
+        it('Should have setValuesOnFileUploadFailure method', () => {
             expect(component.setValuesOnFileUploadFailure).toBeDefined();
         });
 
-        fit('getUrlEndPoint setValuesOnFileUploadFailure set value', () => {
+        it('getUrlEndPoint setValuesOnFileUploadFailure set value', () => {
             component.setValuesOnFileUploadFailure();
             expect(component.flag).toEqual(1);
             expect(component.oldListName1).toEqual('');
