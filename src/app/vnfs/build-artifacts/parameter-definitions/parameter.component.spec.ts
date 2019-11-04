@@ -48,6 +48,7 @@ import {TestComponent} from '../../../test/test.component';
 import {ParameterComponent} from './parameter.component';
 import {HttpModule} from '@angular/http';
 import { NgProgress } from 'ngx-progressbar';
+import { APIService } from "../../../shared/services/cdt.apicall";
 
 
 
@@ -85,7 +86,7 @@ describe('ParameterComponent', () => {
             declarations: [ParameterComponent, HomeComponent, TestComponent, HelpComponent, AboutUsComponent, LogoutComponent],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [HttpModule, FormsModule, RouterTestingModule.withRoutes(routes)],
-            providers: [UtilityService, NgProgress, BuildDesignComponent, ParamShareService, DialogService, NotificationService, HttpUtilService, MappingEditorService, NotificationsService, NgxSpinnerService]
+            providers: [APIService, UtilityService, NgProgress, BuildDesignComponent, ParamShareService, DialogService, NotificationService, HttpUtilService, MappingEditorService, NotificationsService, NgxSpinnerService]
         })
             .compileComponents();
     }));
