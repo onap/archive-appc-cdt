@@ -128,11 +128,30 @@ describe('ParameterComponent', () => {
     expect(component.getPD());
   });
 
-  it('should infer some information from reference object...', inject([MappingEditorService], (mappingEditorService: MappingEditorService) => {
-    mappingEditorService.latestAction = {"action":"Configure","action-level":"vnf","scope":{"vnf-type":"ticktack","vnfc-type":""},"template":"Y","vm":[],"device-protocol":"CHEF","user-name":"","port-number":"","artifact-list":[{"artifact-name":"template_Configure_ticktack_0.0.1V.json","artifact-type":"config_template"},{"artifact-name":"pd_Configure_ticktack_0.0.1V.yaml","artifact-type":"parameter_definitions"}],"scopeType":"vnf-type"};
+  fit('should infer some information from reference object...', inject([MappingEditorService, UtilityService], (mappingEditorService: MappingEditorService, utilityService: UtilityService) => {
+    // mappingEditorService.latestAction = {"action":"Configure","action-level":"vnf","scope":{"vnf-type":"ticktack","vnfc-type":""},"template":"Y","vm":[],"device-protocol":"CHEF","user-name":"","port-number":"","artifact-list":[{"artifact-name":"template_Configure_ticktack_0.0.1V.json","artifact-type":"config_template"},{"artifact-name":"pd_Configure_ticktack_0.0.1V.yaml","artifact-type":"parameter_definitions"}],"scopeType":"vnf-type"};
+    mappingEditorService.newObject = {"action":"Configure",
+                                        "vnfc": "vnfcType",
+                                       "action-level":"vnf",
+                                        "scope":{"vnf-type":"ticktack","vnfc-type":""},
+                                        "template":"Y",
+                                        "vm":[],
+                                        "device-protocol":"CHEF",
+                                        "user-name":"",
+                                        "port-number":"",
+                                        "artifact-list":[
+                                            {"artifact-name":"template_Configure_ticktack_0.0.1V.json",
+                                            "artifact-type":"config_template"},
+                                            {"artifact-name":"pd_Configure_ticktack_0.0.1V.yaml",
+                                            "artifact-type":"parameter_definitions"}
+                                        ],"scopeType":"vnf-type",
+                                        "vnf": "ticktack",
+                                        "protocol": 'CHEF',
+                                        "pd_artifact": 'pd_Configure_ticktack_0.0.1V.yaml'}; 
+    utilityService.setTracelvl(1);
     expect(component.ngOnInit());
     expect(component.vnfType).toEqual('ticktack');
-    expect(component.vnfcType).toEqual('');
+    expect(component.vnfcType).toEqual('vnfcType');
     expect(component.protocol).toEqual('CHEF');
     expect(component.action).toEqual('Configure');
     expect(component.artifact_fileName).toEqual('pd_Configure_ticktack_0.0.1V.yaml');
