@@ -292,7 +292,7 @@ export class ParameterDefinitionService {
                 }
                 if (saveModel[i]['response-keys'][3]['key-value'] != undefined && saveModel[i]['response-keys'][3]['key-value'] != null) {
                     let keyName4 = saveModel[i]['response-keys'][3]['key-name'];
-                    saveModel[i]['response-keys-new'][0]['filter-by-key'] = saveModel[i]['response-keys'][3]['key-value'];
+                    saveModel[i]['response-keys-new'][0]['filter-by-field'] = saveModel[i]['response-keys'][3]['key-value'];
                 }
                 if (saveModel[i]['response-keys'][4]['key-value'] != undefined && saveModel[i]['response-keys'][4]['key-value'] != null) {
                     let keyName4 = saveModel[i]['response-keys'][4]['key-name'];
