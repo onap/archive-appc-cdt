@@ -6,7 +6,6 @@
     },
     "username": "admin",
     "password": "admin",
-    "displayConfigScaleout": true,
     "Actions": {
         "ConfigScaleOut": "ConfigScaleOut",
         "Configure": "Configure"

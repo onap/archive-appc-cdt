@@ -128,7 +128,44 @@ export class ReferenceDataformComponent implements OnInit {
         'artifact-list': []
     };
     public refernceScopeObj = { sourceType: '', from: '', to: '' };
-    public actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'DistributeTrafficCheck', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
+    public actions = ['', // using comma as prefix hereafter for easy reordering
+        , 'ConfigBackup'
+        , 'ConfigModify'
+        , 'ConfigRestore'
+        , 'ConfigScaleOut'
+        , 'Configure'
+        , 'DistributeTraffic'
+        , 'DistributeTrafficCheck'
+        , 'GetConfig'
+        , 'GetRunningConfig'
+        , 'HealthCheck'
+        , 'LicenseManagement'
+        , 'PostConfigure'
+        , 'PostEvacuate'
+        , 'PostMigrate'
+        , 'PostRebuild'
+        , 'PreConfigCheck'
+        , 'PreConfigure'
+        , 'PreEvacuate'
+        , 'PreMigrate'
+        , 'PreRebuild'
+        , 'ProvisionConfig'
+        , 'ProvisionData'
+        , 'Provisioning'
+        , 'QuiesceTraffic'
+        , 'ResumeTraffic'
+        , 'StartApplication'
+        , 'StartTraffic'
+        , 'StatusTraffic'
+        , 'StopApplication'
+        , 'StopTraffic'
+        , 'UpgradeBackout'
+        , 'UpgradeBackup'
+        , 'UpgradePostCheck'
+        , 'UpgradePreCheck'
+        , 'UpgradeSoftware'
+        , 'OpenStack Actions'
+        ]; //.. manual ordering
     public groupAnotationValue = ['', 'Pair'];
     public groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value'];
     public deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'NETCONF-XML', 'REST', 'CLI', 'RESTCONF'];
@@ -170,7 +207,6 @@ export class ReferenceDataformComponent implements OnInit {
     public remUploadedDataArray = [];
     isConfigScaleOut = false
     isConfigOrConfigModify = false
-    configScaleOutExist: boolean
     displayVnfc = 'false';
     isVnfcType: boolean;
     isVnfcTypeList: boolean = true;
@@ -212,21 +248,25 @@ export class ReferenceDataformComponent implements OnInit {
     ngOnInit() {
       let methName= "ngOnInit";
       if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": ngOnInit: start ");
+        console.log( this.classNm+": "+methName+": start ");
         // this.handleVMBlockDisplay();
-
-        //initializing the variables and checking for configscaleout fromm properties file
-        this.configScaleOutExist = require('../../../../cdt.application.properties.json').displayConfigScaleout;
-        this.displayVnfc = sessionStorage.getItem("vnfcSelectionFlag");
-        if (this.configScaleOutExist) {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'DistributeTrafficCheck', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions', 'ConfigScaleOut'];
-        } else {
-            this.actions = ['', 'Configure', 'ConfigModify', 'ConfigBackup', 'ConfigRestore', 'GetRunningConfig', 'HealthCheck', 'StartApplication', 'StopApplication', 'QuiesceTraffic', 'ResumeTraffic', 'DistributeTraffic', 'DistributeTrafficCheck', 'UpgradeBackout', 'UpgradeBackup', 'UpgradePostCheck', 'UpgradePreCheck', 'UpgradeSoftware', 'OpenStack Actions'];
-        }
-        this.self = this;
+      if( this.utilityService.getTracelvl() > 0 ) {
+        console.log( this.classNm+": "+methName+
+          ": actions: count="+this.actions.length );
+        for( var i0=0; i0 < this.actions.length; i0++ ) {
+          console.log( this.classNm+": "+methName+
+            ": action #"+i0+" ["+this.actions[i0]+"]");
+        };
+      };
+      this.self = this;
         let path = this.location.path;
         this.title = 'Reference Data';
-        // setting the structure for the reference data object 
+      this.displayVnfc = sessionStorage.getItem("vnfcSelectionFlag");
+      this.vnfcIdentifier= ' ';
+      if( this.utilityService.getTracelvl() > 0 )
+        console.log( this.classNm+": "+methName+
+          ": from storage: displayVnfc:["+this.displayVnfc+"]");
+      //.. setting the structure for the reference data object 
         this.referenceDataObject = {
             action: '',
             'action-level': 'vnf',
@@ -1072,66 +1112,95 @@ export class ReferenceDataformComponent implements OnInit {
         this.Sample['vnfc-type'] = '';
     }
 
-    // this method gets called with the action as parameter and the respective action details are fetched and assigned to the current page
-    populateExistinAction(data) {
+    //.. this method gets called with the action as parameter and
+    // the respective action details are fetched and assigned to the current page
+    populateExistinAction( action) {
       let methName= "populateExistinAction";
       if( this.utilityService.getTracelvl() > 0 )
-        console.log( this.classNm+": "+methName+": start: data:["+data+"]");
+        console.log( this.classNm+": "+methName+": start: action:["+action+"]");
       if( this.utilityService.getTracelvl() > 0 )
         console.log( this.classNm+": "+methName+": tempAllData:["+
           JSON.stringify(this.tempAllData)+"]");
-        let existAction = this.tempAllData.findIndex(obj => {
-            return obj.action == data;
-        });
-        if (existAction > -1) {
-            let obj = $.extend(true, {}, this.tempAllData[existAction]);
-            this.referenceDataObject = obj;
-            this.referenceDataObject.scope['vnf-type'] = obj['scope']['vnf-type'];
-            this.referenceDataObject.scope['vnfc-type-list'] = obj['scope']['vnfc-type-list'];
-            this.referenceDataObject['device-protocol'] = obj['device-protocol'];
-            this.refernceScopeObj['sourceType'] = obj['scopeType'];
-            if(obj['scope']['vnfc-type-list'] != undefined && obj['scope']['vnfc-type-list'].length >0) {
-                this.referenceDataObject['vnfcIdentifier'] = obj['scope']['vnfc-type-list'][0];
-            }
-        } else {
-            console.log( this.classNm+": populateExistinAction: action not found");
-            this.resetForm();
-            this.referenceDataObject.action = data;
-        }
-        //# iof healthCeck change deviceprotocol drp vaues
-        switch (data) {
-            case 'HealthCheck':
-                this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'REST'];
-                this.actionHealthCheck = true;
-                break;
-            case 'UpgradeBackout':
-            case 'ResumeTraffic':
-            case 'DistributeTraffic':
-            case 'DistributeTrafficCheck':
-            case 'QuiesceTraffic':
-            case 'UpgradeBackup':
-            case 'UpgradePostCheck':
-            case 'UpgradePreCheck':
-            case 'UpgradeSoftware':
-            case 'ConfigRestore':
-            case 'StartApplication':
-            case 'StopApplication':
-            case 'ConfigBackup':
-                this.deviceProtocols = ['', 'CHEF', 'ANSIBLE'];
-                break;
-            case 'OpenStack Actions':
-                this.deviceProtocols = ['', 'OpenStack'];
-                break;
-            case 'ConfigScaleOut':
-                this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF-XML', 'RESTCONF'];
-                break;
-            case 'GetRunningConfig':
-                this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF-XML', 'RESTCONF', 'CLI', 'REST'];
-                break;
-            default:
-                this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'NETCONF-XML', 'RESTCONF', 'CLI'];
-                this.actionHealthCheck = false;
-        }
+      let existAction = this.tempAllData.findIndex(obj => {
+        return obj.action == action;
+      });
+      if( this.utilityService.getTracelvl() > 0 )
+        console.log( this.classNm+": "+methName+": existAction="+existAction );
+      if( existAction > -1) {
+        let obj = $.extend(true, {}, this.tempAllData[existAction]);
+        this.referenceDataObject = obj;
+        this.referenceDataObject.scope['vnf-type'] = obj['scope']['vnf-type'];
+        this.referenceDataObject.scope['vnfc-type-list'] = obj['scope']['vnfc-type-list'];
+        this.referenceDataObject['device-protocol'] = obj['device-protocol'];
+        this.refernceScopeObj['sourceType'] = obj['scopeType'];
+        if( obj['scope']['vnfc-type-list'] != undefined &&
+            obj['scope']['vnfc-type-list'].length >0)
+        {
+          this.referenceDataObject['vnfcIdentifier']=
+            obj['scope']['vnfc-type-list'][0];
+        };
+      }
+      else {
+        console.log( this.classNm+": populateExistinAction: action not found");
+        this.resetForm();
+        this.referenceDataObject.action = action;
+      }
+      //# iof healthCeck change deviceprotocol drp vaues
+      switch( action) {
+        case 'HealthCheck':
+          this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'REST'];
+          this.actionHealthCheck = true;
+          break;
+        case 'UpgradeBackout':
+        case 'ResumeTraffic':
+        case 'DistributeTraffic':
+        case 'DistributeTrafficCheck':
+        case 'QuiesceTraffic':
+        case 'UpgradeBackup':
+        case 'UpgradePostCheck':
+        case 'UpgradePreCheck':
+        case 'UpgradeSoftware':
+        case 'ConfigRestore':
+        case 'StartApplication':
+        case 'StopApplication':
+        case 'ConfigBackup':
+          this.deviceProtocols = ['', 'CHEF', 'ANSIBLE'];
+          break;
+        case 'GetConfig':
+        case 'LicenseManagement':
+        case 'PostConfigure':
+        case 'PostEvacuate':
+        case 'PostMigrate':
+        case 'PostRebuild':
+        case 'PreConfigCheck':
+        case 'PreConfigure':
+        case 'PreEvacuate':
+        case 'PreMigrate':
+        case 'PreRebuild':
+        case 'ProvisionConfig':
+        case 'ProvisionData':
+        case 'Provisioning':
+        case 'StartTraffic':
+        case 'StatusTraffic':
+        case 'StopTraffic':
+          this.deviceProtocols = ['', 'ANSIBLE'];
+          break;
+        case 'OpenStack Actions':
+          this.deviceProtocols = ['', 'OpenStack'];
+          break;
+        case 'ConfigScaleOut':
+          this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF-XML', 'RESTCONF'];
+          break;
+        case 'GetRunningConfig':
+          this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF-XML', 'RESTCONF', 'CLI', 'REST'];
+          break;
+        default:
+          this.deviceProtocols = ['', 'ANSIBLE', 'CHEF', 'NETCONF-XML', 'RESTCONF', 'CLI'];
+          this.actionHealthCheck = false;
+      };
+      if( this.utilityService.getTracelvl() > 0 )
+        console.log( this.classNm+": "+methName+
+          ": deviceProtocols count="+this.deviceProtocols.length+" finish.");
     }
 
     //Modal pop up for action change with values entered. 

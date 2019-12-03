@@ -1,4 +1,10 @@
 
+Version 2.0.1(ONAP Release)
+==========================================================
+1. Implementing JIRA ticket APPC-1785 - add new LCMs in CDT GUI
+(new actions: LicenseManagement, PreConfigure, GetConfig, PostRebuild, PreRebuild, PreEvacuate, PostEvacuate, PreMigrate, PostMigrate, Provisioning, StartTraffic, StatusTraffic, StopTraffic)
+- which is a sub-task of Story JIRA APPC-1778 - develop new LCMs to support pre/post actions
+
 Version 1.0.0(ONAP Release)
 ==========================================================
 First released version.
