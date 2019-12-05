@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc474ca5_172f1c0a",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-12-05T01:46:42Z",
+      "side": 1,
+      "message": "I do not see \"ConfigScaleOut\" in the list. we should keep the originals and add new actions",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 3
+      },
+      "revId": "1c2d81e527f03905009214a9607aa389f1e27912",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
