@@ -372,8 +372,33 @@ describe('ReferenceDataformComponent', () => {
         expect(component.referenceDataObject.action).toBe("ConfigScaleOut");
 
     });
+    it('configscalein test', () => {
+        service.latestAction = {
+            action: 'ConfigScaleIn',
+            'action-level': 'vnf',
+            scope: {
+                'vnf-type': '',
+                'vnfc-type': ''
+            },
+            'template': 'Y',
+            vm: [],
+            'device-protocol': '',
+            'user-name': '',
+            'port-number': '',
+            'artifact-list': []
+        }
+        service.referenceNameObjects = [
+            {
+                action: "Configure"
+            }, {
+                action: "StartApplication"
+            }
+        ]
+        component.ngOnInit()
+        expect(component.referenceDataObject.action).toBe("ConfigScaleIn");
 
-    it('shoud add vms with template id when the acti0on is configscaleout ', () => {
+    });
+    it('shoud add vms with template id when the action is configscaleout ', () => {
         component.referenceDataObject = {
             action: 'ConfigScaleOut',
             'action-level': 'vnf',
@@ -403,7 +428,37 @@ describe('ReferenceDataformComponent', () => {
         component.addVms()
         expect(component.referenceDataObject.vm.length).toBe(4);
     });
-    it('shoud add vms with template id when the action is not configscaleout', () => {
+    it('shoud add vms with template id when the action is configscalein ', () => {
+        component.referenceDataObject = {
+            action: 'ConfigScaleIn',
+            'action-level': 'vnf',
+            scope: {
+                'vnf-type': '',
+                'vnfc-type-list': ['346']
+            },
+            'template': 'Y',
+            vm: [
+                {
+                    vnfc: [
+                        {
+                            test: "123"
+                        }
+                    ]
+
+                }
+            ],
+            'device-protocol': '',
+            'user-name': '',
+            'port-number': '',
+            'artifact-list': []
+        }
+
+        component.refernceScopeObj.from = "3"
+        // let arr = [1, 2];
+        component.addVms()
+        expect(component.referenceDataObject.vm.length).toBe(4);
+    });
+    it('shoud add vms with template id when the action is not configscaleout or configscalein', () => {
         component.referenceDataObject = {
             action: 'Config',
             'action-level': 'vnf',
@@ -591,6 +646,56 @@ describe('ReferenceDataformComponent', () => {
 
     })
 
+    it("remove templateIds vm if action is configscalein", () => {
+        component.referenceDataObject = {
+            action: 'ConfigScaleIn',
+            'action-level': 'vnf',
+            scope: {
+                'vnf-type': '',
+                'vnfc-type-list': ['346']
+            },
+            'template': 'Y',
+            "vm": [
+                {
+                    "template-id": "klmklj",
+                    "vm-instance": 1,
+                    "vnfc": [
+                        {
+                            "vnfc-instance": "1",
+                            "vnfc-function-code": "klkl",
+                            "ipaddress-v4-oam-vip": "",
+                            "group-notation-type": "",
+                            "group-notation-value": "",
+                            "vnfc-type": "nnk"
+                        }
+                    ]
+                }, {
+                    "template-id": "test 12",
+                    "vm-instance": 2,
+                    "vnfc": [
+                        {
+                            "vnfc-instance": "1",
+                            "vnfc-function-code": "klkl",
+                            "ipaddress-v4-oam-vip": "",
+                            "group-notation-type": "",
+                            "group-notation-value": "",
+                            "vnfc-type": "nnk"
+                        }
+                    ]
+                }
+            ],
+            'device-protocol': '',
+            'user-name': '',
+            'port-number': '',
+            'artifact-list': []
+        };
+
+        component.removeFeature(0, 0, 'test 12')
+
+        //expect(component.referenceDataObject.vm.length).toBe(2)
+
+    })
+
     it("should add capabilities", () => {
         component.uploadedDataArray = [
             ['y', 'n']
@@ -693,9 +798,80 @@ describe('ReferenceDataformComponent', () => {
 
         expect(component.referenceDataObject.vm.length).toBe(2)
     })
+    it("should switch vms if action is configscalein", () => {
+
+        component.currentAction = "ConfigScaleIn"
+        service.latestAction = {
+            action: 'OpenStack Actions',
+            'action-level': 'vnf',
+            scope: {
+                'vnf-type': '',
+                'vnfc-type': ''
+            },
+            'template': 'Y',
+            vm: [],
+            'device-protocol': '',
+            'user-name': '',
+            'port-number': '',
+            'artifact-list': []
+        }
+        service.referenceNameObjects = [
+            {
+                action: "Configure"
+            }, {
+                action: "StartApplication"
+            }
+        ]
+
+        component.tempAllData = [
+            {
+                action: "ConfigScaleIn",
+                vm: [{}, {}]
+            }
+        ]
+
+        component.prepareReferenceObject();
+
+        expect(component.referenceDataObject.vm.length).toBe(2)
+    })
     it("should switch vms if action is configscaleout", () => {
 
         component.currentAction = "ConfigScaleOut"
+        service.latestAction = {
+            action: 'OpenStack Actions',
+            'action-level': 'vnf',
+            scope: {
+                'vnf-type': '',
+                'vnfc-type': ''
+            },
+            'template': 'Y',
+            vm: [],
+            'device-protocol': '',
+            'user-name': '',
+            'port-number': '',
+            'artifact-list': []
+        }
+        service.referenceNameObjects = [
+            {
+                action: "Configure"
+            }, {
+                action: "StartApplication"
+            }
+        ]
+
+        component.tempAllData = [
+            {
+                action: "startAplicaton"
+            }
+        ]
+
+        component.prepareReferenceObject();
+
+        expect(component.referenceDataObject.vm.length).toBe(0)
+    })
+    it("should switch vms if action is configscalein", () => {
+
+        component.currentAction = "ConfigScaleIn"
         service.latestAction = {
             action: 'OpenStack Actions',
             'action-level': 'vnf',
@@ -733,10 +909,20 @@ describe('ReferenceDataformComponent', () => {
         component.toggleIdentifier(data)
         expect(component.isConfigScaleOut).toBe(true);
     });
-    it('shoud show template identifier when action is config scaleout', () => {
+    it('shoud show template identifier when action is configscalein', () => {
+        let data = 'ConfigScaleIn'
+        component.toggleIdentifier(data)
+        expect(component.isConfigScaleIn).toBe(true);
+    });
+    it('shoud show template identifier when action is not configscaleout', () => {
         let data = 'startApplication'
         component.toggleIdentifier(data)
         expect(component.isConfigScaleOut).toBe(false);
+    });
+    it('shoud show template identifier when action is not configscalein', () => {
+        let data = 'startApplication'
+        component.toggleIdentifier(data)
+        expect(component.isConfigScaleIn).toBe(false);
     });
 
     it('Should call get artifact', () => {

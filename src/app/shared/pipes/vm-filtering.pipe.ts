@@ -25,12 +25,12 @@ export class VmFilteringPipe implements PipeTransform {
 
     transform(value: any, action: any, templateId, newVnfc): any {
         let filterValue
-        if(action == 'ConfigScaleOut'){
+        if(action == 'ConfigScaleOut' || action == 'ConfigScaleIn'){
             filterValue= templateId
         } else if(action == 'Configure' || action == 'ConfigModify' || action == 'DistributeTraffic' || action == 'DistributeTrafficCheck'){
             filterValue= newVnfc
         }
-        if (action == 'ConfigScaleOut') {
+        if (action == 'ConfigScaleOut' || action == 'ConfigScaleIn') {
             let x = value.filter(obj => {
                 //return value
                 return obj['template-id'] == filterValue;

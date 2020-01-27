@@ -133,6 +133,7 @@ export class ReferenceDataformComponent implements OnInit {
         , 'ConfigModify'
         , 'ConfigRestore'
         , 'ConfigScaleOut'
+        , 'ConfigScaleIn'
         , 'Configure'
         , 'DistributeTraffic'
         , 'DistributeTrafficCheck'
@@ -206,6 +207,7 @@ export class ReferenceDataformComponent implements OnInit {
     public firstArrayElement = [];
     public remUploadedDataArray = [];
     isConfigScaleOut = false
+    isConfigScaleIn = false
     isConfigOrConfigModify = false
     displayVnfc = 'false';
     isVnfcType: boolean;
@@ -371,6 +373,12 @@ export class ReferenceDataformComponent implements OnInit {
         } else {
             this.isConfigScaleOut = false
         }
+
+        if (data == 'ConfigScaleIn') {
+            this.isConfigScaleIn = true;
+        } else {
+            this.isConfigScaleIn = false;
+        }
     }
 
     //to retrive the data from appc and assign it to the vaiables, if no data display the message reterived from the API
@@ -394,6 +402,9 @@ export class ReferenceDataformComponent implements OnInit {
                     this.referenceDataObject = reference_data;
                     this.toggleIdentifier(this.referenceDataObject.action);
                     if (this.referenceDataObject.action == 'ConfigScaleOut') {
+                        this.groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value', 'existing-group-name'];
+                    }
+                    if (this.referenceDataObject.action == 'ConfigScaleIn') {
                         this.groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value', 'existing-group-name'];
                     }
                     this.highlightSelectedActions(referenceDataAll)
@@ -598,21 +609,21 @@ export class ReferenceDataformComponent implements OnInit {
         let key
         if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
             key = "vnfcType-id"
-        } else if (this.referenceDataObject.action == 'ConfigScaleOut') {
+        } else if (this.referenceDataObject.action == 'ConfigScaleOut' || this.referenceDataObject.action == 'ConfigScaleIn') {
             key = "template-id"
         }
-        if (this.referenceDataObject.action == 'ConfigScaleOut' || this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
+        if (this.referenceDataObject.action == 'ConfigScaleOut' || this.referenceDataObject.action == 'ConfigScaleIn' || this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
             let existingVmsLength = this.referenceDataObject.vm.map(obj => {
                 if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify' || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
                     return obj["vnfcType-id"] == this.templateIdentifier
-                } else if (this.referenceDataObject.action == 'ConfigScaleOut') {
+                } else if (this.referenceDataObject.action == 'ConfigScaleOut' || this.referenceDataObject.action == 'ConfigScaleIn') {
                     return obj["template-id"] == this.templateIdentifier
                 }
             }).length;
             //mberOFVm = existingVmsLength + mberOFVm;
             let index = 0;
             let identifierValue
-            if (this.referenceDataObject.action == 'ConfigScaleOut') {
+            if (this.referenceDataObject.action == 'ConfigScaleOut' || this.referenceDataObject.action == 'ConfigScaleIn') {
                 identifierValue = this.templateIdentifier
             } else if (this.referenceDataObject.action == 'Configure' || this.referenceDataObject.action == 'ConfigModify'  || this.referenceDataObject.action == 'DistributeTraffic' || this.referenceDataObject.action == 'DistributeTrafficCheck') {
                 identifierValue = this.vnfcIdentifier
@@ -627,7 +638,7 @@ export class ReferenceDataformComponent implements OnInit {
                         this.referenceDataObject.vm.push({ 'vm-instance': (existingVmsLength + index + 1), vnfc: [Object.assign({}, this.Sample)] });
                     }
 
-                } else if (this.referenceDataObject.action == 'ConfigScaleOut') {
+                } else if (this.referenceDataObject.action == 'ConfigScaleOut' || this.referenceDataObject.action == 'ConfigScaleIn') {
                     if (identifierValue && identifierValue != "") {
                         this.referenceDataObject.vm.push({ 'template-id': identifierValue, 'vm-instance': (existingVmsLength + index + 1), vnfc: [Object.assign({}, this.Sample)] });
                     }
@@ -641,7 +652,7 @@ export class ReferenceDataformComponent implements OnInit {
             let arrlength = this.referenceDataObject.vm.length;
             mberOFVm = arrlength + mberOFVm;
             for (var i = (arrlength); i < mberOFVm; i++) {
-                if (this.referenceDataObject.action == 'ConfigScaleOut') {
+                if (this.referenceDataObject.action == 'ConfigScaleOut' || this.referenceDataObject.action == 'ConfigScaleIn') {
                     this.referenceDataObject.vm.push({ 'template-id': this.templateIdentifier, 'vm-instance': (i + 1), vnfc: [Object.assign({}, this.Sample)] });
                 } else {
                     this.referenceDataObject.vm.push({ 'vm-instance': (i + 1), vnfc: [Object.assign({}, this.Sample)] });
@@ -1191,6 +1202,9 @@ export class ReferenceDataformComponent implements OnInit {
         case 'ConfigScaleOut':
           this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF-XML', 'RESTCONF'];
           break;
+        case 'ConfigScaleIn':
+            this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF-XML', 'RESTCONF'];
+            break;
         case 'GetRunningConfig':
           this.deviceProtocols = ['', 'CHEF', 'ANSIBLE', 'NETCONF-XML', 'RESTCONF', 'CLI', 'REST'];
           break;
@@ -1272,7 +1286,7 @@ export class ReferenceDataformComponent implements OnInit {
                     }
     
                     // Enable or Block Template and PD Tabs
-                    if (this.currentAction == 'ConfigScaleOut' && this.templateIdentifier && this.templateIdentifier != '') {
+                    if ((this.currentAction == 'ConfigScaleOut' || this.currentAction == 'ConfigScaleIn') && this.templateIdentifier && this.templateIdentifier != '') {
                         // let referenceDataObjectTemp = this.referenceDataObject;
                         // referenceDataObjectTemp['template-id'] = this.templateIdentifier;
                         // this.buildDesignComponent.getRefData(referenceDataObjectTemp);
@@ -1293,7 +1307,7 @@ export class ReferenceDataformComponent implements OnInit {
             this.toggleIdentifier(data);
 
             // Enable or Block Template and PD Tabs
-            if(this.currentAction == 'ConfigScaleOut' && this.templateIdentifier) {
+            if((this.currentAction == 'ConfigScaleOut' || this.currentAction == 'ConfigScaleOut') && this.templateIdentifier) {
                 // let referenceDataObjectTemp = this.referenceDataObject;
                 // referenceDataObjectTemp['template-id'] = this.templateIdentifier;
                 // this.buildDesignComponent.getRefData(referenceDataObjectTemp);
@@ -1310,7 +1324,7 @@ export class ReferenceDataformComponent implements OnInit {
 
     configDrp(data) {
         console.log( this.classNm+": configDrp: start: data:["+data+"]");
-        if (data == 'ConfigScaleOut') {
+        if (data == 'ConfigScaleOut' || data == 'ConfigScaleIn') {
             this.groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value', 'existing-group-name'];
         } else {
             this.groupAnotationType = ['', 'first-vnfc-name', 'fixed-value', 'relative-value'];
@@ -1574,6 +1588,22 @@ export class ReferenceDataformComponent implements OnInit {
         }
     }
 
+    resetVmsForScaleIn(action) {
+        //reset currentform vms based on action
+        if (action == "ConfigScaleIn" || action == "Configure") {
+            let ConfigScaleInIndex = this.tempAllData.findIndex(obj => {
+                return obj['action'] == action
+            });
+            if (ConfigScaleInIndex > -1) {
+                this.referenceDataObject.vm = this.tempAllData[ConfigScaleInIndex].vm
+            } else {
+                if (this.actionChanged) {
+                    this.referenceDataObject.vm = []
+                }
+            }
+        }
+    }
+
     resetParamsOnVnfcType() {
         let scopeName: any;
         let vnfcTypeList = this.referenceDataObject.scope['vnfc-type-list']
@@ -1660,7 +1690,7 @@ export class ReferenceDataformComponent implements OnInit {
             configTemplate = this.referenceDataFormUtil.createConfigTemplate(config_template_fileName);
             pdTemplate = this.referenceDataFormUtil.createPdTemplate(pd_fileName);
             paramValue = this.referenceDataFormUtil.createParamValue(param_fileName);
-            if (this.referenceDataObject.action != 'ConfigScaleOut') {
+            if (this.referenceDataObject.action != 'ConfigScaleOut' && this.referenceDataObject.action != 'ConfigScaleIn') {
 
                 this.referenceDataObject['artifact-list'].push(configTemplate,
                     pdTemplate, paramValue
@@ -1692,21 +1722,22 @@ export class ReferenceDataformComponent implements OnInit {
     // used to remove the added vms for actions other than configure & scaleout
     deleteVmsforNonActions(newObj, action) {
         let configureObject = (action == 'Configure');
-        let ConfigScaleOut = (action == 'ConfigScaleOut');
+        let ConfigScale = (action == 'ConfigScaleOut') || (action == 'ConfigScaleIn');
         //delete VM's if selected action is not configure.
-        if (!ConfigScaleOut && !configureObject && this.tempAllData.length != 0) {
-            if (ConfigScaleOut) {
+        if (!ConfigScale && !configureObject && this.tempAllData.length != 0) {
+            if (ConfigScale) {
             } else {
                 newObj.vm = [];
             }
         } else {
-            if (ConfigScaleOut) {
+            if (ConfigScale) {
             } else {
                 delete newObj['template-id-list'];
             }
         }
         return newObj
     }
+    
     // used to replace the data in tempall obj and form the artifact names
     pushOrReplaceTempData(newObj, action) {
         let configTemplate
@@ -1737,7 +1768,7 @@ export class ReferenceDataformComponent implements OnInit {
                 pd_artifact: pdTemplate['pd_artifact'],
                 template_artifact: configTemplate['template_artifact']
             });
-        } else if (newObj.action == "ConfigScaleOut") {
+        } else if (newObj.action == "ConfigScaleOut" || newObj.action == "ConfigScaleIn") {
             let extension = this.referenceDataFormUtil.decideExtension(newObj);
             let pd_fileName = this.referenceDataObject.action + '_' + newObj.scope['vnf-type'].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '_0.0.1V' + '_' + (this.templateIdentifier ? (this.templateIdentifier.replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '')) : "") + ".yaml";
             let config_template_fileName = this.referenceDataObject.action + '_' + newObj.scope['vnf-type'].replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '_' + '0.0.1V_' + (this.templateIdentifier ? (this.templateIdentifier.replace(/ /g, '').replace(new RegExp('/', 'g'), '_').replace(/ /g, '') + '') : "") + extension;
@@ -1782,7 +1813,7 @@ export class ReferenceDataformComponent implements OnInit {
         if (actionObjIndex > -1) {
             this.tempAllData[actionObjIndex] = newObj;
             this.mappingEditorService.saveLatestAction(this.tempAllData[actionObjIndex]);
-            if (newObj.action == "ConfigScaleOut") {
+            if (newObj.action == "ConfigScaleOut" || newObj.action == "ConfigScaleIn") {
                 this.mappingEditorService.saveLatestIdentifier(this.templateIdentifier);
             }
             else {
@@ -1795,7 +1826,7 @@ export class ReferenceDataformComponent implements OnInit {
                 this.tempAllData.push(newObj);
                 this.mappingEditorService.saveLatestAction(newObj);
 
-                if (newObj.action == "ConfigScaleOut") {
+                if (newObj.action == "ConfigScaleOut" || newObj.action == "ConfigScaleIn") {
                     this.mappingEditorService.saveLatestIdentifier(this.templateIdentifier);
                 }
                 else {
@@ -1810,7 +1841,7 @@ export class ReferenceDataformComponent implements OnInit {
         newObj = JSON.parse(JSON.stringify(newObj))
         delete newObj['template-id']
         delete newObj['vnfcIdentifier']
-        if (newObj.action != "ConfigScaleOut") {
+        if (newObj.action != "ConfigScaleOut" && newObj.action != "ConfigScaleIn") {
             delete newObj['template-id-list']
         }
         if (newObj.action != 'HealthCheck') {
@@ -1933,7 +1964,9 @@ export class ReferenceDataformComponent implements OnInit {
             return;
         }
 
-        if (referenceDataObject.action === 'ConfigScaleOut' && !this.templateIdentifier) {
+        if ((referenceDataObject.action === 'ConfigScaleOut' 
+        || referenceDataObject.action === 'ConfigScaleIn') 
+        && !this.templateIdentifier) {
             this.nService.error('Error', 'Select a valid Template Identifier');
         }
 
@@ -1990,6 +2023,7 @@ export class ReferenceDataformComponent implements OnInit {
     handleVMBlockDisplay() {
         switch (this.referenceDataObject.action) {
             case this.actionList.ConfigScaleOut:
+            case this.actionList.ConfigScaleIn:
             case this.actionList.Configure:
             case undefined:
             case '':
