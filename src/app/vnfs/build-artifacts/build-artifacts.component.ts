@@ -28,7 +28,7 @@ import * as _ from 'underscore';
 import { NotificationsService } from 'angular2-notifications';
 import { appConstants } from '../../../constants/app-constants';
 
-export const ACTIONS_REQUIRED_DROPDOWN = ['Configure', 'ConfigModify', 'ConfigScaleOut', 'DistributeTraffic', 'DistributeTrafficCheck']
+export const ACTIONS_REQUIRED_DROPDOWN = ['Configure', 'ConfigModify', 'ConfigScaleOut', 'DistributeTraffic', 'DistributeTrafficCheck', 'ConfigScaleIn']
 
 
 @Component({ selector: 'app-build-design', templateUrl: './build-artifacts.component.html', styleUrls: ['./build-artifacts.component.css'] })
@@ -80,7 +80,7 @@ export class BuildDesignComponent implements OnInit {
                 // if (referenceList.hasOwnProperty('template-id') && referenceList['template-id'] !== undefined && referenceList['template-id'] != '')
                 //     this.refDataRequiredFiels = true;
                 // else this.refDataRequiredFiels = false;
-                if(referenceList.action == 'ConfigScaleOut') {
+                if(referenceList.action == 'ConfigScaleOut' || referenceList.action == 'ConfigScaleIn') {
                     if(reqObj != undefined && reqObj.hasOwnProperty('reqField') && reqObj.reqField != '') this.refDataRequiredFiels = true;
                     else this.refDataRequiredFiels = false;
                 }
@@ -112,7 +112,7 @@ export class BuildDesignComponent implements OnInit {
         else if (this.refList['device-protocol'] == appConstants.DeviceProtocols.blank) {
             this.notificationsService.error(appConstants.errors.error, appConstants.errors.noDeviceProtocolError);
         }
-        else if (this.refList.action === appConstants.Actions.configScaleOut) {
+        else if (this.refList.action === appConstants.Actions.configScaleOut || this.refList.action === appConstants.Actions.configScaleIn) {
             this.notificationsService.error(appConstants.errors.error, appConstants.errors.noValidTemplateIdentifierError);
         }
     }

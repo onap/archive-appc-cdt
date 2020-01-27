@@ -67,7 +67,7 @@ limitations under the License.
                     </select>
 
                 </div>
-                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="isConfigScaleOut">
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="(isConfigScaleOut || isConfigScaleIn)">
                     <label>Template Identifier</label>
                     <select class="form-control" required id="tempIdentifier" (ngModelChange)="dataModified();idChange($event,userForm)" [(ngModel)]="templateIdentifier" #deviceProtocol="ngModel" name="templateIdentifier">
                         <option [value]="val" *ngFor="let val of referenceDataObject['template-id-list']">{{val}}
@@ -76,8 +76,8 @@ limitations under the License.
                     <!-- <span class="error-message" [hidden]="deviceProtocol.valid || (deviceProtocol.pristine && !userForm.submitted)">Required Field</span> -->
                 </div>
 
-                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="referenceDataObject['action']== 'ConfigScaleOut'" style="margin-top: 30px">
-                    <span *ngIf="referenceDataObject.action === 'ConfigScaleOut'">   <a style="    color: blue;"
+                <div class="col-lg-3 col-sm-6 col-md-3 col-xs-12" *ngIf="(referenceDataObject['action']== 'ConfigScaleOut' || referenceDataObject['action']== 'ConfigScaleIn')" style="margin-top: 30px">
+                    <span *ngIf="(referenceDataObject.action === 'ConfigScaleOut' || referenceDataObject.action === 'ConfigScaleIn')">   <a style="    color: blue;"
                     href="javascript:void(0)"
                     (click)="identifierModal.open()">Assign New Template Identifier</a></span>
 
@@ -142,7 +142,7 @@ limitations under the License.
                                 </div>
                             </div>
                             <br/>
-                            <div class="card-block" *ngIf="(referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action ==''  || referenceDataObject.action ==undefined)" style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
+                            <div class="card-block" *ngIf="(referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='ConfigScaleIn' || referenceDataObject.action =='Configure'|| referenceDataObject.action ==''  || referenceDataObject.action ==undefined)" style="border-top: 5px solid #6ab344;border-top-right-radius: 7px;border-top-left-radius: 7px;">
                                 <div class="col-12">
                                     <h5 style="margin-top: 0.5rem;font-family: Roboto"> VNFC Information
                                         <span class="pull-right">
@@ -153,7 +153,7 @@ limitations under the License.
                                     </h5>
                                 </div>
                             </div>
-                            <div class="row" *ngIf="(( referenceDataObject.action =='ConfigScaleOut' ||referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ) && isCollapsedContent) ">
+                            <div class="row" *ngIf="(( referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='ConfigScaleIn' ||referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ) && isCollapsedContent) ">
                                 <div class="col-lg-2 col-sm-6 col-md-2 col-xs-12">
                                     <label style="font-size:12px;">VNFC Type (NFC Function)</label>
                                     <input type="text" class="form-control" id="txtVnfcTypeInColl" [(ngModel)]="Sample['vnfc-type']" (blur)="checkVnfcTypeEqual(vnfcType.value)" #vnfcType="ngModel" name="samplevnfcType">
@@ -185,7 +185,7 @@ limitations under the License.
                                 </div>
                             </div>
                             <hr>
-                            <div *ngIf="(referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' )" class="row">
+                            <div *ngIf="(referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='ConfigScaleIn' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' )" class="row">
                                 <div class="col-lg-2 col-md-2 hdden-sm-down">
                                     <label style="margin-top: 17px;" class="headlinesInBold"> Number Of VM(s): </label>
 
@@ -204,7 +204,7 @@ limitations under the License.
                             </div>
                             <div *ngIf="referenceDataObject.vm?.length>0">
                                 <div class="row" *ngFor="let noOfvm of referenceDataObject.vm  | vmFiltering:referenceDataObject?.action:templateIdentifier:vnfcIdentifier; trackBy:trackByFn;let j=index">
-                                   <div *ngIf="((referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ))" class="col-12">
+                                   <div *ngIf="((referenceDataObject.action =='ConfigScaleOut' || referenceDataObject.action =='ConfigScaleIn' || referenceDataObject.action =='Configure'|| referenceDataObject.action =='' || referenceDataObject.action ==undefined ))" class="col-12">
                                         <div class="row" *ngFor="let item of noOfvm.vnfc;trackBy:trackByFn, let i=index">
                                             <div class="col-md-12" *ngIf="i==0">
                                                 <h5 class="headlinesInBold">VM Number: {{j+1}}</h5>

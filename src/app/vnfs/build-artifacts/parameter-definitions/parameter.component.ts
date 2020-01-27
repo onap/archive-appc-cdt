@@ -142,7 +142,7 @@ export class ParameterComponent implements OnInit {
                 console.log( this.clName+": "+methName+": have vnfcType:["+
                   this.vnfcType+"]");
             }
-            if( this.action === 'ConfigScaleOut'){
+            if( this.action === 'ConfigScaleOut' || this.action === 'ConfigScaleIn'){
                 // this.template_id = this.selectedActionReference.templateId;
                 this.template_id = this.mappingEditorService.identifier;
             }
