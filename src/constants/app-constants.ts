@@ -71,7 +71,8 @@ export const appConstants = {
         "upgradePreCheck": "UpgradePreCheck",
         "upgradeSoftware": "UpgradeSoftware",
         "openStackActions": "OpenStack Actions",
-        "configScaleOut": "ConfigScaleOut"
+        "configScaleOut": "ConfigScaleOut",
+        "configScaleIn": "ConfigScaleIn"
     },
     "DeviceProtocols": {
         "blank": '',

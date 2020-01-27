@@ -6,8 +6,10 @@
     },
     "username": "admin",
     "password": "admin",
+    "displayConfigScalein": true,
     "Actions": {
         "ConfigScaleOut": "ConfigScaleOut",
+        "ConfigScaleIn": "ConfigScaleIn",
         "Configure": "Configure"
     },
     "versionNoForApiCall": "0.0.1"

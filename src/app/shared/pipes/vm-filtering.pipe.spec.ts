@@ -38,6 +38,16 @@ describe('VmFilteringPipe', () => {
         expect(pipe.transform(objArray,"ConfigScaleOut",1, {})[0].type,).toBe("conScale")
 
     });
+    it('should return configscalein values if template id matches',()=>{
+        const pipe = new VmFilteringPipe();
+
+        let objArray = [
+            {action:"Configure","template-id":2,"type":"con"},
+            {action:"ConfigScaleIn","template-id":1,"type":"conScale"}
+        ]
+        expect(pipe.transform(objArray,"ConfigScaleIn",1, {})[0].type,).toBe("conScale")
+
+    });
     it('should return configure calues',()=>{
         const pipe = new VmFilteringPipe();
 
