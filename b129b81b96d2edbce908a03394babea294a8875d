@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51e94b59_6d42a883",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 6307
+      },
+      "writtenOn": "2020-01-28T03:10:56Z",
+      "side": 1,
+      "message": "seems configScaleOutExist deleted, please make sure configScaleInExist is needed",
+      "range": {
+        "startLine": 212,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 31
+      },
+      "revId": "b129b81b96d2edbce908a03394babea294a8875d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "100dc29b_ea56b93d",
+        "filename": "src/cdt.application.properties.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6307
+      },
+      "writtenOn": "2020-01-28T03:10:56Z",
+      "side": 1,
+      "message": "seems displayConfigScaleout already deleted, please make sure displayConfigScalein is needed",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "b129b81b96d2edbce908a03394babea294a8875d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
