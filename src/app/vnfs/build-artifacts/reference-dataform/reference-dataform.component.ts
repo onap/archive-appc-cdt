@@ -164,6 +164,8 @@ export class ReferenceDataformComponent implements OnInit {
         , 'UpgradePostCheck'
         , 'UpgradePreCheck'
         , 'UpgradeSoftware'
+        , 'DownloadNESw'
+        , 'ActivateNESw'
         , 'OpenStack Actions'
         ]; //.. manual ordering
     public groupAnotationValue = ['', 'Pair'];
@@ -1160,6 +1162,8 @@ export class ReferenceDataformComponent implements OnInit {
         case 'UpgradePostCheck':
         case 'UpgradePreCheck':
         case 'UpgradeSoftware':
+        case 'DownloadNESw':
+        case 'ActivateNESw':
         case 'ConfigRestore':
         case 'StartApplication':
         case 'StopApplication':
