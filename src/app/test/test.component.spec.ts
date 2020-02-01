@@ -434,6 +434,8 @@ fdescribe( 'TestComponent', () => {
             expect(component.getUrlEndPoint('upgradepostcheck')).toEqual('upgradepostcheck');
             expect(component.getUrlEndPoint('upgradeprecheck')).toEqual('upgradeprecheck');
             expect(component.getUrlEndPoint('upgradesoftware')).toEqual('upgradesoftware');
+            expect(component.getUrlEndPoint('downloadnesw')).toEqual('downloadnesw');
+            expect(component.getUrlEndPoint('activatenesw')).toEqual('activatenesw');
             expect(component.getUrlEndPoint('DeFaultCASE')).toEqual('de-fault-c-a-s-e');
             expect(component.getUrlEndPoint('upgradebackup')).toEqual('upgradebackup');
             expect(component.getUrlEndPoint('attachvolume')).toEqual('attachvolume');

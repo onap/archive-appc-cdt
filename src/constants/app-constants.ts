@@ -70,6 +70,8 @@ export const appConstants = {
         "upgradePostCheck": "UpgradePostCheck",
         "upgradePreCheck": "UpgradePreCheck",
         "upgradeSoftware": "UpgradeSoftware",
+        "downloadNESw": "DownloadNESw",
+        "activateNESw": "ActivateNESw",
         "openStackActions": "OpenStack Actions",
         "configScaleOut": "ConfigScaleOut",
         "configScaleIn": "ConfigScaleIn"
