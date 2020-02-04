@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f6700f9_b20de3a0",
+        "filename": "src/app/vnfs/build-artifacts/reference-dataform/reference-dataform.component.spec.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2020-02-04T23:35:23Z",
+      "side": 1,
+      "message": "I think this has an extra letter in it",
+      "range": {
+        "startLine": 649,
+        "startChar": 43,
+        "endLine": 649,
+        "endChar": 57
+      },
+      "revId": "daf44c9b31fe5e5001e22732c1cee099999723de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
