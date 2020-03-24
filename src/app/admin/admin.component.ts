@@ -70,8 +70,8 @@ export class AdminComponent implements OnInit {
     }
 
     ngOnInit() {
-        const apiToken = localStorage['apiToken'];
-        this.currentUser = localStorage['userId'];
+        const apiToken = sessionStorage['apiToken'];
+        this.currentUser = sessionStorage['userId'];
 
         if(this.paramShareService.ansibleServerData) {
             this.ansibleServerData = this.paramShareService.ansibleServerData;
@@ -92,14 +92,14 @@ export class AdminComponent implements OnInit {
          const input = {
             "input":{
                 "design-request":{
-                    "request-id":localStorage['apiToken'],
+                    "request-id":sessionStorage['apiToken'],
                     "action":"getArtifact",
                     "payload":"{\"vnf-type\":\"NULL\",\"vnfc-type\":\"NULL\",\"protocol\":\"\",\"incart\":\"N\",\"action\":\"NULL\",\"artifact-name\":\""+this.fileName+"\",\"artifact-type\":\"APPC-CONFIG\",\"userID\":\"admin\"}"
                 }
             }
         };
         //const x = JSON.parse(data.input['design-request']['payload']);
-        //x.userID = localStorage['userId'];
+        //x.userID = sessionStorage['userId'];
         //data.input['design-request']['payload'] = JSON.stringify(x);
          console.log("input to payload====", JSON.stringify(input));
 
@@ -215,7 +215,7 @@ export class AdminComponent implements OnInit {
         let input = {
                 "input": {
                     "design-request": {
-                        "request-id": localStorage['apiToken'],
+                        "request-id": sessionStorage['apiToken'],
                         "action": "uploadAdminArtifact",
                         "payload": "{\"userID\": \"admin\",\"vnf-type\" : \"NULL \",\"action\" : \"NULL\",\"artifact-name\" : \""+this.fileName+"\",\"artifact-type\" : \"APPC-CONFIG\",\"artifact-version\" : \"0.1\",\"artifact-contents\":\""+artifactContent+"\"}",
                     }

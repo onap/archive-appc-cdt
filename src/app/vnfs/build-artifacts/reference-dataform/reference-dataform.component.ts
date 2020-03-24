@@ -939,7 +939,7 @@ export class ReferenceDataformComponent implements OnInit {
 
         let payload = this.utilityService.createPayLoadForSave("reference_data", dataJson['scope']['vnf-type'], "AllAction", fileName, this.versionNoForApiCall, slashedPayload);
         this.ngProgress.start();
-        this.httpUtils.post({
+        this.httpUtils.postWithAuth({
             url: environment.getDesigns,
             data: payload
         }).subscribe((resp) => {
