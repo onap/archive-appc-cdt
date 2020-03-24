@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
 
 Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
@@ -36,7 +36,7 @@ export class NavigationComponent implements OnInit {
     //@ViewChild(GoldenConfigurationComponent) goldenConfig: GoldenConfigurationComponent;
     @Input() id: string;
     userLoggedIn = false;
-    userId: string = localStorage['userId'];
+    userId: string = sessionStorage['userId'];
     subscription: Subscription;
 
     constructor(private router: Router) {
@@ -49,7 +49,7 @@ export class NavigationComponent implements OnInit {
                 if (value != null && value != '' && value != undefined && value != 'undefined') {
                     this.userId = value;
                     this.userLoggedIn = true;
-                    localStorage['userId'] = this.userId;
+                    sessionStorage['userId'] = this.userId;
                 } else {
                     this.logout();
                 }
@@ -58,7 +58,7 @@ export class NavigationComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userId = localStorage['userId'];
+        this.userId = sessionStorage['userId'];
         if (this.userId != undefined && this.userId != '') {
             this.userLoggedIn = true;
         }
@@ -99,7 +99,7 @@ export class NavigationComponent implements OnInit {
     gotoDetail(url) {
 
         if (url == 'vnfs') {
-            if (localStorage['userId'] != undefined && localStorage['userId'] != '' && localStorage['userId'] != null) {
+            if (sessionStorage['userId'] != undefined && sessionStorage['userId'] != '' && sessionStorage['userId'] != null) {
                 this.router.navigate(['/vnfs/list']);
             } else {
                 this.router.navigate(url);

@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -939,7 +939,7 @@ export class ReferenceDataformComponent implements OnInit {
 
         let payload = this.utilityService.createPayLoadForSave("reference_data", dataJson['scope']['vnf-type'], "AllAction", fileName, this.versionNoForApiCall, slashedPayload);
         this.ngProgress.start();
-        this.httpUtils.post({
+        this.httpUtils.postWithAuth({
             url: environment.getDesigns,
             data: payload
         }).subscribe((resp) => {

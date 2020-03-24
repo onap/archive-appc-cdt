@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
 
 Copyright (C) 2018 IBM.
 ===================================================================
@@ -63,8 +63,8 @@ export class ParameterDefinitionService {
     public myKeyFileName = null;
     public myPdFileName = null;
     private selectedActionReference: any;
-    private apiToken = localStorage['apiToken'];
-    private userId = localStorage['userId'];
+    private apiToken = sessionStorage['apiToken'];
+    private userId = sessionStorage['userId'];
     public versionNoForApiCall=require('../../../../cdt.application.properties.json').versionNoForApiCall;
 
     constructor(private mappingEditorService: MappingEditorService,

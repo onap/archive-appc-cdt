@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -91,7 +91,7 @@ describe('NavigationComponent', () => {
 
     it('should go to /vnfs/list if url = vnfs and userId is not null or undefined', inject([Router],(router: Router) => {
         let navigateSpy = spyOn(router, 'navigate');
-        localStorage['userId'] = 'testingId';
+        sessionStorage['userId'] = 'testingId';
         let testUrl = 'vnfs';
 
         component.gotoDetail(testUrl);
@@ -99,7 +99,7 @@ describe('NavigationComponent', () => {
 
     it('should go to /vnfs if url = vnfs and userId is null or undefined', inject([Router],(router: Router) => {
         let navigateSpy = spyOn(router, 'navigate');
-        localStorage['userId'] = '';
+        sessionStorage['userId'] = '';
         let testUrl = 'vnfs';
 
         component.gotoDetail(testUrl);

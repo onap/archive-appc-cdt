@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -75,7 +75,7 @@ export class GoldenConfigurationComponent implements OnInit {
   enableBrowse: boolean = true;
   enableMerge: boolean = false;
   uploadValidationSuccess: boolean = false;
-  apiToken = localStorage['apiToken'];
+  apiToken = sessionStorage['apiToken'];
   public appDataObject: any;
   public downloadDataObject: any;
   public checkNameEntered: boolean = true;
@@ -130,7 +130,7 @@ export class GoldenConfigurationComponent implements OnInit {
   public fileType: any = '';
   public actionType: any;
   public myfileName: any;
-  userId = localStorage['userId'];
+  userId = sessionStorage['userId'];
   public artifactRequest: ArtifactRequest = new ArtifactRequest();
   public showUploadStatus: boolean = false;
   public uploadStatus: boolean = false;
