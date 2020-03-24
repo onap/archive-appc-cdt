@@ -64,7 +64,7 @@ describe('userloginFormComponent', () => {
         fixture = TestBed.createComponent(userloginFormComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-        // localStorage['userId'] = "testUser"
+        // sessionStorage['userId'] = "testUser"
         component.userId = 'test Usr';
     });
 
@@ -99,7 +99,7 @@ describe('userloginFormComponent', () => {
         expect(url.length).toBe(5);
         expect(url[0]).toEqual('/');
         expect(url[1]).toEqual('h');
-        expect(localStorage['userId']).toBe('test Usr');
+        expect(sessionStorage['userId']).toBe('test Usr');
     }));
 
     it('test validateUserName function', () => {

@@ -23,19 +23,24 @@ import {Component, OnInit} from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import {EmitterService} from '../../shared/services/emitter.service';
+import { environment } from '../../../environments/environment';
+import { HttpUtilService } from '../../shared/services/httpUtil/http-util.service';
 import {Router} from '@angular/router';
+import { NgProgress } from 'ngx-progressbar';
 import {UtilityService} from '../../shared/services/utilityService/utility.service';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Component({selector: 'app-mvnfs-form', templateUrl: './userlogin-form.component.html', styleUrls: ['./userlogin-form.component.css']})
 export class userloginFormComponent implements OnInit {
 
     userId: string = '';
+    password: string = '';
     returnUrl:string
     invalid = true;
     errorMessage = '';
 
-    constructor(private router: Router, private utiltiy: UtilityService, private route: ActivatedRoute
-        ) {
+    constructor(private router: Router, private utiltiy: UtilityService, private route: ActivatedRoute,
+    		private http: Http, private ngProgress: NgProgress) {
     }
 
     ngOnInit() {
@@ -44,12 +49,57 @@ export class userloginFormComponent implements OnInit {
 
 
     getData() {
-        localStorage['userId'] = this.userId;
-        localStorage['apiToken'] = this.utiltiy.randomId();
-        EmitterService
-            .get('userLogin')
-            .emit(this.userId);
-       this.router.navigateByUrl(this.returnUrl);
+    	this.ngProgress.start();
+    	var getHeader = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+    	var authStr = btoa(this.userId + ':' + this.password);
+    	const options = {
+    			headers: new Headers({
+    				'Content-Type': 'application/json',
+    				'Authorization': 'Basic ' + authStr
+    			}),
+    			observe: 'response'
+    	};
+    	const data = {
+                'input': {
+                    'design-request': {
+                        'request-id': '1',
+                        'action': 'getDesigns',
+                        'payload': '{"userID": "","filter":"reference"}'
+                    }
+                }
+            };
+            const x = JSON.parse(data.input['design-request']['payload']);
+            x.userID = this.userId;
+            data.input['design-request']['payload'] = JSON.stringify(x);
+    	console.log("auth " + btoa(this.userId + ':' + this.password));
+    	this.http.post(environment.getDesigns,data,options).subscribe(resp => {
+        		console.log("status " + resp.status);
+        		if(resp.status == 200){
+        			console.log('logged in');
+        			sessionStorage['userId'] = this.userId;
+        	        sessionStorage['apiToken'] = this.utiltiy.randomId();
+        	        sessionStorage['auth'] = authStr;
+        	        EmitterService
+        	            .get('userLogin')
+        	            .emit(this.userId);
+        			this.router.navigateByUrl(this.returnUrl);
+        		} else {
+        			console.log("Invalid user or password");
+            		this.invalid = true;
+            		this.errorMessage = 'Invalid user or password';
+        		}
+        	}, error => {
+        		console.log(error);
+        		if(error.status == 401){
+        			this.invalid = true;
+            		this.errorMessage = 'Invalid user or password';
+        		} else {
+        			this.invalid = true;
+            		this.errorMessage = 'Unknown error. Check appc connection.';
+        		}
+        	});
+    	console.log("After");
+        
     }
 
     validateUserName(){

@@ -78,7 +78,7 @@ export class AnsibleServerComponent implements OnInit {
     }
 
 ngOnInit() {
-    this.currentUser = localStorage['userId'];
+    this.currentUser = sessionStorage['userId'];
     this.item = JSON.parse(sessionStorage.getItem("ansibleserver"));
     this.updateIndex = parseInt(sessionStorage.getItem("updateIndex"));
     console.log("index===>"+this.updateIndex);

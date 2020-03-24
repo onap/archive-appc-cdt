@@ -102,7 +102,7 @@ export class TestComponent implements OnInit {
     public pollCounter = 0;
     public enableCounterDiv: boolean = false;
     public enableDownload: boolean = false;
-    private userId = localStorage['userId'];
+    private userId = sessionStorage['userId'];
     timeStampInt: number;
     AppcTimeStampInt: number;
     AppcTimeDiff: number;
@@ -395,7 +395,7 @@ export class TestComponent implements OnInit {
         this.ngProgress.start();
         this.apiRequest = JSON.stringify(this.constructRequest());
 
-        this.httpUtil.post(
+        this.httpUtil.postWithAuth(
             {
                 url: environment.testVnf + "?urlAction=" + this.getUrlEndPoint(this.action),
                 data: this.apiRequest
@@ -440,7 +440,7 @@ export class TestComponent implements OnInit {
                 }
             };
             console.log('getAppcTimestamp: sending httpUtil.post...');
-            this.httpUtil.post(
+            this.httpUtil.postWithAuth(
                 {
                     url: environment.getDesigns, data: data
                 })
@@ -536,7 +536,7 @@ export class TestComponent implements OnInit {
                     'payload': '{"request-id":' + this.requestId + '}'
                 }
             };
-            this.httpUtil.post(
+            this.httpUtil.postWithAuth(
                 {
                     url: environment.checkTestStatus, data: data
 

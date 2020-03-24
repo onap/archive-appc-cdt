@@ -54,5 +54,28 @@ export class HttpUtilService {
             .post(req.url, req.data, this.options)
             .map((res: Response) => res.json())
     }
+    
+    postWithAuth(req) {
+    	var authString = sessionStorage['auth'];
+    	if(authString === undefined || authString === null || authString.length === 0){
+    		this.options = new RequestOptions({
+				headers: new Headers({
+					'Content-Type': 'application/json'
+				})
+			});
+    	} else {
+    		this.options = new RequestOptions({
+				headers: new Headers({
+					'Content-Type': 'application/json',
+					'Authorization': 'Basic ' + authString
+				})
+			});
+    	}
+		
+		return this
+        .http
+        .post(req.url, req.data, this.options)
+        .map((res: Response) => res.json())
+    }
 
 }
