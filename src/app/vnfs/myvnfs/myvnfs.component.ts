@@ -63,7 +63,7 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
 
         sessionStorage.setItem('updateParams', undefined);
         this.mappingEditorService.latestAction = undefined;
-        const apiToken = localStorage['apiToken'];
+        const apiToken = sessionStorage['apiToken'];
 
         const data = {
             'input': {
@@ -75,7 +75,7 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
             }
         };
         const x = JSON.parse(data.input['design-request']['payload']);
-        x.userID = localStorage['userId'];
+        x.userID = sessionStorage['userId'];
         data.input['design-request']['payload'] = JSON.stringify(x);
         // console.log("input to payload====", JSON.stringify(data));
         this.getArtifacts(data);
@@ -89,7 +89,7 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
     getArtifacts(data) {
         let tempObj: any;
         this.ngProgress.start();
-        this.httpUtil.post({
+        this.httpUtil.postWithAuth({
             url: environment.getDesigns,
             data: data
         })

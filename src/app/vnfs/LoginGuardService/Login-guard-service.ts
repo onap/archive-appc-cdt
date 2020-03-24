@@ -35,7 +35,7 @@ export class LoginGuardService implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-        let userId = localStorage['userId'];
+        let userId = sessionStorage['userId'];
         if (userId != null && userId != undefined && userId != '') {
             return true;
         } else {

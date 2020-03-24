@@ -75,7 +75,7 @@ export class GoldenConfigurationComponent implements OnInit {
   enableBrowse: boolean = true;
   enableMerge: boolean = false;
   uploadValidationSuccess: boolean = false;
-  apiToken = localStorage['apiToken'];
+  apiToken = sessionStorage['apiToken'];
   public appDataObject: any;
   public downloadDataObject: any;
   public checkNameEntered: boolean = true;
@@ -130,7 +130,7 @@ export class GoldenConfigurationComponent implements OnInit {
   public fileType: any = '';
   public actionType: any;
   public myfileName: any;
-  userId = localStorage['userId'];
+  userId = sessionStorage['userId'];
   public artifactRequest: ArtifactRequest = new ArtifactRequest();
   public showUploadStatus: boolean = false;
   public uploadStatus: boolean = false;

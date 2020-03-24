@@ -72,8 +72,8 @@ export class ParameterComponent implements OnInit {
     public confirmation: boolean;
     public showConfirmation: boolean;
     public test: boolean;
-    apiToken = localStorage['apiToken'];
-    userId = localStorage['userId'];
+    apiToken = sessionStorage['apiToken'];
+    userId = sessionStorage['userId'];
     public initialData: any;
     public intialData: any;
     public initialAction: any;

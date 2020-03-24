@@ -51,14 +51,14 @@ describe('LogginGuard', () => {
     });
 
     it('be able to hit route when user is logged in', inject([LoginGuardService], (service: LoginGuardService) => {
-        localStorage['userId'] = 'abc@xyz.com';
+        sessionStorage['userId'] = 'abc@xyz.com';
         let route : ActivatedRouteSnapshot;
         let state: RouterStateSnapshot;
         expect(service.canActivate(route, state)).toBe(true);
     }));
 
     it('be able to navigate to login page when user is not logged in', inject([LoginGuardService], (service: LoginGuardService) => {
-        localStorage['userId'] = '';
+        sessionStorage['userId'] = '';
         let route : ActivatedRouteSnapshot;
         let mockSnapshot:any = jasmine.createSpyObj<RouterStateSnapshot>("RouterStateSnapshot", ['toString']);
         expect(service.canActivate(route, mockSnapshot)).toBe(false);

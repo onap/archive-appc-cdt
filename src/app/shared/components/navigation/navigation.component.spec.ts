@@ -91,7 +91,7 @@ describe('NavigationComponent', () => {
 
     it('should go to /vnfs/list if url = vnfs and userId is not null or undefined', inject([Router],(router: Router) => {
         let navigateSpy = spyOn(router, 'navigate');
-        localStorage['userId'] = 'testingId';
+        sessionStorage['userId'] = 'testingId';
         let testUrl = 'vnfs';
 
         component.gotoDetail(testUrl);
@@ -99,7 +99,7 @@ describe('NavigationComponent', () => {
 
     it('should go to /vnfs if url = vnfs and userId is null or undefined', inject([Router],(router: Router) => {
         let navigateSpy = spyOn(router, 'navigate');
-        localStorage['userId'] = '';
+        sessionStorage['userId'] = '';
         let testUrl = 'vnfs';
 
         component.gotoDetail(testUrl);

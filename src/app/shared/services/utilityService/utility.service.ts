@@ -131,8 +131,8 @@ export class UtilityService {
 
     public createPayLoadForSave(artifactType,vnfType,action,fileName, versionNo, artifactContent)
     {
-        let userId=localStorage['userId'];
-        let apiToken=localStorage['apiToken']
+        let userId=sessionStorage['userId'];
+        let apiToken=sessionStorage['apiToken']
         let newPayload:any;
         switch(artifactType)
         {
@@ -187,14 +187,14 @@ export class UtilityService {
         let payload:any;
         if(isReference) {
             payload=JSON.parse(sessionStorage.getItem('updateParams'));
-            payload['userID'] = localStorage['userId'];
+            payload['userID'] = sessionStorage['userId'];
             payload = JSON.stringify(payload);
         }
-        else payload = '{"userID": "' + localStorage['userId'] + '","action": "' + action + '", "vnf-type" : "' + vnfType + '", "artifact-type":"APPC-CONFIG", "artifact-name":"' + fileName + '"}';
+        else payload = '{"userID": "' + sessionStorage['userId'] + '","action": "' + action + '", "vnf-type" : "' + vnfType + '", "artifact-type":"APPC-CONFIG", "artifact-name":"' + fileName + '"}';
         let data = {
                 'input': {
                     'design-request': {
-                        'request-id': localStorage['apiToken'],
+                        'request-id': sessionStorage['apiToken'],
                         'action': 'getArtifact',
                         'payload': payload
                     }

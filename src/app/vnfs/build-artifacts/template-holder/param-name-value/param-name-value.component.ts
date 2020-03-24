@@ -77,8 +77,8 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
     action: any = '';
     artifactName: any = '';
     enableMerge: boolean = false;
-    apiToken = localStorage['apiToken'];
-    userId = localStorage['userId'];
+    apiToken = sessionStorage['apiToken'];
+    userId = sessionStorage['userId'];
     identifier: any;
 
     public uploadTypes = [
