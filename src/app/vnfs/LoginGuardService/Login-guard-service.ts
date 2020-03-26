@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 
 Copyright (C) 2018 IBM.
 ===================================================================
@@ -35,7 +35,7 @@ export class LoginGuardService implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-        let userId = sessionStorage['userId'];
+        let userId = localStorage['userId'];
         if (userId != null && userId != undefined && userId != '') {
             return true;
         } else {

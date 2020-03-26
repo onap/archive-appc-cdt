@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -53,29 +53,6 @@ export class HttpUtilService {
             .http
             .post(req.url, req.data, this.options)
             .map((res: Response) => res.json())
-    }
-    
-    postWithAuth(req) {
-        var authString = sessionStorage['auth'];
-        if(authString === undefined || authString === null || authString.length === 0){
-            this.options = new RequestOptions({
-                headers: new Headers({
-                    'Content-Type': 'application/json'
-                })
-            });
-        } else {
-            this.options = new RequestOptions({
-                headers: new Headers({
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Basic ' + authString
-                })
-            });
-        }
-        
-        return this
-        .http
-        .post(req.url, req.data, this.options)
-        .map((res: Response) => res.json())
     }
 
 }

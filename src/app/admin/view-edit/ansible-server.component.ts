@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -78,7 +78,7 @@ export class AnsibleServerComponent implements OnInit {
     }
 
 ngOnInit() {
-    this.currentUser = sessionStorage['userId'];
+    this.currentUser = localStorage['userId'];
     this.item = JSON.parse(sessionStorage.getItem("ansibleserver"));
     this.updateIndex = parseInt(sessionStorage.getItem("updateIndex"));
     console.log("index===>"+this.updateIndex);

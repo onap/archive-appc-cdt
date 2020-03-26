@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 Copyright (C) 2018 IBM.
 ===================================================================
@@ -131,8 +131,8 @@ export class UtilityService {
 
     public createPayLoadForSave(artifactType,vnfType,action,fileName, versionNo, artifactContent)
     {
-        let userId=sessionStorage['userId'];
-        let apiToken=sessionStorage['apiToken']
+        let userId=localStorage['userId'];
+        let apiToken=localStorage['apiToken']
         let newPayload:any;
         switch(artifactType)
         {
@@ -187,14 +187,14 @@ export class UtilityService {
         let payload:any;
         if(isReference) {
             payload=JSON.parse(sessionStorage.getItem('updateParams'));
-            payload['userID'] = sessionStorage['userId'];
+            payload['userID'] = localStorage['userId'];
             payload = JSON.stringify(payload);
         }
-        else payload = '{"userID": "' + sessionStorage['userId'] + '","action": "' + action + '", "vnf-type" : "' + vnfType + '", "artifact-type":"APPC-CONFIG", "artifact-name":"' + fileName + '"}';
+        else payload = '{"userID": "' + localStorage['userId'] + '","action": "' + action + '", "vnf-type" : "' + vnfType + '", "artifact-type":"APPC-CONFIG", "artifact-name":"' + fileName + '"}';
         let data = {
                 'input': {
                     'design-request': {
-                        'request-id': sessionStorage['apiToken'],
+                        'request-id': localStorage['apiToken'],
                         'action': 'getArtifact',
                         'payload': payload
                     }

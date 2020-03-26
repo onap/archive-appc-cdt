@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 Copyright (C) 2018 IBM.
 ===================================================================
@@ -63,7 +63,7 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
 
         sessionStorage.setItem('updateParams', undefined);
         this.mappingEditorService.latestAction = undefined;
-        const apiToken = sessionStorage['apiToken'];
+        const apiToken = localStorage['apiToken'];
 
         const data = {
             'input': {
@@ -75,7 +75,7 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
             }
         };
         const x = JSON.parse(data.input['design-request']['payload']);
-        x.userID = sessionStorage['userId'];
+        x.userID = localStorage['userId'];
         data.input['design-request']['payload'] = JSON.stringify(x);
         // console.log("input to payload====", JSON.stringify(data));
         this.getArtifacts(data);
@@ -89,7 +89,7 @@ export class MyvnfsComponent implements OnInit, OnDestroy {
     getArtifacts(data) {
         let tempObj: any;
         this.ngProgress.start();
-        this.httpUtil.postWithAuth({
+        this.httpUtil.post({
             url: environment.getDesigns,
             data: data
         })

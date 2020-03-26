@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 
 Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
@@ -72,8 +72,8 @@ export class ParameterComponent implements OnInit {
     public confirmation: boolean;
     public showConfirmation: boolean;
     public test: boolean;
-    apiToken = sessionStorage['apiToken'];
-    userId = sessionStorage['userId'];
+    apiToken = localStorage['apiToken'];
+    userId = localStorage['userId'];
     public initialData: any;
     public intialData: any;
     public initialAction: any;

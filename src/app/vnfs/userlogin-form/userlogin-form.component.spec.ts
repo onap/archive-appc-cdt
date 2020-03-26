@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 
 Modification Copyright (C) 2018 IBM
 ===================================================================
@@ -64,7 +64,7 @@ describe('userloginFormComponent', () => {
         fixture = TestBed.createComponent(userloginFormComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-        // sessionStorage['userId'] = "testUser"
+        // localStorage['userId'] = "testUser"
         component.userId = 'test Usr';
     });
 
@@ -99,7 +99,7 @@ describe('userloginFormComponent', () => {
         expect(url.length).toBe(5);
         expect(url[0]).toEqual('/');
         expect(url[1]).toEqual('h');
-        expect(sessionStorage['userId']).toBe('test Usr');
+        expect(localStorage['userId']).toBe('test Usr');
     }));
 
     it('test validateUserName function', () => {

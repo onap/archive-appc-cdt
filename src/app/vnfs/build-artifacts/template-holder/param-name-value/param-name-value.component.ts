@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
 ===================================================================
@@ -77,8 +77,8 @@ export class GoldenConfigurationMappingComponent implements OnInit, OnDestroy {
     action: any = '';
     artifactName: any = '';
     enableMerge: boolean = false;
-    apiToken = sessionStorage['apiToken'];
-    userId = sessionStorage['userId'];
+    apiToken = localStorage['apiToken'];
+    userId = localStorage['userId'];
     identifier: any;
 
     public uploadTypes = [

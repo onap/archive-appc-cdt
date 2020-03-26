@@ -1,7 +1,7 @@
 <!--
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -31,10 +31,6 @@ limitations under the License.
                         <input placeholder="Enter user Id" class="mdl-textfield__input" id="userId" required
                                [(ngModel)]="userId" name="userId" value="" #user="ngModel" (ngModelChange)="validateUserName()">
                             <span class="error-message">{{errorMessage}}</span>  
-                    </div>
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input type="password" placeholder="Enter password" class="mdl-textfield__input" id="password" required
-                               [(ngModel)]="password" name="password" value="" (ngModelChange)="validatePassword()" >  
                     </div>
                     
                     <div class="form-group text-right">

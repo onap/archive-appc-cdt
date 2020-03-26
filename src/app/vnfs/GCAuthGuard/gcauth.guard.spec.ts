@@ -51,7 +51,7 @@ describe('LogginGuard', () => {
     });
 
     it('be able to return true when referenceNameObjects is defined', inject([GCAuthGuardService, MappingEditorService], (service: GCAuthGuardService, mapService: MappingEditorService) => {
-        sessionStorage['userId'] = 'abc@xyz.com';
+        localStorage['userId'] = 'abc@xyz.com';
         mapService.referenceNameObjects = { data : 'data'};
         let route : ActivatedRouteSnapshot;
         let state: RouterStateSnapshot;
@@ -61,7 +61,7 @@ describe('LogginGuard', () => {
     }));
 
     it('stop routing if referenceNameObjects is not defined', inject([GCAuthGuardService, MappingEditorService, NgbModal], (service: GCAuthGuardService, mapService: MappingEditorService, ngbModal: NgbModal) => {
-        sessionStorage['userId'] = 'abc@xyz.com';
+        localStorage['userId'] = 'abc@xyz.com';
         mapService.referenceNameObjects = undefined;
        let spy =  spyOn(NgbModal.prototype, 'open').and.returnValue(Promise.resolve(true));
         let route : ActivatedRouteSnapshot;

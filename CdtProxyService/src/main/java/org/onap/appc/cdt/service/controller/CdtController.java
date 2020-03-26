@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 
 Unless otherwise specified, all software contained herein is licensed
@@ -41,7 +41,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.UnknownHostException;
 import java.util.Base64;
-import java.util.List;
 
 /**
  * Created by Amaresh Kumar on 09/May/2018.
@@ -63,6 +62,11 @@ public class CdtController {
     @Value("${restConf.backend.port}")
     private String restConfPort;
 
+    @Value("${restConf.username}")
+    private String restConfUsername;
+
+    @Value("${restConf.password}")
+    private String restConfPassword;
 
     @ApiOperation(value = "Return All Test Data for a given user", response = CdtController.class)
     @ApiResponses(value = {
@@ -83,8 +87,8 @@ public class CdtController {
     })
     @RequestMapping(value = "/getDesigns", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public String getDesigns(@RequestBody String getDesignsRequest, @RequestHeader HttpHeaders requestHeader) throws UnknownHostException {
-        HttpEntity<String> entity = getStringHttpEntity(getDesignsRequest, requestHeader);
+    public String getDesigns(@RequestBody String getDesignsRequest) throws UnknownHostException {
+        HttpEntity<String> entity = getStringHttpEntity(getDesignsRequest);
         HttpClient httpClient = HttpClientBuilder.create().build();
         ClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
         restTemplate.setRequestFactory(factory);
@@ -99,8 +103,8 @@ public class CdtController {
     })
     @RequestMapping(value = "/testVnf", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public String testVnf(@RequestParam String urlAction, @RequestBody String testVnf, @RequestHeader HttpHeaders requestHeader) throws UnknownHostException {
-        HttpEntity<String> entity = getStringHttpEntity(testVnf, requestHeader);
+    public String testVnf(@RequestParam String urlAction, @RequestBody String testVnf) throws UnknownHostException {
+        HttpEntity<String> entity = getStringHttpEntity(testVnf);
         String testVnfResponse = restTemplate.postForObject(getUrl("testVnf")+urlAction, entity, String.class);
         return testVnfResponse;
     }
@@ -112,8 +116,8 @@ public class CdtController {
     })
     @RequestMapping(value = "/checkTestStatus", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public String checkTestStatus(@RequestBody String checkTestStatusRequest, @RequestHeader HttpHeaders requestHeader) throws UnknownHostException {
-        HttpEntity<String> entity = getStringHttpEntity(checkTestStatusRequest, requestHeader);
+    public String checkTestStatus(@RequestBody String checkTestStatusRequest) throws UnknownHostException {
+        HttpEntity<String> entity = getStringHttpEntity(checkTestStatusRequest);
         String checkTestStatusResponse = restTemplate.postForObject(getUrl("checkTestStatus"), entity, String.class);
         return checkTestStatusResponse;
     }
@@ -125,23 +129,19 @@ public class CdtController {
     })
     @RequestMapping(value = "/validateTemplate", method = RequestMethod.POST)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public String validateTemplate(@RequestBody String validateTemplateRequest, @RequestHeader HttpHeaders requestHeader) throws UnknownHostException {
-        HttpEntity<String> entity = getStringHttpEntity(validateTemplateRequest, requestHeader);
+    public String validateTemplate(@RequestBody String validateTemplateRequest) throws UnknownHostException {
+        HttpEntity<String> entity = getStringHttpEntity(validateTemplateRequest);
         String validateTemplateResponse = restTemplate.postForObject(getUrl("validateTemplate"), entity, String.class);
         return validateTemplateResponse;
     }
 
-    private HttpEntity<String> getStringHttpEntity(@RequestBody String getDesignsRequest, @RequestHeader HttpHeaders requestHeader) {
-
+    private HttpEntity<String> getStringHttpEntity(@RequestBody String getDesignsRequest) {
         HttpHeaders headers = new HttpHeaders();
-        if(requestHeader.containsKey("authorization")) {
-          List<String> headerAuthValue = requestHeader.get("authorization");
-          if(headerAuthValue != null && headerAuthValue.size() > 0) {
-              headers.set("authorization", headerAuthValue.get(0));
-          }
-      }
         headers.setAccessControlAllowCredentials(true);
         headers.setContentType(MediaType.APPLICATION_JSON);
+        String planCredentials = restConfUsername + ":" + restConfPassword;
+        String base64Credentails = Base64.getEncoder().encodeToString(planCredentials.getBytes());
+        headers.set("Authorization", "Basic " + base64Credentails);
         return new HttpEntity<String>(getDesignsRequest, headers);
     }
 

@@ -1,7 +1,7 @@
 /*
 ============LICENSE_START==========================================
 ===================================================================
-Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
 ===================================================================
 Copyright (C) 2018 IBM.
 ===================================================================
@@ -102,7 +102,7 @@ export class TestComponent implements OnInit {
     public pollCounter = 0;
     public enableCounterDiv: boolean = false;
     public enableDownload: boolean = false;
-    private userId = sessionStorage['userId'];
+    private userId = localStorage['userId'];
     timeStampInt: number;
     AppcTimeStampInt: number;
     AppcTimeDiff: number;
@@ -395,7 +395,7 @@ export class TestComponent implements OnInit {
         this.ngProgress.start();
         this.apiRequest = JSON.stringify(this.constructRequest());
 
-        this.httpUtil.postWithAuth(
+        this.httpUtil.post(
             {
                 url: environment.testVnf + "?urlAction=" + this.getUrlEndPoint(this.action),
                 data: this.apiRequest
@@ -440,7 +440,7 @@ export class TestComponent implements OnInit {
                 }
             };
             console.log('getAppcTimestamp: sending httpUtil.post...');
-            this.httpUtil.postWithAuth(
+            this.httpUtil.post(
                 {
                     url: environment.getDesigns, data: data
                 })
@@ -536,7 +536,7 @@ export class TestComponent implements OnInit {
                     'payload': '{"request-id":' + this.requestId + '}'
                 }
             };
-            this.httpUtil.postWithAuth(
+            this.httpUtil.post(
                 {
                     url: environment.checkTestStatus, data: data
 
