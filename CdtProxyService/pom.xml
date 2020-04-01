@@ -28,7 +28,7 @@
     <groupId>org.onap.appc.cdt</groupId>
     <artifactId>cdt-proxy-service</artifactId>
     <name>CdtProxyService</name>
-    <version>1.7.1-SNAPSHOT</version>
+    <version>1.7.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
         <java.version>1.8</java.version>
