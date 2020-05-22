@@ -1,0 +1,4 @@
+distribution_type: 'maven'
+version: '1.7.2'
+project: 'appc-cdt'
+log_dir: 'appc-cdt-maven-stage-frankfurt/15/'
