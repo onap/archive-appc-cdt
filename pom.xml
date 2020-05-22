@@ -25,7 +25,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.onap.appc.cdt</groupId>
     <artifactId>config-design-tool</artifactId>
-    <version>1.7.2-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>appc-config-design-tool</name>
