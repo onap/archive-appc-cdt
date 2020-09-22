@@ -2,4 +2,3 @@
 #
 daebbf523be390041a1a9c0e340a6d833aae5043                                 	GitHub Replication
 dc4b6bfa93b72c6108ec142862423d2538d53288                                 	saml/onap-gerrit-appc-cdt-committers
-ldap:cn=onap-gerrit-appc-cdt-committers,ou=Groups,dc=freestandards,dc=org	ldap/onap-gerrit-appc-cdt-committers
